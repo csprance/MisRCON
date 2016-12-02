@@ -1,0 +1,15 @@
+{
+  "name": "MisRCON",
+  "productName": "MisRCON",
+  "version": "0.0.1",
+  "description": "RCON Tool for Miscreated game.",
+  "main": "./main.js",
+  "author": {
+    "name": "Chris Sprance",
+    "email": "chrissprance@gmail.com",
+    "url": "https://github.com/csprance"
+  },
+  "license": "MIT",
+  "dependencies": {
+  }
+}
