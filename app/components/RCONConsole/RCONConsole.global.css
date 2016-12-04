@@ -2,13 +2,11 @@ div.react-console-container {
   color: #ffffff;
   font-size: 0.85em;
   font-family: "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
-  width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
-  height: 100vh;
-  padding: 0.5em;
-  overflow: auto;
+  flex-grow:1;
+  overflow-y: auto;
   white-space: pre;
+  max-height:100%;
 }
 
 div.react-console-prompt-box {

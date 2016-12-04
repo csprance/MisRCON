@@ -11,5 +11,6 @@
   },
   "license": "MIT",
   "dependencies": {
+    "node-cron": "^1.1.2"
   }
 }

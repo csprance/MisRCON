@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
 
-body{
-  background: linear-gradient(to left, #485563 , #29323c);
+body {
+  background: linear-gradient(to left, #485563, #29323c);
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
 }
+
+div#root {
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
 /*# sourceMappingURL=react-console.example.css.map*/

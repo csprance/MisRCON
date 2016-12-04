@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import Home from '../components/HomeView/Home';
+import HomeView from '../components/HomeView/HomeView';
 
 export default class HomePage extends Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+
   render() {
     return (
-      <Home />
+      <HomeView />
     );
   }
 }
