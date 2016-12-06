@@ -11,13 +11,10 @@ import styled from 'styled-components';
 import RCONConsole from '../RCONConsole/RCONConsole';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 
-const tabStyle = {
-  flexGrow: 1
-};
-
 const Home = () => (
   <SplitPane>
-    <StyledTabs tabItemContainerStyle={{minHeight: 72}} contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
+    <StyledTabs tabItemContainerStyle={{minHeight: 72}}
+                contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
       <Tab
         icon={<ConsoleIcon />}
         label="CONSOLE">
@@ -49,9 +46,9 @@ const Home = () => (
 );
 
 const SplitPane = styled.div`
-display: flex;
-align-items:stretch;
-flex-grow:1;
+  display: flex;
+  align-items:stretch;
+  flex-grow:1;
 `;
 const StyledTabs = styled(Tabs)`
   flex-grow:1;

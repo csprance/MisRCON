@@ -1,39 +1,102 @@
-import React from 'react';
+import React, {Component, PropTypes}from 'react';
 import Paper from 'material-ui/Paper';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import format from 'date-fns/format';
 
-const TaskCard = (props) => {
-  return (
-    <TaskCardContainer zDepth={1} >
-      <Name>
-        {props.taskName}
-      </Name>
-      <TaskTime>
-        {props.taskTime.toTimeString()}
-      </TaskTime>
-      <TaskCommand>
-        {props.taskCommand}
-      </TaskCommand>
-      <Spacer />
-      <TaskActions>
-        <IconButton onTouchTap={props.deleteTask.bind(null, props.taskName, props.taskTime, props.taskCommand)}>
-          <DeleteIcon />
-        </IconButton>
-      </TaskActions>
-    </TaskCardContainer>
-  );
-};
+import {scheduleTaskAtTime, scheduleTaskAtDateTime} from '../../utils/scheduleTask';
+
+class TaskCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cronJob: {} // the CronJob object associated with this TaskCard can do things like .cancel() on this
+    };
+  }
+
+
+  /**
+   * Creates a CronJob that runs when the component is mounted
+   * Decides whether to schedule at a date or recurring
+   */
+  componentDidMount() {
+    if (this.props.taskType === 'RECURRING') {
+      this.setState({
+        cronJob: scheduleTaskAtTime(this.props.taskCommand, this.props.taskCronString),
+      });
+    } else {
+      this.setState({
+        cronJob: scheduleTaskAtDateTime(this.props.taskCommand, this.props.taskDate, this.props.taskTime),
+      });
+    }
+
+  }
+
+  /**
+   * Destroys the CronJob
+   */
+  componentWillUnmount() {
+    console.log('removing task: ', this.props.taskName);
+    if(this.state.cronJob !== null){
+      this.state.cronJob.cancel();
+    }
+  }
+
+
+  render() {
+    return (
+      <TaskCardContainer zDepth={1}>
+        <Name>
+          {this.props.taskName}
+        </Name>
+
+        {this.props.taskType === 'RECURRING' ? (
+          <div>
+            <TaskCronString>
+              {this.props.taskCronString}
+            </TaskCronString>
+          </div>
+        ) : (
+          <div>
+            <TaskTime>
+              {format(this.props.taskTime, 'HH:mm')}
+            </TaskTime>
+            <TaskDate>
+              {format(this.props.taskDate, 'MM/DD/YYY')}
+            </TaskDate>
+          </div>
+        )}
+
+        <TaskCommand>
+          {this.props.taskCommand}
+        </TaskCommand>
+        <Spacer />
+        <TaskActions>
+          <IconButton
+            onTouchTap={this.props.deleteTask.bind(null, this.props.taskName, this.props.taskTime, this.props.taskCommand)}>
+            <DeleteIcon />
+          </IconButton>
+        </TaskActions>
+      </TaskCardContainer>
+    );
+  }
+}
 
 TaskCard.propTypes = {
   deleteTask: React.PropTypes.func.isRequired,
   taskName: React.PropTypes.string.isRequired,
-  taskTime : React.PropTypes.object.isRequired,
+  taskCronString: React.PropTypes.string,
+  taskTime: React.PropTypes.object,
+  taskType: React.PropTypes.string,
+  taskDate: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ]),
   taskCommand: React.PropTypes.string.isRequired,
 };
-export default TaskCard;
 
+export default TaskCard;
 
 //////////////////
 // styles
@@ -48,13 +111,19 @@ const TaskCardContainer = styled(Paper)`
   content-sizing:border-box;
 `;
 const Name = styled.div`
-  
+  padding-bottom:5px;
 `;
 const TaskTime = styled.div`
-  
+  padding-bottom:5px;
+`;
+const TaskDate = styled.div`
+  padding-bottom:5px;
+`;
+const TaskCronString = styled.div`
+  padding-bottom:5px;
 `;
 const TaskCommand = styled.div`
-  
+  padding-bottom:5px;
 `;
 const Spacer = styled.div`
   flex-grow: 1;

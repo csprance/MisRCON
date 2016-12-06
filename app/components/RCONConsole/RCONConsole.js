@@ -3,12 +3,19 @@ import Console from 'react-console-component';
 import axios from 'axios';
 
 import './RCONConsole.global.css';
+import store from 'store';
 
 const welcomeMessage = `MisRCON-by @Csprance
 v0.0.1 - Babycakes
 Type help for more options.
 --------------------------
 
+`;
+
+const helpText =
+  `This console is a direct connection to your server. 
+Any commands you enter here will be sent to the 
+server via RCON (XMLRPC).
 `;
 
 export default class RCONConsole extends Component {
@@ -18,18 +25,9 @@ export default class RCONConsole extends Component {
       userInput: false,
       loggingIn: false
     };
-
-    this.clearScreen = this.clearScreen.bind(this);
-    this.help = this.help.bind(this);
-    this.error = this.error.bind(this);
-    this.warn = this.warn.bind(this);
-    this.login = this.login.bind(this);
-    this.runDefault = this.runDefault.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.listServers = this.listServers.bind(this);
   }
 
-  clearScreen() {
+  clearScreen = () => {
     let container = this.refs.console.child.container;
     let children = [].slice.call(container.childNodes);
     children.splice(0, 1);
@@ -38,38 +36,40 @@ export default class RCONConsole extends Component {
       container.removeChild(node);
     });
     this.refs.console.return();
-  }
+  };
 
-  help(text) {
-    this.refs.console.log(text);
+  help = () => {
+    this.refs.console.log(helpText);
     this.refs.console.return();
-  }
+  };
 
-  error(text) {
+  error = (text) => {
     this.refs.console.logX('error', text);
     this.refs.console.return();
+  };
 
-  }
-
-  warn(text) {
-    console.log(this);
+  warn = (text) => {
     this.refs.console.logX('warning', text);
     this.refs.console.return();
-  }
+  };
 
-  login(text) {
-    this.setState({userInput: true, enteringUsername: true});
-    this.refs.console.log('Please enter username');
+  login = (text) => {
+    if (this.state.loggedIn) {
+      this.refs.console.log('Already logged in!');
+    } else {
+      this.setState({userInput: true, enteringUsername: true});
+      this.refs.console.log('Please enter username');
+      this.refs.console.return();
+    }
     this.refs.console.return();
+  };
 
-  }
-
-  runDefault(text) {
-    this.refs.console.log(text);
+  unknownCommand = (text) => {
+    this.refs.console.log(`${text} is not recognized as an internal or external command`);
     this.refs.console.return();
-  }
+  };
 
-  listServers() {
+  listServers = () => {
     this.refs.console.log("Retrieving server list");
     axios.get("http://miscreatedgame.com/servers/api/servers_list.php").then((res) => {
       res.data.map((server) => {
@@ -77,9 +77,14 @@ export default class RCONConsole extends Component {
       });
       this.refs.console.return();
     })
-  }
+  };
 
-  handleInput(text) {
+  listTasks = () => {
+    this.refs.console.logX('long-line', store.get('savedTasks'));
+    this.refs.console.return();
+  };
+
+  handleInput = (text) => {
     if (this.state.userInput) {
 
       if (this.state.enteringUsername) {
@@ -120,15 +125,14 @@ export default class RCONConsole extends Component {
           case 'list':
             this.listServers(text);
             break;
+          case 'list tasks':
+            this.listTasks(text);
+            break;
           case 'login':
-            if (this.state.loggedIn) {
-              this.refs.console.log('Already logged in!');
-            } else {
-              this.login(text);
-            }
+            this.login(text);
             break;
           default:
-            this.runDefault(text);
+            this.unknownCommand(text);
         }
       } catch (e) {
         console.log(e);
@@ -137,7 +141,8 @@ export default class RCONConsole extends Component {
       }
     }
 
-  }
+  };
+
 
   render() {
     return (<Console ref="console"

@@ -1,12 +1,10 @@
 # MisRCON
 
-> RCON utility for Miscreated
+RCON utility for Miscreated
 
-[Electron](http://electron.atom.io/) application based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router), [Webpack](http://webpack.github.io/docs/), [React Transform HMR](https://github.com/gaearon/react-transform-hmr) for rapid application development
+> This is a development repository. If you are looking to install the regular version please check the [releases](https://github.com/csprance/MisRCON/releases) section.
 
-> This is a development repository. If you are looking to install the regular version please check the release section.
-
-## Install
+## Developer Install
 
 * **Note: requires a node version >= 6 and an npm version >= 3.**
 * **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/chentsulin/electron-react-boilerplate/issues/400)**
@@ -24,7 +22,7 @@ And then install dependencies.
 $ cd your-project-name && npm install
 ```
 
-## Run
+## Developer Run
 
 To start development run the command
 ```bash

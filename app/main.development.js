@@ -72,6 +72,7 @@ app.on('ready', async () => {
     });
   }
 
+  //TODO: Add in my menu options
   if (process.platform === 'darwin') {
     template = [{
       label: 'Electron',
@@ -208,9 +209,6 @@ app.on('ready', async () => {
     template = [{
       label: '&File',
       submenu: [{
-        label: '&Open',
-        accelerator: 'Ctrl+O'
-      }, {
         label: '&Close',
         accelerator: 'Ctrl+W',
         click() {
@@ -247,24 +245,19 @@ app.on('ready', async () => {
     }, {
       label: 'Help',
       submenu: [{
-        label: 'Learn More',
+        label: 'Report an issue',
         click() {
-          shell.openExternal('http://electron.atom.io');
+          shell.openExternal('https://github.com/csprance/MisRCON/issues');
         }
       }, {
-        label: 'Documentation',
+        label: 'Miscreated Website',
         click() {
-          shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme');
+          shell.openExternal('https://miscreatedgame.com/');
         }
       }, {
-        label: 'Community Discussions',
+        label: 'Miscreated Forums',
         click() {
-          shell.openExternal('https://discuss.atom.io/c/electron');
-        }
-      }, {
-        label: 'Search Issues',
-        click() {
-          shell.openExternal('https://github.com/atom/electron/issues');
+          shell.openExternal('https://miscreatedgame.com/forums');
         }
       }]
     }];
