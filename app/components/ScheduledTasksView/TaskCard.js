@@ -25,7 +25,8 @@ class TaskCard extends Component {
       this.setState({
         cronJob: scheduleTaskAtTime(this.props.taskCommand, this.props.taskCronString),
       });
-    } else {
+    }
+    if (this.props.taskType === 'SPECIFIC') {
       this.setState({
         cronJob: scheduleTaskAtDateTime(this.props.taskCommand, this.props.taskDate, this.props.taskTime),
       });
@@ -37,8 +38,8 @@ class TaskCard extends Component {
    * Destroys the CronJob
    */
   componentWillUnmount() {
-    console.log('removing task: ', this.props.taskName);
-    if(this.state.cronJob !== null){
+    if (this.state.cronJob !== null) {
+      console.log('removing task: ', this.props.taskName);
       this.state.cronJob.cancel();
     }
   }

@@ -1,7 +1,8 @@
 import cron from  'node-schedule';
 import moment from 'moment';
 import parse from 'date-fns/parse';
-
+import store from 'store';
+import {sendCommandToServer} from '../utils/sendCommandToServer';
 /**
  * schedules a task to run at a RECURRING time given
  * some params
@@ -9,13 +10,23 @@ import parse from 'date-fns/parse';
  * @param:    {string}    taskCronString  the cronTime object of the task {second, minute, hour, day, month, day of week}
  * @returns:  {CronJob}   cron            the CronJob task can do .cancel()
  */
-export function scheduleTaskAtTime(taskCommand, taskCronString) {
+export function scheduleTaskAtTime(taskCommand, taskCronString, logger) {
   // Log it
   console.log('Scheduling recurring task to run: ', taskCronString);
 
+  // create our credentials object
+  let storedCreds = store.get('userCredentials');
+  let creds = {
+    ip: storedCreds.ip,
+    port: storedCreds.port,
+    password: storedCreds.password
+  };
+
   return cron.scheduleJob(taskCronString, function () {
-    //TODO: XMLRPC send command to server
-    console.log('Sending command to server: ', taskCommand);
+    sendCommandToServer(taskCommand, creds).then((res) => {
+      console.log(res);
+      logger(res.data);
+    });
   });
 }
 
@@ -28,7 +39,16 @@ export function scheduleTaskAtTime(taskCommand, taskCronString) {
  * @returns:  {CronJob}     cron          the CronJob task can do .cancel()
  */
 export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
+  // Log it
+  console.log('Scheduling task at date to run: ', dateOfTask);
 
+  // create our credentials object
+  let storedCreds = store.get('userCredentials');
+  let creds = {
+    ip: storedCreds.ip,
+    port: storedCreds.port,
+    password: storedCreds.password
+  };
 
   // add the dateOfTask to the timeOfTask
   let date = moment(dateOfTask);
@@ -44,6 +64,8 @@ export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
 
   return cron.scheduleJob(date.toDate(), function () {
     //TODO: XMLRPC send command to server
-    console.log('Sending command to server: ', taskCommand);
+    sendCommandToServer(taskCommand, creds).then((res) => {
+      console.log(res);
+    });
   });
 }

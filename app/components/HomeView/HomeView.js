@@ -7,7 +7,6 @@ import InfoIcon from 'material-ui/svg-icons/action/info';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import styled from 'styled-components';
 
-
 import RCONConsole from '../RCONConsole/RCONConsole';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 
@@ -56,6 +55,8 @@ const StyledTabs = styled(Tabs)`
   flex-direction:column;
   align-items:stretch;
 `;
+
+
 
 
 export default Home;

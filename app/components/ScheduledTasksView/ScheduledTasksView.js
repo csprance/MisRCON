@@ -161,7 +161,6 @@ class ScheduledTasksView extends Component {
 
   ////////////////////////////////////////////////////////////
   updateTaskType = (tab) => {
-    console.log(tab.props['data-route']);
     this.setState({
       taskType: tab.props['data-route']
     });

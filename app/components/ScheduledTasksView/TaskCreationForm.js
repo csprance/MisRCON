@@ -9,29 +9,33 @@ import {white} from '../../styles/colors';
 
 const TaskCreationForm = (props) => {
   return (
-    <Tabs >
-      <Tab label="Specific Date" style={{flexGrow: 1, display: 'flex', flexDirection: 'column'}} data-route="SPECIFIC" onActive={props.onTypeChanged}>
+    <Tabs>
+      <Tab label="Specific Date" data-route="SPECIFIC" onActive={props.onTypeChanged}>
         <Container>
           <TextField
             style={inputStyles}
             value={props.taskName}
-            hintText="Task Name"
+            floatingLabelText="Task Name"
+            floatingLabelStyle={{color: white}}
             errorText={props.taskNameError}
             onChange={props.onNameChanged}/>
           <TimePicker
             style={inputStyles}
             value={props.taskTime}
-            hintText="Task Run Time"
+            floatingLabelText="Task Run Time"
+            floatingLabelStyle={{color: white}}
             onChange={props.onTimeChanged}/>
           <DatePicker
             style={inputStyles}
             value={props.taskDate}
-            hintText="Task Run Date"
+            floatingLabelText="Task Run Date"
+            floatingLabelStyle={{color: white}}
             onChange={props.onDateChanged}/>
           <TextField
             style={inputStyles}
             value={props.taskCommand}
-            hintText="Command to execute"
+            floatingLabelText="Command to execute"
+            floatingLabelStyle={{color: white}}
             onChange={props.onCommandChanged}/>
         </Container>
       </Tab>
@@ -40,7 +44,8 @@ const TaskCreationForm = (props) => {
           <TextField
             style={inputStyles}
             value={props.taskName}
-            hintText="Task Name"
+            floatingLabelText="Task Name"
+            floatingLabelStyle={{color: white}}
             errorText={props.taskNameError}
             onChange={props.onNameChanged}/>
           <TextField
@@ -52,7 +57,8 @@ const TaskCreationForm = (props) => {
           <TextField
             style={inputStyles}
             value={props.taskCommand}
-            hintText="Command to execute"
+            floatingLabelText="Command to execute"
+            floatingLabelStyle={{color: white}}
             onChange={props.onCommandChanged}/>
         </Container>
       </Tab>
