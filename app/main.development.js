@@ -1,9 +1,10 @@
 import {app, BrowserWindow, Menu, shell} from 'electron';
-const store = require('store');
 
 let menu;
 let template;
 let mainWindow = null;
+
+
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -216,6 +217,12 @@ app.on('ready', async() => {
         accelerator: 'Ctrl+L',
         click() {
           mainWindow.webContents.send('clearUserCredentials');
+        }
+      },{
+        label: 'Toggle Developer Tools',
+        accelerator: 'Alt+Command+I',
+        click() {
+          mainWindow.toggleDevTools();
         }
       },
         {

@@ -6,20 +6,25 @@ import styled from 'styled-components';
 
 import {black, darkGrey, white} from '../../styles/colors';
 
+//TODO: Maybe some better checking of valid ip, port and passwords here
+
 const LoginView = (props) => (
   <Container>
     <LoginBox zDepth={2}>
       <LoginBoxHeader><h3>Enter Server Credentials</h3></LoginBoxHeader>
       <Content>
         <TextField onChange={props.updateIP}
+                   errorText={props.errorTextIp}
                    value={props.ip}
                    floatingLabelStyle={{color: white}}
                    floatingLabelText="IP"/>
         <TextField onChange={props.updatePort}
+                   errorText={props.errorTextPort}
                    value={props.port}
                    floatingLabelStyle={{color: white}}
                    floatingLabelText="Port"/>
         <TextField onChange={props.updatePassword}
+                   errorText={props.errorTextPassword}
                    value={props.password}
                    floatingLabelStyle={{color: white}}
                    floatingLabelText="Password"/>

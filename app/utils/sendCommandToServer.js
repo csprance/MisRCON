@@ -1,63 +1,25 @@
-import axios from 'axios';
-
-// import $ from 'jquery';
-// window.jQuery = $;
-// window.$ = $;
-// import md5 from 'md5';
-//require('./jquery.xmlrpc');
-
-
+import Promise from 'bluebird';
 /**
- * Sends a command via XMLRPC  to a server and returns the response
+ * Sends a command via XMLRPC  to a server and returns a promise response
  * @param:    {string}      command       command to send to the server
  * @param:    {object}      credentials   object containing  user credentials
  *                                        {ip:[ip], port:[port], password:[password]}
- * @return:   {string}      response      returns a response message back from the server
+ * @return:   {promise}     response      returns a promise
  */
 export function sendCommandToServer(command, creds) {
+  // Log it
+  console.log(`Sending command: ${command} to server: ${creds.ip}:${creds.port}`);
 
-  return axios.post(`http://miscreatedgame.com/servers/api/rcon_client.py?command=${command}&ip=${creds.ip}&password=${creds.password}&port=${creds.port}`);
-
-  //let serverUrl = `http://${creds.ip}:${creds.port}/rpc2`;
-  // $.xmlrpc({
-  //   url: serverUrl,
-  //   methodName: 'challenge',
-  //   success: function (response, status, jqXHR) {
-  //
-  //     if (response[0] !== '[Whitelist] Invalid command: challenge\n') {
-  //       $.xmlrpc({
-  //         url: serverUrl,
-  //         methodName: 'authenticate',
-  //         params: [md5(response[0] + ':' + creds.password)],
-  //         success: function (response, status, jqXHR) {
-  //           if (response[0] === 'authorized') {
-  //             $.xmlrpc({
-  //               url: serverUrl,
-  //               methodName: command,
-  //               params: [],
-  //               success: function (response, status, jqXHR) {
-  //                 console.log(response);
-  //                 logger(response[0])
-  //               },
-  //               error: function (jqXHR, status, error) {
-  //                 console.log('in command sending');
-  //                 console.log(jqXHR, status, error);
-  //               }
-  //             });
-  //           }
-  //         },
-  //         error: function (jqXHR, status, error) {
-  //           console.log('in auth');
-  //           console.log(jqXHR, status, error);
-  //         }
-  //       });
-  //     }else{
-  //       logger('failed', jqXHR);
-  //     }
-  //   },
-  //   error: function (jqXHR, status, error) {
-  //     console.log('in challenge');
-  //     console.log(jqXHR, status, error);
-  //   }
-  // });
+  return new Promise(function (resolve, reject) {
+    const execFile = require('child_process').execFile;
+    execFile(String(process.cwd() + '/resources/misrcon_cli.exe'),
+      //misrcon.exe -i [ip] --port [admin port] -p [admin password] --command [command] --time [exec_time] --s [schedule]
+      ['-i', creds.ip, '--port', creds.port, '-p', creds.password, '--command', command],
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(stderr)
+        }
+        resolve(stdout);
+      });
+  });
 }

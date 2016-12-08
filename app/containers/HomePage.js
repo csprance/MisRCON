@@ -36,27 +36,49 @@ export default class HomePage extends Component {
   updatePort = (e) => {
     this.setState({
       port: e.target.value,
+      errorTextPort:''
     });
   };
 
   updatePassword = (e) => {
     this.setState({
       password: e.target.value,
+      errorTextPassword:''
     });
   };
 
   updateIP = (e) => {
     this.setState({
       ip: e.target.value,
+      errorTextIp:''
     });
   };
 
   // log the user in and store the credentials in the localStorage TODO: Do something better here
   login = () => {
-    this.setState({
-      loggedIn: true,
-    });
-    store.set('userCredentials', {port: this.state.port, password: this.state.password, ip: this.state.ip})
+
+    if (this.state.password === '') {
+      this.setState({
+        errorTextPassword:'Password is required',
+      });
+    }
+    if (this.state.port === '') {
+      this.setState({
+        errorTextPort:'Port is required',
+      });
+    }
+    if (this.state.ip === '') {
+      this.setState({
+        errorTextIp:'IP address is required',
+      });
+    }
+    // All filled in
+    if(this.state.port !== '' && this.state.password !== '' && this.state.ip !== '') {
+      this.setState({
+        loggedIn: true,
+      });
+      store.set('userCredentials', {port: this.state.port, password: this.state.password, ip: this.state.ip})
+    }
   };
 
 
@@ -66,6 +88,9 @@ export default class HomePage extends Component {
       <div style={{width:'100%', display: 'flex'}}>
         {this.state.loggedIn === false ? (
           <LoginView login={this.login}
+                     errorTextPassword={this.state.errorTextPassword}
+                     errorTextPort={this.state.errorTextPort}
+                     errorTextIp={this.state.errorTextIp}
                      port={this.state.port}
                      updatePort={this.updatePort}
                      password={this.state.password}

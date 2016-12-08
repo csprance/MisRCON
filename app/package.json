@@ -9,8 +9,7 @@
     "email": "chrissprance@gmail.com",
     "url": "https://github.com/csprance"
   },
+
   "license": "MIT",
-  "dependencies": {
-    "node-cron": "^1.1.2"
-  }
+  "dependencies": {}
 }

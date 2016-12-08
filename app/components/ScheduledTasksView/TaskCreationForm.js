@@ -4,10 +4,16 @@ import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
+import IconButton from 'material-ui/IconButton';
+import HelpIcon from 'material-ui/svg-icons/action/help-outline';
 
 import {white} from '../../styles/colors';
 
+
 const TaskCreationForm = (props) => {
+  const handleClick =() =>{
+    require('electron').shell.openExternal('https://crontab.guru/');
+  };
   return (
     <Tabs>
       <Tab label="Specific Date" data-route="SPECIFIC" onActive={props.onTypeChanged}>
@@ -48,12 +54,17 @@ const TaskCreationForm = (props) => {
             floatingLabelStyle={{color: white}}
             errorText={props.taskNameError}
             onChange={props.onNameChanged}/>
+          <div style={{width:'100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <TextField
-            style={inputStyles}
+            style={{flexGrow: 9}}
             value={props.taskCronString}
             floatingLabelText="Cron String [ss mm hh dd month dayofweek]"
             floatingLabelStyle={{color: white}}
             onChange={props.onCronStringChanged}/>
+            <IconButton tooltip="WTF is a Cron String?" style={{flexGrow: 1 }} onTouchTap={handleClick}>
+              <HelpIcon/>
+            </IconButton>
+          </div>
           <TextField
             style={inputStyles}
             value={props.taskCommand}

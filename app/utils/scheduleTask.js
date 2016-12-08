@@ -1,8 +1,7 @@
 import cron from  'node-schedule';
-import moment from 'moment';
-import parse from 'date-fns/parse';
 import store from 'store';
 import {sendCommandToServer} from '../utils/sendCommandToServer';
+import {replaceTimeOfDate} from '../utils/dateUtils';
 /**
  * schedules a task to run at a RECURRING time given
  * some params
@@ -10,7 +9,7 @@ import {sendCommandToServer} from '../utils/sendCommandToServer';
  * @param:    {string}    taskCronString  the cronTime object of the task {second, minute, hour, day, month, day of week}
  * @returns:  {CronJob}   cron            the CronJob task can do .cancel()
  */
-export function scheduleTaskAtTime(taskCommand, taskCronString, logger) {
+export function scheduleTaskAtTime(taskCommand, taskCronString) {
   // Log it
   console.log('Scheduling recurring task to run: ', taskCronString);
 
@@ -23,10 +22,7 @@ export function scheduleTaskAtTime(taskCommand, taskCronString, logger) {
   };
 
   return cron.scheduleJob(taskCronString, function () {
-    sendCommandToServer(taskCommand, creds).then((res) => {
-      console.log(res);
-      logger(res.data);
-    });
+    sendCommandToServer(taskCommand, creds)
   });
 }
 
@@ -39,8 +35,8 @@ export function scheduleTaskAtTime(taskCommand, taskCronString, logger) {
  * @returns:  {CronJob}     cron          the CronJob task can do .cancel()
  */
 export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
-  // Log it
-  console.log('Scheduling task at date to run: ', dateOfTask);
+
+
 
   // create our credentials object
   let storedCreds = store.get('userCredentials');
@@ -51,21 +47,13 @@ export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
   };
 
   // add the dateOfTask to the timeOfTask
-  let date = moment(dateOfTask);
+  let date = replaceTimeOfDate(timeOfTask, dateOfTask);
 
-  let time = moment(timeOfTask);
-
-
-  date.set('hour', time.get('hour'));
-  date.set('minute', time.get('minute'));
-  date.set('second', time.get('second'));
-
+  // Log it
   console.log('Scheduling Specific Date task to run: ', date.format());
 
   return cron.scheduleJob(date.toDate(), function () {
     //TODO: XMLRPC send command to server
-    sendCommandToServer(taskCommand, creds).then((res) => {
-      console.log(res);
-    });
+    sendCommandToServer(taskCommand, creds)
   });
 }
