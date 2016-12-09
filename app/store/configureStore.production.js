@@ -1,4 +1,5 @@
-// @flow
+// TODO: Jump To Redux if Needed!
+// This file is only a placeholder it is not used for now
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {hashHistory} from 'react-router';
@@ -9,6 +10,6 @@ const router = routerMiddleware(hashHistory);
 
 const enhancer = applyMiddleware(thunk, router);
 
-export default function configureStore(initialState: Object) {
+export default function configureStore(initialState) {
   return createStore(rootReducer, initialState, enhancer);
 }

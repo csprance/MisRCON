@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import '../styles/reset.global.css';
-import BaseTheme from '../MisRCONBaseTheme';
+import BaseTheme from '../styles/MisRCONBaseTheme';
 
 export default class App extends Component {
   static propTypes = {

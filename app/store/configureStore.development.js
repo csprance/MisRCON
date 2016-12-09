@@ -1,3 +1,5 @@
+// TODO: Jump To Redux if Needed!
+// This file is only a placeholder it is not used for now
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import {hashHistory} from 'react-router';
@@ -32,7 +34,7 @@ const enhancer = composeEnhancers(
   applyMiddleware(thunk, router, logger)
 );
 
-export default function configureStore(initialState: Object) {
+export default function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {

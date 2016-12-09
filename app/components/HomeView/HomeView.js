@@ -7,7 +7,11 @@ import InfoIcon from 'material-ui/svg-icons/action/info';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import styled from 'styled-components';
 
-import RCONConsole from '../RCONConsole/RCONConsole';
+import BansView from '../BansView/BansView';
+import ConsoleView from '../ConsoleView/ConsoleView';
+import InfoView from '../InfoView/InfoView';
+import SettingsView from '../SettingsView/SettingsView';
+import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 
 const Home = () => (
@@ -17,27 +21,27 @@ const Home = () => (
       <Tab
         icon={<ConsoleIcon />}
         label="CONSOLE">
-        <RCONConsole />
+        <ConsoleView />
       </Tab>
       <Tab
         icon={<PeopleIcon />}
         label="PLAYERS">
-        TODO: PLAYERS TAB
+        <PlayersView />
       </Tab>
       <Tab
         icon={<BanIcon />}
         label="BANS">
-        TODO: BANS TAB
+        <BansView />
       </Tab>
       <Tab
         icon={<InfoIcon />}
         label="STATS">
-        TODO: STATS TAB
+        <InfoView />
       </Tab>
       <Tab
         icon={<SettingsIcon />}
         label="SETTINGS">
-        TODO: SETTINGS TAB
+        <SettingsView />
       </Tab>
     </StyledTabs>
     <ScheduledTasksView />
@@ -55,8 +59,6 @@ const StyledTabs = styled(Tabs)`
   flex-direction:column;
   align-items:stretch;
 `;
-
-
 
 
 export default Home;

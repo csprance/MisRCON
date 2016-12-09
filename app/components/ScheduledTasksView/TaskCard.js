@@ -12,6 +12,7 @@ import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import {replaceTimeOfDate} from '../../utils/dateUtils';
 import isPast from 'date-fns/is_past'
 import {scheduleTaskAtTime, scheduleTaskAtDateTime} from '../../utils/scheduleTask';
+import {log} from '../../utils/loggerUtils';
 
 class TaskCard extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class TaskCard extends Component {
    */
   componentWillUnmount() {
     if (this.state.cronJob !== null) {
-      console.log('removing task: ', this.props.taskName);
+      log('silly', `removing task: ${this.props.taskName}`);
       this.state.cronJob.cancel();
     }
   }

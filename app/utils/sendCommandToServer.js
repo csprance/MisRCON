@@ -1,4 +1,6 @@
 import Promise from 'bluebird';
+
+import {log} from './loggerUtils';
 /**
  * Sends a command via XMLRPC  to a server and returns a promise response
  * @param:    {string}      command       command to send to the server
@@ -8,7 +10,7 @@ import Promise from 'bluebird';
  */
 export function sendCommandToServer(command, creds) {
   // Log it
-  console.log(`Sending command: ${command} to server: ${creds.ip}:${creds.port}`);
+  log('info',`Sending command: ${command} to server: ${creds.ip}:${creds.port}`);
 
   return new Promise(function (resolve, reject) {
     const execFile = require('child_process').execFile;
@@ -17,6 +19,8 @@ export function sendCommandToServer(command, creds) {
       ['-i', creds.ip, '--port', creds.port, '-p', creds.password, '--command', command],
       (error, stdout, stderr) => {
         if (error) {
+          log('error', `Error running task: ${command} to ${creds.ip}:${creds.port}`);
+          log('error', stderr);
           reject(stderr)
         }
         resolve(stdout);

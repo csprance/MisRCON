@@ -5,6 +5,7 @@ import store from 'store';
 import './RCONConsole.global.css';
 import {helpText} from './HelpSection';
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
+import {log} from '../../utils/loggerUtils';
 
 const welcomeMessage = `MisRCON-by @Csprance
 v0.0.1 - Babycakes
@@ -14,7 +15,7 @@ Type help for more options.
 `;
 
 
-export default class RCONConsole extends Component {
+export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
     let credentials = store.get('userCredentials');
@@ -42,13 +43,13 @@ export default class RCONConsole extends Component {
   };
 
   sendCommand = (command) => {
-   sendCommandToServer(command, this.state).then((res)=>{
-     this.refs.console.log(res);
-     this.refs.console.return();
-   }).catch((err)=>{
-     this.refs.console.log(err);
-     this.refs.console.return();
-   });
+    sendCommandToServer(command, this.state).then((res) => {
+      this.refs.console.log(res);
+      this.refs.console.return();
+    }).catch((err) => {
+      this.refs.console.log(err);
+      this.refs.console.return();
+    });
   };
 
 
@@ -65,7 +66,7 @@ export default class RCONConsole extends Component {
           this.sendCommand(text);
       }
     } catch (e) {
-      console.log(e);
+      log('error', e);
       this.refs.console.log(String(e));
       this.refs.console.return();
     }

@@ -4,6 +4,7 @@
 
 > This is a development repository. If you are looking to install the regular version please check the [releases](https://github.com/csprance/MisRCON/releases) section.
 
+Default installation directory is %apdata%\Local\Programs\MisRCON
 
 ## Screenshots
 <a href="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png"><img src="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
