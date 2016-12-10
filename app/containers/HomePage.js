@@ -1,5 +1,9 @@
-// Handle the login
-
+/**
+ * Name: HomePage Container
+ * Author: Chrissprance
+ * Creation Date: 12/8/2016
+ * Description: Handles Showing the main app page and the initial login/credential selection
+ */
 import React, {Component} from 'react';
 import store from 'store';
 
@@ -29,7 +33,6 @@ export default class HomePage extends Component {
     });
   }
 
-
   //noinspection JSMethodCanBeStatic
   getStoredCredentials() {
     // returns false if there are no stored credentials
@@ -57,7 +60,7 @@ export default class HomePage extends Component {
     });
   };
 
-  // log the user in and store the credentials in the localStorage TODO: Do something better here
+  // log the user in and store the credentials in the localStorage TODO: Do something better here error checking!
   login = () => {
 
     if (this.state.password === '') {
@@ -76,6 +79,7 @@ export default class HomePage extends Component {
       });
     }
     // All filled in
+    // Log in and store credentials
     if(this.state.port !== '' && this.state.password !== '' && this.state.ip !== '') {
       this.setState({
         loggedIn: true,
@@ -84,9 +88,7 @@ export default class HomePage extends Component {
     }
   };
 
-
   render() {
-
     return (
       <div style={{width:'100%', display: 'flex'}}>
         {this.state.loggedIn === false ? (
@@ -105,6 +107,4 @@ export default class HomePage extends Component {
         )}
       </div>);
   }
-
-
 }

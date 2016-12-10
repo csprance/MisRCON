@@ -25,7 +25,7 @@ class PlayersCard extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      avatar: 'http://placehold.it/42x42',
+      avatar: store.get(this.props.steam) !== undefined ? store.get(this.props.steam).avatar : 'http://placehold.it/42x42',
       notes: store.get(this.props.steam) !== undefined ? store.get(this.props.steam).notes : ''
     }
   }
@@ -35,18 +35,24 @@ class PlayersCard extends Component {
   }
 
   getAvatar = () => {
-    axios.get('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {
-      params: {
-        key: 'C4E62F89FF5D569A481850BCD3098D52',
-        steamids: this.props.steam
-      }
-    }).then((res) => {
-      this.setState({
-        avatar: res.data.response.players[0].avatar,
+    // If the avatar is the placeholder go and get it otherwise do nothing
+    if (this.state.avatar === 'http://placehold.it/42x42' && this.props.steam != '0') {
+      log('silly', 'calling gaben for avatars');
+      axios.get('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {
+        params: {
+          key: 'C4E62F89FF5D569A481850BCD3098D52',
+          steamids: this.props.steam
+        }
+      }).then((res) => {
+        // store the player data in local storage
+        store.set(this.props.steam, {notes: this.state.notes, avatar: res.data.response.players[0].avatar});
+        this.setState({
+          avatar: res.data.response.players[0].avatar,
+        });
+      }).catch((err) => {
+        log('error', err);
       });
-    }).catch((err) => {
-      log('error', err);
-    });
+    }
   };
 
   updateNotes = (e) => {
@@ -59,7 +65,7 @@ class PlayersCard extends Component {
   render() {
     const link = String('https://steamrep.com/profiles/' + this.props.steam);
     return (
-      <PCard key={this.props.steam + this.props.name}>
+      <PCard>
         <Card>
           <CardHeader
             avatar={this.state.avatar}
@@ -76,8 +82,8 @@ class PlayersCard extends Component {
           </CardText>
           <CardActions style={{display: 'flex'}}>
             <Spacer />
-            <FlatButton label="Kick" onTouchTap={this.kickPlayer}/>
-            <FlatButton secondary={true} label="Ban" onTouchTap={this.openBanDialog}/>
+            <FlatButton label="Kick" onTouchTap={this.props.kick.bind(null, this.props.steam)}/>
+            <FlatButton secondary={true} label="Ban" onTouchTap={this.props.ban.bind(null, this.props.steam)}/>
           </CardActions>
         </Card>
       </PCard>

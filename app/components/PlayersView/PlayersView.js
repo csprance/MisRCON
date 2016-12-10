@@ -3,6 +3,7 @@
  * Author: Chrissprance
  * Creation Date: 12/8/2016
  * Description: Contains the list of all the players currently on the server
+ *              and the logic to get, kick, ban players
  */
 import React, {Component} from 'react';
 
@@ -19,7 +20,7 @@ import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
 import {white} from '../../styles/colors';
 import PlayerCard from './PlayerCard';
-
+import BanDialog from './BanDialog';
 
 export default class PlayersView extends Component {
   constructor(props, context) {
@@ -28,7 +29,10 @@ export default class PlayersView extends Component {
       loading: false,
       credentials: store.get('userCredentials'),
       players: [],
-      searchString: ''
+      searchString: '',
+      showBanDialog: false,
+      banDialogBanReason: '',
+      banDialogSteamID: ''
     };
   }
 
@@ -56,6 +60,30 @@ export default class PlayersView extends Component {
       });
   };
 
+  banPlayerAndCloseDialog = () => {
+    log('info', `Banning Player: ${this.state.banDialogSteamID} for reason: ${this.state.banDialogBanReason}`);
+    this.setState({
+      showBanDialog: false,
+      banDialogBanReason: ''
+    });
+  };
+
+  kickPlayer = (steam) => {
+    log('info', 'Kicking player from server: ' + steam);
+  };
+
+  showBanDialog = (steam) => {
+    this.setState({
+      showBanDialog: true,
+      banDialogSteamID: steam
+    })
+  };
+
+  hideBanDialog = () => {
+    this.setState({
+      showBanDialog: false
+    })
+  };
 
   updateSearchString = (e) => {
     this.setState({
@@ -63,25 +91,27 @@ export default class PlayersView extends Component {
     });
   };
 
+  updateBanReason = (e) => {
+    this.setState({
+      banDialogBanReason: e.target.value
+    });
+  };
+
 
   render() {
-    const options = {
-      extract: (el) => {
-        return el.name
-      }
-    };
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, options).map((el) => {
-      return el.string;
-    });
-    const filterList = this.state.players.filter((player) => {
-      return fuzzyList.indexOf(player.name) >= 0
-    });
+    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.name}).map((el) => el.string);
+    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.name) >= 0);
     return (
       <Container>
         <Actions>
           <Spacer />
-          <SearchBar value={this.state.searchString} onChange={this.updateSearchString} style={{flex: 4}}
-                     floatingLabelStyle={{color: white}} floatingLabelText="Search...."/>
+          <SearchBar
+            value={this.state.searchString}
+            onChange={this.updateSearchString}
+            style={{flex: 4}}
+            floatingLabelStyle={{color: white}}
+            floatingLabelText="Search...."
+          />
           <Spacer />
           <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary={true}>
             { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
@@ -89,12 +119,23 @@ export default class PlayersView extends Component {
           <Spacer />
         </Actions>
         <PlayerList>
-        {filterList.map((player) => {
-          return (
-            <PlayerCard steam={player.steam} name={player.name}/>
-          )
-        })}
+          {filterList.map((player) =>
+            <PlayerCard
+              key={player.steam + player.name}
+              steam={player.steam}
+              name={player.name}
+              ban={this.showBanDialog}
+              kick={this.kickPlayer}
+            />)}
         </PlayerList>
+        <BanDialog
+          actionCancel={this.hideBanDialog}
+          updateBanReason={this.updateBanReason}
+          banReason={this.state.banDialogBanReason}
+          steamIDToBan={this.state.banDialogSteamID}
+          open={this.state.showBanDialog}
+          actionSubmit={this.banPlayerAndCloseDialog}
+        />
       </Container>
     );
   }
@@ -105,7 +146,6 @@ const rotate360 = keyframes`
   from {
     transform: rotate(0deg);
   }
- 
   to {
     transform: rotate(360deg);
   }
@@ -136,7 +176,7 @@ const Actions = styled.div`
 `;
 
 
-const PlayerList= styled.div`
+const PlayerList = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row wrap;

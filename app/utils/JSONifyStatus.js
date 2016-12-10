@@ -4,7 +4,7 @@
  * Creation Date: 12/9/2016
  * Description: takes a string of a status command and JSONifys it.
  */
-
+import {sendCommandToServer} from './sendCommandToServer';
 
 function getServerStatus(str) {
   const regex = /-*[\s\S]*- */g;
@@ -86,4 +86,3 @@ export function JSONifyStatus(statusString) {
     players: playersArray
   }
 }
-

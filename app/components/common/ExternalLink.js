@@ -13,7 +13,7 @@ import styled from 'styled-components';
 const ExternalLink = (props) => {
   const handleClick = () => {
     require('electron').shell.openExternal(props.to);
-    log(`Navigating to External Link: ${props.to}`);
+    log('info', `Navigating to External Link: ${props.to}`);
   };
 
   return (

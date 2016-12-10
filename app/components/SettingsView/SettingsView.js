@@ -11,7 +11,7 @@ export default class SettingsView extends Component {
   render() {
     return (
       <div>
-        TODO: Bans TAB
+        TODO: SETTINGS TAB
       </div>
     );
   }
