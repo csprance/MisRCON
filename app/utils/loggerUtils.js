@@ -12,9 +12,9 @@ import format from 'date-fns/format';
 /**
  * Replaces the time of a date [time, date]
  * @param:    {string}  lvl  the log level to log at [silly, debug, info, warn, error] defaults to info
- * @param:    {msg}     msg  the msg or object to log out  
+ * @param:    {msg}     msg  the msg or object to log out
  */
-export function log(lvl='info', msg) {
+export function log(lvl = 'info', msg) {
   let logPath = 'misrcon.log';
   let logMsg = `[${lvl}] - ${format(Date.now(), 'MM/DD/YY @ HH:mm:ss')} - ${msg}\n`;
   // some things we don't want to log to a file what are they?
@@ -29,7 +29,7 @@ export function log(lvl='info', msg) {
   } else {
     // if it's not in the ignore file log list then log it to a file
     fs.appendFile(logPath, logMsg, (err) => {
-      console.log(err);
+      if (err) console.log(err);
     });
   }
 }

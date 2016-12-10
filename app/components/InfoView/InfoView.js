@@ -11,7 +11,7 @@ export default class InfoView extends Component {
   render() {
     return (
       <div>
-        TODO: Bans TAB
+        TODO: INFO TAB
       </div>
     );
   }

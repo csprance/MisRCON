@@ -1,3 +1,5 @@
+// Handle the login
+
 import React, {Component} from 'react';
 import store from 'store';
 
@@ -30,6 +32,7 @@ export default class HomePage extends Component {
 
   //noinspection JSMethodCanBeStatic
   getStoredCredentials() {
+    // returns false if there are no stored credentials
     return store.get('userCredentials') !== undefined;
   }
 

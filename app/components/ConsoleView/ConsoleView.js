@@ -8,7 +8,7 @@ import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
 
 const welcomeMessage = `MisRCON-by @Csprance
-v0.0.1 - Babycakes
+v0.0.2 - Macadocious
 Type help for more options.
 --------------------------
 
