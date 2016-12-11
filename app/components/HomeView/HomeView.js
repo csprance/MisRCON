@@ -26,11 +26,6 @@ const Home = () => (
         <ConsoleView />
       </Tab>
       <Tab
-        icon={<InfoIcon />}
-        label="STATS">
-        <InfoView />
-      </Tab>
-      <Tab
         icon={<PeopleIcon />}
         label="PLAYERS">
         <PlayersView />
@@ -45,7 +40,11 @@ const Home = () => (
         label="WHITELIST">
         <WhitelistView />
       </Tab>
-
+      <Tab
+        icon={<InfoIcon />}
+        label="STATS">
+        <InfoView />
+      </Tab>
       <Tab
         icon={<SettingsIcon />}
         label="SETTINGS">
