@@ -1,8 +1,8 @@
 /**
- * Name: BansView
+ * Name: WhitelistView
  * Author: Chrissprance
  * Creation Date: 12/11/2016
- * Description: Contains the list of all the banned players on the server
+ * Description: Contains the list of all the whitelisted players on the server
  *              and the logic to add remove and filter them
  */
 import React, {Component} from 'react';
@@ -25,16 +25,16 @@ import PlayerCard from '../PlayersView/PlayerCard';
 
 
 
-export default class BansView extends Component {
+export default class WhitelistView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       loading: false,
       credentials: store.get('userCredentials'),
-      players: [{name: 'DillHead Johnson', steam: '324754783294234'}, {name: 'MickMouth Frankhead', steam: '34234546435345'}],
+      players: [{name: 'MenisHead Johnson', steam: '324754783294234'}, {name: 'ClickMouth Frankhead', steam: '34234546435345'}],
       searchString: '',
-      showBanDialog: false,
-      banDialogSteamID: '',
+      showWhitelistDialog: false,
+      whitelistDialogSteamID: '',
       showSnackBar: false,
       snackBarMsg: ''
     };
@@ -72,26 +72,26 @@ export default class BansView extends Component {
   };
 
 
-  addPlayerToBanList = () => {
+  addPlayerToWhitelist = () => {
     //this.state.whitelistDialogSteamID
 
   };
 
-  removePlayerFromBanList = (steam) =>{
+  removePlayerFromWhitelist = (steam) =>{
 
 
   };
 
-  showBanDialog = (steam) => {
+  showWhitelistDialog = (steam) => {
     this.setState({
-      showBanDialog: true,
-      banDialogSteamID: steam
+      showWhitelistDialog: true,
+      whitelistDialogSteamID: steam
     })
   };
 
-  hideBanDialog = () => {
+  hideWhitelistDialog = () => {
     this.setState({
-      showBanDialog: false
+      showWhitelistDialog: false
     })
   };
 
@@ -115,7 +115,7 @@ export default class BansView extends Component {
       <Container>
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.addPlayerToBanList} secondary={true}>
+          <FloatingActionButton onTouchTap={this.addPlayerToWhitelist} secondary={true}>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -138,7 +138,7 @@ export default class BansView extends Component {
               key={player.steam + player.name}
               steam={player.steam}
               name={player.name}
-              removePlayerFromBanList={this.removePlayerFromBanList}
+              removePlayerFromWhitelist={this.removePlayerFromWhitelist}
             />)}
         </PlayerList>
         <Snackbar

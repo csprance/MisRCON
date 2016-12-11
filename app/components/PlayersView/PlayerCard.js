@@ -82,8 +82,14 @@ class PlayersCard extends Component {
           </CardText>
           <CardActions style={{display: 'flex'}}>
             <Spacer />
-            <FlatButton label="Kick" onTouchTap={this.props.kick.bind(null, this.props.steam)}/>
-            <FlatButton secondary={true} label="Ban" onTouchTap={this.props.ban.bind(null, this.props.steam)}/>
+
+            {this.props.removePlayerFromBanList !== undefined && <FlatButton label="UNBan" onTouchTap={this.props.removePlayerFromBanList.bind(null, this.props.steam)}/> }
+
+
+            {this.props.removePlayerFromWhitelist !== undefined && <FlatButton label="Remove" onTouchTap={this.props.removePlayerFromWhitelist.bind(null, this.props.steam)}/> }
+
+            {this.props.kick !== undefined && <FlatButton label="Kick" onTouchTap={this.props.kick.bind(null, this.props.steam)}/> }
+            {this.props.ban !== undefined && <FlatButton secondary={true} label="Ban" onTouchTap={this.props.ban.bind(null, this.props.steam)}/> }
           </CardActions>
         </Card>
       </PCard>
