@@ -19,7 +19,7 @@ import Spacer from '../common/Spacer';
 import {JSONifyStatus} from '../../utils/JSONifyStatus';
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
-import {white, darkGrey, black} from '../../styles/colors';
+import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from './PlayerCard';
 import BanDialog from './BanDialog';
 
@@ -221,7 +221,6 @@ const PlayerList = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  padding: 10px;
   overflow-y: auto;
   align-items: flex-start;
   justify-content: center;

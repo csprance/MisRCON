@@ -16,7 +16,7 @@ import format from 'date-fns/format';
  */
 export function log(lvl = 'info', msg) {
   let logPath = 'misrcon.log';
-  let logMsg = `[${lvl}] - ${format(Date.now(), 'MM/DD/YY @ HH:mm:ss')} - ${msg}\n`;
+  let logMsg = `${format(Date.now(), 'MM/DD/YY @ HH:mm:ss')} - [${lvl}] - ${msg}\n\n`;
   // some things we don't want to log to a file what are they?
   let doNotLogToFile = ['silly', 'debug'];
 
