@@ -12,3 +12,15 @@ body, html {
   height:100%;
   line-height: 1;
 }
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #363636;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #282828;
+  outline: 1px solid #282828;
+}

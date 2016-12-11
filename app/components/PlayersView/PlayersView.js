@@ -13,14 +13,16 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import fuzzy from 'fuzzy';
+import Snackbar from 'material-ui/Snackbar';
 
 import Spacer from '../common/Spacer';
 import {JSONifyStatus} from '../../utils/JSONifyStatus';
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
-import {white} from '../../styles/colors';
+import {white, darkGrey, black} from '../../styles/colors';
 import PlayerCard from './PlayerCard';
 import BanDialog from './BanDialog';
+
 
 export default class PlayersView extends Component {
   constructor(props, context) {
@@ -32,7 +34,9 @@ export default class PlayersView extends Component {
       searchString: '',
       showBanDialog: false,
       banDialogBanReason: '',
-      banDialogSteamID: ''
+      banDialogSteamID: '',
+      showSnackBar: false,
+      snackBarMsg: ''
     };
   }
 
@@ -60,16 +64,39 @@ export default class PlayersView extends Component {
       });
   };
 
+  snackBar = (msg) => {
+    this.setState({
+      showSnackBar: true,
+      snackBarMsg: msg
+    });
+  };
+
   banPlayerAndCloseDialog = () => {
     log('info', `Banning Player: ${this.state.banDialogSteamID} for reason: ${this.state.banDialogBanReason}`);
-    this.setState({
-      showBanDialog: false,
-      banDialogBanReason: ''
+    sendCommandToServer(`mis_ban_steamid ${this.state.banDialogSteamID}`).then((res) => {
+      log('server response', res);
+      this.snackBar(`Banned Player: ${this.state.banDialogSteamID} for reason: ${this.state.banDialogBanReason}`);
+      this.setState({
+        showBanDialog: false,
+        banDialogBanReason: ''
+      });
+      this.getPlayersAndAddToState();
+    }).catch((err) => {
+      log('error', err);
+      this.snackbar('Something went wrong!');
     });
   };
 
   kickPlayer = (steam) => {
     log('info', 'Kicking player from server: ' + steam);
+    sendCommandToServer(`mis_kick ${steam}`).then((res) => {
+      log('server response', res);
+      this.snackbar('Kicked player from server: ' + steam);
+      this.getPlayersAndAddToState();
+    }).catch((err) => {
+      log('error', err);
+      this.snackbar('Something went wrong!');
+    });
   };
 
   showBanDialog = (steam) => {
@@ -94,6 +121,12 @@ export default class PlayersView extends Component {
   updateBanReason = (e) => {
     this.setState({
       banDialogBanReason: e.target.value
+    });
+  };
+
+  closeSnackBar = () => {
+    this.setState({
+      showSnackBar: false
     });
   };
 
@@ -136,6 +169,15 @@ export default class PlayersView extends Component {
           open={this.state.showBanDialog}
           actionSubmit={this.banPlayerAndCloseDialog}
         />
+        <Snackbar
+          bodyStyle={{background: darkGrey}}
+          open={this.state.showSnackBar}
+          message={this.state.snackBarMsg}
+          autoHideDuration={4000}
+          onRequestClose={this.closeSnackBar}
+          action="OK"
+          onActionTouchTap={this.closeSnackBar}
+        />
       </Container>
     );
   }
@@ -175,8 +217,7 @@ const Actions = styled.div`
   flex-shrink: 1;
 `;
 
-
-const PlayerList = styled.div`
+const PlayerList = styled.div`  
   width: 100%;
   display: flex;
   flex-flow: row wrap;

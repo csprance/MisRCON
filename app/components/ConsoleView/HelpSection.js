@@ -1,13 +1,13 @@
 export const helpText =
-  `This console is a direct connection to your server. 
+`This console is a direct connection to your server. 
 Any commands you enter here will be sent to the 
 server via RCON (XMLRPC).
 
 Available Commands:
 
-cls clear screen
+cls // clears any text from the console
 
-sv_servername "Name of server in quotes"
+sv_servername "Name of server in quotes" 
 
 wm_timeScale 3 //How Fast time moves
 
@@ -26,6 +26,8 @@ mis_ban_steamid 64BITSTEAMID // Ban Player
 mis_ban_status // Get Ban List
 
 mis_ban_remove 64BITSTEAMID // Remove from ban list
+
+mis_kick 64BITSTEAMID  // Kick from server
 
 mis_whitelist_add 64BITSTEAMID // Add to whitelist
 
