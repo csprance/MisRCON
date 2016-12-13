@@ -4,28 +4,28 @@
  * Creation Date: 12/12/2016
  * Description: shows the info on the currently connected to server
  */
-import React, {
-  PropTypes,
-} from 'react';
+import React, {Component, PropTypes,} from 'react';
 import styled from 'styled-components';
 import debug from '../../styles/stylesDebugger';
-
+import store from 'store';
 import {darkGrey} from '../../styles/colors';
 
 
 const StatusBar = (props) => {
   return (
     <Container>
-      <Item>Name: {props.name}</Item>
-      <Item>IP: {props.ip}</Item>
-      <Item>Version: {props.version}</Item>
-      <Item>Players: {props.players}</Item>
+      <Item>IP: {store.get('userCredentials').ip} </Item>
+      <Item>Port: {store.get('userCredentials').port} </Item>
+      {/*<Item>Name: {this.state.status.name}</Item>*/}
+      {/*<Item>Version: {this.state.status.version}</Item>*/}
+      {/*<Item>Players: {this.state.status.players}</Item>*/}
     </Container>
   );
 };
 
 StatusBar.propTypes = {};
 StatusBar.defaultProps = {};
+
 
 const Container = styled.div`
   display:flex;
@@ -42,4 +42,6 @@ const Item = styled.div`
   ${debug('Item')}
 `;
 
+
 export default StatusBar;
+

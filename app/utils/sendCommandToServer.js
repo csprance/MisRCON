@@ -9,6 +9,7 @@ import {log} from './loggerUtils';
  * @return:   {promise}     response      returns a promise
  */
 export function sendCommandToServer(command, creds) {
+  // TODO: If I send more than one command at a time the server rejects it
   // Log it
   log('info',`Sending command: ${command} to server: ${creds.ip}:${creds.port}`);
 

@@ -19,9 +19,17 @@ export default class HomePage extends Component {
       loggedIn: this.getStoredCredentials(),
       port: '',
       password: '',
-      ip: ''
+      ip: '',
+      players: [],
+      status: {
+        name: '',
+        version: '',
+        players: '',
+        ip: ''
+      }
     }
   }
+
 
   componentDidMount() {
     // add our event listener to listen for events from the menu
@@ -43,21 +51,21 @@ export default class HomePage extends Component {
   updatePort = (e) => {
     this.setState({
       port: e.target.value,
-      errorTextPort:''
+      errorTextPort: ''
     });
   };
 
   updatePassword = (e) => {
     this.setState({
       password: e.target.value,
-      errorTextPassword:''
+      errorTextPassword: ''
     });
   };
 
   updateIP = (e) => {
     this.setState({
       ip: e.target.value,
-      errorTextIp:''
+      errorTextIp: ''
     });
   };
 
@@ -66,22 +74,22 @@ export default class HomePage extends Component {
 
     if (this.state.password === '') {
       this.setState({
-        errorTextPassword:'Password is required',
+        errorTextPassword: 'Password is required',
       });
     }
     if (this.state.port === '') {
       this.setState({
-        errorTextPort:'Port is required',
+        errorTextPort: 'Port is required',
       });
     }
     if (this.state.ip === '') {
       this.setState({
-        errorTextIp:'IP address is required',
+        errorTextIp: 'IP address is required',
       });
     }
     // All filled in
     // Log in and store credentials
-    if(this.state.port !== '' && this.state.password !== '' && this.state.ip !== '') {
+    if (this.state.port !== '' && this.state.password !== '' && this.state.ip !== '') {
       this.setState({
         loggedIn: true,
       });
@@ -91,24 +99,27 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <div style={{width:'100%', display: 'flex', flexDirection: 'column'}}>
-        <div style={{width:'100%', display: 'flex', flexGrow: 1}}>
-        {this.state.loggedIn === false ? (
-          <LoginView login={this.login}
-                     errorTextPassword={this.state.errorTextPassword}
-                     errorTextPort={this.state.errorTextPort}
-                     errorTextIp={this.state.errorTextIp}
-                     port={this.state.port}
-                     updatePort={this.updatePort}
-                     password={this.state.password}
-                     updatePassword={this.updatePassword}
-                     ip={this.state.ip}
-                     updateIP={this.updateIP}/>
-        ) : (
-          <HomeView/>
-        )}
+      <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+        <div style={{width: '100%', display: 'flex', flexGrow: 1}}>
+          {this.state.loggedIn === false ? (
+            <LoginView login={this.login}
+                       errorTextPassword={this.state.errorTextPassword}
+                       errorTextPort={this.state.errorTextPort}
+                       errorTextIp={this.state.errorTextIp}
+                       port={this.state.port}
+                       updatePort={this.updatePort}
+                       password={this.state.password}
+                       updatePassword={this.updatePassword}
+                       ip={this.state.ip}
+                       updateIP={this.updateIP}/>
+          ) : (
+            <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+              <HomeView/>
+              <StatusBar/>
+            </div>
+          )}
         </div>
-        <StatusBar />
+
       </div>);
   }
 }
