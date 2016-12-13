@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import Console from 'react-console-component';
 import store from 'store';
+import styled from 'styled-components';
 
 import './RCONConsole.global.css';
 import {helpText} from './HelpSection';
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
+import debug from '../../styles/stylesDebugger';
 
 const welcomeMessage = `MisRCON-by @Csprance
 v0.0.2 - Macadocious
@@ -15,7 +17,7 @@ Type help for more options.
 `;
 
 
-export default class ConsoleView extends Component {
+class ConsoleView extends Component {
   constructor(props) {
     super(props);
     let credentials = store.get('userCredentials');
@@ -74,9 +76,22 @@ export default class ConsoleView extends Component {
 
 
   render() {
-    return (<Console ref="console"
-                     handler={this.handleInput}
-                     autofocus={true}
-                     welcomeMessage={welcomeMessage}/>);
+    return (
+      <Container>
+        <Console ref="console"
+                 handler={this.handleInput}
+                 autofocus={true}
+                 welcomeMessage={welcomeMessage}/>
+      </Container>);
   }
 }
+
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  ${debug('Container')}
+`;
+
+export default ConsoleView;

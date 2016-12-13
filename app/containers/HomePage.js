@@ -9,6 +9,7 @@ import store from 'store';
 
 import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
+import StatusBar from '../components/StatusBar/StatusBar';
 
 
 export default class HomePage extends Component {
@@ -90,7 +91,8 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <div style={{width:'100%', display: 'flex'}}>
+      <div style={{width:'100%', display: 'flex', flexDirection: 'column'}}>
+        <div style={{width:'100%', display: 'flex', flexGrow: 1}}>
         {this.state.loggedIn === false ? (
           <LoginView login={this.login}
                      errorTextPassword={this.state.errorTextPassword}
@@ -105,6 +107,8 @@ export default class HomePage extends Component {
         ) : (
           <HomeView/>
         )}
+        </div>
+        <StatusBar />
       </div>);
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import {Tabs, Tab} from '../common/Tabs';
 import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
@@ -15,11 +15,12 @@ import SettingsView from '../SettingsView/SettingsView';
 import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../WhitelistView/WhitelistView';
-
+import debug from '../../styles/stylesDebugger';
 const Home = () => (
   <SplitPane>
     <StyledTabs tabItemContainerStyle={{minHeight: 72}}
-                contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
+                contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
+                tabTemplateStyle={{display: 'flex'}}>
       <Tab
         icon={<ConsoleIcon />}
         label="CONSOLE">
@@ -59,12 +60,16 @@ const SplitPane = styled.div`
   display: flex;
   align-items:stretch;
   flex-grow:1;
+   ${debug('Split Pane')}
 `;
+
+// TODO: This tab setting here is really dirty
 const StyledTabs = styled(Tabs)`
   flex-grow:1;
   display:flex;
   flex-direction:column;
   align-items:stretch;
+  ${debug('StyledTabs')}
 `;
 
 
