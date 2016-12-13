@@ -19,19 +19,23 @@ import Snackbar from 'material-ui/Snackbar';
 import Spacer from '../common/Spacer';
 
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
+import JSONifyBanList from '../../utils/JSONifyBanList';
+
 import {log} from '../../utils/loggerUtils';
 import {white, darkGrey, black} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
-
 
 
 export default class BansView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
+      loading: true,
       credentials: store.get('userCredentials'),
-      players: [{name: 'DillHead Johnson', steam: '324754783294234'}, {name: 'MickMouth Frankhead', steam: '34234546435345'}],
+      players: [{name: 'MenisHead Johnson', steam: '324754783294234'}, {
+        name: 'ClickMouth Frankhead',
+        steam: '34234546435345'
+      }],
       searchString: '',
       showBanDialog: false,
       banDialogSteamID: '',
@@ -40,28 +44,32 @@ export default class BansView extends Component {
     };
   }
 
-  componentWillMount() {
-    // Go and grab the player list from the server.
-    this.getPlayersAndAddToState();
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      players: nextProps.banListPlayers,
+      loading: false
+    });
   }
+
 
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
 
-    // sendCommandToServer('status', this.state.credentials)
-    //   .then((res) => {
-    //     if (res !== null) {
-    //       this.setState({
-    //         players: JSONifyStatus(res).players,
-    //         loading: false,
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     log('error', err);
-    //   });
+    sendCommandToServer('mis_ban_status', this.state.credentials)
+      .then((res) => {
+        if (res !== null) {
+          this.setState({
+            players: JSONifyBanList(res),
+            loading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        log('error', err);
+      });
   };
 
   snackBar = (msg) => {
@@ -77,9 +85,7 @@ export default class BansView extends Component {
 
   };
 
-  removePlayerFromBanList = (steam) =>{
-
-
+  removePlayerFromBanList = (steam) => {
   };
 
   showBanDialog = (steam) => {
@@ -109,8 +115,8 @@ export default class BansView extends Component {
 
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.name}).map((el) => el.string);
-    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.name) >= 0);
+    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
+    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
       <Container>
         <Actions>

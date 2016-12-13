@@ -3,6 +3,8 @@ export const helpText =
 Any commands you enter here will be sent to the 
 server via RCON (XMLRPC).
 
+Autocomplete is available by pressing tab
+
 Available Commands:
 
 cls // clears any text from the console
@@ -108,3 +110,70 @@ Scale of weather speed (The weather speed is independent of day/night speed)
 
 
 `;
+export const helpCommands = [{
+  display: 'cls Clears the console screen. Client command only',
+  value: 'cls'
+},{
+  display: 'sv_servername "Name of server in quotes"',
+  value: 'sv_servername'
+}, {
+  display: 'wm_timeScale 3 //How Fast time moves',
+  value: 'wm_timeScale'
+}, {
+  display: 'wm_forceTime -1 // Force a current time',
+  value: 'wm_forceTime'
+}, {
+  display: 'g_pinglimit 0 //Ping required to join',
+  value: 'g_pinglimit'
+}, {
+  display: 'g_pingLimitTimer 15 // How long ping bad before kick',
+  value: 'g_pingLimitTimer'
+}, {
+  display: 'g_idleKickTime 300 //How long idle before kick',
+  value: 'g_idleKickTime'
+}, {
+  display: 'g_gameRules_Camera 0  // Server enforced camera rules,0=both, 1=fp only, 2=tp only in vehicle',
+  value: 'g_gameRules_Camera'
+}, {
+  display: 'mis_ban_steamid 64BITSTEAMID // Ban Player',
+  value: 'mis_ban_steamid'
+}, {
+  display: 'mis_ban_status // Get Ban List',
+  value: 'mis_ban_status'
+}, {
+  display: 'mis_ban_remove 64BITSTEAMID // Remove from ban list',
+  value: 'mis_ban_remove'
+}, {
+  display: 'mis_whitelist_add 64BITSTEAMID // Add to whitelist',
+  value: 'mis_whitelist_add'
+}, {
+  display: 'mis_whitelist_remove 64BITSTEAMID // remove from whitelist',
+  value: 'mis_whitelist_remove'
+}, {
+  display: 'mis_whitelist_status // Get Whitelist',
+  value: 'mis_whitelist_status'
+}, {
+  display: 'status // Get server status',
+  value: 'status'
+}, {
+  display: 'sv_say // Send a message',
+  value: 'sv_say'
+}, {
+  display: 'wm_startPattern WEATHERPATTERN // Sets a weather pattern',
+  value: 'wm_startPattern'
+}, {
+  display: 'wm_disable 0/1 // Disables the weather manager',
+  value: 'wm_disable'
+}, {
+  display: 'wm_forceTime hours // Freezes time at a specific time of day',
+  value: 'wm_forceTime'
+}, {
+  display: 'wm_timeOffset hours // Offset time from system time on server start up use 24-x for real negative offsets',
+  value: 'wm_timeOffset'
+}, {
+  display: 'wm_timeScale speedscale // Scale time of day speed',
+  value: 'wm_timeScale'
+},{
+  display: 'mis_kick 64BITSTEAMID // Kick players from server',
+  value: 'mis_kick'
+}];

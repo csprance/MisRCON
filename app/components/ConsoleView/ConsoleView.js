@@ -2,16 +2,19 @@ import React, {Component} from 'react';
 import Console from 'react-console-component';
 import store from 'store';
 import styled from 'styled-components';
+import fuzzy from 'fuzzy';
 
 import './RCONConsole.global.css';
-import {helpText} from './HelpSection';
+import {helpText, helpCommands} from './HelpSection';
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
 import debug from '../../styles/stylesDebugger';
 
+
 const welcomeMessage = `MisRCON-by @Csprance
 v0.0.2 - Macadocious
-Type help for more options.
+Type help for more options
+or tab to autocomplete
 --------------------------
 
 `;
@@ -73,12 +76,17 @@ class ConsoleView extends Component {
       this.refs.console.return();
     }
   };
+  complete = (e) =>{
+    const words = helpCommands.map((el)=> el.value);
+    return fuzzy.filter(e[0], words).map((el) => el.string);
+  };
 
 
   render() {
     return (
       <Container>
         <Console ref="console"
+                 complete={this.complete}
                  handler={this.handleInput}
                  autofocus={true}
                  welcomeMessage={welcomeMessage}/>

@@ -16,7 +16,7 @@ import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../WhitelistView/WhitelistView';
 import debug from '../../styles/stylesDebugger';
-const Home = () => (
+const Home = (props) => (
   <SplitPane>
     <StyledTabs tabItemContainerStyle={{minHeight: 72}}
                 contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
@@ -29,12 +29,12 @@ const Home = () => (
       <Tab
         icon={<PeopleIcon />}
         label="PLAYERS">
-        <PlayersView />
+        <PlayersView players={props.players}/>
       </Tab>
       <Tab
         icon={<BanIcon />}
         label="BANS">
-        <BansView />
+        <BansView banListPlayers={props.banListPlayers}/>
       </Tab>
       <Tab
         icon={<WhitelistIcon />}

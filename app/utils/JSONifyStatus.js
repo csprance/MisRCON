@@ -80,9 +80,7 @@ export function JSONifyStatus(statusString) {
 
 
   return {
-    serverStatus: {
-      serverStatusObject
-    },
+    serverStatus: serverStatusObject,
     players: playersArray
   }
 }

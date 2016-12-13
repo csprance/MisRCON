@@ -49,19 +49,6 @@ export default class WhitelistView extends Component {
     this.setState({
       loading: true,
     });
-
-    // sendCommandToServer('status', this.state.credentials)
-    //   .then((res) => {
-    //     if (res !== null) {
-    //       this.setState({
-    //         players: JSONifyStatus(res).players,
-    //         loading: false,
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     log('error', err);
-    //   });
   };
 
   snackBar = (msg) => {

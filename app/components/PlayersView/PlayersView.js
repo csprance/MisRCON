@@ -4,6 +4,7 @@
  * Creation Date: 12/8/2016
  * Description: Contains the list of all the players currently on the server
  *              and the logic to get, kick, ban players
+ *              gets server data sent to it originally
  */
 import React, {Component} from 'react';
 
@@ -28,7 +29,7 @@ export default class PlayersView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
+      loading: true,
       credentials: store.get('userCredentials'),
       players: [],
       searchString: '',
@@ -40,9 +41,11 @@ export default class PlayersView extends Component {
     };
   }
 
-  componentWillMount() {
-    // Go and grab the player list from the server.
-    this.getPlayersAndAddToState();
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      players: nextProps.players,
+      loading: false
+    });
   }
 
   getPlayersAndAddToState = () => {

@@ -16,6 +16,7 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 log('silly', 'MisRCON Starting up');
+
 render(
   <Provider store={store}>
     <Router history={history} routes={routes} />

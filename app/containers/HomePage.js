@@ -10,28 +10,36 @@ import store from 'store';
 import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
-
+import getInitialServerData from '../utils/getInitialServerData';
 
 export default class HomePage extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       loggedIn: this.getStoredCredentials(),
-      port: '',
-      password: '',
-      ip: '',
-      players: [],
-      status: {
-        name: '',
-        version: '',
-        players: '',
-        ip: ''
-      }
     }
   }
 
+  getServerData = () => {
+    console.log('getting initial server data');
+    getInitialServerData({
+      ip: store.get('userCredentials').ip,
+      port: store.get('userCredentials').port,
+      password: store.get('userCredentials').password
+    }).then((data) => {
+      this.setState({
+        players: data.players,
+        banListPlayers: data.banListPlayers,
+        whiteListPlayers: data.whiteListPlayers,
+        status: data.status,
+      });
+    });
+  };
 
   componentDidMount() {
+    if (this.state.loggedIn) {
+      this.getServerData();
+    }
     // add our event listener to listen for events from the menu
     // in this case we're logging the user out
     require('electron').ipcRenderer.on('clearUserCredentials', () => {
@@ -93,6 +101,7 @@ export default class HomePage extends Component {
       this.setState({
         loggedIn: true,
       });
+      this.getServerData();
       store.set('userCredentials', {port: this.state.port, password: this.state.password, ip: this.state.ip})
     }
   };
@@ -114,8 +123,11 @@ export default class HomePage extends Component {
                        updateIP={this.updateIP}/>
           ) : (
             <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-              <HomeView/>
-              <StatusBar/>
+              <HomeView banListPlayers={this.state.banListPlayers}
+                        players={this.state.players}
+                        whiteListPlayers={this.state.whiteListPlayers}
+                        status={this.state.status} />
+              <StatusBar status={this.state.status}/>
             </div>
           )}
         </div>
