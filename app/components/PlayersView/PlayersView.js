@@ -4,7 +4,7 @@
  * Creation Date: 12/8/2016
  * Description: Contains the list of all the players currently on the server
  *              and the logic to get, kick, ban players
- *              gets server data sent to it originally
+ *              gets server data sent to it initially in Containers/HomePage
  */
 import React, {Component} from 'react';
 
@@ -22,7 +22,7 @@ import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from './PlayerCard';
-import BanDialog from './BanDialog';
+import PlayersViewBanDialog from './PlayersViewBanDialog';
 
 
 export default class PlayersView extends Component {
@@ -48,11 +48,11 @@ export default class PlayersView extends Component {
     });
   }
 
+
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
-
     sendCommandToServer('status', this.state.credentials)
       .then((res) => {
         if (res !== null) {
@@ -67,12 +67,14 @@ export default class PlayersView extends Component {
       });
   };
 
+
   snackBar = (msg) => {
     this.setState({
       showSnackBar: true,
       snackBarMsg: msg
     });
   };
+
 
   banPlayerAndCloseDialog = () => {
     log('info', `Banning Player: ${this.state.banDialogSteamID} for reason: ${this.state.banDialogBanReason}`);
@@ -164,7 +166,7 @@ export default class PlayersView extends Component {
               kick={this.kickPlayer}
             />)}
         </PlayerList>
-        <BanDialog
+        <PlayersViewBanDialog
           actionCancel={this.hideBanDialog}
           updateBanReason={this.updateBanReason}
           banReason={this.state.banDialogBanReason}
@@ -212,6 +214,7 @@ const SearchBar = styled(TextField)`
 
 const Actions = styled.div`
   height: 100px;
+  min-height: 100px;
   width: 100%;
   display: flex; 
   align-items: center;

@@ -1,8 +1,8 @@
 /**
- * Name: BanDialog
+ * Name: Bans Dialog
  * Author: Chrissprance
- * Creation Date: 12/10/2016
- * Description:
+ * Creation Date: 12/13/2016
+ * Description: contains the fields needed to add a steamid to the banlist
  */
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
@@ -22,29 +22,26 @@ const BanDialog = (props) => {
 
   return (
     <Dialog
-      title="Ban Player"
+      title="Add To Ban List"
       actions={actions}
       modal={false}
       onRequestClose={props.actionCancel}
       open={props.open}
     >
       <TextField
-        id={props.steamIDToBan + '_ban_input'}
-        floatingLabelText="Ban Reason"
-        value={props.banReason}
-        onChange={props.updateBanReason}
+        floatingLabelText="Steam ID to Ban"
+        value={props.steamID}
+        onChange={props.updateSteamID}
       />
-      <br/>
-      Are you sure you want to ban {props.steamIDToBan}?
     </Dialog>
   );
 };
 
+
 BanDialog.propTypes = {
   open: React.PropTypes.bool.isRequired,
-  banReason: React.PropTypes.string.isRequired,
-  updateBanReason: React.PropTypes.func.isRequired,
-  steamIDToBan: React.PropTypes.string.isRequired,
+  updateSteamID: React.PropTypes.func.isRequired,
+  steamID: React.PropTypes.string.isRequired,
   actionSubmit: React.PropTypes.func.isRequired,
   actionCancel: React.PropTypes.func.isRequired
 };

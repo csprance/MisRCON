@@ -3,6 +3,7 @@
  * Author: Chrissprance
  * Creation Date: 12/12/2016
  * Description: shows the info on the currently connected to server
+ * Props flow from Containers/HomePage
  */
 import React, {Component, PropTypes,} from 'react';
 import styled from 'styled-components';
@@ -16,9 +17,9 @@ const StatusBar = (props) => {
     <Container>
       <Item>IP: {store.get('userCredentials').ip} </Item>
       <Item>Port: {store.get('userCredentials').port} </Item>
-      {/*<Item>Name: {this.state.status.name}</Item>*/}
-      {/*<Item>Version: {this.state.status.version}</Item>*/}
-      {/*<Item>Players: {this.state.status.players}</Item>*/}
+      <Item>Name: {props.status !== undefined ? props.status.ip : 'Connecting...'}</Item>
+      <Item>Version: {props.status !== undefined ? props.status.version : 'Connecting...'}</Item>
+      <Item>Players: {props.status !== undefined ? props.status.players : 'Connecting...'}</Item>
     </Container>
   );
 };

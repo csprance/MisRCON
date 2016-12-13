@@ -3,6 +3,7 @@
  * Author: Chrissprance
  * Creation Date: 12/8/2016
  * Description: Handles Showing the main app page and the initial login/credential selection
+ * as well as sending all the initial data to the other components
  */
 import React, {Component} from 'react';
 import store from 'store';
@@ -126,7 +127,7 @@ export default class HomePage extends Component {
               <HomeView banListPlayers={this.state.banListPlayers}
                         players={this.state.players}
                         whiteListPlayers={this.state.whiteListPlayers}
-                        status={this.state.status} />
+                        status={this.state.status}/>
               <StatusBar status={this.state.status}/>
             </div>
           )}

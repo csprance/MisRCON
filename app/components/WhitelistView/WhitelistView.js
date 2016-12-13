@@ -4,9 +4,9 @@
  * Creation Date: 12/11/2016
  * Description: Contains the list of all the whitelisted players on the server
  *              and the logic to add remove and filter them
+ *              gets server data sent to it initially in Containers/HomePage
  */
 import React, {Component} from 'react';
-
 import styled, {keyframes} from 'styled-components';
 import store from 'store';
 import TextField from 'material-ui/TextField';
@@ -17,12 +17,12 @@ import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
 
 import Spacer from '../common/Spacer';
-
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
+import JSONifyWhiteList from '../../utils/JSONifyWhiteList';
 import {log} from '../../utils/loggerUtils';
-import {white, darkGrey, black} from '../../styles/colors';
+import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
-
+import WhitelistDialog from './WhitelistDialog';
 
 
 export default class WhitelistView extends Component {
@@ -31,7 +31,10 @@ export default class WhitelistView extends Component {
     this.state = {
       loading: false,
       credentials: store.get('userCredentials'),
-      players: [{name: 'MenisHead Johnson', steam: '324754783294234'}, {name: 'ClickMouth Frankhead', steam: '34234546435345'}],
+      players: [{
+        name: 'Loading....',
+        steam: 'Loading....'
+      }],
       searchString: '',
       showWhitelistDialog: false,
       whitelistDialogSteamID: '',
@@ -40,15 +43,33 @@ export default class WhitelistView extends Component {
     };
   }
 
-  componentWillMount() {
-    // Go and grab the player list from the server.
-    this.getPlayersAndAddToState();
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({
+      players: nextProps.whiteListPlayers,
+      loading: false
+    });
   }
 
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
+    sendCommandToServer('mis_whitelist_status', this.state.credentials)
+      .then((res) => {
+        if (res !== null) {
+          this.setState({
+            players: JSONifyWhiteList(res).map((p) => {
+              return {steam: p}
+            }),
+            loading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        log('error', err);
+        this.snackBar('Something went wrong try again!');
+      });
   };
 
   snackBar = (msg) => {
@@ -60,19 +81,41 @@ export default class WhitelistView extends Component {
 
 
   addPlayerToWhitelist = () => {
-    //this.state.whitelistDialogSteamID
-
+    //comes from this.state.whitelistDialogSteamID
+    this.setState({
+      loading: true,
+    });
+    sendCommandToServer(`mis_whitelist_add ${this.state.whitelistDialogSteamID}`, this.state.credentials)
+      .then((res) => {
+        log('silly', res);
+        this.hideWhitelistDialog();
+        this.getPlayersAndAddToState()
+      })
+      .catch((err) => {
+        log('error', err);
+        this.snackBar('Something went wrong try again!');
+      });
   };
 
-  removePlayerFromWhitelist = (steam) =>{
 
-
+  removePlayerFromWhitelist = (steam) => {
+    this.setState({
+      loading: true,
+    });
+    sendCommandToServer(`mis_whitelist_remove ${steam}`, this.state.credentials)
+      .then((res) => {
+        log('silly', res);
+        this.getPlayersAndAddToState()
+      })
+      .catch((err) => {
+        log('error', err);
+        this.snackBar('Something went wrong try again!');
+      });
   };
 
   showWhitelistDialog = (steam) => {
     this.setState({
-      showWhitelistDialog: true,
-      whitelistDialogSteamID: steam
+      showWhitelistDialog: true
     })
   };
 
@@ -80,6 +123,12 @@ export default class WhitelistView extends Component {
     this.setState({
       showWhitelistDialog: false
     })
+  };
+
+  updateWhitelistDialogSteamID = (e) => {
+    this.setState({
+      whitelistDialogSteamID: e.target.value,
+    });
   };
 
   updateSearchString = (e) => {
@@ -96,13 +145,13 @@ export default class WhitelistView extends Component {
 
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.name}).map((el) => el.string);
-    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.name) >= 0);
+    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
+    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
       <Container>
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.addPlayerToWhitelist} secondary={true}>
+          <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary={true}>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -137,6 +186,11 @@ export default class WhitelistView extends Component {
           action="OK"
           onActionTouchTap={this.closeSnackBar}
         />
+        <WhitelistDialog open={this.state.showWhitelistDialog}
+                         actionSubmit={this.addPlayerToWhitelist}
+                         actionCancel={this.hideWhitelistDialog}
+                         steamID={this.state.whitelistDialogSteamID}
+                         updateSteamID={this.updateWhitelistDialogSteamID}/>
       </Container>
     );
   }

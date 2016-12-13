@@ -39,7 +39,7 @@ const Home = (props) => (
       <Tab
         icon={<WhitelistIcon />}
         label="WHITELIST">
-        <WhitelistView />
+        <WhitelistView whiteListPlayers={props.whiteListPlayers}/>
       </Tab>
       <Tab
         icon={<InfoIcon />}

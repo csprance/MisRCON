@@ -4,9 +4,9 @@
  * Creation Date: 12/11/2016
  * Description: Contains the list of all the banned players on the server
  *              and the logic to add remove and filter them
+ *              gets server data sent to it initially in Containers/HomePage
  */
 import React, {Component} from 'react';
-
 import styled, {keyframes} from 'styled-components';
 import store from 'store';
 import TextField from 'material-ui/TextField';
@@ -17,13 +17,12 @@ import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
 
 import Spacer from '../common/Spacer';
-
 import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import JSONifyBanList from '../../utils/JSONifyBanList';
-
 import {log} from '../../utils/loggerUtils';
-import {white, darkGrey, black} from '../../styles/colors';
+import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
+import BanDialog from './BanDialog';
 
 
 export default class BansView extends Component {
@@ -32,9 +31,9 @@ export default class BansView extends Component {
     this.state = {
       loading: true,
       credentials: store.get('userCredentials'),
-      players: [{name: 'MenisHead Johnson', steam: '324754783294234'}, {
-        name: 'ClickMouth Frankhead',
-        steam: '34234546435345'
+      players: [{
+        name: 'Loading....',
+        steam: 'Loading....'
       }],
       searchString: '',
       showBanDialog: false,
@@ -57,18 +56,20 @@ export default class BansView extends Component {
     this.setState({
       loading: true,
     });
-
     sendCommandToServer('mis_ban_status', this.state.credentials)
       .then((res) => {
         if (res !== null) {
           this.setState({
-            players: JSONifyBanList(res),
+            players: JSONifyBanList(res).map((p) => {
+              return {steam: p}
+            }),
             loading: false,
           });
         }
       })
       .catch((err) => {
         log('error', err);
+        this.snackBar('Something went wrong try again!');
       });
   };
 
@@ -81,17 +82,40 @@ export default class BansView extends Component {
 
 
   addPlayerToBanList = () => {
-    //this.state.whitelistDialogSteamID
-
+    //comes from this.state.banDialogSteamID
+    this.setState({
+      loading: true,
+    });
+    sendCommandToServer(`mis_ban_steamid ${this.state.banDialogSteamID}`, this.state.credentials)
+      .then((res) => {
+        log('silly', res);
+        this.hideBanDialog();
+        this.getPlayersAndAddToState()
+      })
+      .catch((err) => {
+        log('error', err);
+        this.snackBar('Something went wrong try again!');
+      });
   };
 
   removePlayerFromBanList = (steam) => {
+    this.setState({
+      loading: true,
+    });
+    sendCommandToServer(`mis_ban_remove ${steam}`, this.state.credentials)
+      .then((res) => {
+        log('silly', res);
+        this.getPlayersAndAddToState()
+      })
+      .catch((err) => {
+        log('error', err);
+        this.snackBar('Something went wrong try again!');
+      });
   };
 
-  showBanDialog = (steam) => {
+  showBanDialog = () => {
     this.setState({
-      showBanDialog: true,
-      banDialogSteamID: steam
+      showBanDialog: true
     })
   };
 
@@ -99,6 +123,12 @@ export default class BansView extends Component {
     this.setState({
       showBanDialog: false
     })
+  };
+
+  updateBanDialogSteamID = (e) => {
+    this.setState({
+      banDialogSteamID: e.target.value,
+    });
   };
 
   updateSearchString = (e) => {
@@ -119,9 +149,10 @@ export default class BansView extends Component {
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
       <Container>
+
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.addPlayerToBanList} secondary={true}>
+          <FloatingActionButton onTouchTap={this.showBanDialog} secondary={true}>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -138,6 +169,7 @@ export default class BansView extends Component {
           </FloatingActionButton>
           <Spacer />
         </Actions>
+
         <PlayerList>
           {filterList.map((player) =>
             <PlayerCard
@@ -147,6 +179,7 @@ export default class BansView extends Component {
               removePlayerFromBanList={this.removePlayerFromBanList}
             />)}
         </PlayerList>
+
         <Snackbar
           bodyStyle={{background: darkGrey}}
           open={this.state.showSnackBar}
@@ -155,6 +188,14 @@ export default class BansView extends Component {
           onRequestClose={this.closeSnackBar}
           action="OK"
           onActionTouchTap={this.closeSnackBar}
+        />
+
+        <BanDialog
+          open={this.state.showBanDialog}
+          actionCancel={this.hideBanDialog}
+          actionSubmit={this.addPlayerToBanList}
+          updateSteamID={this.updateBanDialogSteamID}
+          steamID={this.state.banDialogSteamID}
         />
       </Container>
     );
