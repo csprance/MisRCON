@@ -23,7 +23,7 @@ import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from './PlayerCard';
 import PlayersViewBanDialog from './PlayersViewBanDialog';
-
+import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
 export default class PlayersView extends Component {
   constructor(props, context) {
@@ -183,6 +183,7 @@ export default class PlayersView extends Component {
           action="OK"
           onActionTouchTap={this.closeSnackBar}
         />
+        <ProgressIndicator loading={this.state.loading}/>
       </Container>
     );
   }

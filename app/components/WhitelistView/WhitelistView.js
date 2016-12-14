@@ -23,13 +23,14 @@ import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import WhitelistDialog from './WhitelistDialog';
+import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
 
 export default class WhitelistView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
+      loading: true,
       credentials: store.get('userCredentials'),
       players: [{
         name: 'Loading....',
@@ -44,7 +45,6 @@ export default class WhitelistView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     this.setState({
       players: nextProps.whiteListPlayers,
       loading: false
@@ -148,7 +148,7 @@ export default class WhitelistView extends Component {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
-      <Container>
+      <Container loading={this.state.loading}>
         <Actions>
           <Spacer />
           <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary={true}>
@@ -191,6 +191,7 @@ export default class WhitelistView extends Component {
                          actionCancel={this.hideWhitelistDialog}
                          steamID={this.state.whitelistDialogSteamID}
                          updateSteamID={this.updateWhitelistDialogSteamID}/>
+        <ProgressIndicator loading={this.state.loading}/>
       </Container>
     );
   }

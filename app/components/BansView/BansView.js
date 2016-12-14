@@ -23,7 +23,7 @@ import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import BanDialog from './BanDialog';
-
+import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
 export default class BansView extends Component {
   constructor(props, context) {
@@ -197,6 +197,7 @@ export default class BansView extends Component {
           updateSteamID={this.updateBanDialogSteamID}
           steamID={this.state.banDialogSteamID}
         />
+        <ProgressIndicator loading={this.state.loading}/>
       </Container>
     );
   }

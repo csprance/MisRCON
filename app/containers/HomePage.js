@@ -102,8 +102,8 @@ export default class HomePage extends Component {
       this.setState({
         loggedIn: true,
       });
-      this.getServerData();
       store.set('userCredentials', {port: this.state.port, password: this.state.password, ip: this.state.ip})
+      this.getServerData();
     }
   };
 
