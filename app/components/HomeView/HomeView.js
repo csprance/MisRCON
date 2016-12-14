@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import BansView from '../BansView/BansView';
 import ConsoleView from '../ConsoleView/ConsoleView';
-import InfoView from '../InfoView/InfoView';
+import EventsView from '../EventsView/EventsView';
 import SettingsView from '../SettingsView/SettingsView';
 import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
@@ -43,14 +43,14 @@ const Home = (props) => (
       </Tab>
       <Tab
         icon={<InfoIcon />}
-        label="STATS">
-        <InfoView />
+        label="EVENTS">
+        <EventsView />
       </Tab>
-      <Tab
-        icon={<SettingsIcon />}
-        label="SETTINGS">
-        <SettingsView />
-      </Tab>
+      {/*<Tab*/}
+        {/*icon={<SettingsIcon />}*/}
+        {/*label="SETTINGS">*/}
+        {/*<SettingsView />*/}
+      {/*</Tab>*/}
     </StyledTabs>
     <ScheduledTasksView />
   </SplitPane>

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import '../styles/reset.global.css';
 import BaseTheme from '../styles/MisRCONBaseTheme';
 
 export default class App extends Component {

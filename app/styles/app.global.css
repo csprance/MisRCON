@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
+
+body {
+  background: linear-gradient(to left, #414d5a, #29323c);
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
+div#root {
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
 body, html {
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
@@ -13,7 +28,7 @@ body, html {
   line-height: 1;
 }
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -24,3 +39,5 @@ body, html {
   background-color: #282828;
   outline: 1px solid #282828;
 }
+
+/*# sourceMappingURL=react-console.example.css.map*/

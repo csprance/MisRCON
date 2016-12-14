@@ -7,17 +7,19 @@ import {
 import {fade} from 'material-ui/utils/colorManipulator';
 import spacing from 'material-ui/styles/spacing';
 
+import {black, darkGrey, orange, white, offWhite} from './colors';
+
 export default {
   spacing: spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
-    primary1Color: '#282828',
+    primary1Color: black,
     primary2Color: cyan700,
     primary3Color: grey600,
-    accent1Color: '#ff611c',
+    accent1Color: orange,
     accent2Color: '#65b8ff',
     accent3Color: pinkA100,
-    textColor: '#e7e7e7',
+    textColor: white,
     secondaryTextColor: fade(fullWhite, 0.7),
     alternateTextColor: '#ffffff',
     canvasColor: '#303030',

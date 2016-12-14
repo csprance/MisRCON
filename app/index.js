@@ -5,7 +5,8 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import './app.global.css';
+import './styles/app.global.css';
+import './styles/Resizer.global.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {log} from './utils/loggerUtils';
 

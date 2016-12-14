@@ -7,6 +7,7 @@
  */
 import React, {Component} from 'react';
 import store from 'store';
+import validate from 'validate.js';
 
 import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
@@ -18,8 +19,13 @@ export default class HomePage extends Component {
     super(props, context);
     this.state = {
       loggedIn: this.getStoredCredentials(),
+      port: '',
+      password: '',
+      apiKey: '',
+      ip: '',
     }
   }
+
 
   getServerData = () => {
     console.log('getting initial server data');
@@ -80,7 +86,6 @@ export default class HomePage extends Component {
 
   // log the user in and store the credentials in the localStorage TODO: Do something better here error checking!
   login = () => {
-
     if (this.state.password === '') {
       this.setState({
         errorTextPassword: 'Password is required',
@@ -102,7 +107,11 @@ export default class HomePage extends Component {
       this.setState({
         loggedIn: true,
       });
-      store.set('userCredentials', {port: this.state.port, password: this.state.password, ip: this.state.ip})
+      store.set('userCredentials', {
+        port: this.state.port,
+        password: this.state.password,
+        ip: this.state.ip
+      });
       this.getServerData();
     }
   };
@@ -112,25 +121,27 @@ export default class HomePage extends Component {
       <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
         <div style={{width: '100%', display: 'flex', flexGrow: 1}}>
           {this.state.loggedIn === false ? (
-            <LoginView login={this.login}
-                       errorTextPassword={this.state.errorTextPassword}
-                       errorTextPort={this.state.errorTextPort}
-                       errorTextIp={this.state.errorTextIp}
-                       port={this.state.port}
-                       updatePort={this.updatePort}
-                       password={this.state.password}
-                       updatePassword={this.updatePassword}
-                       ip={this.state.ip}
-                       updateIP={this.updateIP}/>
-          ) : (
-            <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-              <HomeView banListPlayers={this.state.banListPlayers}
-                        players={this.state.players}
-                        whiteListPlayers={this.state.whiteListPlayers}
-                        status={this.state.status}/>
-              <StatusBar status={this.state.status}/>
-            </div>
-          )}
+              <LoginView
+                login={this.login}
+                errorTextPassword={this.state.errorTextPassword}
+                errorTextPort={this.state.errorTextPort}
+                errorTextIp={this.state.errorTextIp}
+                port={this.state.port}
+                updatePort={this.updatePort}
+                password={this.state.password}
+                updatePassword={this.updatePassword}
+                ip={this.state.ip}
+                updateIP={this.updateIP}
+              />
+            ) : (
+              <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+                <HomeView banListPlayers={this.state.banListPlayers}
+                          players={this.state.players}
+                          whiteListPlayers={this.state.whiteListPlayers}
+                          status={this.state.status}/>
+                <StatusBar status={this.state.status}/>
+              </div>
+            )}
         </div>
 
       </div>);
