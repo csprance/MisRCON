@@ -60,25 +60,36 @@ class ConsoleView extends Component {
 
   handleInput = (text) => {
     try {
-      switch (text) {
-        case 'help':
-          this.help(text);
-          break;
-        case 'cls':
-          this.clearScreen(text);
-          break;
-        default:
-          this.sendCommand(text);
-      }
+      // help // get all help commands
+      if (text === 'help') this.help();
+      // cls // clear screen
+      else if (text === 'cls') this.clearScreen();
+      // help [subject] // specific help docs
+      else if (this.askingForHelp(text)) this.getHelpOn(text.split(' ')[1]);
+      // send command to server
+      else this.sendCommand(text);
     } catch (e) {
       log('error', e);
       this.refs.console.log(String(e));
       this.refs.console.return();
     }
   };
-  complete = (e) =>{
-    const words = helpCommands.map((el)=> el.value);
+
+  // Autocomplete function
+  complete = (e) => {
+    const words = helpCommands.map((el) => el.value);
     return fuzzy.filter(e[0], words).map((el) => el.string);
+  };
+
+  askingForHelp(text) {
+    let splitText = text.split(' ');
+    if (splitText[0] === 'help') if (splitText.length === 2) return true;
+    return false
+  }
+
+  getHelpOn = (text) => {
+    this.refs.console.log(helpCommands.filter((el)=> el.value === text)[0].display);
+    this.refs.console.return();
   };
 
 
@@ -92,6 +103,8 @@ class ConsoleView extends Component {
                  welcomeMessage={welcomeMessage}/>
       </Container>);
   }
+
+
 }
 
 
