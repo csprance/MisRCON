@@ -1,6 +1,15 @@
 #MisRCON
 > A handy RCON tool for Miscreated
 
+## Features
+Google Material Design
+Autocomplete server commands
+Detailed Help list
+Schedule recurring server commands
+Manage banned players
+Manage whitelisted players
+Kick players
+
 ## About
 This is an open source RCON tool for Miscreated. With it you can send commands to a rented server and schedule commands to fire at specific times (like warning the server is restarting, advertising a teamspeak or discord, etc, etc)
 
