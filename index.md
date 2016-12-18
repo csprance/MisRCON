@@ -1,6 +1,12 @@
 #MisRCON
 > A handy RCON tool for Miscreated
 
+## Download
+This is the pre-release. It's rough but it has the basic functionality in. 
+
+https://t.co/2WObUCpF7V
+
+
 ## Features
 * Google Material Design
 * Autocomplete server commands
@@ -16,10 +22,7 @@ This is an open source RCON tool for Miscreated. With it you can send commands t
 
 This is very much just a side project and not in any way an official release from Entrada Interactive. This is just sort of an open source project started by a developer who just happens to work on the game also :)
 
-## Download
-This is the pre-release. It's rough but it has the basic functionality in. 
 
-https://t.co/2WObUCpF7V
 
 
 ## More Info
