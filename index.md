@@ -4,7 +4,7 @@
 ## Download
 This is the pre-release. It's rough but it has the basic functionality in. 
 
-https://t.co/2WObUCpF7V
+https://github.com/csprance/MisRCON/releases/download/v0.0.3-macadocious/MisRCON.Setup.0.0.3.exe
 
 
 ## Features
