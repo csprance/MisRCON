@@ -9,38 +9,56 @@ import React, {
   PropTypes,
 } from 'react';
 import styled from 'styled-components';
+import ReactChatView from './ChatView';
+
 import ChatEventCard from './EventCards/ChatEventCard';
 import DamageEventCard from './EventCards/DamageEventCard';
 import EventsContainerHeader from './EventsContainerHeader';
 
 const EventContainer = (props) => {
+  const isSelected = (event) => props.selected === 'ALL' ? true : event.steam === props.selected;
   return (
     <div>
-      <EventsContainerHeader />
-      <Container>
-        <ChatEventCard />
-        <ChatEventCard />
-        <ChatEventCard />
-        <DamageEventCard />
-        <DamageEventCard />
-        <DamageEventCard />
-        <ChatEventCard />
-        <ChatEventCard />
-        <DamageEventCard />
-        <ChatEventCard />
-        <DamageEventCard />
-        <DamageEventCard />
+      <EventsContainerHeader
+        kickPlayer={props.kickPlayer}
+        banPlayer={props.banPlayer}
+        unWhiteListPlayer={props.unWhiteListPlayer}
+        selected={props.selected}
+      />
+      <Container
+        className="events-list"
+        scrollLoadThreshold={50}
+        onInfiniteLoad={props.loadMore.bind(null, props.selected)}
+      >
+        {props.chatEvents.filter(isSelected)
+          .map((event) => {
+            return (<ChatEventCard
+              key={event.steam + String(Math.random())}
+              avatar={event.avatar}
+              time={event.time}
+              name={event.name}
+              steam={event.steam}
+              ip={event.ip}
+              msg={event.msg}
+            />);
+          })}
       </Container>
     </div>
   );
 };
 
-const Container = styled.div`
+const Container = styled(ReactChatView)`
   overflow-y: auto;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   align-items: center;
+  :nth-child(1){
+    flex-grow: 1;
+    width: 80%;
+  }
+  padding-left: 110px;
+  padding-top: 20px;
   position:absolute;
   top: 85px;
   left:0px;

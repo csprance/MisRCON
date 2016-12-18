@@ -15,7 +15,7 @@ Default installation directory is %apdata%\Local\Programs\MisRCON
  
  
 ## Developer Install
-
+* **Note: You must add in your own secrets.js file with a steam API key in app/secrets.sj** 
 * **Note: requires a node version >= 6 and an npm version >= 3.**
 * **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/chentsulin/electron-react-boilerplate/issues/400)**
 

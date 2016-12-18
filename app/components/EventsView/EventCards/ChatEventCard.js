@@ -1,8 +1,8 @@
 /**
- * Name:
+ * Name: ChatEventCard
  * Author: Chrissprance
  * Creation Date: 12/14/2016
- * Description:
+ * Description: The compoonent used to dispaly information about a chatEvent
  */
 import React, {
   PropTypes,
@@ -10,29 +10,29 @@ import React, {
 import Avatar from 'material-ui/Avatar';
 import styled from 'styled-components';
 import Paper from 'material-ui/Paper';
+import store from 'store';
 
-import {darkGrey, black, white, offWhite} from '../../../styles/colors';
+import {darkGrey, offWhite} from '../../../styles/colors';
 
 const ChatEventCard = (props) => {
-  console.log(props);
   return (
     <ChatEvent zDepth={1}>
       <ChatAvatar
-        src="http://placehold.it/42x42"
+        src={store.get(props.steam).avatar}
         size={60}
       />
-      <Date>12-14-2016</Date>
-      <Name>Mister FuzzyPants: </Name>
-      <Steam>7546857452154895</Steam>
-      <IP>192.168.1.100</IP>
-      <Msg> I just raided your base bro! Haha </Msg>
+      <Time>{props.time}</Time>
+      <Name>{props.name} - <Steam>{props.steam}</Steam></Name>
+      <IP>{props.ip}</IP>
+      <Msg>{props.msg}</Msg>
     </ChatEvent>
   );
 };
 
-const Date = styled.div`
+const Time = styled.div`
   position: absolute;
-  top: -16px;
+  top: 0px;
+  right: -60px;
   font-size: 14px;
   font-weight: 200;
   color: ${offWhite}
@@ -49,11 +49,13 @@ const Steam = styled.div`
 const IP = styled.div`
   
 `;
+
 const ChatAvatar = styled(Avatar)`
   position: absolute;
   left: -85px;
   top: 0;
 `;
+
 const ChatEvent = styled(Paper)`
   margin-bottom: 25px;
   width: 80%;
@@ -66,7 +68,7 @@ const ChatEvent = styled(Paper)`
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
-  :after {
+  &:after {
     content: '';
     position: absolute;
     border-style: solid;
@@ -80,7 +82,7 @@ const ChatEvent = styled(Paper)`
   }
 `;
 
-ChatEventCard .propTypes = {};
-ChatEventCard .defaultProps = {};
+ChatEventCard.propTypes = {};
+ChatEventCard.defaultProps = {};
 
 export default ChatEventCard ;

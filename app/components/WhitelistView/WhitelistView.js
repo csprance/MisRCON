@@ -144,6 +144,7 @@ export default class WhitelistView extends Component {
   };
 
 
+  //TODO Add in a preloaded player to stop this from erroring
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);

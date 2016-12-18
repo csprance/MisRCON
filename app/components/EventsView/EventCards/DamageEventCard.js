@@ -17,9 +17,8 @@ import Paper from 'material-ui/Paper';
 import {darkGrey, black, white} from '../../../styles/colors';
 
 const DamageEventCard = (props) => {
-  console.log(props);
   return (
-    <DamageEvent zDepth={1}>
+    <DamageEvent kill={props.kill} zDepth={1}>
       <Date>Date: 12-14-2016</Date>
       <Time>Time: 00:08:13.279</Time>
       <ShooterName>ShooterName: Snow</ShooterName>
@@ -46,7 +45,7 @@ const DamageEvent = styled(Paper)`
   width: 80%;
   font-weight: 400;
   color: ${darkGrey};
-  background-color: ${'#b24944'} !important;
+  background-color: ${(props)=> props.kill === 1 ? '#b24944' : '#969064'} !important;
   position: relative;
   padding: 15px;
   min-height: 120px;

@@ -18,6 +18,7 @@ import axios from 'axios';
 import Spacer from '../common/Spacer';
 import {darkGrey, white} from '../../styles/colors';
 import {log} from '../../utils/loggerUtils';
+import {getAvatar} from '../../utils/steamUtils';
 import ExternalLink from '../common/ExternalLink'
 
 
@@ -37,15 +38,13 @@ class PlayersCard extends Component {
   getAvatar = () => {
     // If the avatar is the placeholder go and get it otherwise do nothing
     if (this.state.avatar === 'http://placehold.it/42x42' && this.props.steam != '0') {
-      log('silly', 'calling gaben for avatars');
-      axios.get('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {
-        params: {
-          key: 'C4E62F89FF5D569A481850BCD3098D52',
-          steamids: this.props.steam
-        }
-      }).then((res) => {
+      getAvatar(this.props.steam).then((res) => {
         // store the player data in local storage
-        store.set(this.props.steam, {notes: this.state.notes, avatar: res.data.response.players[0].avatar});
+        store.set(this.props.steam, {
+          ...store.get(this.props.steam),
+          notes: this.state.notes,
+          avatar: res.data.response.players[0].avatar
+        });
         this.setState({
           avatar: res.data.response.players[0].avatar,
         });
@@ -59,7 +58,7 @@ class PlayersCard extends Component {
     this.setState({
       notes: e.target.value,
     });
-    store.set(this.props.steam, {avatar: this.state.avatar, notes: e.target.value});
+    store.set(this.props.steam, {...store.get(this.props.steam), avatar: this.state.avatar, notes: e.target.value});
   };
 
   render() {
@@ -83,13 +82,17 @@ class PlayersCard extends Component {
           <CardActions style={{display: 'flex'}}>
             <Spacer />
 
-            {this.props.removePlayerFromBanList !== undefined && <FlatButton label="UNBan" onTouchTap={this.props.removePlayerFromBanList.bind(null, this.props.steam)}/> }
+            {this.props.removePlayerFromBanList !== undefined &&
+            <FlatButton label="UNBan" onTouchTap={this.props.removePlayerFromBanList.bind(null, this.props.steam)}/> }
 
 
-            {this.props.removePlayerFromWhitelist !== undefined && <FlatButton label="Remove" onTouchTap={this.props.removePlayerFromWhitelist.bind(null, this.props.steam)}/> }
+            {this.props.removePlayerFromWhitelist !== undefined && <FlatButton label="Remove"
+                                                                               onTouchTap={this.props.removePlayerFromWhitelist.bind(null, this.props.steam)}/> }
 
-            {this.props.kick !== undefined && <FlatButton label="Kick" onTouchTap={this.props.kick.bind(null, this.props.steam)}/> }
-            {this.props.ban !== undefined && <FlatButton secondary={true} label="Ban" onTouchTap={this.props.ban.bind(null, this.props.steam)}/> }
+            {this.props.kick !== undefined &&
+            <FlatButton label="Kick" onTouchTap={this.props.kick.bind(null, this.props.steam)}/> }
+            {this.props.ban !== undefined &&
+            <FlatButton secondary={true} label="Ban" onTouchTap={this.props.ban.bind(null, this.props.steam)}/> }
           </CardActions>
         </Card>
       </PCard>

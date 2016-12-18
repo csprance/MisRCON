@@ -6,64 +6,40 @@
  */
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
 
 import EmittersListHeader from './EmittersListHeader';
 import Emitter from './Emitter'
-import {black, white} from '../../styles/colors';
-import TextField from 'material-ui/TextField';
 
-const iconButtonElement = (
-  <IconButton
-    touch={true}
-    tooltip="more"
-    tooltipPosition="bottom-left"
-  >
-    <MoreVertIcon color={black} />
-  </IconButton>
-);
 
-const rightIconMenu = (
-  <IconMenu iconButtonElement={iconButtonElement}>
-    <MenuItem primaryText="Kick"/>
-    <MenuItem primaryText="Ban"/>
-    <MenuItem primaryText="UnWhiteList"/>
-  </IconMenu>
-);
-
-const EmittersView = () => (
-    <Container>
-      <EmittersListHeader />
-      <StaticList>
-        <TextField style={{width: '85%', paddingLeft: 15}} placeholder="Search...."/>
-        <ListItem
-          primaryText="All Events"
-        />
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-        <Emitter rightIconMenu={rightIconMenu}/>
-      </StaticList>
-    </Container>
+const EmittersList = (props) => (
+  <Container>
+    <EmittersListHeader handleDrawerOpen={props.handleDrawerOpen} parseChatLogs={props.parseChatLogs}/>
+    <StaticList>
+      <TextField name={'searchField'} style={{width: '85%', paddingLeft: 15}} placeholder="Search...."/>
+      <ListItem
+        primaryText="All Events"
+        onTouchTap={props.onSelect.bind(null, 'ALL')}
+      />
+      {props.emitters.map((emitter) => {
+        return (
+          <Emitter
+            kickPlayer={props.kickPlayer}
+            banPlayer={props.banPlayer}
+            unWhiteListPlayer={props.unWhiteListPlayer}
+            key={emitter.steam}
+            onSelect={props.onSelect}
+            steam={emitter.steam}
+            name={emitter.name}
+            avatar={emitter.avatar}
+            lastUpdate={emitter.lastUpdate}
+            lastMsg={emitter.msg}
+          />
+        );
+      })}
+    </StaticList>
+  </Container>
 );
 
 const Container = styled.div`
@@ -79,4 +55,5 @@ const StaticList = styled(List)`
   right:0px;
   bottom:0px; 
 `;
-export default EmittersView;
+
+export default EmittersList;

@@ -7,7 +7,6 @@
  */
 import React, {Component} from 'react';
 import store from 'store';
-import validate from 'validate.js';
 
 import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';

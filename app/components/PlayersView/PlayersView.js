@@ -7,7 +7,6 @@
  *              gets server data sent to it initially in Containers/HomePage
  */
 import React, {Component} from 'react';
-
 import styled, {keyframes} from 'styled-components';
 import store from 'store';
 import TextField from 'material-ui/TextField';
@@ -136,6 +135,7 @@ export default class PlayersView extends Component {
   };
 
 
+  //TODO Add in a preloaded player to stop this from erroring
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.name}).map((el) => el.string);
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.name) >= 0);

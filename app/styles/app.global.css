@@ -39,5 +39,16 @@ body, html {
   background-color: #282828;
   outline: 1px solid #282828;
 }
-
+.infinite-scroll-component{
+  overflow-y: auto;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  position:absolute;
+  top: 85px;
+  left:0;
+  right:0;
+  bottom:0;
+}
 /*# sourceMappingURL=react-console.example.css.map*/
