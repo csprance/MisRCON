@@ -9,6 +9,9 @@
  * Events are any action that causes a log line to be created.
  *
  */
+
+// TODO: Make events and chatlogs work together
+
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import SplitPane from 'react-split-pane';
@@ -20,10 +23,9 @@ import EventsContainer from './EventsContainer';
 import './eventsView.global.css';
 import EmittersList from './EmittersList';
 import {getChatLogFromFS} from '../../utils/chatLogUtils'
-import {getAvatar} from '../../utils/steamUtils'
+import {getDamageLogFromFS} from '../../utils/damageLogUtils'
 import EventsDrawer from './EventsDrawer';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
-//initial State data TODO: Remove this at some point... probably
 import {emitters, events} from '../../initialState'
 
 export default class EventsView extends Component {
@@ -42,103 +44,19 @@ export default class EventsView extends Component {
       chatIdx: 50,
     }
   }
+  //////////////////////////////////////////////////////////////
+  //LifeCycle Hooks
+  //////////////////////////////////////////////////////////////
 
   componentDidMount() {
     // If we have log paths set parse them right at the start
-    if (this.state.chatLogPath !== "") {
-      this.parseChatLogs();
-    }
-    if (this.state.damageLogPath !== "") {
-      this.parseDamageLogs();
-    }
+    if (this.state.chatLogPath !== "") this.parseChatLogs();
+    if (this.state.damageLogPath !== "") this.parseDamageLogs();
   }
 
-
-  handleDrawerOpen = (open) => {
-    this.setState({
-      drawerOpen: typeof open === "boolean" ? open : true,
-    });
-
-  };
-  handleDrawerClose = () => {
-    this.setState({
-      drawerOpen: false,
-    });
-  };
-
-  banPlayer = (steam) => {
-    console.log('Banning player: ', steam)
-  };
-  kickPlayer = (steam) => {
-    console.log('Kicking player: ', steam)
-  };
-  unWhiteListPlayer = (steam) => {
-    console.log('unWhiteListingplayer: ', steam)
-  };
-
-  getEmitters = (data) => {
-    return _.uniqBy(data, (e) => e.steam);
-  };
-
-  parseChatLogs = () => {
-    //TODO: TypeError: Cannot read property 'steam' of undefined(…) need to promisfy this I think
-    this.setState({
-      loading: true,
-    });
-    getChatLogFromFS(this.state.chatLogPath)
-      .then(data => {
-        let sortedData = _.reverse(_.sortBy(data, ['time']));
-        const emittersList = this.getEmitters(sortedData);
-        this.setState({
-          allChatEvents: sortedData,
-          chatEvents: _.slice(sortedData, 0, this.state.chatIdx),
-          emitters: emittersList,
-          chatIdx: this.state.chatIdx + 50,
-          loading: false
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          loading: false,
-        });
-      });
-  };
-
-  parseDamageLogs = () => {
-    console.log('Parsing Damage Logs')
-  };
-
-  parseAllLogs = () => {
-    this.handleDrawerClose();
-    this.parseChatLogs();
-    this.parseDamageLogs();
-  };
-
-
-  onSelect = (steam) => {
-    //TODO: Send user to top of page on Selected
-    this.setState({
-      selected: steam,
-      chatEvents: _.slice(this.state.allChatEvents.filter((e) => steam === 'ALL' ? true : e.steam === steam), 0, 50),
-      chatIdx: 50,
-    });
-    document.getElementsByClassName('events-list')[0].scrollTop = 0;
-  };
-
-  loadMore = (selected) => {
-    console.log(selected);
-    //TODO: This sucks improve this. It is really bad at the end of a list scrolling up and down.
-    // Maybe replace this scroll lib
-    return new Promise((resolve, reject) => {
-      const isSelected = (e) => selected === 'ALL' ? true : e.steam === selected;
-      let more = _.slice(this.state.allChatEvents.filter(isSelected), 0, this.state.chatIdx);
-      this.setState({
-        chatEvents: more,
-        chatIdx: this.state.chatIdx + 50
-      });
-      resolve();
-    });
-  };
+  //////////////////////////////////////////////////////////////
+  // Handlers
+  //////////////////////////////////////////////////////////////
 
   pickChatLogPath = () => {
     dialog.showOpenDialog({
@@ -175,6 +93,110 @@ export default class EventsView extends Component {
     store.set('damageLogPath', e.target.value);
   };
 
+  handleDrawerOpen = (open) => {
+    this.setState({
+      drawerOpen: typeof open === "boolean" ? open : true,
+    });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({
+      drawerOpen: false,
+    });
+  };
+
+  startLoad = () => {
+    this.setState({
+      loading: true,
+    });
+  };
+
+  stopLoad = () => {
+    this.setState({
+      loading: false,
+    });
+  };
+
+  //////////////////////////////////////////////////////////////
+  // Custom Methods
+  //////////////////////////////////////////////////////////////
+
+  banPlayer = (steam) => {
+    console.log('Banning player: ', steam)
+  };
+
+  kickPlayer = (steam) => {
+    console.log('Kicking player: ', steam)
+  };
+
+  unWhiteListPlayer = (steam) => {
+    console.log('unWhiteListingplayer: ', steam)
+  };
+
+  getEmitters = (data) => {
+    return _.uniqBy(data, (e) => e.steam);
+  };
+
+  parseChatLogs = () => {
+    this.startLoad();
+    getChatLogFromFS(this.state.chatLogPath)
+      .then(data => {
+        let sortedData = _.reverse(_.sortBy(data, ['time']));
+        const emittersList = this.getEmitters(sortedData);
+        this.setState({
+          allChatEvents: sortedData,
+          chatEvents: _.slice(sortedData, 0, this.state.chatIdx),
+          emitters: emittersList,
+          chatIdx: this.state.chatIdx + 50,
+          loading: false
+        });
+      })
+      .catch((err) => {
+        this.stopLoad();
+      });
+  };
+
+  parseDamageLogs = () => {
+    this.startLoad();
+    getDamageLogFromFS(this.state.damageLogPath).then(data => {
+      console.log(data);
+      this.stopLoad();
+    }).catch(e => {
+      this.stopLoad();
+      console.log(e);
+    });
+  };
+
+  parseAllLogs = () => {
+    this.handleDrawerClose();
+    this.parseChatLogs();
+    this.parseDamageLogs();
+  };
+
+
+  onSelect = (steam) => {
+    this.setState({
+      selected: steam,
+      chatEvents: _.slice(this.state.allChatEvents.filter((e) => steam === 'ALL' ? true : e.steam === steam), 0, 50),
+      chatIdx: 50,
+    });
+    document.getElementsByClassName('events-list')[0].scrollTop = 0;
+  };
+
+  loadMore = (selected) => {
+    //TODO: This sucks improve this. It is really bad at the end of a list scrolling up and down.
+    // Maybe replace this scroll lib
+    return new Promise((resolve, reject) => {
+      const isSelected = (e) => selected === 'ALL' ? true : e.steam === selected;
+      let more = _.slice(this.state.allChatEvents.filter(isSelected), 0, this.state.chatIdx);
+      this.setState({
+        chatEvents: more,
+        chatIdx: this.state.chatIdx + 50
+      });
+      resolve();
+    });
+  };
+
 
   render() {
     return (
@@ -200,6 +222,8 @@ export default class EventsView extends Component {
           />
         </Row>
         <EventsDrawer
+          parseDamageLogs={this.parseDamageLogs}
+          parseChatLogs={this.parseChatLogs}
           parseAllLogs={this.parseAllLogs}
           chatLogPath={this.state.chatLogPath}
           damageLogPath={this.state.damageLogPath}
@@ -217,7 +241,9 @@ export default class EventsView extends Component {
   }
 }
 
-
+//////////////////////////////////////////////////////////////
+// Styles
+//////////////////////////////////////////////////////////////
 const Container = styled.div`
   flex-direction: column;
   width: 100%;

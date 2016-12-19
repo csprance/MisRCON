@@ -2,7 +2,7 @@
  * Name: chatLogUtils
  * Author: Chrissprance
  * Creation Date: 12/13/2016
- * Description: Given a string turn it into an array of javascript objects which represent events
+ * Description: Given a string turn it into an array of javascript objects which represent Chatevents
  */
 import parse from 'csv-parse/lib/sync';
 import axios from 'axios';
