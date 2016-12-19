@@ -8,8 +8,10 @@ import configureStore from './store/configureStore';
 import './styles/app.global.css';
 import './styles/Resizer.global.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import {log} from './utils/loggerUtils';
+import localstore from 'store';
 
+import {loginInfo, chatLogPath} from './secrets';
+import {log} from './utils/loggerUtils';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -17,6 +19,14 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 log('silly', 'MisRCON Starting up');
+
+
+// // This is for debugging the avatars not displaying
+// log('silly', 'MisRCON IS STILL CLEARING LOCAL STORAGE AT STARTUP!!!');
+// localstore.clear();
+// localstore.set('userCredentials',loginInfo);
+// localstore.set('chatLogPath',chatLogPath);
+
 
 render(
   <Provider store={store}>

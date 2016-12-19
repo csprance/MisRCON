@@ -9,13 +9,14 @@ import {List, ListItem} from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
 
+
 import EmittersListHeader from './EmittersListHeader';
 import Emitter from './Emitter'
 
 
 const EmittersList = (props) => (
   <Container>
-    <EmittersListHeader handleDrawerOpen={props.handleDrawerOpen} parseChatLogs={props.parseChatLogs}/>
+    <EmittersListHeader handleDrawerOpen={props.handleDrawerOpen} parseAllLogs={props.parseAllLogs}/>
     <StaticList>
       <TextField name={'searchField'} style={{width: '85%', paddingLeft: 15}} placeholder="Search...."/>
       <ListItem

@@ -17,7 +17,7 @@ const EmittersListHeader = (props) => {
       title="All Events"
       zDepth={0}
       iconElementLeft={<IconButton onTouchTap={props.handleDrawerOpen}><NavigationIcon /></IconButton>}
-      iconElementRight={<IconButton onTouchTap={props.parseChatLogs}><RefreshIcon /></IconButton>}
+      iconElementRight={<IconButton onTouchTap={props.parseAllLogs}><RefreshIcon /></IconButton>}
     />
   );
 };

@@ -7,7 +7,7 @@
 import React, {
   PropTypes,
 } from 'react';
-import Avatar from 'material-ui/Avatar';
+import SteamAvatar from '../common/SteamAvatar';
 import {ListItem} from 'material-ui/List'
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -30,7 +30,7 @@ const Emitter = (props) => {
   return (
     <ListItem
       onTouchTap={props.onSelect.bind(null, props.steam)}
-      leftAvatar={<Avatar src={props.avatar}/>}
+      leftAvatar={<SteamAvatar steam={props.steam}/>}
       rightIconButton={(
         <IconMenu iconButtonElement={iconButtonElement}>
           <MenuItem primaryText="Kick" onTouchTap={props.kickPlayer.bind(null, props.steam)}/>

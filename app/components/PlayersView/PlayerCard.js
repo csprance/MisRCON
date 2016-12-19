@@ -13,52 +13,27 @@ import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Ca
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import store from 'store';
-import axios from 'axios';
+
 
 import Spacer from '../common/Spacer';
 import {darkGrey, white} from '../../styles/colors';
-import {log} from '../../utils/loggerUtils';
-import {getAvatar} from '../../utils/steamUtils';
 import ExternalLink from '../common/ExternalLink'
+import SteamAvatar from '../common/SteamAvatar'
 
 
 class PlayersCard extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props );
     this.state = {
-      avatar: store.get(this.props.steam) !== undefined ? store.get(this.props.steam).avatar : 'http://placehold.it/42x42',
       notes: store.get(this.props.steam) !== undefined ? store.get(this.props.steam).notes : ''
     }
   }
-
-  componentWillMount() {
-    this.getAvatar();
-  }
-
-  getAvatar = () => {
-    // If the avatar is the placeholder go and get it otherwise do nothing
-    if (this.state.avatar === 'http://placehold.it/42x42' && this.props.steam != '0') {
-      getAvatar(this.props.steam).then((res) => {
-        // store the player data in local storage
-        store.set(this.props.steam, {
-          ...store.get(this.props.steam),
-          notes: this.state.notes,
-          avatar: res.data.response.players[0].avatar
-        });
-        this.setState({
-          avatar: res.data.response.players[0].avatar,
-        });
-      }).catch((err) => {
-        log('error', err);
-      });
-    }
-  };
 
   updateNotes = (e) => {
     this.setState({
       notes: e.target.value,
     });
-    store.set(this.props.steam, {...store.get(this.props.steam), avatar: this.state.avatar, notes: e.target.value});
+    store.set(this.props.steam, {...store.get(this.props.steam), notes: e.target.value});
   };
 
   render() {
@@ -67,7 +42,7 @@ class PlayersCard extends Component {
       <PCard>
         <Card>
           <CardHeader
-            avatar={this.state.avatar}
+            avatar={<SteamAvatar steam={this.props.steam}/>}
             style={{background: darkGrey}}
             title={this.props.name}
             subtitle={<ExternalLink to={link}>{this.props.steam}</ExternalLink>}

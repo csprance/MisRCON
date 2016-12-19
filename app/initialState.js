@@ -7,8 +7,8 @@
  */
 
 export const player = {
-  steam: '76561198064851703',
-  name: 'SteamName',
+  steam: '13371337133713371',
+  name: 'Loading',
   avatar: 'http://placehold.it/42x42',
   note: 'Note about a player',
 };

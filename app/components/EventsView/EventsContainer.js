@@ -53,11 +53,8 @@ const Container = styled(ReactChatView)`
   flex-grow: 1;
   flex-direction: column;
   align-items: center;
-  :nth-child(1){
-    flex-grow: 1;
-    width: 80%;
-  }
   padding-left: 110px;
+  padding-right: 80px;
   padding-top: 20px;
   position:absolute;
   top: 85px;

@@ -12,7 +12,7 @@ import debug from '../../styles/stylesDebugger';
 
 
 const welcomeMessage = `MisRCON-by @Csprance
-v0.0.2 - Macadocious
+v0.0.4 - Macadocious
 Type help for more options
 or tab to autocomplete
 --------------------------

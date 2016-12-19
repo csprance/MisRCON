@@ -30,7 +30,10 @@ export default class PlayersView extends Component {
     this.state = {
       loading: true,
       credentials: store.get('userCredentials'),
-      players: [],
+      players: [{
+        name: 'Loading....',
+        steam: 'Loading....'
+      }],
       searchString: '',
       showBanDialog: false,
       banDialogBanReason: '',

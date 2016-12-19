@@ -17,11 +17,12 @@ const {dialog} = require('electron').remote;
 import store from 'store';
 
 import EventsContainer from './EventsContainer';
+import './eventsView.global.css';
 import EmittersList from './EmittersList';
 import {getChatLogFromFS} from '../../utils/chatLogUtils'
 import {getAvatar} from '../../utils/steamUtils'
 import EventsDrawer from './EventsDrawer';
-
+import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 //initial State data TODO: Remove this at some point... probably
 import {emitters, events} from '../../initialState'
 
@@ -38,7 +39,7 @@ export default class EventsView extends Component {
       emitters: emitters,
       chatEvents: events.chatEvents,
       damageEvents: events.damageEvents,
-      chatIdx: 50
+      chatIdx: 50,
     }
   }
 
@@ -76,47 +77,41 @@ export default class EventsView extends Component {
   };
 
   getEmitters = (data) => {
-    return _.uniqBy(data, (e) => e.steam)
-  };
-
-  addAvatarsToEmitters = (emitters) => {
-    return emitters.map((emitter) => {
-      let localData = store.get(emitter.steam);
-      if (localData !== undefined) {
-        // If the player exists in local storage add the avatar property to the emitter and return it
-        return {...emitter, avatar: localData.avatar};
-      }
-      else {
-        getAvatar(emitter.steam).then((avatar) => {
-          // add the avatar to local storage
-          if (store.get(emitter.steam) !== undefined) {
-            store.set(emitter.steam, {...store.get(emitter.steam), avatar: avatar});
-            // return the emitter with the avatar property added
-            return {...emitter, avatar: avatar}
-          } else {
-            store.set(emitter.steam, {avatar: avatar})
-          }
-        });
-      }
-    })
+    return _.uniqBy(data, (e) => e.steam);
   };
 
   parseChatLogs = () => {
+    //TODO: TypeError: Cannot read property 'steam' of undefined(…) need to promisfy this I think
+    this.setState({
+      loading: true,
+    });
     getChatLogFromFS(this.state.chatLogPath)
       .then(data => {
+        let sortedData = _.reverse(_.sortBy(data, ['time']));
+        const emittersList = this.getEmitters(sortedData);
         this.setState({
-          allChatEvents: _.reverse(data),
-          chatEvents: _.slice(data, 0, this.state.chatIdx),
-          emitters: this.addAvatarsToEmitters(this.getEmitters(data)),
+          allChatEvents: sortedData,
+          chatEvents: _.slice(sortedData, 0, this.state.chatIdx),
+          emitters: emittersList,
           chatIdx: this.state.chatIdx + 50,
+          loading: false
         });
-      }).catch((err) => {
-      console.log(err);
-    });
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false,
+        });
+      });
   };
 
   parseDamageLogs = () => {
     console.log('Parsing Damage Logs')
+  };
+
+  parseAllLogs = () => {
+    this.handleDrawerClose();
+    this.parseChatLogs();
+    this.parseDamageLogs();
   };
 
 
@@ -192,7 +187,7 @@ export default class EventsView extends Component {
             unWhiteListPlayer={this.unWhiteListPlayer}
             emitters={this.state.emitters}
             onSelect={this.onSelect}
-            parseChatLogs={this.parseChatLogs}
+            parseAllLogs={this.parseAllLogs}
           />
           <EventsContainer
             loadMore={this.loadMore}
@@ -205,6 +200,7 @@ export default class EventsView extends Component {
           />
         </Row>
         <EventsDrawer
+          parseAllLogs={this.parseAllLogs}
           chatLogPath={this.state.chatLogPath}
           damageLogPath={this.state.damageLogPath}
           pickDamageLogPath={this.pickDamageLogPath}
@@ -215,6 +211,7 @@ export default class EventsView extends Component {
           handleDrawerClose={this.handleDrawerClose}
           handleDrawerOpen={this.handleDrawerOpen}
         />
+        <ProgressIndicator loading={this.state.loading}/>
       </Container>
     );
   }
