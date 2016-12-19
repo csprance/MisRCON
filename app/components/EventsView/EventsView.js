@@ -28,9 +28,11 @@ import {emitters, events} from '../../initialState'
 export default class EventsView extends Component {
   constructor(props, context) {
     super(props, context);
+    const chatLogPath = store.get('chatLogPath');
+    const damageLogPath = store.get('damageLogPath');
     this.state = {
-      chatLogPath: "C:/Users/Chrissprance/Downloads/chatlog_2016-12-13.txt", // TODO: Get this from local storage
-      damageLogPath: '', // TODO: Get this from local storage
+      chatLogPath: chatLogPath !== undefined ? chatLogPath : "",
+      damageLogPath: damageLogPath !== undefined ? damageLogPath : "",
       selected: 'ALL',
       drawerOpen: false,
       emitters: emitters,
@@ -39,6 +41,17 @@ export default class EventsView extends Component {
       chatIdx: 50
     }
   }
+
+  componentDidMount() {
+    // If we have log paths set parse them right at the start
+    if (this.state.chatLogPath !== "") {
+      this.parseChatLogs();
+    }
+    if (this.state.damageLogPath !== "") {
+      this.parseDamageLogs();
+    }
+  }
+
 
   handleDrawerOpen = (open) => {
     this.setState({
@@ -80,7 +93,7 @@ export default class EventsView extends Component {
             store.set(emitter.steam, {...store.get(emitter.steam), avatar: avatar});
             // return the emitter with the avatar property added
             return {...emitter, avatar: avatar}
-          }else{
+          } else {
             store.set(emitter.steam, {avatar: avatar})
           }
         });
@@ -101,6 +114,11 @@ export default class EventsView extends Component {
       console.log(err);
     });
   };
+
+  parseDamageLogs = () => {
+    console.log('Parsing Damage Logs')
+  };
+
 
   onSelect = (steam) => {
     //TODO: Send user to top of page on Selected
@@ -128,22 +146,22 @@ export default class EventsView extends Component {
   };
 
   pickChatLogPath = () => {
-    // TODO: Store this in local storage
     dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [{name: 'Chat Logs', extensions: ['txt']}]
     }, (files) => {
       if (files) this.setState({chatLogPath: files[0]});
+      if (files) store.set('chatLogPath', files[0]);
     })
   };
 
   pickDamageLogPath = () => {
-    // TODO: Store this in local storage
     dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [{name: 'Chat Logs', extensions: ['txt']}]
     }, (files) => {
       if (files) this.setState({damageLogPath: files[0]});
+      if (files) store.set('damageLogPath', files[0]);
     })
   };
 
@@ -152,12 +170,14 @@ export default class EventsView extends Component {
     this.setState({
       chatLogPath: e.target.value,
     });
+    store.set('chatLogPath', e.target.value);
   };
 
   handleDamageLogPathChange = (e) => {
     this.setState({
       damageLogPath: e.target.value,
     });
+    store.set('damageLogPath', e.target.value);
   };
 
 

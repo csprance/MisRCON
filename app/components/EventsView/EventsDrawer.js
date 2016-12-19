@@ -9,8 +9,6 @@ import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-//TODO: add the File Input Icons
-// TODO: Add the values and updater functions
 const EventsDrawer = (props) => {
   return (
     <Drawer

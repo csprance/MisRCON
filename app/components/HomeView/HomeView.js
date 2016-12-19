@@ -63,7 +63,7 @@ const SplitPane = styled.div`
    ${debug('Split Pane')}
 `;
 
-// TODO: This tab setting here is really dirty
+
 const StyledTabs = styled(Tabs)`
   flex-grow:1;
   display:flex;
