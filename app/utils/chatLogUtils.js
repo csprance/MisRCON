@@ -5,8 +5,13 @@
  * Description: Given a string turn it into an array of javascript objects which represent Chatevents
  */
 import parse from 'csv-parse/lib/sync';
+import Promise from 'bluebird'
 import axios from 'axios';
 import fs from 'fs';
+import _ from 'lodash';
+
+
+import {convertTimeStrToDate} from '../utils/dateUtils';
 
 /**
  * Given a string it will return an array of objects that represent a file
@@ -16,9 +21,10 @@ import fs from 'fs';
 export function eventizeChatLog(str) {
   //[00:03:36] [SteamID 76561198081989790] [Name xLOGANo] [IP 173.218.38.141:64090] were friendly
   let eventList = parse(str, {delimiter: ']', relax: true, relax_column_count: true});
-  return eventList.map((event) => {
+  return _.reverse(eventList).map((event) => {
     return {
-      time: event[0].replace('[', '').trim(),
+      type: 'chat',
+      time: convertTimeStrToDate(event[0].replace('[', '').trim() + '.000'),
       steam: event[1].replace('[SteamID', '').trim(),
       name: event[2].replace('[Name', '').trim(),
       ip: event[3].replace('[IP', '').trim(),

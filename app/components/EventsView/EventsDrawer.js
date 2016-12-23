@@ -53,7 +53,6 @@ const EventsDrawer = (props) => {
       <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'center', justifyContent: 'center'}}>
         <FlatButton secondary={true} onTouchTap={props.parseDamageLogs} label={"Damage"}/>
         <FlatButton secondary={true} onTouchTap={props.parseChatLogs} label={"Chat"}/>
-        <FlatButton secondary={true} onTouchTap={props.parseAllLogs} label={"All"}/>
       </div>
 
       <h2>API Log Access</h2>

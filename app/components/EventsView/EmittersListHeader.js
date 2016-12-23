@@ -17,10 +17,11 @@ const EmittersListHeader = (props) => {
       title="All Events"
       zDepth={0}
       iconElementLeft={<IconButton onTouchTap={props.handleDrawerOpen}><NavigationIcon /></IconButton>}
-      iconElementRight={<IconButton onTouchTap={props.parseAllLogs}><RefreshIcon /></IconButton>}
+
     />
   );
 };
-
+// Pulled from Appbar Removing parseAll for now
+// iconElementRight={<IconButton onTouchTap={props.parseAllLogs}><RefreshIcon /></IconButton>}
 export default EmittersListHeader;
 

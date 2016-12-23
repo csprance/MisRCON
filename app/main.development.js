@@ -1,15 +1,16 @@
 import {app, BrowserWindow, Menu, shell} from 'electron';
+import {getDamageLogFromFS} from './utils/damageLogUtils';
+import {getChatLogFromFS} from './utils/chatLogUtils';
+import _ from 'lodash';
 
 let menu;
 let template;
 let mainWindow = null;
 
 
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
   sourceMapSupport.install();
-
 }
 
 if (process.env.NODE_ENV === 'development') {
@@ -41,9 +42,68 @@ const installExtensions = async() => {
     }
   }
 };
+// In main process.
+const {ipcMain} = require('electron');
+
+
+
+
+
+const getEmitters = (data) => {
+  return _.uniqBy(data, (e) => e.steam);
+};
+
+
+
+//////////////////////////////////////////
+//getDamageLog
+//////////////////////////////////////////
+ipcMain.on('getDamageLog', (event, arg) => {
+  console.log('Fetching Damage Logs', arg);
+  getDamageLogFromFS(arg).then(data => {
+    event.sender.send('receiveDamageLog', {
+      emitters: getEmitters(data),
+      allEvents: data,
+    });
+    console.log('finished parsing');
+  }).catch((err) => {
+    console.log(err);
+    event.sender.send('receiveDamageLog', {failed: true, err: err});
+  });
+});
+
+
+//////////////////////////////////////////
+//getChatLog
+//////////////////////////////////////////
+ipcMain.on('getChatLog', (event, arg) => {
+  console.log('Fetching Chat Logs', arg);
+  getChatLogFromFS(arg)
+    .then(data => {
+      event.sender.send('receiveChatLog', {
+        emitters: getEmitters(data),
+        allEvents: data,
+      });
+      console.log('finished parsing');
+    })
+    .catch((err) => {
+      console.log(err);
+      event.sender.send('receiveChatLog', {failed: true, err: err});
+    });
+});
+
+
+
+
+
+
+
+
+
 
 app.on('ready', async() => {
   await installExtensions();
+
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -142,30 +202,30 @@ app.on('ready', async() => {
     }, {
       label: 'View',
       submenu: (process.env.NODE_ENV === 'development') ? [{
-        label: 'Reload',
-        accelerator: 'Command+R',
-        click() {
-          mainWindow.webContents.reload();
-        }
-      }, {
-        label: 'Toggle Full Screen',
-        accelerator: 'Ctrl+Command+F',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }, {
-        label: 'Toggle Developer Tools',
-        accelerator: 'Alt+Command+I',
-        click() {
-          mainWindow.toggleDevTools();
-        }
-      }] : [{
-        label: 'Toggle Full Screen',
-        accelerator: 'Ctrl+Command+F',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }]
+          label: 'Reload',
+          accelerator: 'Command+R',
+          click() {
+            mainWindow.webContents.reload();
+          }
+        }, {
+          label: 'Toggle Full Screen',
+          accelerator: 'Ctrl+Command+F',
+          click() {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+          }
+        }, {
+          label: 'Toggle Developer Tools',
+          accelerator: 'Alt+Command+I',
+          click() {
+            mainWindow.toggleDevTools();
+          }
+        }] : [{
+          label: 'Toggle Full Screen',
+          accelerator: 'Ctrl+Command+F',
+          click() {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+          }
+        }]
     }, {
       label: 'Window',
       submenu: [{
@@ -218,7 +278,7 @@ app.on('ready', async() => {
         click() {
           mainWindow.webContents.send('clearUserCredentials');
         }
-      },{
+      }, {
         label: 'Toggle Developer Tools',
         accelerator: 'Alt+Command+I',
         click() {
@@ -235,30 +295,30 @@ app.on('ready', async() => {
     }, {
       label: '&View',
       submenu: (process.env.NODE_ENV === 'development') ? [{
-        label: '&Reload',
-        accelerator: 'Ctrl+R',
-        click() {
-          mainWindow.webContents.reload();
-        }
-      }, {
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }, {
-        label: 'Toggle &Developer Tools',
-        accelerator: 'Alt+Ctrl+I',
-        click() {
-          mainWindow.toggleDevTools();
-        }
-      }] : [{
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }]
+          label: '&Reload',
+          accelerator: 'Ctrl+R',
+          click() {
+            mainWindow.webContents.reload();
+          }
+        }, {
+          label: 'Toggle &Full Screen',
+          accelerator: 'F11',
+          click() {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+          }
+        }, {
+          label: 'Toggle &Developer Tools',
+          accelerator: 'Alt+Ctrl+I',
+          click() {
+            mainWindow.toggleDevTools();
+          }
+        }] : [{
+          label: 'Toggle &Full Screen',
+          accelerator: 'F11',
+          click() {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+          }
+        }]
     }, {
       label: 'Help',
       submenu: [{

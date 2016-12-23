@@ -10,6 +10,7 @@ import React, {
 import SteamAvatar from '../../common/SteamAvatar';
 import styled from 'styled-components';
 import Paper from 'material-ui/Paper';
+import format from 'date-fns/format'
 
 import {darkGrey, offWhite} from '../../../styles/colors';
 
@@ -21,7 +22,7 @@ const ChatEventCard = (props) => {
         steam={props.steam}
         size={60}
       />
-      <Time>{props.time}</Time>
+      <Time>{format(props.time, 'HH:mm:ss')}</Time>
       <Name>{props.name} - <Steam>{props.steam}</Steam></Name>
       <IP>{props.ip}</IP>
       <Msg>{props.msg}</Msg>

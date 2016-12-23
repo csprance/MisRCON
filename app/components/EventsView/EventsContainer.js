@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import ReactChatView from './ChatView';
+import List from 'react-virtualized';
 
 import ChatEventCard from './EventCards/ChatEventCard';
 import DamageEventCard from './EventCards/DamageEventCard';
@@ -20,6 +21,7 @@ const EventContainer = (props) => {
   return (
     <div>
       <EventsContainerHeader
+        toggleKills={props.toggleKills}
         kickPlayer={props.kickPlayer}
         banPlayer={props.banPlayer}
         unWhiteListPlayer={props.unWhiteListPlayer}
@@ -30,17 +32,37 @@ const EventContainer = (props) => {
         scrollLoadThreshold={50}
         onInfiniteLoad={props.loadMore.bind(null, props.selected)}
       >
-        {props.chatEvents.filter(isSelected)
+        {props.events.filter(isSelected)
           .map((event) => {
-            return (<ChatEventCard
-              key={event.steam + String(Math.random())}
-              avatar={event.avatar}
-              time={event.time}
-              name={event.name}
-              steam={event.steam}
-              ip={event.ip}
-              msg={event.msg}
-            />);
+            if (event.type === 'chat') {
+              return (<ChatEventCard
+                key={event.steam + String(Math.random())}
+                avatar={event.avatar}
+                time={event.time}
+                name={event.name}
+                steam={event.steam}
+                ip={event.ip}
+                msg={event.msg}
+              />);
+            } else {
+              return (<DamageEventCard
+                key={event.steam + String(Math.random())}
+                kill={event.kill}
+                time={event.time}
+                name={event.name}
+                steam={event.steam}
+                targetSteam={event.targetSteam}
+                targetName={event.targetName}
+                weapon={event.weapon}
+                distance={event.distance}
+                damage={event.damage}
+                melee={event.melee}
+                headshot={event.headshot}
+                part={event.part}
+                hitType={event.hitType}
+                projectile={event.projectile}
+              />);
+            }
           })}
       </Container>
     </div>

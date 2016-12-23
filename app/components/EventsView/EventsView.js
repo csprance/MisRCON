@@ -9,24 +9,20 @@
  * Events are any action that causes a log line to be created.
  *
  */
-
-// TODO: Make events and chatlogs work together
-
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import SplitPane from 'react-split-pane';
 import _ from 'lodash'
-const {dialog} = require('electron').remote;
 import store from 'store';
 
 import EventsContainer from './EventsContainer';
 import './eventsView.global.css';
 import EmittersList from './EmittersList';
-import {getChatLogFromFS} from '../../utils/chatLogUtils'
-import {getDamageLogFromFS} from '../../utils/damageLogUtils'
 import EventsDrawer from './EventsDrawer';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 import {emitters, events} from '../../initialState'
+const {dialog} = require('electron').remote;
+const {ipcRenderer} = require('electron');
 
 export default class EventsView extends Component {
   constructor(props, context) {
@@ -39,20 +35,41 @@ export default class EventsView extends Component {
       selected: 'ALL',
       drawerOpen: false,
       emitters: emitters,
-      chatEvents: events.chatEvents,
-      damageEvents: events.damageEvents,
-      chatIdx: 50,
+      events: events.chatEvents.concat(events.damageEvents),
+      allEvents: events.chatEvents.concat(events.damageEvents),
+      eventsIdx: 15,
+      incAmt: 15,
+      killOnlyToggle: false
     }
   }
+
   //////////////////////////////////////////////////////////////
   //LifeCycle Hooks
   //////////////////////////////////////////////////////////////
-
   componentDidMount() {
-    // If we have log paths set parse them right at the start
-    if (this.state.chatLogPath !== "") this.parseChatLogs();
-    if (this.state.damageLogPath !== "") this.parseDamageLogs();
+    ipcRenderer.on('receiveChatLog', (event, arg) => {
+      console.log('Recieved Chat Log');
+      this.setState({
+        loading: false,
+        emitters: arg.emitters,
+        allEvents: arg.allEvents,
+        events: _.slice(arg.allEvents, 0, this.state.eventsIdx),
+        eventsIdx: this.state.eventsIdx + this.state.incAmt,
+      });
+    });
+
+    ipcRenderer.on('receiveDamageLog', (event, arg) => {
+      console.log('Recieved Damage Log');
+      this.setState({
+        loading: false,
+        emitters: arg.emitters,
+        allEvents: arg.allEvents,
+        events: _.slice(arg.allEvents, 0, this.state.eventsIdx),
+        eventsIdx: this.state.eventsIdx + this.state.incAmt,
+      });
+    });
   }
+
 
   //////////////////////////////////////////////////////////////
   // Handlers
@@ -106,6 +123,7 @@ export default class EventsView extends Component {
   };
 
   startLoad = () => {
+    this.handleDrawerClose();
     this.setState({
       loading: true,
     });
@@ -117,9 +135,19 @@ export default class EventsView extends Component {
     });
   };
 
+  resetEvents = () => {
+    this.setState({
+      allDamageEvents: [],
+      damageEvents: [],
+      emitters: [],
+      eventsIdx: this.state.incAmt,
+    });
+  };
   //////////////////////////////////////////////////////////////
   // Custom Methods
   //////////////////////////////////////////////////////////////
+
+
 
   banPlayer = (steam) => {
     console.log('Banning player: ', steam)
@@ -133,52 +161,30 @@ export default class EventsView extends Component {
     console.log('unWhiteListingplayer: ', steam)
   };
 
-  getEmitters = (data) => {
-    return _.uniqBy(data, (e) => e.steam);
-  };
 
   parseChatLogs = () => {
     this.startLoad();
-    getChatLogFromFS(this.state.chatLogPath)
-      .then(data => {
-        let sortedData = _.reverse(_.sortBy(data, ['time']));
-        const emittersList = this.getEmitters(sortedData);
-        this.setState({
-          allChatEvents: sortedData,
-          chatEvents: _.slice(sortedData, 0, this.state.chatIdx),
-          emitters: emittersList,
-          chatIdx: this.state.chatIdx + 50,
-          loading: false
-        });
-      })
-      .catch((err) => {
-        this.stopLoad();
-      });
+    this.resetEvents();
+    ipcRenderer.send('getChatLog', this.state.chatLogPath);
   };
+
 
   parseDamageLogs = () => {
     this.startLoad();
-    getDamageLogFromFS(this.state.damageLogPath).then(data => {
-      console.log(data);
-      this.stopLoad();
-    }).catch(e => {
-      this.stopLoad();
-      console.log(e);
-    });
+    this.resetEvents();
+    ipcRenderer.send('getDamageLog', this.state.damageLogPath);
   };
 
-  parseAllLogs = () => {
-    this.handleDrawerClose();
-    this.parseChatLogs();
-    this.parseDamageLogs();
+  sendData = () => {
+
   };
 
 
   onSelect = (steam) => {
     this.setState({
       selected: steam,
-      chatEvents: _.slice(this.state.allChatEvents.filter((e) => steam === 'ALL' ? true : e.steam === steam), 0, 50),
-      chatIdx: 50,
+      events: _.slice(this.state.allEvents.filter((e) => steam === 'ALL' ? true : e.steam === steam), 0, this.state.incAmt),
+      eventsIdx: 50,
     });
     document.getElementsByClassName('events-list')[0].scrollTop = 0;
   };
@@ -188,13 +194,53 @@ export default class EventsView extends Component {
     // Maybe replace this scroll lib
     return new Promise((resolve, reject) => {
       const isSelected = (e) => selected === 'ALL' ? true : e.steam === selected;
-      let more = _.slice(this.state.allChatEvents.filter(isSelected), 0, this.state.chatIdx);
+      let more = _.slice(this.state.allEvents.filter(isSelected), 0, this.state.eventsIdx);
       this.setState({
-        chatEvents: more,
-        chatIdx: this.state.chatIdx + 50
+        events: more,
+        eventsIdx: this.state.eventsIdx + this.state.incAmt
       });
       resolve();
     });
+  };
+
+  //TODO: Move this to a different folder
+  // Filter data and set the state of allEvents with the new data
+  filterData = (data) => {
+
+    const filters = {
+      isChat: (e) => e.type === 'chat',
+      isSelected: (steam) => (e) => steam === 'ALL' ? true : e.steam === steam,
+      isDamage: (e) => e.type === 'chat',
+      isAKill: (e) => e.kill === '1',
+    };
+
+
+    // if (!this.state.killOnlyToggle) {
+    //   console.log('Showing ONLY KILL EVENTS');
+    //   this.setState({
+    //     events: this.state.events.filter(isAKillOrChat),
+    //     filterKillRule: (e) => e.kill === '1' || e.msg !== undefined
+    //   });
+    // }
+    //
+    // if (this.state.killOnlyToggle) {
+    //   console.log('Showing all Events');
+    //   this.setState({
+    //     events: this.state.events,
+    //     filterKillRule: (e) => true,
+    //   });
+    // }
+
+  };
+
+
+  toggleKills = () => {
+    this.setState({
+      killOnlyToggle: !this.state.killOnlyToggle,
+    });
+    if (this.state.killOnlyToggle) this.filterData(data);
+    if (!this.state.killOnlyToggle) this.filterData(data);
+    this.filterData();
   };
 
 
@@ -212,13 +258,14 @@ export default class EventsView extends Component {
             parseAllLogs={this.parseAllLogs}
           />
           <EventsContainer
+            allEvents={this.state.allEvents}
+            toggleKills={this.toggleKills}
             loadMore={this.loadMore}
             kickPlayer={this.kickPlayer}
             banPlayer={this.banPlayer}
             unWhiteListPlayer={this.unWhiteListPlayer}
             selected={this.state.selected}
-            chatEvents={this.state.chatEvents}
-            damageEvents={this.state.damageEvents}
+            events={this.state.events}
           />
         </Row>
         <EventsDrawer

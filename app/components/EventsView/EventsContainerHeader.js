@@ -10,13 +10,34 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Toggle from 'material-ui/Toggle';
+
+import {orange, black} from '../../styles/colors';
 
 const EventsContainerHeader = (props) => {
+  const styles = {
+    thumbOff: {
+      backgroundColor: black,
+    },
+    thumbSwitched: {
+      backgroundColor: orange,
+    },
+  };
   return (
     <AppBar
       style={{background: 'transparent', position: 'absolute', width: '100%', top: 0}}
       title={props.selected}
       zDepth={0}
+      iconElementRight={<Toggle
+        disabled={true}
+        thumbStyle={styles.thumbOff}
+        thumbSwitchedStyle={styles.thumbSwitched}
+        label="Kills Only"
+        defaultToggled={false}
+        onToggle={props.toggleKills}
+        labelPosition="right"
+        style={{margin: 20}}
+      />}
       iconElementLeft={props.selected === 'ALL'
         ?
         <div style={{width: 42}}></div>
@@ -31,6 +52,7 @@ const EventsContainerHeader = (props) => {
         </IconMenu>}
     />);
 };
+
 
 export default EventsContainerHeader;
 
