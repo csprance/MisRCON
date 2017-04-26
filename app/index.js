@@ -20,13 +20,13 @@ const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 log('silly', 'MisRCON Starting up');
 
-
-// This is for debugging the avatars not displaying
-log('silly', 'MisRCON IS STILL CLEARING LOCAL STORAGE AT STARTUP!!!');
-localstore.clear();
-localstore.set('userCredentials',loginInfo);
-localstore.set('chatLogPath',chatLogPath);
-localstore.set('damageLogPath',damageLogPath);
+//
+// // This is for debugging the avatars not displaying
+// log('silly', 'MisRCON IS STILL CLEARING LOCAL STORAGE AT STARTUP!!!');
+// localstore.clear();
+// localstore.set('userCredentials',loginInfo);
+// localstore.set('chatLogPath',chatLogPath);
+// localstore.set('damageLogPath',damageLogPath);
 
 
 render(

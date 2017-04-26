@@ -5,7 +5,7 @@
  * Description: shows the info on the currently connected to server
  * Props flow from Containers/HomePage
  */
-import React, {Component, PropTypes,} from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import debug from '../../styles/stylesDebugger';
 import store from 'store';
@@ -17,16 +17,12 @@ const StatusBar = (props) => {
     <Container>
       <Item>IP: {store.get('userCredentials').ip} </Item>
       <Item>Port: {store.get('userCredentials').port} </Item>
-      <Item>Name: {props.status !== undefined ? props.status.ip : 'Connecting...'}</Item>
+      <Item>Name: {props.status !== undefined ? props.status.name : 'Connecting...'}</Item>
       <Item>Version: {props.status !== undefined ? props.status.version : 'Connecting...'}</Item>
       <Item>Players: {props.status !== undefined ? props.status.players : 'Connecting...'}</Item>
     </Container>
   );
 };
-
-StatusBar.propTypes = {};
-StatusBar.defaultProps = {};
-
 
 const Container = styled.div`
   display:flex;

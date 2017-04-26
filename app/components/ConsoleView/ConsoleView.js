@@ -29,6 +29,7 @@ class ConsoleView extends Component {
       password: credentials.password,
       ip: credentials.ip
     };
+    this.words = helpCommands.map((el) => el.value);
   }
 
   clearScreen = () => {
@@ -77,8 +78,9 @@ class ConsoleView extends Component {
 
   // Autocomplete function
   complete = (e) => {
-    const words = helpCommands.map((el) => el.value);
-    return fuzzy.filter(e[0], words).map((el) => el.string);
+    return fuzzy.filter(e[0], this.words, {}).map((el) => {
+      console.log(el);
+    });
   };
 
   askingForHelp(text) {
@@ -88,7 +90,7 @@ class ConsoleView extends Component {
   }
 
   getHelpOn = (text) => {
-    this.refs.console.log(helpCommands.filter((el)=> el.value === text)[0].display);
+    this.refs.console.log(helpCommands.filter((el) => el.value === text)[0].display);
     this.refs.console.return();
   };
 

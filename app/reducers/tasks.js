@@ -1,4 +1,3 @@
-// TODO: Jump To Redux if Needed!
 // This file is only a placeholder it is not used for now
 import {GET_TASKS, SET_TASKS} from '../actions/tasks';
 
