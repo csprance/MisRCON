@@ -12,7 +12,7 @@ import debug from '../../styles/stylesDebugger';
 
 
 const welcomeMessage = `MisRCON-by @Csprance
-v0.0.4 - Macadocious
+v0.1.0 - Shaboygan
 Type help for more options
 or tab to autocomplete
 --------------------------
@@ -108,7 +108,6 @@ class ConsoleView extends Component {
 
 
 }
-
 
 const Container = styled.div`
   width: 100%;

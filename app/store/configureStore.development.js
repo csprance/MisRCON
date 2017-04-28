@@ -7,10 +7,10 @@ import {routerMiddleware, push} from 'react-router-redux';
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
-import * as counterActions from '../actions/tasks';
+import * as rconActions from '../actions/rconActions';
 
 const actionCreators = {
-  ...counterActions,
+  ...rconActions,
   push,
 };
 

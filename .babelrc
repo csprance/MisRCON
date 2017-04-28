@@ -4,10 +4,11 @@
   "env": {
     "production": {
       "presets": ["react-optimize"],
-      "plugins": ["babel-plugin-dev-expression"]
+      "plugins": ["transform-decorators-legacy","babel-plugin-dev-expression"]
     },
     "development": {
-      "presets": ["react-hmre"]
+      "presets": ["react-hmre"],
+	  "plugins": ["transform-decorators-legacy"]
     },
     "test": {
       "plugins": [
