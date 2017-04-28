@@ -13,6 +13,10 @@ import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
 import getInitialServerData from '../utils/getInitialServerData';
 
+// redux containers
+import NotificationBar from '../containers/NotificationBar';
+
+
 export default class HomePage extends Component {
   constructor(props, context) {
     super(props, context);
@@ -25,7 +29,6 @@ export default class HomePage extends Component {
     }
   }
 
-
   getServerData = () => {
     console.log('getting initial server data');
     getInitialServerData({
@@ -33,12 +36,13 @@ export default class HomePage extends Component {
       port: store.get('userCredentials').port,
       password: store.get('userCredentials').password
     }).then((data) => {
-      this.setState({
-        players: data.players,
-        banListPlayers: data.banListPlayers,
-        whiteListPlayers: data.whiteListPlayers,
-        status: data.status,
-      });
+      console.log(data);
+      // this.setState({
+      //   players: data.players,
+      //   banListPlayers: data.banListPlayers,
+      //   whiteListPlayers: data.whiteListPlayers,
+      //   status: data.status,
+      // });
     });
   };
 
@@ -142,7 +146,7 @@ export default class HomePage extends Component {
               </div>
             )}
         </div>
-
+        <NotificationBar />
       </div>);
   }
 }

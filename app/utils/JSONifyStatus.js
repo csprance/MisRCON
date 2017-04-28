@@ -7,6 +7,7 @@
 import {sendCommandToServer} from './sendCommandToServer';
 
 function getServerStatus(str) {
+  console.log(str);
   const regex = /-*[\s\S]*- */g;
   return regex.exec(str)[0];
 }

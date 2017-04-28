@@ -18,7 +18,7 @@ import {darkGrey, black, white} from '../../../styles/colors';
 
 const DamageEventCard = (props) => {
   return (
-    <DamageEvent kill={props.kill} zDepth={1}>
+    <DamageEvent zDepth={1}>
       <Time>{format(props.time, 'HH:mm:ss')}</Time>
       <ShooterName>{props.name}</ShooterName>
       <Shooter>Shooter: {props.steam}</Shooter>

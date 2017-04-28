@@ -22,6 +22,7 @@ export function sendCommandToServer(command, creds) {
       ['-i', creds.ip, '--port', creds.port, '-p', creds.password, '--command', command],
       (error, stdout, stderr) => {
         if (error) {
+
           log('error', `Error running task: ${command} to ${creds.ip}:${creds.port}`);
           log('error', stderr);
           reject(stderr)

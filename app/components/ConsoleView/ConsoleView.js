@@ -3,10 +3,10 @@ import Console from 'react-console-component';
 import store from 'store';
 import styled from 'styled-components';
 import fuzzy from 'fuzzy';
+import misrcon from 'node-misrcon';
 
 import './RCONConsole.global.css';
 import {helpText, helpCommands} from './HelpSection';
-import {sendCommandToServer} from '../../utils/sendCommandToServer';
 import {log} from '../../utils/loggerUtils';
 import debug from '../../styles/stylesDebugger';
 
@@ -49,7 +49,7 @@ class ConsoleView extends Component {
   };
 
   sendCommand = (command) => {
-    sendCommandToServer(command, this.state).then((res) => {
+    misrcon.sendRCONCommandToServer({...this.state, command: command}).then((res) => {
       this.refs.console.log(res);
       this.refs.console.return();
     }).catch((err) => {

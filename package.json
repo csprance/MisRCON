@@ -169,6 +169,7 @@
     "md5": "^2.2.1",
     "moment": "^2.17.1",
     "nedb": "^1.8.0",
+    "node-misrcon": "0.0.11",
     "node-schedule": "^1.2.0",
     "pouchdb": "^6.1.0",
     "pouchdb-browser": "^6.1.0",
@@ -195,7 +196,8 @@
     "styled-components": "^1.1.2",
     "styles-debugger": "0.0.5",
     "validate.js": "^0.11.1",
-    "warning": "^3.0.0"
+    "warning": "^3.0.0",
+    "xml2js": "^0.4.17"
   },
   "devEngines": {
     "node": ">=6.x",

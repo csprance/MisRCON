@@ -1,5 +1,3 @@
-// TODO: Jump To Redux if Needed!
-// This file is only a placeholder it is not used for now
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {hashHistory} from 'react-router';
