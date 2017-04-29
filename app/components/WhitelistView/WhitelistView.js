@@ -15,10 +15,9 @@ import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
+import * as misrcon from 'node-misrcon';
 
 import Spacer from '../common/Spacer';
-import {sendCommandToServer} from '../../utils/sendCommandToServer';
-import JSONifyWhiteList from '../../utils/JSONifyWhiteList';
 import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
@@ -44,22 +43,22 @@ export default class WhitelistView extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      players: nextProps.whiteListPlayers,
-      loading: false
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     players: nextProps.whiteListPlayers,
+  //     loading: false
+  //   });
+  // }
 
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
-    sendCommandToServer('mis_whitelist_status', this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: 'mis_whitelist_status'})
       .then((res) => {
         if (res !== null) {
           this.setState({
-            players: JSONifyWhiteList(res).map((p) => {
+            players: misrcon.parseWhitelistResponseToJs(res).map((p) => {
               return {steam: p}
             }),
             loading: false,
@@ -85,7 +84,7 @@ export default class WhitelistView extends Component {
     this.setState({
       loading: true,
     });
-    sendCommandToServer(`mis_whitelist_add ${this.state.whitelistDialogSteamID}`, this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`})
       .then((res) => {
         log('silly', res);
         this.hideWhitelistDialog();
@@ -102,7 +101,7 @@ export default class WhitelistView extends Component {
     this.setState({
       loading: true,
     });
-    sendCommandToServer(`mis_whitelist_remove ${steam}`, this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_whitelist_remove ${steam}`})
       .then((res) => {
         log('silly', res);
         this.getPlayersAndAddToState()

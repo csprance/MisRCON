@@ -1,37 +1,51 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
+import ServerSelectCard from './ServerSelectCard';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
-import {black, darkGrey, white} from '../../styles/colors';
+import { black, darkGrey, white } from '../../styles/colors';
+
 
 //TODO: Maybe some better checking of valid ip, port and passwords here
 
 const LoginView = (props) => (
   <Container>
     <LoginBox zDepth={2}>
-      <LoginBoxHeader><h3>Enter Server Credentials</h3></LoginBoxHeader>
+      <LoginBoxHeader>
+        <h3 style={{flexGrow: 9}}>Select Server</h3>
+        <FloatingActionButton
+          mini={true}
+          secondary={true}
+          style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}>
+          <ContentAdd />
+        </FloatingActionButton>
+      </LoginBoxHeader>
       <Content>
-        <TextField onChange={props.updateIP}
-                   errorText={props.errorTextIp}
-                   value={props.ip}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="IP"/>
-        <TextField onChange={props.updatePort}
-                   errorText={props.errorTextPort}
-                   value={props.port}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="Port"/>
-        <TextField onChange={props.updatePassword}
-                   errorText={props.errorTextPassword}
-                   value={props.password}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="Password"/>
+        <ServerSelectCard name={'US75'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+        <ServerSelectCard name={'BR1'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+        <ServerSelectCard name={'DEV'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+        {/*<TextField onChange={props.updateIP}*/}
+        {/*errorText={props.errorTextIp}*/}
+        {/*value={props.ip}*/}
+        {/*floatingLabelStyle={{color: white}}*/}
+        {/*floatingLabelText="IP"/>*/}
+        {/*<TextField onChange={props.updatePort}*/}
+        {/*errorText={props.errorTextPort}*/}
+        {/*value={props.port}*/}
+        {/*floatingLabelStyle={{color: white}}*/}
+        {/*floatingLabelText="Port"/>*/}
+        {/*<TextField onChange={props.updatePassword}*/}
+        {/*errorText={props.errorTextPassword}*/}
+        {/*value={props.password}*/}
+        {/*floatingLabelStyle={{color: white}}*/}
+        {/*floatingLabelText="Password"/>*/}
       </Content>
-      <ActionButtons>
-        <FlatButton label="Login" secondary={true} onTouchTap={props.login}/>
-      </ActionButtons>
+      {/*<ActionButtons>*/}
+      {/*<FlatButton label="Login" secondary={true} onTouchTap={props.login}/>*/}
+      {/*</ActionButtons>*/}
     </LoginBox>
   </Container>
 );
@@ -46,10 +60,12 @@ const Container = styled.div`
 
 const LoginBox = styled(Paper)`
   background: ${black};
-  width:450px;
+  width: 450px;
+  min-height: 250px;
 `;
 
 const LoginBoxHeader = styled.div`
+  position: relative;
   padding-top:15px;  
   padding-bottom:15px;
   background: ${darkGrey};
@@ -57,16 +73,10 @@ const LoginBoxHeader = styled.div`
   width: 100%;
   text-align:center;
 `;
-const ActionButtons = styled.div`
-  padding-top:20px;
-  padding-bottom:20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:center;
-  width: 100%;
-`;
+
 const Content = styled.div`
+  padding-top: 20px;
+  padding-bottom: 40px;
   justify-content: center;
   align-items: center;
   display: flex;

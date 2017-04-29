@@ -41,11 +41,11 @@ const Home = (props) => (
         label="WHITELIST">
         <WhitelistView whiteListPlayers={props.whiteListPlayers}/>
       </Tab>
-      <Tab
-        icon={<InfoIcon />}
-        label="EVENTS">
-        <EventsView />
-      </Tab>
+      {/*<Tab*/}
+        {/*icon={<InfoIcon />}*/}
+        {/*label="EVENTS">*/}
+        {/*<EventsView />*/}
+      {/*</Tab>*/}
       {/*<Tab*/}
         {/*icon={<SettingsIcon />}*/}
         {/*label="SETTINGS">*/}

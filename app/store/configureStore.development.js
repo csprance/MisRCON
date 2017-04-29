@@ -1,5 +1,3 @@
-// TODO: Jump To Redux if Needed!
-// This file is only a placeholder it is not used for now
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import {hashHistory} from 'react-router';
@@ -8,9 +6,13 @@ import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
 import * as rconActions from '../actions/rconActions';
+import * as credActions from '../actions/credentialsActions';
+import * as notifyActions from '../actions/notifyActions';
 
 const actionCreators = {
   ...rconActions,
+  ...notifyActions,
+  ...credActions,
   push,
 };
 

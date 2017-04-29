@@ -6,20 +6,19 @@
  *              and the logic to get, kick, ban players
  *              gets server data sent to it initially in Containers/HomePage
  */
-import React, {Component} from 'react';
-import styled, {keyframes} from 'styled-components';
+import React, { Component } from 'react';
+import styled, { keyframes } from 'styled-components';
 import store from 'store';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
+import * as misrcon from 'node-misrcon';
 
 import Spacer from '../common/Spacer';
-import {JSONifyStatus} from '../../utils/JSONifyStatus';
-import {sendCommandToServer} from '../../utils/sendCommandToServer';
-import {log} from '../../utils/loggerUtils';
-import {white, darkGrey} from '../../styles/colors';
+import { log } from '../../utils/loggerUtils';
+import { white, darkGrey } from '../../styles/colors';
 import PlayerCard from './PlayerCard';
 import PlayersViewBanDialog from './PlayersViewBanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
@@ -55,11 +54,11 @@ export default class PlayersView extends Component {
     this.setState({
       loading: true,
     });
-    sendCommandToServer('status', this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: 'status'})
       .then((res) => {
         if (res !== null) {
           this.setState({
-            players: JSONifyStatus(res).players,
+            players: misrcon.parseStatusResponseToJs(res).status.playersArray,
             loading: false,
           });
         }

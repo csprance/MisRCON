@@ -7,20 +7,19 @@ import * as actionType from '../constants/ActionTypes';
 
 
 const initialState = {
-  ip: '',
-  port: '',
-  password: '',
+  pending: false,
   command: '',
-  response: '',
-  parsedResponse: '',
+  response: ''
 };
 
 export default function rcon(state = initialState, action) {
   switch (action.type) {
-    case actionType.SEND_RCON_COMMAND:
+    case actionType.SET_RCON_COMMAND:
       return {...state, command: action.payload};
-    case actionType.RECEIVE_RCON_RESPONSE:
-      return {...state, response: action.payload};
+    case actionType.SEND_RCON_COMMAND_PENDING:
+      return {...state, pending: true};
+    case actionType.SEND_RCON_COMMAND_RECEIVED:
+      return {...state, response: action.payload, pending: false};
     default:
       return state;
   }

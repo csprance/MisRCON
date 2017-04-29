@@ -1,8 +1,11 @@
 import cron from  'node-schedule';
 import store from 'store';
-import {log} from './loggerUtils';
-import {sendCommandToServer} from '../utils/sendCommandToServer';
-import {replaceTimeOfDate} from '../utils/dateUtils';
+import misrcon from 'node-misrcon';
+
+import { log } from './loggerUtils';
+import { replaceTimeOfDate } from '../utils/dateUtils';
+
+
 /**
  * schedules a task to run at a RECURRING time given
  * some params
@@ -12,7 +15,7 @@ import {replaceTimeOfDate} from '../utils/dateUtils';
  */
 export function scheduleTaskAtTime(taskCommand, taskCronString) {
   // Log it
-  log('info', 'Scheduling recurring task to run: '+ taskCronString);
+  log('info', 'Scheduling recurring task to run: ' + taskCronString);
 
   // create our credentials object
   let storedCreds = store.get('userCredentials');
@@ -24,7 +27,7 @@ export function scheduleTaskAtTime(taskCommand, taskCronString) {
 
   return cron.scheduleJob(taskCronString, function () {
     log('info', 'Sending recurring scheduled task command to server' + taskCommand);
-    sendCommandToServer(taskCommand, creds)
+    misrcon.sendRCONCommandToServer({...creds, command: taskCommand});
   });
 }
 
@@ -37,9 +40,6 @@ export function scheduleTaskAtTime(taskCommand, taskCronString) {
  * @returns:  {CronJob}     cron          the CronJob task can do .cancel()
  */
 export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
-
-
-
   // create our credentials object
   let storedCreds = store.get('userCredentials');
   let creds = {
@@ -52,10 +52,10 @@ export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
   let date = replaceTimeOfDate(timeOfTask, dateOfTask);
 
   // Log it
-  log('info',`Scheduling Specific Date task to run: ${date.format()} running command ${taskCommand}`);
+  log('info', `Scheduling Specific Date task to run: ${date.format()} running command ${taskCommand}`);
 
   return cron.scheduleJob(date.toDate(), function () {
     log('info', 'Sending specific date task command to server' + taskCommand);
-    sendCommandToServer(taskCommand, creds)
+    misrcon.sendRCONCommandToServer({...creds, command: taskCommand});
   });
 }

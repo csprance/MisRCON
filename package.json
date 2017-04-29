@@ -169,7 +169,7 @@
     "md5": "^2.2.1",
     "moment": "^2.17.1",
     "nedb": "^1.8.0",
-    "node-misrcon": "^0.2.0",
+    "node-misrcon": "^0.3.0",
     "node-schedule": "^1.2.0",
     "pouchdb": "^6.1.0",
     "pouchdb-browser": "^6.1.0",

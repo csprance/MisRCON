@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Console from 'react-console-component';
 import store from 'store';
 import styled from 'styled-components';
 import fuzzy from 'fuzzy';
-import misrcon from 'node-misrcon';
+import * as misrcon from 'node-misrcon';
+
+import { connect } from 'react-redux';
 
 import './RCONConsole.global.css';
-import {helpText, helpCommands} from './HelpSection';
-import {log} from '../../utils/loggerUtils';
+import { helpText, helpCommands } from './HelpSection';
+import { log } from '../../utils/loggerUtils';
 import debug from '../../styles/stylesDebugger';
 
 
@@ -19,10 +21,14 @@ or tab to autocomplete
 
 `;
 
-
+@connect((store) => {
+  return {
+    credentials: store.credentials
+  }
+})
 class ConsoleView extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     let credentials = store.get('userCredentials');
     this.state = {
       port: credentials.port,

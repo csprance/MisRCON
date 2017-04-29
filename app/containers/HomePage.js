@@ -36,13 +36,10 @@ export default class HomePage extends Component {
       port: store.get('userCredentials').port,
       password: store.get('userCredentials').password
     }).then((data) => {
-      console.log(data);
-      // this.setState({
-      //   players: data.players,
-      //   banListPlayers: data.banListPlayers,
-      //   whiteListPlayers: data.whiteListPlayers,
-      //   status: data.status,
-      // });
+      this.setState({
+        players: data.status.playersArray,
+        status: data.status,
+      });
     });
   };
 

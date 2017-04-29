@@ -15,10 +15,9 @@ import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
+import * as misrcon from 'node-misrcon';
 
 import Spacer from '../common/Spacer';
-import {sendCommandToServer} from '../../utils/sendCommandToServer';
-import JSONifyBanList from '../../utils/JSONifyBanList';
 import {log} from '../../utils/loggerUtils';
 import {white, darkGrey} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
@@ -44,23 +43,23 @@ export default class BansView extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      players: nextProps.banListPlayers,
-      loading: false
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     players: nextProps.banListPlayers,
+  //     loading: false
+  //   });
+  // }
 
 
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
-    sendCommandToServer('mis_ban_status', this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: 'mis_ban_status'})
       .then((res) => {
         if (res !== null) {
           this.setState({
-            players: JSONifyBanList(res).map((p) => {
+            players: misrcon.parseBanListResponseToJs(res).map((p) => {
               return {steam: p}
             }),
             loading: false,
@@ -86,7 +85,7 @@ export default class BansView extends Component {
     this.setState({
       loading: true,
     });
-    sendCommandToServer(`mis_ban_steamid ${this.state.banDialogSteamID}`, this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_ban_steamid ${this.state.banDialogSteamID}`})
       .then((res) => {
         log('silly', res);
         this.hideBanDialog();
@@ -102,7 +101,7 @@ export default class BansView extends Component {
     this.setState({
       loading: true,
     });
-    sendCommandToServer(`mis_ban_remove ${steam}`, this.state.credentials)
+    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_ban_remove ${steam}`})
       .then((res) => {
         log('silly', res);
         this.getPlayersAndAddToState()
