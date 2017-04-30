@@ -5,33 +5,34 @@
  */
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
-import VertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import TrashIcon from 'material-ui/svg-icons/action/delete';
+import PlayArrowIcon from 'material-ui/svg-icons/av/play-arrow';
 import styled from 'styled-components';
+
+import * as credentialsActions from '../../actions/credentialsActions';
 
 import { lightGray } from '../../styles/colors';
 
 
+// TODO: add in an edit button
+
 const ServerSelectCard = (props) => {
   return (
-    <Container onClick={(e) => {
-      console.log(e.target);
-    }}>
+    <Container className="server-select">
       <ServerDetails>
         <ServerName>{props.name}</ServerName>
         <ServerIp>{props.ip}:{props.port}</ServerIp>
       </ServerDetails>
-      <IconMenu
-        style={{zIndex: 9}}
-        iconButtonElement={<IconButton touch={true} tooltip={'Edit'}><VertIcon /></IconButton>}
-        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-      >
-        <MenuItem primaryText="Connect"/>
-        <MenuItem primaryText="Edit"/>
-        <MenuItem primaryText="Delete"/>
-      </IconMenu>
+      <IconButton onTouchTap={() => {
+        props.dispatch(credentialsActions.removeCredentials(props.name));
+      }} touch={true} tooltip={'Delete'}>
+        <TrashIcon />
+      </IconButton>
+      <IconButton onTouchTap={() => {
+        props.dispatch(credentialsActions.useCredentials(props.name));
+      }} touch={true} tooltip={'Connect'}>
+        <PlayArrowIcon />
+      </IconButton>
     </Container>
   );
 };
@@ -43,7 +44,6 @@ const ServerDetails = styled.div`
 `;
 
 const Container = styled.div`
-  cursor: pointer;
   flex-direction: row;
   margin: 10px;
   display: flex;

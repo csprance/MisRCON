@@ -5,7 +5,7 @@
  */
 import * as misrcon from 'node-misrcon';
 
-import * as notify from 'notifyActions';
+import * as notify from './notifyActions';
 import * as actionType from '../constants/ActionTypes';
 
 
@@ -22,26 +22,28 @@ export function recievedServerData() {
     type: actionType.RECIEVED_ALL_SERVER_DATA,
   };
 }
-
 export function getInitialData() {
   return (dispatch, getState) => {
+    dispatch(fetchingServerData());
     // get the status and players
-    misrcon.sendRCONCommandToServer({...creds, command: 'status'}).then((status) => {
-      updateStatus(misrcon.parseStatusResponseToJs(status));
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'status'}).then((status) => {
+      dispatch(updateStatus(misrcon.parseStatusResponseToJs(status)));
 
       // get the whitelist
-      return misrcon.sendRCONCommandToServer({...creds, command: 'mis_whitelist_status'})
+      return misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_whitelist_status'})
     }).then((res) => {
-      updateWhitelist(misrcon.parseWhitelistResponseToJs(res));
+      dispatch(updateWhitelist(misrcon.parseWhitelistResponseToJs(res)));
 
 
       // get the banlist
-      return misrcon.sendRCONCommandToServer({...creds, command: 'mis_ban_status'})
+      return misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_ban_status'})
     }).then((res) => {
-      updateBanList(misrcon.parseBanListResponseToJs(res));
+      dispatch(updateBanList(misrcon.parseBanListResponseToJs(res)));
+      dispatch(recievedServerData());
 
 
     }).catch((err) => {
+      console.log(err);
       // log any error
       notify.emitError(err);
     })

@@ -22,6 +22,7 @@ export const DISMISS_NOTIFY = 'EMIT_ERROR';
 export const ADD_CREDENTIALS = 'ADD_CREDENTIALS';
 export const REMOVE_CREDENTIALS = 'REMOVE_CREDENTIALS';
 export const USE_CREDENTIALS = 'USE_CREDENTIALS';
+export const LOG_OUT = 'LOG_OUT';
 
 
 // Server  - Contains all the info on the current server

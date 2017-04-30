@@ -4,15 +4,17 @@ import Paper from 'material-ui/Paper';
 import styled from 'styled-components';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
+import { connect } from 'react-redux';
+
 import ServerAddOverlay from './ServerAddOverlay';
 import ServerSelectCard from './ServerSelectCard';
-
 import { black, darkGrey, white } from '../../styles/colors';
 
-
-//TODO: Maybe some better checking of valid ip, port and passwords here
-
-
+@connect((store) => {
+  return {
+    credentials: store.credentials
+  }
+})
 class LoginView extends Component {
   constructor(props, context) {
     super(props, context);
@@ -48,11 +50,13 @@ class LoginView extends Component {
             </FloatingActionButton>
           </LoginBoxHeader>
           <Content>
-            <ServerSelectCard name={'US75'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
-            <ServerSelectCard name={'BR1'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
-            <ServerSelectCard name={'DEV'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+            {this.props.credentials.inactive.map(server => {
+              return (
+                <ServerSelectCard dispatch={this.props.dispatch} key={server.name} name={server.name} ip={server.ip} port={server.port} password={server.password}/>
+              );
+            })}
           </Content>
-          <ServerAddOverlay show={this.state.show} hideServerAddOverlay={this.hideServerAddOverlay}/>
+          <ServerAddOverlay dispatch={this.props.dispatch} show={this.state.show} hideServerAddOverlay={this.hideServerAddOverlay}/>
         </LoginBox>
       </Container>
     );
@@ -72,7 +76,7 @@ const LoginBox = styled(Paper)`
   position: relative;
   background: ${black};
   width: 450px;
-  min-height: 250px;
+  min-height: 500px;
 `;
 
 const LoginBoxHeader = styled.div`
@@ -87,6 +91,7 @@ const LoginBoxHeader = styled.div`
 
 const Content = styled.div`
   padding-top: 20px;
+  padding-bottom: 40px;
   padding-bottom: 40px;
   justify-content: center;
   align-items: center;

@@ -10,6 +10,10 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import BackArrowIcon from 'material-ui/svg-icons/navigation/chevron-left';
 
+import * as credentialsActions from '../../actions/credentialsActions';
+
+import * as credentialsUtils from '../../utils/credentialsUtils';
+
 import { darkGrey, lightGray, white } from '../../styles/colors';
 
 class ServerAddOverlay extends Component {
@@ -27,44 +31,6 @@ class ServerAddOverlay extends Component {
       errorTextName: '',
     };
   }
-
-  serverIsValid = () => {
-    if (this.state.password === '') {
-      this.setState({
-        errorTextPassword: 'Password is required',
-      });
-      return false;
-    }
-    if (this.state.port === '') {
-      this.setState({
-        errorTextPort: 'Port is required',
-      });
-      return false;
-    }
-    if (this.state.ip === '') {
-      this.setState({
-        errorTextIp: 'IP address is required',
-      });
-      return false;
-    }
-    if (this.state.name === '') {
-      this.setState({
-        errorTextName: 'Name is required',
-      });
-      return false;
-    }
-    if (this.state.name) {
-      this.setState({
-        errorTextName: 'Name already exists',
-      });
-      return false;
-    }
-    // All filled in
-    // Log in and store credentials
-    if (this.state.port !== '' && this.state.password !== '' && this.state.ip !== '' && this.state.name !== '') {
-      return true;
-    }
-  };
 
   updatePort = (e) => {
     this.setState({
@@ -94,11 +60,39 @@ class ServerAddOverlay extends Component {
     });
   };
 
-  storeServerCredentials = () => {
-    if (this.serverIsValid()) {
-      console.log('storing', this.state);
+  validateAndStoreCredentials = () => {
+    let creds = {
+      name: this.state.name,
+      ip: this.state.ip,
+      port: this.state.port,
+      password: this.state.password
+    };
+    let validation = credentialsUtils.credsAreValid(creds);
+    if (validation === true) {
+      this.props.dispatch(credentialsActions.addCredentials(creds));
       this.close();
     }
+
+    if (validation.hasOwnProperty('ip'))
+      this.setState({
+        errorTextIp: validation.ip[0],
+      });
+
+    if (validation.hasOwnProperty('port'))
+      this.setState({
+        errorTextPort: validation.port[0],
+      });
+
+    if (validation.hasOwnProperty('password'))
+      this.setState({
+        errorTextPassword: validation.password[0],
+      });
+
+    if (validation.hasOwnProperty('name'))
+      this.setState({
+        errorTextName: validation.name[0],
+      });
+
   };
 
   close = () => {
@@ -137,7 +131,7 @@ class ServerAddOverlay extends Component {
                    floatingLabelStyle={{color: white}}
                    floatingLabelText="Password"/>
         <ActionButtons>
-          <FlatButton label="Login" secondary={true} onTouchTap={this.storeServerCredentials}/>
+          <FlatButton label="Add Server" secondary={true} onTouchTap={this.validateAndStoreCredentials}/>
         </ActionButtons>
       </Container>
     );
@@ -175,6 +169,7 @@ const LoginBoxHeader = styled.div`
 
 const ActionButtons = styled.div`
   display; flex;
+  margin-top: 20px;
 `;
 
 

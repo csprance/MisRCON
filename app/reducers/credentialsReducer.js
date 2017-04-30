@@ -5,11 +5,14 @@
  */
 // TODO: Store these credentials better somehow
 import * as types from '../constants/ActionTypes';
-import store from 'store';
+
+import { bootStrap, getStoredCredentials } from '../utils/credentialsUtils';
+
+bootStrap();
 
 let initialState = {
   active: {ip: '', port: '', password: '', name: ''},
-  inactive: store.get('storedCredentials') !== undefined ? store.get('storedCredentials') : []
+  inactive: getStoredCredentials()
 };
 
 
@@ -22,7 +25,10 @@ export default function credentials(state = initialState, action) {
       return {...state, inactive: state.inactive.filter(i => i.name !== action.payload)};
     }
     case types.USE_CREDENTIALS: {
-      return {...state, active: state.inactive.filter(i => i.name === action.payload)};
+      return {...state, active: state.inactive.filter(i => i.name === action.payload)[0]};
+    }
+    case types.LOG_OUT: {
+      return {...state, active: initialState.active};
     }
     default:
       return state;
