@@ -5,24 +5,37 @@
  * Description: shows the info on the currently connected to server
  * Props flow from Containers/HomePage
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+
+import { connect } from 'react-redux';
+
 import debug from '../../styles/stylesDebugger';
-import store from 'store';
-import {darkGrey} from '../../styles/colors';
+import { darkGrey } from '../../styles/colors';
 
 
-const StatusBar = (props) => {
-  return (
-    <Container>
-      <Item>IP: {store.get('userCredentials').ip} </Item>
-      <Item>Port: {store.get('userCredentials').port} </Item>
-      <Item>Name: {props.status !== undefined ? props.status.name : 'Connecting...'}</Item>
-      <Item>Version: {props.status !== undefined ? props.status.version : 'Connecting...'}</Item>
-      <Item>Players: {props.status !== undefined ? props.status.players : 'Connecting...'}</Item>
-    </Container>
-  );
-};
+@connect((store) => {
+  return {
+    server: store.server
+  }
+})
+class StatusBar extends Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  render() {
+    return (
+      <Container>
+        <Item>IP: {this.props.server.status.ip} </Item>
+        <Item>Port: {this.props.server.status.port} </Item>
+        <Item>Name: {this.props.server.status.name}</Item>
+        <Item>Version: {this.props.server.status.version}</Item>
+        <Item>Players: {this.props.server.status.players}</Item>
+      </Container>
+    );
+  }
+}
 
 const Container = styled.div`
   display:flex;

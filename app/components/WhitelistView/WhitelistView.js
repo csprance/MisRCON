@@ -6,25 +6,33 @@
  *              and the logic to add remove and filter them
  *              gets server data sent to it initially in Containers/HomePage
  */
-import React, {Component} from 'react';
-import styled, {keyframes} from 'styled-components';
+import React, { Component } from 'react';
+import styled, { keyframes } from 'styled-components';
 import store from 'store';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
-import Snackbar from 'material-ui/Snackbar';
 import * as misrcon from 'node-misrcon';
 
+import { connect } from 'react-redux';
+import * as notify from '../../actions/notifyActions';
+
 import Spacer from '../common/Spacer';
-import {log} from '../../utils/loggerUtils';
-import {white, darkGrey} from '../../styles/colors';
+import { log } from '../../utils/loggerUtils';
+import { white, darkGrey } from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import WhitelistDialog from './WhitelistDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
 
+@connect((store) => {
+  return {
+    server: store.server,
+    credentials: store.credentials
+  }
+})
 export default class WhitelistView extends Component {
   constructor(props, context) {
     super(props, context);
@@ -38,17 +46,8 @@ export default class WhitelistView extends Component {
       searchString: '',
       showWhitelistDialog: false,
       whitelistDialogSteamID: '',
-      showSnackBar: false,
-      snackBarMsg: ''
     };
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     players: nextProps.whiteListPlayers,
-  //     loading: false
-  //   });
-  // }
 
   getPlayersAndAddToState = () => {
     this.setState({
@@ -67,24 +66,19 @@ export default class WhitelistView extends Component {
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
   };
-
-  snackBar = (msg) => {
-    this.setState({
-      showSnackBar: true,
-      snackBarMsg: msg
-    });
-  };
-
 
   addPlayerToWhitelist = () => {
     //comes from this.state.whitelistDialogSteamID
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`})
+    misrcon.sendRCONCommandToServer({
+      ...this.state.credentials,
+      command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`
+    })
       .then((res) => {
         log('silly', res);
         this.hideWhitelistDialog();
@@ -92,7 +86,7 @@ export default class WhitelistView extends Component {
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
   };
 
@@ -108,7 +102,7 @@ export default class WhitelistView extends Component {
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
   };
 
@@ -136,14 +130,6 @@ export default class WhitelistView extends Component {
     });
   };
 
-  closeSnackBar = () => {
-    this.setState({
-      showSnackBar: false
-    });
-  };
-
-
-  //TODO Add in a preloaded player to stop this from erroring
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
@@ -177,15 +163,6 @@ export default class WhitelistView extends Component {
               removePlayerFromWhitelist={this.removePlayerFromWhitelist}
             />)}
         </PlayerList>
-        <Snackbar
-          bodyStyle={{background: darkGrey}}
-          open={this.state.showSnackBar}
-          message={this.state.snackBarMsg}
-          autoHideDuration={4000}
-          onRequestClose={this.closeSnackBar}
-          action="OK"
-          onActionTouchTap={this.closeSnackBar}
-        />
         <WhitelistDialog open={this.state.showWhitelistDialog}
                          actionSubmit={this.addPlayerToWhitelist}
                          actionCancel={this.hideWhitelistDialog}

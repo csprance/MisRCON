@@ -8,14 +8,15 @@
  */
 import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
-import store from 'store';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
-import Snackbar from 'material-ui/Snackbar';
 import * as misrcon from 'node-misrcon';
+
+import { connect } from 'react-redux';
+import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
 import {log} from '../../utils/loggerUtils';
@@ -24,12 +25,18 @@ import PlayerCard from '../PlayersView/PlayerCard';
 import BanDialog from './BanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
+
+@connect((store) => {
+  return {
+    server: store.server,
+    credentials: store.credentials
+  }
+})
 export default class BansView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       loading: true,
-      credentials: store.get('userCredentials'),
       players: [{
         name: 'Loading....',
         steam: 'Loading....'
@@ -43,19 +50,11 @@ export default class BansView extends Component {
   }
 
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     players: nextProps.banListPlayers,
-  //     loading: false
-  //   });
-  // }
-
-
   getPlayersAndAddToState = () => {
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: 'mis_ban_status'})
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: 'mis_ban_status'})
       .then((res) => {
         if (res !== null) {
           this.setState({
@@ -68,15 +67,8 @@ export default class BansView extends Component {
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
-  };
-
-  snackBar = (msg) => {
-    this.setState({
-      showSnackBar: true,
-      snackBarMsg: msg
-    });
   };
 
 
@@ -85,7 +77,7 @@ export default class BansView extends Component {
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_ban_steamid ${this.state.banDialogSteamID}`})
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_ban_steamid ${this.state.banDialogSteamID}`})
       .then((res) => {
         log('silly', res);
         this.hideBanDialog();
@@ -93,7 +85,7 @@ export default class BansView extends Component {
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
   };
 
@@ -101,14 +93,14 @@ export default class BansView extends Component {
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_ban_remove ${steam}`})
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_ban_remove ${steam}`})
       .then((res) => {
         log('silly', res);
         this.getPlayersAndAddToState()
       })
       .catch((err) => {
         log('error', err);
-        this.snackBar('Something went wrong try again!');
+        this.props.dispatch(notify.emitError('Something went wrong try again!'));
       });
   };
 
@@ -136,13 +128,8 @@ export default class BansView extends Component {
     });
   };
 
-  closeSnackBar = () => {
-    this.setState({
-      showSnackBar: false
-    });
-  };
 
-  //TODO Add in a preloaded player to stop this from erroring
+
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
     const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
@@ -178,16 +165,6 @@ export default class BansView extends Component {
               removePlayerFromBanList={this.removePlayerFromBanList}
             />)}
         </PlayerList>
-
-        <Snackbar
-          bodyStyle={{background: darkGrey}}
-          open={this.state.showSnackBar}
-          message={this.state.snackBarMsg}
-          autoHideDuration={4000}
-          onRequestClose={this.closeSnackBar}
-          action="OK"
-          onActionTouchTap={this.closeSnackBar}
-        />
 
         <BanDialog
           open={this.state.showBanDialog}

@@ -16,6 +16,9 @@ import fuzzy from 'fuzzy';
 import Snackbar from 'material-ui/Snackbar';
 import * as misrcon from 'node-misrcon';
 
+import { connect } from 'react-redux';
+import * as notify from '../../actions/notifyActions';
+
 import Spacer from '../common/Spacer';
 import { log } from '../../utils/loggerUtils';
 import { white, darkGrey } from '../../styles/colors';
@@ -23,6 +26,12 @@ import PlayerCard from './PlayerCard';
 import PlayersViewBanDialog from './PlayersViewBanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
+@connect((store) => {
+  return {
+    server: store.server,
+    credentials: store.credentials
+  }
+})
 export default class PlayersView extends Component {
   constructor(props, context) {
     super(props, context);

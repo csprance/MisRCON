@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Console from 'react-console-component';
-import store from 'store';
 import styled from 'styled-components';
 import fuzzy from 'fuzzy';
 import * as misrcon from 'node-misrcon';
@@ -8,7 +7,7 @@ import * as misrcon from 'node-misrcon';
 import { connect } from 'react-redux';
 
 import './RCONConsole.global.css';
-import { helpText, helpCommands } from './HelpSection';
+import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
 import debug from '../../styles/stylesDebugger';
 
@@ -29,12 +28,6 @@ or tab to autocomplete
 class ConsoleView extends Component {
   constructor(props, context) {
     super(props, context);
-    let credentials = store.get('userCredentials');
-    this.state = {
-      port: credentials.port,
-      password: credentials.password,
-      ip: credentials.ip
-    };
     this.words = helpCommands.map((el) => el.value);
   }
 
@@ -55,7 +48,7 @@ class ConsoleView extends Component {
   };
 
   sendCommand = (command) => {
-    misrcon.sendRCONCommandToServer({...this.state, command: command}).then((res) => {
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: command}).then((res) => {
       this.refs.console.log(res);
       this.refs.console.return();
     }).catch((err) => {

@@ -14,33 +14,28 @@ export default async function getInitialServerData(creds) {
   log('info', 'Getting Initial Server Data');
   let data = {};
 
-  data.status = await getStatusAndPlayers(creds);
-  // data.banlist = await getBanList(creds);
-  // data.whitelist = await getWhitelist(creds);
+  // get the status and players
+  return misrcon.sendRCONCommandToServer({...creds, command: 'status'}).then((status) => {
+    data.status = misrcon.parseStatusResponseToJs(status);
 
-  // // get the status and players
-  // return misrcon.sendRCONCommandToServer({...creds, command: 'status'}).then((status) => {
-  //   data.status = misrcon.parseStatusResponseToJs(status);
-  //
-  //   // get the whitelist
-  //   return misrcon.sendRCONCommandToServer({...creds, command: 'mis_whitelist_status'})
-  // }).then((res) => {
-  //   data.whitelist = misrcon.parseWhitelistResponseToJs(res);
-  //
-  //
-  //   // get the banlist
-  //   return misrcon.sendRCONCommandToServer({...creds, command: 'mis_ban_status'})
-  // }).then((res) => {
-  //   data.banlist = misrcon.parseBanListResponseToJs(res);
-  //
-  //
-  //   // send the object back for react
-  //   return data;
-  // }).catch((err) => {
-  //   // log any error
-  //   log(err);
-  // })
-  return data;
+    // get the whitelist
+    return misrcon.sendRCONCommandToServer({...creds, command: 'mis_whitelist_status'})
+  }).then((res) => {
+    data.whitelist = misrcon.parseWhitelistResponseToJs(res);
+
+
+    // get the banlist
+    return misrcon.sendRCONCommandToServer({...creds, command: 'mis_ban_status'})
+  }).then((res) => {
+    data.banlist = misrcon.parseBanListResponseToJs(res);
+
+
+    // send the object back for react
+    return data;
+  }).catch((err) => {
+    // log any error
+    log(err);
+  })
 }
 
 

@@ -1,54 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
-import ServerSelectCard from './ServerSelectCard';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+
+import ServerAddOverlay from './ServerAddOverlay';
+import ServerSelectCard from './ServerSelectCard';
 
 import { black, darkGrey, white } from '../../styles/colors';
 
 
 //TODO: Maybe some better checking of valid ip, port and passwords here
 
-const LoginView = (props) => (
-  <Container>
-    <LoginBox zDepth={2}>
-      <LoginBoxHeader>
-        <h3 style={{flexGrow: 9}}>Select Server</h3>
-        <FloatingActionButton
-          mini={true}
-          secondary={true}
-          style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}>
-          <ContentAdd />
-        </FloatingActionButton>
-      </LoginBoxHeader>
-      <Content>
-        <ServerSelectCard name={'US75'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
-        <ServerSelectCard name={'BR1'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
-        <ServerSelectCard name={'DEV'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
-        {/*<TextField onChange={props.updateIP}*/}
-        {/*errorText={props.errorTextIp}*/}
-        {/*value={props.ip}*/}
-        {/*floatingLabelStyle={{color: white}}*/}
-        {/*floatingLabelText="IP"/>*/}
-        {/*<TextField onChange={props.updatePort}*/}
-        {/*errorText={props.errorTextPort}*/}
-        {/*value={props.port}*/}
-        {/*floatingLabelStyle={{color: white}}*/}
-        {/*floatingLabelText="Port"/>*/}
-        {/*<TextField onChange={props.updatePassword}*/}
-        {/*errorText={props.errorTextPassword}*/}
-        {/*value={props.password}*/}
-        {/*floatingLabelStyle={{color: white}}*/}
-        {/*floatingLabelText="Password"/>*/}
-      </Content>
-      {/*<ActionButtons>*/}
-      {/*<FlatButton label="Login" secondary={true} onTouchTap={props.login}/>*/}
-      {/*</ActionButtons>*/}
-    </LoginBox>
-  </Container>
-);
+
+class LoginView extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      show: false
+    };
+  }
+
+  showServerAddOverlay = () => {
+    this.setState({
+      show: true,
+    });
+  };
+
+  hideServerAddOverlay = () => {
+    this.setState({
+      show: false,
+    });
+  };
+
+  render() {
+    return (
+      <Container>
+        <LoginBox zDepth={2}>
+          <LoginBoxHeader>
+            <h3 style={{flexGrow: 9}}>Select Server</h3>
+            <FloatingActionButton
+              onTouchTap={this.showServerAddOverlay}
+              mini={true}
+              secondary={true}
+              style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}>
+              <ContentAdd />
+            </FloatingActionButton>
+          </LoginBoxHeader>
+          <Content>
+            <ServerSelectCard name={'US75'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+            <ServerSelectCard name={'BR1'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+            <ServerSelectCard name={'DEV'} ip={'192.168.1.1'} port={'64099'} password={'password'}/>
+          </Content>
+          <ServerAddOverlay show={this.state.show} hideServerAddOverlay={this.hideServerAddOverlay}/>
+        </LoginBox>
+      </Container>
+    );
+  }
+}
 
 const Container = styled.div`
   align-items: center;
@@ -59,6 +68,8 @@ const Container = styled.div`
 `;
 
 const LoginBox = styled(Paper)`
+  overflow: hidden;
+  position: relative;
   background: ${black};
   width: 450px;
   min-height: 250px;
