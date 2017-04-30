@@ -16,20 +16,20 @@ import { darkGrey } from '../../styles/colors';
 
 @connect((store) => {
   return {
-    server: store.server
+    server: store.server,
+    credentials: store.credentials
   }
 })
 class StatusBar extends Component {
   constructor(props, context) {
     super(props, context);
   }
-
   render() {
     return (
       <Container>
-        <Item>IP: {this.props.server.status.ip} </Item>
-        <Item>Port: {this.props.server.status.port} </Item>
         <Item>Name: {this.props.server.status.name}</Item>
+        <Item>IP: {this.props.credentials.active.ip} </Item>
+        <Item>Port: {this.props.credentials.active.port} </Item>
         <Item>Version: {this.props.server.status.version}</Item>
         <Item>Players: {this.props.server.status.players}</Item>
       </Container>

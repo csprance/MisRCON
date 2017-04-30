@@ -20,7 +20,7 @@ import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
 import {log} from '../../utils/loggerUtils';
-import {white, darkGrey} from '../../styles/colors';
+import {white} from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import BanDialog from './BanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
@@ -37,15 +37,9 @@ export default class BansView extends Component {
     super(props, context);
     this.state = {
       loading: true,
-      players: [{
-        name: 'Loading....',
-        steam: 'Loading....'
-      }],
       searchString: '',
       showBanDialog: false,
       banDialogSteamID: '',
-      showSnackBar: false,
-      snackBarMsg: ''
     };
   }
 
@@ -131,8 +125,8 @@ export default class BansView extends Component {
 
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
-    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
+    const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
+    const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
       <Container>
 

@@ -8,7 +8,6 @@
  */
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import store from 'store';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
@@ -21,7 +20,7 @@ import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
 import { log } from '../../utils/loggerUtils';
-import { white, darkGrey } from '../../styles/colors';
+import { white } from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import WhitelistDialog from './WhitelistDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
@@ -38,11 +37,6 @@ export default class WhitelistView extends Component {
     super(props, context);
     this.state = {
       loading: true,
-      credentials: store.get('userCredentials'),
-      players: [{
-        name: 'Loading....',
-        steam: 'Loading....'
-      }],
       searchString: '',
       showWhitelistDialog: false,
       whitelistDialogSteamID: '',
@@ -53,7 +47,7 @@ export default class WhitelistView extends Component {
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: 'mis_whitelist_status'})
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: 'mis_whitelist_status'})
       .then((res) => {
         if (res !== null) {
           this.setState({
@@ -76,14 +70,11 @@ export default class WhitelistView extends Component {
       loading: true,
     });
     misrcon.sendRCONCommandToServer({
-      ...this.state.credentials,
-      command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`
+      ...this.props.credentials.active, command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`
+    }).then(() => {
+      this.hideWhitelistDialog();
+      this.getPlayersAndAddToState()
     })
-      .then((res) => {
-        log('silly', res);
-        this.hideWhitelistDialog();
-        this.getPlayersAndAddToState()
-      })
       .catch((err) => {
         log('error', err);
         this.props.dispatch(notify.emitError('Something went wrong try again!'));
@@ -95,9 +86,8 @@ export default class WhitelistView extends Component {
     this.setState({
       loading: true,
     });
-    misrcon.sendRCONCommandToServer({...this.state.credentials, command: `mis_whitelist_remove ${steam}`})
-      .then((res) => {
-        log('silly', res);
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_whitelist_remove ${steam}`})
+      .then(() => {
         this.getPlayersAndAddToState()
       })
       .catch((err) => {
@@ -106,7 +96,7 @@ export default class WhitelistView extends Component {
       });
   };
 
-  showWhitelistDialog = (steam) => {
+  showWhitelistDialog = () => {
     this.setState({
       showWhitelistDialog: true
     })
@@ -131,8 +121,8 @@ export default class WhitelistView extends Component {
   };
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.state.players, {extract: (el) => el.steam}).map((el) => el.string);
-    const filterList = this.state.players.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
+    const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
+    const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
     return (
       <Container loading={this.state.loading}>
         <Actions>

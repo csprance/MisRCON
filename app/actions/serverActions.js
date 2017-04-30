@@ -24,28 +24,26 @@ export function recievedServerData() {
 }
 export function getInitialData() {
   return (dispatch, getState) => {
+    const credentials = getState().credentials.active;
     dispatch(fetchingServerData());
     // get the status and players
-    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'status'}).then((status) => {
+    misrcon.sendRCONCommandToServer({...credentials, command: 'status'}).then((status) => {
       dispatch(updateStatus(misrcon.parseStatusResponseToJs(status)));
 
       // get the whitelist
-      return misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_whitelist_status'})
+      return misrcon.sendRCONCommandToServer({...credentials, command: 'mis_whitelist_status'})
     }).then((res) => {
+      console.log(res);
       dispatch(updateWhitelist(misrcon.parseWhitelistResponseToJs(res)));
 
 
       // get the banlist
-      return misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_ban_status'})
+      return misrcon.sendRCONCommandToServer({...credentials, command: 'mis_ban_status'})
     }).then((res) => {
       dispatch(updateBanList(misrcon.parseBanListResponseToJs(res)));
       dispatch(recievedServerData());
 
 
-    }).catch((err) => {
-      console.log(err);
-      // log any error
-      notify.emitError(err);
     })
   };
 }

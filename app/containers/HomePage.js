@@ -33,7 +33,6 @@ export default class HomePage extends Component {
     });
   }
 
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.credentials.active.name.length > 0) {
       this.props.dispatch(server.getInitialData());

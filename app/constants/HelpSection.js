@@ -1,5 +1,5 @@
 export const helpText =
-`This console is a direct connection to your server. 
+  `This console is a direct connection to your server. 
 Any commands you enter here will be sent to the 
 server via RCON (XMLRPC).
 
@@ -113,7 +113,7 @@ Scale of weather speed (The weather speed is independent of day/night speed)
 export const helpCommands = [{
   display: 'cls Clears the console screen. Client command only',
   value: 'cls'
-},{
+}, {
   display: 'sv_servername "Name of server in quotes"',
   value: 'sv_servername'
 }, {
@@ -173,7 +173,7 @@ export const helpCommands = [{
 }, {
   display: 'wm_timeScale speedscale // Scale time of day speed',
   value: 'wm_timeScale'
-},{
+}, {
   display: 'mis_kick 64BITSTEAMID // Kick players from server',
   value: 'mis_kick'
 }];

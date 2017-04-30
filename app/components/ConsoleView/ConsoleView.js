@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import './RCONConsole.global.css';
 import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
-import debug from '../../styles/stylesDebugger';
 
 
 const welcomeMessage = `MisRCON-by @Csprance
@@ -76,9 +75,11 @@ class ConsoleView extends Component {
   };
 
   // Autocomplete function
+  // TODO: Fix this so it selects the highest rated one
   complete = (e) => {
     return fuzzy.filter(e[0], this.words, {}).map((el) => {
       console.log(el);
+      return el.string
     });
   };
 
@@ -112,7 +113,6 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-grow: 1;
-  ${debug('Container')}
 `;
 
 export default ConsoleView;
