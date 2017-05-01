@@ -1,26 +1,24 @@
 import React from 'react';
-import {Tabs, Tab} from '../common/Tabs';
+import { Tabs, Tab } from '../common/Tabs';
 import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import WhitelistIcon from 'material-ui/svg-icons/action/assignment';
-import InfoIcon from 'material-ui/svg-icons/action/info';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import styled from 'styled-components';
 
 import BansView from '../BansView/BansView';
 import ConsoleView from '../ConsoleView/ConsoleView';
-import EventsView from '../EventsView/EventsView';
-import SettingsView from '../SettingsView/SettingsView';
 import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../WhitelistView/WhitelistView';
 import debug from '../../styles/stylesDebugger';
+
 const Home = (props) => (
   <SplitPane>
-    <StyledTabs tabItemContainerStyle={{minHeight: 72}}
-                contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
-                tabTemplateStyle={{display: 'flex'}}>
+    <StyledTabs
+      tabItemContainerStyle={{minHeight: 72}}
+      contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
+      tabTemplateStyle={{display: 'flex'}}>
       <Tab
         icon={<ConsoleIcon />}
         label="CONSOLE">
@@ -41,16 +39,6 @@ const Home = (props) => (
         label="WHITELIST">
         <WhitelistView whiteListPlayers={props.whiteListPlayers}/>
       </Tab>
-      {/*<Tab*/}
-        {/*icon={<InfoIcon />}*/}
-        {/*label="EVENTS">*/}
-        {/*<EventsView />*/}
-      {/*</Tab>*/}
-      {/*<Tab*/}
-        {/*icon={<SettingsIcon />}*/}
-        {/*label="SETTINGS">*/}
-        {/*<SettingsView />*/}
-      {/*</Tab>*/}
     </StyledTabs>
     <ScheduledTasksView />
   </SplitPane>

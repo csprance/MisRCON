@@ -13,13 +13,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
-import * as misrcon from 'node-misrcon';
 
 import { connect } from 'react-redux';
-import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
-import { log } from '../../utils/loggerUtils';
 import { white } from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import WhitelistDialog from './WhitelistDialog';
@@ -30,13 +27,13 @@ import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
   return {
     server: store.server,
     credentials: store.credentials
-  }
+  };
 })
 export default class WhitelistView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: true,
+      loading: false,
       searchString: '',
       showWhitelistDialog: false,
       whitelistDialogSteamID: '',
@@ -44,68 +41,28 @@ export default class WhitelistView extends Component {
   }
 
   getPlayersAndAddToState = () => {
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: 'mis_whitelist_status'})
-      .then((res) => {
-        if (res !== null) {
-          this.setState({
-            players: misrcon.parseWhitelistResponseToJs(res).map((p) => {
-              return {steam: p}
-            }),
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
+
   };
 
   addPlayerToWhitelist = () => {
-    //comes from this.state.whitelistDialogSteamID
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({
-      ...this.props.credentials.active, command: `mis_whitelist_add ${this.state.whitelistDialogSteamID}`
-    }).then(() => {
-      this.hideWhitelistDialog();
-      this.getPlayersAndAddToState()
-    })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
+
   };
 
 
   removePlayerFromWhitelist = (steam) => {
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_whitelist_remove ${steam}`})
-      .then(() => {
-        this.getPlayersAndAddToState()
-      })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
+
   };
 
   showWhitelistDialog = () => {
     this.setState({
       showWhitelistDialog: true
-    })
+    });
   };
 
   hideWhitelistDialog = () => {
     this.setState({
       showWhitelistDialog: false
-    })
+    });
   };
 
   updateWhitelistDialogSteamID = (e) => {
@@ -121,13 +78,13 @@ export default class WhitelistView extends Component {
   };
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
-    const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
+    const filterList = this.props.server.whitelist;
+    console.log(filterList);
     return (
       <Container loading={this.state.loading}>
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary={true}>
+          <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -139,31 +96,34 @@ export default class WhitelistView extends Component {
             floatingLabelText="Search...."
           />
           <Spacer />
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary={true}>
+          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
             { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
           <Spacer />
         </Actions>
         <PlayerList>
-          {filterList.map((player) =>
-            <PlayerCard
-              key={player.steam + player.name}
-              steam={player.steam}
-              name={player.name}
-              removePlayerFromWhitelist={this.removePlayerFromWhitelist}
-            />)}
+          {/*{filterList.map((player) =>*/}
+            {/*<PlayerCard*/}
+              {/*key={player.steam + player.name}*/}
+              {/*steam={player.steam}*/}
+              {/*name={player.name}*/}
+              {/*removePlayerFromWhitelist={this.removePlayerFromWhitelist}*/}
+            {/*/>)}*/}
         </PlayerList>
-        <WhitelistDialog open={this.state.showWhitelistDialog}
-                         actionSubmit={this.addPlayerToWhitelist}
-                         actionCancel={this.hideWhitelistDialog}
-                         steamID={this.state.whitelistDialogSteamID}
-                         updateSteamID={this.updateWhitelistDialogSteamID}/>
-        <ProgressIndicator loading={this.state.loading}/>
+        <WhitelistDialog
+          open={this.state.showWhitelistDialog}
+          actionSubmit={this.addPlayerToWhitelist}
+          actionCancel={this.hideWhitelistDialog}
+          steamID={this.state.whitelistDialogSteamID}
+          updateSteamID={this.updateWhitelistDialogSteamID}
+        />
+        <ProgressIndicator
+          loading={this.state.loading}
+        />
       </Container>
     );
   }
 }
-
 
 const rotate360 = keyframes`
   from {
@@ -207,5 +167,3 @@ const PlayerList = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
-
-

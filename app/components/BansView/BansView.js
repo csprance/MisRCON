@@ -6,21 +6,18 @@
  *              and the logic to add remove and filter them
  *              gets server data sent to it initially in Containers/HomePage
  */
-import React, {Component} from 'react';
-import styled, {keyframes} from 'styled-components';
+import React, { Component } from 'react';
+import styled, { keyframes } from 'styled-components';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
-import * as misrcon from 'node-misrcon';
 
 import { connect } from 'react-redux';
-import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
-import {log} from '../../utils/loggerUtils';
-import {white} from '../../styles/colors';
+import { white } from '../../styles/colors';
 import PlayerCard from '../PlayersView/PlayerCard';
 import BanDialog from './BanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
@@ -30,13 +27,13 @@ import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
   return {
     server: store.server,
     credentials: store.credentials
-  }
+  };
 })
 export default class BansView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: true,
+      loading: false,
       searchString: '',
       showBanDialog: false,
       banDialogSteamID: '',
@@ -44,70 +41,23 @@ export default class BansView extends Component {
   }
 
 
-  getPlayersAndAddToState = () => {
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: 'mis_ban_status'})
-      .then((res) => {
-        if (res !== null) {
-          this.setState({
-            players: misrcon.parseBanListResponseToJs(res).map((p) => {
-              return {steam: p}
-            }),
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
-  };
+  getPlayersAndAddToState = () => {};
 
 
-  addPlayerToBanList = () => {
-    //comes from this.state.banDialogSteamID
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_ban_steamid ${this.state.banDialogSteamID}`})
-      .then((res) => {
-        log('silly', res);
-        this.hideBanDialog();
-        this.getPlayersAndAddToState()
-      })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
-  };
+  addPlayerToBanList = () => {};
 
-  removePlayerFromBanList = (steam) => {
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_ban_remove ${steam}`})
-      .then((res) => {
-        log('silly', res);
-        this.getPlayersAndAddToState()
-      })
-      .catch((err) => {
-        log('error', err);
-        this.props.dispatch(notify.emitError('Something went wrong try again!'));
-      });
-  };
+  removePlayerFromBanList = (steam) => {};
 
   showBanDialog = () => {
     this.setState({
       showBanDialog: true
-    })
+    });
   };
 
   hideBanDialog = () => {
     this.setState({
       showBanDialog: false
-    })
+    });
   };
 
   updateBanDialogSteamID = (e) => {
@@ -122,17 +72,15 @@ export default class BansView extends Component {
     });
   };
 
-
-
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
-    const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.steam) >= 0);
+    // const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
+    const filterList = this.props.server.status.banlist;
+    console.log(filterList);
     return (
       <Container>
-
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.showBanDialog} secondary={true}>
+          <FloatingActionButton onTouchTap={this.showBanDialog} secondary>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -144,22 +92,20 @@ export default class BansView extends Component {
             floatingLabelText="Search...."
           />
           <Spacer />
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary={true}>
+          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
             { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
           <Spacer />
         </Actions>
-
         <PlayerList>
-          {filterList.map((player) =>
-            <PlayerCard
-              key={player.steam + player.name}
-              steam={player.steam}
-              name={player.name}
-              removePlayerFromBanList={this.removePlayerFromBanList}
-            />)}
+          {/*{filterList.map((player) =>*/}
+            {/*<PlayerCard*/}
+              {/*key={player.steam + player.name}*/}
+              {/*steam={player.steam}*/}
+              {/*name={player.name}*/}
+              {/*removePlayerFromBanList={this.removePlayerFromBanList}*/}
+            {/*/>)}*/}
         </PlayerList>
-
         <BanDialog
           open={this.state.showBanDialog}
           actionCancel={this.hideBanDialog}
@@ -167,12 +113,13 @@ export default class BansView extends Component {
           updateSteamID={this.updateBanDialogSteamID}
           steamID={this.state.banDialogSteamID}
         />
-        <ProgressIndicator loading={this.state.loading}/>
+        <ProgressIndicator
+          loading={this.state.loading}
+        />
       </Container>
     );
   }
 }
-
 
 const rotate360 = keyframes`
   from {
@@ -216,5 +163,3 @@ const PlayerList = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
-
-

@@ -23,7 +23,7 @@
     "package-all": "npm run build && build -mwl"
   },
   "build": {
-    "appId": "org.develar.ElectronReact",
+    "appId": "org.entradainteractive.MisRCON",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
@@ -46,13 +46,10 @@
       "app.html",
       "main.js",
       "main.js.map",
-      "package.json",
-      "api/misrcon.exe"
+      "package.json"
     ],
     "win": {
-      "extraFiles": [
-        "resources/misrcon_cli.exe"
-      ],
+      "extraFiles": [],
       "target": "nsis"
     },
     "linux": {
@@ -71,27 +68,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/csprance/MisRCON.git"
   },
   "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
+    "name": "Chris Sprance",
+    "email": "chrissprance@gmail.com",
+    "url": "https://github.com/csprance"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/csprance/MisRCON/issues"
   },
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "react-router",
-    "flux",
-    "webpack",
-    "react-hot"
+    "miscreated",
+    "rcon",
+    "misrcon"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/csprance/MisRCON#readme",
   "devDependencies": {
     "asar": "^0.12.3",
     "babel-core": "^6.18.2",
@@ -132,6 +125,7 @@
     "eslint-plugin-react": "^6.7.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "extract-zip": "=1.6.0",
     "fbjs-scripts": "^0.7.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
@@ -168,11 +162,8 @@
     "material-ui": "^0.16.4",
     "md5": "^2.2.1",
     "moment": "^2.17.1",
-    "nedb": "^1.8.0",
-    "node-misrcon": "^0.3.0",
+    "node-misrcon": "^0.3.11",
     "node-schedule": "^1.2.0",
-    "pouchdb": "^6.1.0",
-    "pouchdb-browser": "^6.1.0",
     "prettycron": "^0.10.0",
     "react": "^15.4.1",
     "react-chatview": "^0.1.1",

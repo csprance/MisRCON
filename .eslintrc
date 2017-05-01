@@ -7,19 +7,64 @@
     "node": true
   },
   "rules": {
-    "arrow-parens": ["off"],
-    "consistent-return": "off",
-    "comma-dangle": "off",
+    "comma-dangle": 0,
+    "arrow-parens": 0,
+    "no-trailing-spaces": 0,
+    "no-unused-vars": 0,
+    "arrow-body-style": 0,
+    "indent": 0,
+    "no-else-return": 0,
+    "padded-blocks": 0,
+    "consistent-return": 0,
+    "no-case-declarations": 0,
+    "object-curly-spacing": 0,
+    "no-shadow": 0,
+    "space-before-function-paren": 0,
+    "spaced-comment": 0,
+    "max-len": [
+      1,
+      200,
+      4,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": true
+      }
+    ],
+    "no-throw-literal": 0,
+    "no-control-regex": 0,
+    "no-console": 1,
+    "no-use-before-define": 0,
+    "import/prefer-default-export": 0,
+    "no-regex-spaces": 0,
+    "prefer-const": 1,
+    "one-var": [
+      0,
+      {
+        "uninitialized": "always",
+        "initialized": "never"
+      }
+    ],
+    "one-var-declaration-per-line": 0,
+    "no-return-assign": 0,
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
     "generator-star-spacing": "off",
-    "import/no-unresolved": ["error", { "ignore": ["electron"] }],
     "import/no-extraneous-dependencies": "off",
-    "no-use-before-define": "off",
     "promise/param-names": 2,
-    "promise/always-return": 2,
+    "promise/always-return": 0,
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
     "react/jsx-no-bind": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": 0,
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
     "react/prefer-stateless-function": "off",
     "flowtype-errors/show-errors": 2
   },

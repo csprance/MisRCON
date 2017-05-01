@@ -12,13 +12,10 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import fuzzy from 'fuzzy';
-import * as misrcon from 'node-misrcon';
 
 import { connect } from 'react-redux';
-import * as notify from '../../actions/notifyActions';
 
 import Spacer from '../common/Spacer';
-import { log } from '../../utils/loggerUtils';
 import { white } from '../../styles/colors';
 import PlayerCard from './PlayerCard';
 import PlayersViewBanDialog from './PlayersViewBanDialog';
@@ -28,13 +25,13 @@ import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
   return {
     server: store.server,
     credentials: store.credentials
-  }
+  };
 })
 export default class PlayersView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: true,
+      loading: false,
       searchString: '',
       showBanDialog: false,
       banDialogBanReason: '',
@@ -42,68 +39,24 @@ export default class PlayersView extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      players: nextProps.players,
-      loading: false
-    });
-  }
+  getPlayersAndAddToState = () => {};
 
 
-  getPlayersAndAddToState = () => {
-    this.setState({
-      loading: true,
-    });
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: 'status'})
-      .then((res) => {
-        if (res !== null) {
-          this.setState({
-            players: misrcon.parseStatusResponseToJs(res).status.playersArray,
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        log('error', err);
-      });
-  };
+  banPlayerAndCloseDialog = () => {};
 
-
-  banPlayerAndCloseDialog = () => {
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_ban_steamid ${this.state.banDialogSteamID}`}).then((res) => {
-      this.props.dispatch(notify.emitInfo(`Banned Player: ${this.state.banDialogSteamID} for reason: ${this.state.banDialogBanReason}`));
-      this.setState({
-        showBanDialog: false,
-        banDialogBanReason: ''
-      });
-      this.getPlayersAndAddToState();
-    }).catch((err) => {
-      log('error', err);
-      this.props.dispatch(notify.emitError(`Something went wrong please try again.`));
-    });
-  };
-
-  kickPlayer = (steam) => {
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: `mis_kick ${steam}`}).then((res) => {
-      this.props.dispatch(notify.emitInfo('Kicked player from server: ' + steam));
-      this.getPlayersAndAddToState();
-    }).catch((err) => {
-      log('error', err);
-      this.props.dispatch(notify.emitError(`Something went wrong please try again.`));
-    });
-  };
+  kickPlayer = (steam) => {};
 
   showBanDialog = (steam) => {
     this.setState({
       showBanDialog: true,
       banDialogSteamID: steam
-    })
+    });
   };
 
   hideBanDialog = () => {
     this.setState({
       showBanDialog: false
-    })
+    });
   };
 
   updateSearchString = (e) => {
@@ -118,14 +71,6 @@ export default class PlayersView extends Component {
     });
   };
 
-  closeSnackBar = () => {
-    this.setState({
-      showSnackBar: false
-    });
-  };
-
-
-  //TODO Add in a preloaded player to stop this from erroring
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.name}).map((el) => el.string);
     const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.name) >= 0);
@@ -141,7 +86,7 @@ export default class PlayersView extends Component {
             floatingLabelText="Search...."
           />
           <Spacer />
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary={true}>
+          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
             { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
           <Spacer />
@@ -164,12 +109,13 @@ export default class PlayersView extends Component {
           open={this.state.showBanDialog}
           actionSubmit={this.banPlayerAndCloseDialog}
         />
-        <ProgressIndicator loading={this.state.loading}/>
+        <ProgressIndicator
+          loading={this.state.loading}
+        />
       </Container>
     );
   }
 }
-
 
 const rotate360 = keyframes`
   from {
@@ -213,5 +159,3 @@ const PlayerList = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
-
-
