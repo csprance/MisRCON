@@ -13,6 +13,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
+import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
@@ -78,16 +79,18 @@ export default class WhitelistView extends Component {
   };
 
   render() {
-    const filterList = this.props.server.whitelist;
-    console.log(filterList);
+    const fuzzyList = fuzzy.filter(this.state.searchString, _.uniq(this.props.server.whitelist).filter(i => i !== '0'));
     return (
       <Container loading={this.state.loading}>
         <Actions>
           <Spacer />
+
           <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary>
             <AddIcon />
           </FloatingActionButton>
+
           <Spacer />
+
           <SearchBar
             value={this.state.searchString}
             onChange={this.updateSearchString}
@@ -95,21 +98,27 @@ export default class WhitelistView extends Component {
             floatingLabelStyle={{color: white}}
             floatingLabelText="Search...."
           />
+
           <Spacer />
+
           <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
             { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
+
           <Spacer />
+
         </Actions>
+
         <PlayerList>
-          {/*{filterList.map((player) =>*/}
-            {/*<PlayerCard*/}
-              {/*key={player.steam + player.name}*/}
-              {/*steam={player.steam}*/}
-              {/*name={player.name}*/}
-              {/*removePlayerFromWhitelist={this.removePlayerFromWhitelist}*/}
-            {/*/>)}*/}
+          {fuzzyList.map((player) =>
+            <PlayerCard
+              key={player.string}
+              steam={player.string}
+              name={player.string}
+              removePlayerFromWhitelist={this.removePlayerFromWhitelist}
+            />)}
         </PlayerList>
+
         <WhitelistDialog
           open={this.state.showWhitelistDialog}
           actionSubmit={this.addPlayerToWhitelist}
@@ -117,9 +126,11 @@ export default class WhitelistView extends Component {
           steamID={this.state.whitelistDialogSteamID}
           updateSteamID={this.updateWhitelistDialogSteamID}
         />
+
         <ProgressIndicator
           loading={this.state.loading}
         />
+
       </Container>
     );
   }

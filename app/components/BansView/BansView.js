@@ -13,6 +13,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import fuzzy from 'fuzzy';
+import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
@@ -41,12 +42,15 @@ export default class BansView extends Component {
   }
 
 
-  getPlayersAndAddToState = () => {};
+  getPlayersAndAddToState = () => {
+  };
 
 
-  addPlayerToBanList = () => {};
+  addPlayerToBanList = () => {
+  };
 
-  removePlayerFromBanList = (steam) => {};
+  removePlayerFromBanList = (steam) => {
+  };
 
   showBanDialog = () => {
     this.setState({
@@ -73,9 +77,7 @@ export default class BansView extends Component {
   };
 
   render() {
-    // const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.steam}).map((el) => el.string);
-    const filterList = this.props.server.status.banlist;
-    console.log(filterList);
+    const fuzzyList = fuzzy.filter(this.state.searchString, _.uniq(this.props.server.banlist).filter(i => i !== '0'));
     return (
       <Container>
         <Actions>
@@ -98,13 +100,13 @@ export default class BansView extends Component {
           <Spacer />
         </Actions>
         <PlayerList>
-          {/*{filterList.map((player) =>*/}
-            {/*<PlayerCard*/}
-              {/*key={player.steam + player.name}*/}
-              {/*steam={player.steam}*/}
-              {/*name={player.name}*/}
-              {/*removePlayerFromBanList={this.removePlayerFromBanList}*/}
-            {/*/>)}*/}
+          {fuzzyList.map((player) =>
+            <PlayerCard
+              key={player.string}
+              steam={player.string}
+              name={player.string}
+              removePlayerFromBanList={this.removePlayerFromBanList}
+            />)}
         </PlayerList>
         <BanDialog
           open={this.state.showBanDialog}
