@@ -12,7 +12,7 @@ import { log } from '../../utils/loggerUtils';
 
 
 const welcomeMessage = `MisRCON-by @Csprance
-v0.1.0 - Shaboygan
+v0.2.0 - Shaboygan
 Type help for more options
 or tab to autocomplete
 --------------------------

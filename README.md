@@ -1,21 +1,34 @@
+<a href="https://github.com/csprance/MisRCON/blob/master/resources/icon.png" ><img src="https://github.com/csprance/MisRCON/blob/master/resources/icon.png?raw=true" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
 # MisRCON
-
 > RCON utility for Miscreated
 
-> This is a development repository. If you are looking to install the regular version please check the [releases](https://github.com/csprance/MisRCON/releases) section.
+## Download
+<a href="https://github.com/csprance/MisRCON/releases/tag/v0.2.0-Shaboygan" >Download the latest version here</a>
 
-Default installation directory is %apdata%\Local\Programs\MisRCON
+Default installation directory is Users/username/ApplicationData/Local/Programs/MisRCON
+
+
 
 ## Screenshots
-<a href="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png"><img src="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
-<a href="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png"><img src="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>  
-<a href="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
-<a href="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
-<a href="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png"><img src="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
- 
+<a href="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png"><img src="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png"><img src="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png"><img src="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
+## Previous Versions
+* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.3-macadocious/MisRCON.Setup.0.0.3.exe" >MisRCON.Setup.0.0.3.exe</a>
+* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.21-macadocious/MisRCON.Setup.0.0.21.exe" >MisRCON.Setup.0.0.21.exe</a>
+* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.2-macadocious/MisRCON.Setup.0.0.2.exe" >MisRCON.Setup.0.0.2.exe</a>
+* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.1-babycakes/MisRCON.Setup.0.0.1.exe" >MisRCON.Setup.0.0.1.exe</a>
  
 ## Developer Install
-* **Note: You must add in your own secrets.js file with a steam API key in app/secrets.sj** 
+* **Note: You must add in your own secrets.js file with a steam API key in app/secrets.js** 
+```js
+export const apiKey = 'APIKEY';
+export const chatLogPath = 'C:\\Downloads\\chatlog_2016-12-13.txt';
+export const damageLogPath = 'C:\\Downloads\\damagelog_2016-11-25.txt';
+```
 * **Note: requires a node version >= 6 and an npm version >= 3.**
 * **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/chentsulin/electron-react-boilerplate/issues/400)**
 
@@ -29,7 +42,7 @@ And then install dependencies.
 **ProTip**: Install with [yarn](https://github.com/yarnpkg/yarn) for faster and safer installation
 
 ```bash
-$ cd your-project-name && npm install
+$ cd MisRCON && npm install
 ```
 
 ## Developer Run

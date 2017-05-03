@@ -1,3 +1,11 @@
+# 0.2.0 (2017.5.2)
+
+#### Updates
+
+- Uses redux to manage application state
+- Removed misrcon_cli.exe dependency to allow for cross platform compilation
+
+
 # 0.1.0 (2016.12.2)
 
 #### Features
