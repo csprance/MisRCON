@@ -3,7 +3,7 @@
 > RCON utility for Miscreated
 
 ## Download
-<a href="https://github.com/csprance/MisRCON/releases/tag/v0.2.0-Shaboygan" >Download the latest version here</a>
+<a href="https://github.com/csprance/MisRCON/releases/download/0.2.0/MisRCON.Setup.0.2.0.exe" >Download the latest version here</a>
 
 Default installation directory is Users/username/ApplicationData/Local/Programs/MisRCON
 
