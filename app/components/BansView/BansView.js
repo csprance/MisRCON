@@ -16,6 +16,7 @@ import fuzzy from 'fuzzy';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
+import * as serverActions from '../../actions/serverActions';
 
 import Spacer from '../common/Spacer';
 import { white } from '../../styles/colors';
@@ -34,22 +35,23 @@ export default class BansView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
       searchString: '',
       showBanDialog: false,
       banDialogSteamID: '',
     };
   }
 
-
-  getPlayersAndAddToState = () => {
+  getBanList = () => {
+    this.props.dispatch(serverActions.getBanList());
   };
-
 
   addPlayerToBanList = () => {
+    this.props.dispatch(serverActions.banPlayer(this.state.banDialogSteamID));
+    this.hideBanDialog();
   };
 
-  removePlayerFromBanList = (steam) => {
+  removePlayerFromBanList = () => {
+    this.props.dispatch(serverActions.unBanPlayer(this.state.banDialogSteamID));
   };
 
   showBanDialog = () => {
@@ -82,7 +84,7 @@ export default class BansView extends Component {
       <Container>
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.showBanDialog} secondary>
+          <FloatingActionButton onTouchTap={this.showBanDialog} secondary >
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
@@ -94,8 +96,8 @@ export default class BansView extends Component {
             floatingLabelText="Search...."
           />
           <Spacer />
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
-            { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
+          <FloatingActionButton onTouchTap={this.getBanList} secondary >
+            { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
           <Spacer />
         </Actions>
@@ -105,6 +107,7 @@ export default class BansView extends Component {
               key={player.string}
               steam={player.string}
               name={player.string}
+              dispatch={this.props.dispatch}
               removePlayerFromBanList={this.removePlayerFromBanList}
             />)}
         </PlayerList>
@@ -116,7 +119,7 @@ export default class BansView extends Component {
           steamID={this.state.banDialogSteamID}
         />
         <ProgressIndicator
-          loading={this.state.loading}
+          loading={this.props.server.loading}
         />
       </Container>
     );

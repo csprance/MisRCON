@@ -18,22 +18,21 @@ export function fetchingServerData() {
 }
 export function recievedServerData(data) {
   return {
-    type: actionType.RECIEVED_ALL_SERVER_DATA,
+    type: actionType.UPDATE_ALL_SERVER_DATA,
     payload: data
   };
 }
 export function getInitialData() {
   return (dispatch, getState) => {
     dispatch(fetchingServerData());
-
     misrcon.getAllServerData({...getState().credentials.active})
       .then((res) => {
         dispatch(recievedServerData(res));
+        return null;
       })
       .catch((e) => {
         throw e;
       });
-
   };
 }
 
@@ -54,14 +53,13 @@ export function fetchingStatus() {
 export function getStatus() {
   return (dispatch, getState) => {
     dispatch(fetchingStatus());
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: 'status'
-    }).then(statusResponseString => {
-      // add it to status
-      updateStatus(misrcon.parseStatusResponseToJs(statusResponseString));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'status'})
+      .then(statusResponseString => {
+        dispatch(updateStatus(misrcon.parseStatusResponseToJs(statusResponseString)));
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 
@@ -83,35 +81,35 @@ export function fetchingWhitelist() {
 export function getWhitelist() {
   return (dispatch, getState) => {
     dispatch(fetchingWhitelist());
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: 'mis_whitelist_status'
-    }).then(whitelistResponseString => {
-      updateWhitelist(misrcon.parseWhitelistResponseToJs(whitelistResponseString));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_whitelist_status'})
+      .then(whitelistResponseString => {
+        dispatch(updateWhitelist(misrcon.parseWhitelistResponseToJs(whitelistResponseString)));
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 export function whitelistPlayer(steamid) {
   return (dispatch, getState) => {
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: `mis_whitelist_add ${steamid}`
-    }).then(whitelistPlayerResponseString => {
-      updateWhitelist(getState().server.whitelist.push(steamid));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_whitelist_add ${steamid}`})
+      .then(() => {
+        dispatch(getWhitelist());
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 export function unWhitelistPlayer(steamid) {
   return (dispatch, getState) => {
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: `mis_whitelist_remove ${steamid}`
-    }).then(unWhitelistPlayerResponseString => {
-      updateWhitelist(getState().server.whitelist.filter(x => x !== steamid));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_whitelist_remove ${steamid}`})
+      .then(() => {
+        dispatch(getWhitelist());
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 
@@ -133,35 +131,51 @@ export function fetchingBanList() {
 export function getBanList() {
   return (dispatch, getState) => {
     dispatch(fetchingBanList());
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: 'mis_ban_status'
-    }).then(banListResponseString => {
-      // add it to status
-      updateBanList(misrcon.parseBanListResponseToJs(banListResponseString));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: 'mis_ban_status'})
+      .then(banListResponseString => {
+        dispatch(updateBanList(misrcon.parseBanListResponseToJs(banListResponseString)));
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 export function banPlayer(steamid) {
   return (dispatch, getState) => {
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: `mis_ban_steamid ${steamid}`
-    }).then(banPlayerResponseString => {
-      updateBanList(getState().server.banlist.push(steamid));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_ban_steamid ${steamid}`})
+      .then(() => {
+        dispatch(getBanList());
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }
 export function unBanPlayer(steamid) {
   return (dispatch, getState) => {
-    misrcon.sendRCONCommandToServer({
-      ...getState().credentials.active,
-      command: `mis_ban_remove ${steamid}`
-    }).then(unBanPlayerResponseString => {
-      updateBanList(getState().server.banlist.filter(x => x !== steamid));
-    }).catch(() => {
-    });
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_ban_remove ${steamid}`})
+      .then(() => {
+        dispatch(getBanList());
+        return null;
+      })
+      .catch(() => {
+      });
+  };
+}
+
+//////////////////////////////////////////////////////
+// Kick
+//////////////////////////////////////////////////////
+
+export function kickPlayer(steamid) {
+  return (dispatch, getState) => {
+    misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_kick ${steamid}`})
+      .then(() => {
+        // add it to status
+        dispatch(getStatus());
+        return null;
+      })
+      .catch(() => {
+      });
   };
 }

@@ -13,11 +13,13 @@ const PlayersViewBanDialog = (props) => {
   const actions = [
     <FlatButton
       label="Cancel"
-      onTouchTap={props.actionCancel}/>,
+      onTouchTap={props.actionCancel}
+    />,
     <FlatButton
       label="Submit"
-      secondary={true}
-      onTouchTap={props.actionSubmit}/>
+      secondary
+      onTouchTap={props.actionSubmit}
+    />
   ];
 
   return (
@@ -29,12 +31,12 @@ const PlayersViewBanDialog = (props) => {
       open={props.open}
     >
       <TextField
-        id={props.steamIDToBan + '_ban_input'}
+        id={`${props.steamIDToBan}_ban_input`}
         floatingLabelText="Ban Reason"
         value={props.banReason}
         onChange={props.updateBanReason}
       />
-      <br/>
+      <br />
       Are you sure you want to ban {props.steamIDToBan}?
     </Dialog>
   );
@@ -50,5 +52,3 @@ PlayersViewBanDialog.propTypes = {
 };
 
 export default PlayersViewBanDialog;
-
-

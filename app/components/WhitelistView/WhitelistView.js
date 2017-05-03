@@ -16,6 +16,7 @@ import fuzzy from 'fuzzy';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
+import * as serverActions from '../../actions/serverActions';
 
 import Spacer from '../common/Spacer';
 import { white } from '../../styles/colors';
@@ -41,17 +42,18 @@ export default class WhitelistView extends Component {
     };
   }
 
-  getPlayersAndAddToState = () => {
-
+  updateWhitelist = () => {
+    this.props.dispatch(serverActions.getWhitelist());
   };
 
   addPlayerToWhitelist = () => {
-
+    this.props.dispatch(serverActions.whitelistPlayer(this.state.whitelistDialogSteamID));
+    this.hideWhitelistDialog();
   };
 
 
   removePlayerFromWhitelist = (steam) => {
-
+    this.props.dispatch(serverActions.unWhitelistPlayer(steam));
   };
 
   showWhitelistDialog = () => {
@@ -81,11 +83,11 @@ export default class WhitelistView extends Component {
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, _.uniq(this.props.server.whitelist).filter(i => i !== '0'));
     return (
-      <Container loading={this.state.loading}>
+      <Container loading={this.state.loading} >
         <Actions>
           <Spacer />
 
-          <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary>
+          <FloatingActionButton onTouchTap={this.showWhitelistDialog} secondary >
             <AddIcon />
           </FloatingActionButton>
 
@@ -101,8 +103,8 @@ export default class WhitelistView extends Component {
 
           <Spacer />
 
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
-            { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
+          <FloatingActionButton onTouchTap={this.updateWhitelist} secondary >
+            { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
 
           <Spacer />
@@ -115,6 +117,7 @@ export default class WhitelistView extends Component {
               key={player.string}
               steam={player.string}
               name={player.string}
+              dispatch={this.props.dispatch}
               removePlayerFromWhitelist={this.removePlayerFromWhitelist}
             />)}
         </PlayerList>
@@ -128,7 +131,7 @@ export default class WhitelistView extends Component {
         />
 
         <ProgressIndicator
-          loading={this.state.loading}
+          loading={this.props.server.loading}
         />
 
       </Container>

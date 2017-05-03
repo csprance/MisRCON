@@ -6,6 +6,7 @@
 import store from 'store';
 import validate from 'validate.js';
 
+
 // bootstrap the app to make sure we have the credentials key in local storage
 export function bootStrap() {
   if (store.get('credentials') === undefined) {
@@ -48,11 +49,11 @@ export const credentialConstraints = () => {
       presence: true,
       format: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
     },
-  }
+  };
 };
 
 export function credsAreValid(credentials) {
-  let retVal = validate(credentials, credentialConstraints());
+  const retVal = validate(credentials, credentialConstraints());
   return retVal === undefined ? true : retVal;
 }
 

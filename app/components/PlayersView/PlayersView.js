@@ -14,6 +14,7 @@ import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import fuzzy from 'fuzzy';
 
 import { connect } from 'react-redux';
+import * as serverActions from '../../actions/serverActions';
 
 import Spacer from '../common/Spacer';
 import { white } from '../../styles/colors';
@@ -31,7 +32,6 @@ export default class PlayersView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      loading: false,
       searchString: '',
       showBanDialog: false,
       banDialogBanReason: '',
@@ -39,12 +39,16 @@ export default class PlayersView extends Component {
     };
   }
 
-  getPlayersAndAddToState = () => {};
+  getPlayersAndAddToState = () => {
+    this.props.dispatch(serverActions.getStatus());
+  };
 
 
-  banPlayerAndCloseDialog = () => {};
+  banPlayerAndCloseDialog = () => {
+  };
 
-  kickPlayer = (steam) => {};
+  kickPlayer = (steam) => {
+  };
 
   showBanDialog = (steam) => {
     this.setState({
@@ -87,7 +91,7 @@ export default class PlayersView extends Component {
           />
           <Spacer />
           <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
-            { (this.state.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
+            { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
           <Spacer />
         </Actions>
@@ -98,6 +102,7 @@ export default class PlayersView extends Component {
               steam={player.steam}
               name={player.name}
               ban={this.showBanDialog}
+              dispatch={this.props.dispatch}
               kick={this.kickPlayer}
             />)}
         </PlayerList>
@@ -110,7 +115,7 @@ export default class PlayersView extends Component {
           actionSubmit={this.banPlayerAndCloseDialog}
         />
         <ProgressIndicator
-          loading={this.state.loading}
+          loading={this.props.server.loading}
         />
       </Container>
     );

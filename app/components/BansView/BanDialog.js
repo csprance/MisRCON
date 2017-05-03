@@ -13,11 +13,13 @@ const BanDialog = (props) => {
   const actions = [
     <FlatButton
       label="Cancel"
-      onTouchTap={props.actionCancel}/>,
+      onTouchTap={props.actionCancel}
+    />,
     <FlatButton
       label="Submit"
-      secondary={true}
-      onTouchTap={props.actionSubmit}/>
+      secondary
+      onTouchTap={props.actionSubmit}
+    />
   ];
 
   return (
@@ -47,5 +49,3 @@ BanDialog.propTypes = {
 };
 
 export default BanDialog;
-
-

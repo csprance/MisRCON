@@ -6,6 +6,11 @@
  * as well as sending all the initial data to the other components
  */
 import React, { Component } from 'react';
+import {ipcRenderer} from 'electron';
+
+import { connect } from 'react-redux';
+import * as server from '../actions/serverActions';
+import * as credentialsActions from '../actions/credentialsActions';
 
 // redux containers
 import NotificationBar from '../containers/NotificationBar';
@@ -13,22 +18,15 @@ import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
 
-import { connect } from 'react-redux';
-import * as server from '../actions/serverActions';
-import * as credentialsActions from '../actions/credentialsActions';
-
 @connect((store) => {
   return {
     credentials: store.credentials
-  }
+  };
 })
 export default class HomePage extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
 
   componentDidMount() {
-    require('electron').ipcRenderer.on('clearUserCredentials', () => {
+    ipcRenderer.on('clearUserCredentials', () => {
       this.props.dispatch(credentialsActions.logOut());
     });
   }
@@ -41,13 +39,13 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-        <div style={{width: '100%', display: 'flex', flexGrow: 1}}>
+      <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
+        <div style={{width: '100%', display: 'flex', flexGrow: 1}} >
 
           {this.props.credentials.active.name.length === 0 ?
-            <LoginView/>
+            <LoginView />
             :
-            <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+            <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
               <HomeView />
               <StatusBar />
             </div>

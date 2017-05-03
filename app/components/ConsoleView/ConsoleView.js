@@ -22,7 +22,7 @@ or tab to autocomplete
 @connect((store) => {
   return {
     credentials: store.credentials
-  }
+  };
 })
 class ConsoleView extends Component {
   constructor(props, context) {
@@ -30,32 +30,33 @@ class ConsoleView extends Component {
     this.words = helpCommands.map((el) => el.value);
   }
 
+  getHelpOn = (text) => {
+    this.console.log(helpCommands.filter((el) => el.value === text)[0].display);
+    this.console.return();
+  };
+
+  complete = (e) => {
+    return fuzzy.filter(e[0], this.words, {}).map((el) => {
+      return el.string;
+    });
+  };
+
   clearScreen = () => {
-    let container = this.refs.console.child.container;
-    let children = [].slice.call(container.childNodes);
+    const container = this.console.child.container;
+    const children = [].slice.call(container.childNodes);
     children.splice(0, 1);
     children.splice(children.length - 3, 3);
-    children.map((node) => {
+    children.forEach((node) => {
       container.removeChild(node);
     });
-    this.refs.console.return();
+    this.console.return();
   };
 
-  help = () => {
-    this.refs.console.log(helpText);
-    this.refs.console.return();
+  askingForHelp = (text) => {
+    const splitText = text.split(' ');
+    if (splitText[0] === 'help') if (splitText.length === 2) return true;
+    return false;
   };
-
-  sendCommand = (command) => {
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command: command}).then((res) => {
-      this.refs.console.log(res);
-      this.refs.console.return();
-    }).catch((err) => {
-      this.refs.console.log(err);
-      this.refs.console.return();
-    });
-  };
-
 
   handleInput = (text) => {
     try {
@@ -69,44 +70,39 @@ class ConsoleView extends Component {
       else this.sendCommand(text);
     } catch (e) {
       log('error', e);
-      this.refs.console.log(String(e));
-      this.refs.console.return();
+      this.console.log(String(e));
+      this.console.return();
     }
   };
 
-  // Autocomplete function
-  // TODO: Fix this so it selects the highest rated one
-  complete = (e) => {
-    return fuzzy.filter(e[0], this.words, {}).map((el) => {
-      console.log(el);
-      return el.string
+  help = () => {
+    this.console.log(helpText);
+    this.console.return();
+  };
+
+  sendCommand = (command) => {
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command}).then((res) => {
+      this.console.log(res);
+      this.console.return();
+    }).catch((err) => {
+      this.console.log(err);
+      this.console.return();
     });
   };
-
-  askingForHelp(text) {
-    let splitText = text.split(' ');
-    if (splitText[0] === 'help') if (splitText.length === 2) return true;
-    return false
-  }
-
-  getHelpOn = (text) => {
-    this.refs.console.log(helpCommands.filter((el) => el.value === text)[0].display);
-    this.refs.console.return();
-  };
-
 
   render() {
     return (
       <Container>
-        <Console ref="console"
-                 complete={this.complete}
-                 handler={this.handleInput}
-                 autofocus={true}
-                 welcomeMessage={welcomeMessage}/>
-      </Container>);
+        <Console
+          ref={(console) => this.console = console}
+          complete={this.complete}
+          handler={this.handleInput}
+          autofocus
+          welcomeMessage={welcomeMessage}
+        />
+      </Container>
+    );
   }
-
-
 }
 
 const Container = styled.div`

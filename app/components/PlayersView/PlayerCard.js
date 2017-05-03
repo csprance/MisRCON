@@ -11,6 +11,8 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import store from 'store';
 
+import * as serverActions from '../../actions/serverActions';
+
 import Spacer from '../common/Spacer';
 import { darkGrey, white } from '../../styles/colors';
 import ExternalLink from '../common/ExternalLink';
@@ -38,10 +40,10 @@ class PlayersCard extends Component {
       <PCard>
         <Card>
           <CardHeader
-            avatar={<SteamAvatar steam={this.props.steam}/>}
+            avatar={<SteamAvatar steam={this.props.steam} />}
             style={{background: darkGrey}}
             title={this.props.name}
-            subtitle={<ExternalLink to={link}>{this.props.steam}</ExternalLink>}
+            subtitle={<ExternalLink to={link} >{this.props.steam}</ExternalLink>}
           />
           <CardText>
             <TextField
@@ -52,31 +54,31 @@ class PlayersCard extends Component {
               floatingLabelText="Notes:"
             />
           </CardText>
-          <CardActions style={{display: 'flex'}}>
+          <CardActions style={{display: 'flex'}} >
             <Spacer />
 
             {this.props.removePlayerFromBanList !== undefined &&
             <FlatButton
               label="UNBan"
-              onTouchTap={this.props.removePlayerFromBanList.bind(null, this.props.steam)}
+              onTouchTap={() => this.props.dispatch(serverActions.unBanPlayer(this.props.steam))}
             />}
 
             {this.props.removePlayerFromWhitelist !== undefined &&
             <FlatButton
               label="Remove"
-              onTouchTap={this.props.removePlayerFromWhitelist.bind(null, this.props.steam)}
+              onTouchTap={() => this.props.dispatch(serverActions.unWhitelistPlayer(this.props.steam))}
             />}
 
             {this.props.kick !== undefined &&
             <FlatButton
               label="Kick"
-              onTouchTap={this.props.kick.bind(null, this.props.steam)}
+              onTouchTap={() => this.props.dispatch(serverActions.kickPlayer(this.props.steam))}
             />}
 
             {this.props.ban !== undefined &&
             <FlatButton
               secondary label="Ban"
-              onTouchTap={this.props.ban.bind(null, this.props.steam)}
+              onTouchTap={() => this.props.dispatch(serverActions.banPlayer(this.props.steam))}
             />}
 
           </CardActions>
