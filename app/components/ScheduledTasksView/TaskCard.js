@@ -1,7 +1,7 @@
 // The logic for the task scheduling is kept here because it's created and destroyed along with the component itself
 // It's probably not the best place for it so I'm open to suggestions on where to put it.
 
-import React, {Component, PropTypes}from 'react';
+import React, { Component, PropTypes }from 'react';
 import Paper from 'material-ui/Paper';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
@@ -11,9 +11,9 @@ import prettyCron from 'prettycron';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import isPast from 'date-fns/is_past';
 
-import {replaceTimeOfDate} from '../../utils/dateUtils';
-import {scheduleTaskAtTime, scheduleTaskAtDateTime} from '../../utils/scheduleTask';
-import {log} from '../../utils/loggerUtils';
+import { replaceTimeOfDate } from '../../utils/dateUtils';
+import { scheduleTaskAtTime, scheduleTaskAtDateTime } from '../../utils/scheduleTask';
+import { log } from '../../utils/loggerUtils';
 
 class TaskCard extends Component {
   constructor(props) {
@@ -53,36 +53,36 @@ class TaskCard extends Component {
 
   render() {
     return (
-      <TaskCardContainer zDepth={1}>
+      <TaskCardContainer zDepth={1} >
         <Name>
           {this.props.taskName}
         </Name>
 
         {this.props.taskType === 'RECURRING' ? (
-          <div>
-            <TaskCronString>
-              {this.props.taskCronString} <br/>
-              Runs {prettyCron.toString(this.props.taskCronString)}
-            </TaskCronString>
-          </div>
-        ) : (
-          <div>
-            <TaskTime>
-              {isPast(replaceTimeOfDate(this.props.taskTime, this.props.taskDate)) === false ? (
-                <div>
-                  Next {distanceInWordsToNow(replaceTimeOfDate(this.props.taskTime, this.props.taskDate))}
-                </div>
-              ) : (
-                <div>
-                  Past Task Date/Time
-                </div>
-              )}
-            </TaskTime>
-            <TaskDate>
-              Runs {format(this.props.taskDate, 'MM/DD/YY')} @ {format(this.props.taskTime, 'HH:mm')}
-            </TaskDate>
-          </div>
-        )}
+            <div>
+              <TaskCronString>
+                {this.props.taskCronString} <br />
+                Runs {prettyCron.toString(this.props.taskCronString)}
+              </TaskCronString>
+            </div>
+          ) : (
+            <div>
+              <TaskTime>
+                {isPast(replaceTimeOfDate(this.props.taskTime, this.props.taskDate)) === false ? (
+                    <div>
+                      Next {distanceInWordsToNow(replaceTimeOfDate(this.props.taskTime, this.props.taskDate))}
+                    </div>
+                  ) : (
+                    <div>
+                      Past Task Date/Time
+                    </div>
+                  )}
+              </TaskTime>
+              <TaskDate>
+                Runs {format(this.props.taskDate, 'MM/DD/YY')} @ {format(this.props.taskTime, 'HH:mm')}
+              </TaskDate>
+            </div>
+          )}
 
         <TaskCommand>
           {this.props.taskCommand}
@@ -90,7 +90,7 @@ class TaskCard extends Component {
         <Spacer />
         <TaskActions>
           <IconButton
-            onTouchTap={this.props.deleteTask.bind(null, this.props.taskName, this.props.taskTime, this.props.taskCommand)}>
+            onTouchTap={this.props.deleteTask.bind(null, this.props.taskName, this.props.taskTime, this.props.taskCommand)} >
             <DeleteIcon />
           </IconButton>
         </TaskActions>

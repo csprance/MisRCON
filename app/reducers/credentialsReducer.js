@@ -10,7 +10,7 @@ import { bootStrap, getStoredCredentials } from '../utils/credentialsUtils';
 
 bootStrap();
 
-let initialState = {
+const initialState = {
   active: {ip: '', port: '', password: '', name: ''},
   inactive: getStoredCredentials()
 };

@@ -1,6 +1,6 @@
 import cron from 'node-schedule';
 import store from 'store';
-import misrcon from 'node-misrcon';
+import * as misrcon from 'node-misrcon';
 
 import { log } from './loggerUtils';
 import { replaceTimeOfDate } from '../utils/dateUtils';
@@ -17,17 +17,17 @@ export function scheduleTaskAtTime(taskCommand, taskCronString) {
   // Log it
   log('info', `Scheduling recurring task to run: ${taskCronString}`);
 
-  // create our credentials object
-  const storedCreds = store.get('userCredentials');
-  const creds = {
-    ip: storedCreds.ip,
-    port: storedCreds.port,
-    password: storedCreds.password
-  };
-
-  return cron.scheduleJob(taskCronString, function () {
+  return cron.scheduleJob(taskCronString, () => {
     log('info', `Sending recurring scheduled task command to server${taskCommand}`);
-    misrcon.sendRCONCommandToServer({...creds, command: taskCommand});
+    misrcon.sendRCONCommandToServer({...store.get('userCredentials'), command: taskCommand})
+      .then(res => {
+        console.log(res);
+        return null;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
   });
 }
 
@@ -40,23 +40,24 @@ export function scheduleTaskAtTime(taskCommand, taskCronString) {
  * @returns:  {CronJob}     cron          the CronJob task can do .cancel()
  */
 export function scheduleTaskAtDateTime(taskCommand, dateOfTask, timeOfTask) {
-  // create our credentials object
-  const storedCreds = store.get('userCredentials');
-  const creds = {
-    ip: storedCreds.ip,
-    port: storedCreds.port,
-    password: storedCreds.password
-  };
-
   // add the dateOfTask to the timeOfTask
   const date = replaceTimeOfDate(timeOfTask, dateOfTask);
 
   // Log it
   log('info', `Scheduling Specific Date task to run: ${date.format()} running command ${taskCommand}`);
 
-  return cron.scheduleJob(date.toDate(), function () {
+  return cron.scheduleJob(date.toDate(), () => {
     log('info', `Sending specific date task command to server${taskCommand}`);
-    misrcon.sendRCONCommandToServer({...creds, command: taskCommand});
+
+    misrcon.sendRCONCommandToServer({...store.get('userCredentials'), command: taskCommand})
+      .then(res => {
+        console.log(res);
+        return null;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
   });
 }
 

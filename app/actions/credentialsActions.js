@@ -3,6 +3,8 @@
  * Created by chris on 3/17/2017.
  * Description:
  */
+import store from 'store';
+
 import * as types from '../constants/ActionTypes';
 import * as credentialsUtils from '../utils/credentialsUtils';
 
@@ -24,6 +26,8 @@ export function removeCredentials(name) {
 }
 
 export function useCredentials(name) {
+  console.log('monkey patch for schedule tasks to work');
+  store.set('userCredentials', store.get('credentials').filter(i => i.name === name)[0]);
   return {
     type: types.USE_CREDENTIALS,
     payload: name
