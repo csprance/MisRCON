@@ -148,6 +148,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "babyparse": "^0.4.6",
     "bluebird": "^3.4.6",
     "class-bind": "^0.2.0",
     "csv": "^1.1.0",

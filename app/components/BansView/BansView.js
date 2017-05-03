@@ -152,6 +152,7 @@ const SearchBar = styled(TextField)`
 const Actions = styled.div`
   height: 100px;
   width: 100%;
+  min-height: 100px;
   display: flex; 
   align-items: center;
   justify-content: center;

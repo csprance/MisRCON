@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import store from 'store';
-import parse from 'date-fns/parse'
+import parse from 'date-fns/parse';
 
-import {black} from '../../styles/colors';
+import { black } from '../../styles/colors';
 import TaskCard from './TaskCard';
 import AddTasksButton from './AddTaskButton';
 import CreateTaskDialog from './CreateTaskDialog';
@@ -35,13 +35,7 @@ class ScheduledTasksView extends Component {
    */
   getTasksFromLocalStorage = () => {
     //  Fetch stored tasks from localStorage
-    let localStorageTasks = store.get('savedTasks');
-    // If there are tasks go and grab them
-    if (localStorageTasks) {
-      return localStorageTasks
-    } else {
-      return [];
-    }
+    return store.get('savedTasks') !== undefined ? store.get('savedTasks') : [];
   };
 
   ////////////////////////////////////////////////////////////
@@ -51,8 +45,8 @@ class ScheduledTasksView extends Component {
    */
   deleteTask = (name) => {
     // filter it out of tasks array
-    let newArray = this.state.tasks.filter((task) => {
-      return task.taskName !== name
+    const newArray = this.state.tasks.filter((task) => {
+      return task.taskName !== name;
     });
 
     // replace tasks state with new array
@@ -75,7 +69,7 @@ class ScheduledTasksView extends Component {
       this.closeTaskDialog();
 
       // Add task to this.state.tasks and localStorage
-      let newTasks = this.state.tasks.concat(
+      const newTasks = this.state.tasks.concat(
         [{
           taskName: this.state.taskName,
           taskCronString: this.state.taskCronString,
@@ -176,7 +170,7 @@ class ScheduledTasksView extends Component {
             SCHEDULED TASKS
           </HeaderTitle>
           <AddTasksButton
-            onTouchTap={this.openTaskDialog}/>
+            onTouchTap={this.openTaskDialog} />
         </HeaderBar>
         <TaskContainer>
           {this.state.tasks.map((task) => {
@@ -189,13 +183,15 @@ class ScheduledTasksView extends Component {
                 taskType={task.taskType}
                 taskTime={parse(task.taskTime)}
                 taskCommand={task.taskCommand}
-                key={task.taskName}/>)
+                key={task.taskName}
+              />);
           })}
         </TaskContainer>
         <CreateTaskDialog
           open={this.state.open}
           actionSubmit={this.addTask}
-          actionCancel={this.closeTaskDialog}>
+          actionCancel={this.closeTaskDialog}
+        >
           <TaskCreationForm
             taskTime={this.state.taskTime}
             taskDate={this.state.taskDate}
@@ -208,7 +204,8 @@ class ScheduledTasksView extends Component {
             onCommandChanged={this.updateTaskCommand}
             onDateChanged={this.updateTaskDate}
             onTypeChanged={this.updateTaskType}
-            onCronStringChanged={this.updateTaskCronString}/>
+            onCronStringChanged={this.updateTaskCronString}
+          />
         </CreateTaskDialog>
       </Wrapper>
     );
@@ -217,10 +214,6 @@ class ScheduledTasksView extends Component {
 
 export default ScheduledTasksView;
 
-
-////////////////////////////////////////////////////////////
-// Styles
-////////////////////////////////////////////////////////////
 const Wrapper = styled.div`
   max-width:450px;
   flex-direction:column;
@@ -228,7 +221,6 @@ const Wrapper = styled.div`
   display:flex;
   flex-shrink: 1;
 `;
-
 const TaskContainer = styled.div`
   box-sizing: border-box;
   flex-grow:1;
@@ -239,7 +231,6 @@ const TaskContainer = styled.div`
   padding: 10px;
   min-width: 400px;
 `;
-
 const HeaderBar = styled.div`
   min-height:72px;
   max-height: 72px;
@@ -253,7 +244,3 @@ const HeaderBar = styled.div`
 const HeaderTitle = styled.div`
   flex-grow: 1;
 `;
-
-
-
-

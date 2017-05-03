@@ -1,11 +1,11 @@
 import React from 'react';
-import { Tabs, Tab } from '../common/Tabs';
 import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import WhitelistIcon from 'material-ui/svg-icons/action/assignment';
 import styled from 'styled-components';
 
+import { Tabs, Tab } from '../common/Tabs';
 import BansView from '../BansView/BansView';
 import ConsoleView from '../ConsoleView/ConsoleView';
 import PlayersView from '../PlayersView/PlayersView';
@@ -18,26 +18,30 @@ const Home = (props) => (
     <StyledTabs
       tabItemContainerStyle={{minHeight: 72}}
       contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
-      tabTemplateStyle={{display: 'flex'}}>
+      tabTemplateStyle={{display: 'flex'}} >
       <Tab
         icon={<ConsoleIcon />}
-        label="CONSOLE">
+        label="CONSOLE"
+      >
         <ConsoleView />
       </Tab>
       <Tab
         icon={<PeopleIcon />}
-        label="PLAYERS">
-        <PlayersView players={props.players}/>
+        label="PLAYERS"
+      >
+        <PlayersView players={props.players} />
       </Tab>
       <Tab
         icon={<BanIcon />}
-        label="BANS">
-        <BansView banListPlayers={props.banListPlayers}/>
+        label="BANS"
+      >
+        <BansView banListPlayers={props.banListPlayers} />
       </Tab>
       <Tab
         icon={<WhitelistIcon />}
-        label="WHITELIST">
-        <WhitelistView whiteListPlayers={props.whiteListPlayers}/>
+        label="WHITELIST"
+      >
+        <WhitelistView whiteListPlayers={props.whiteListPlayers} />
       </Tab>
     </StyledTabs>
     <ScheduledTasksView />

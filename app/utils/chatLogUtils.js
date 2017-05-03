@@ -29,7 +29,7 @@ export function eventizeChatLog(str) {
       name: event[2].replace('[Name', '').trim(),
       ip: event[3].replace('[IP', '').trim(),
       msg: event.slice(4).join(' ').trim(),
-    }
+    };
   });
 }
 

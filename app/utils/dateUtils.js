@@ -16,12 +16,12 @@ import format from 'date-fns/format';
  */
 export function replaceTimeOfDate(timeOfTask, dateOfTask) {
   // add the dateOfTask to the timeOfTask
-  let date = moment(dateOfTask);
-  let time = moment(timeOfTask);
+  const date = moment(dateOfTask);
+  const time = moment(timeOfTask);
   date.set('hour', time.get('hour'));
   date.set('minute', time.get('minute'));
   date.set('second', time.get('second'));
-  return date
+  return date;
 }
 
 /**
@@ -32,5 +32,5 @@ export function replaceTimeOfDate(timeOfTask, dateOfTask) {
  */
 export function convertTimeStrToDate(timeOfTask, dateOfTask = Date.now()) {
   // add the dateOfTask to the timeOfTask
-  return parse(format(dateOfTask, 'YYYY-MM-DDT') + timeOfTask + 'Z');
+  return parse(`${format(dateOfTask, 'YYYY-MM-DDT') + timeOfTask}Z`);
 }

@@ -1,4 +1,4 @@
-<a href="https://github.com/csprance/MisRCON/blob/master/resources/icon.png" ><img src="https://github.com/csprance/MisRCON/blob/master/resources/icon.png?raw=true" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a><br/>
+<a href="https://github.com/csprance/MisRCON/blob/master/resources/icon.png" ><img src="https://github.com/csprance/MisRCON/blob/master/resources/icon.png?raw=true" alt="IMAGE ALT TEXT HERE" width="320" height="320" border="10" /></a><br/>
 # MisRCON
 > RCON utility for Miscreated
 

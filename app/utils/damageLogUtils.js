@@ -6,7 +6,7 @@
  *
  */
 import parse from 'csv-parse/lib/sync';
-import Promise from 'bluebird'
+import Promise from 'bluebird';
 import axios from 'axios';
 import fs from 'fs';
 import _ from 'lodash';

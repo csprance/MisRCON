@@ -9,8 +9,9 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import format from 'date-fns/format';
 import prettyCron from 'prettycron';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import isPast from 'date-fns/is_past';
+
 import {replaceTimeOfDate} from '../../utils/dateUtils';
-import isPast from 'date-fns/is_past'
 import {scheduleTaskAtTime, scheduleTaskAtDateTime} from '../../utils/scheduleTask';
 import {log} from '../../utils/loggerUtils';
 
@@ -21,7 +22,6 @@ class TaskCard extends Component {
       cronJob: {} // the CronJob object associated with this TaskCard can do things like .cancel() on this
     };
   }
-
 
   /**
    * Creates a CronJob that runs when the component is mounted
@@ -38,7 +38,6 @@ class TaskCard extends Component {
         cronJob: scheduleTaskAtDateTime(this.props.taskCommand, this.props.taskDate, this.props.taskTime),
       });
     }
-
   }
 
   /**
