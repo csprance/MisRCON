@@ -11,14 +11,14 @@ import ConsoleView from '../ConsoleView/ConsoleView';
 import PlayersView from '../PlayersView/PlayersView';
 import ScheduledTasksView from '../ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../WhitelistView/WhitelistView';
-import debug from '../../styles/stylesDebugger';
 
 const Home = (props) => (
   <SplitPane>
     <StyledTabs
       tabItemContainerStyle={{minHeight: 72}}
       contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
-      tabTemplateStyle={{display: 'flex'}} >
+      tabTemplateStyle={{display: 'flex'}}
+    >
       <Tab
         icon={<ConsoleIcon />}
         label="CONSOLE"
@@ -52,7 +52,6 @@ const SplitPane = styled.div`
   display: flex;
   align-items:stretch;
   flex-grow:1;
-   ${debug('Split Pane')}
 `;
 
 
@@ -61,7 +60,6 @@ const StyledTabs = styled(Tabs)`
   display:flex;
   flex-direction:column;
   align-items:stretch;
-  ${debug('StyledTabs')}
 `;
 
 

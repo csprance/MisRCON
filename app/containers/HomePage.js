@@ -6,11 +6,12 @@
  * as well as sending all the initial data to the other components
  */
 import React, { Component } from 'react';
-import {ipcRenderer} from 'electron';
+import { ipcRenderer } from 'electron';
 
 import { connect } from 'react-redux';
 import * as server from '../actions/serverActions';
 import * as credentialsActions from '../actions/credentialsActions';
+import * as credentialsUtils from '../utils/credentialsUtils';
 
 // redux containers
 import NotificationBar from '../containers/NotificationBar';
@@ -24,7 +25,6 @@ import StatusBar from '../components/StatusBar/StatusBar';
   };
 })
 export default class HomePage extends Component {
-
   componentDidMount() {
     ipcRenderer.on('clearUserCredentials', () => {
       this.props.dispatch(credentialsActions.logOut());
@@ -32,7 +32,7 @@ export default class HomePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.credentials.active.name.length > 0) {
+    if (credentialsUtils.credentialsHaveChanged(nextProps)) {
       this.props.dispatch(server.getInitialData());
     }
   }
@@ -41,7 +41,6 @@ export default class HomePage extends Component {
     return (
       <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
         <div style={{width: '100%', display: 'flex', flexGrow: 1}} >
-
           {this.props.credentials.active.name.length === 0 ?
             <LoginView />
             :
@@ -50,7 +49,6 @@ export default class HomePage extends Component {
               <StatusBar />
             </div>
           }
-
           <NotificationBar />
         </div>
       </div>

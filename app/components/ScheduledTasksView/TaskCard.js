@@ -1,7 +1,4 @@
-// The logic for the task scheduling is kept here because it's created and destroyed along with the component itself
-// It's probably not the best place for it so I'm open to suggestions on where to put it.
-
-import React, { Component, PropTypes }from 'react';
+import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
@@ -11,112 +8,93 @@ import prettyCron from 'prettycron';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import isPast from 'date-fns/is_past';
 
+import * as taskActions from '../../actions/scheduledTasksActions';
+import * as taskUtils from '../../utils/scheduledTasksUtils';
+
 import { replaceTimeOfDate } from '../../utils/dateUtils';
-import { scheduleTaskAtTime, scheduleTaskAtDateTime } from '../../utils/scheduleTask';
-import { log } from '../../utils/loggerUtils';
+
 
 class TaskCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cronJob: {} // the CronJob object associated with this TaskCard can do things like .cancel() on this
-    };
+  constructor(props, context) {
+    super(props, context);
+    this.cronJob = {};
   }
 
-  /**
-   * Creates a CronJob that runs when the component is mounted
-   * Decides whether to schedule at a date or recurring
-   */
   componentDidMount() {
-    if (this.props.taskType === 'RECURRING') {
-      this.setState({
-        cronJob: scheduleTaskAtTime(this.props.taskCommand, this.props.taskCronString),
-      });
+    // TODO: Move this somewhere else. Maybe into the server so I can have multiple cronJobs running at the same time for multiple servers
+    if (this.props.type === 'RECURRING') {
+      // create the cron object
+      this.cronJob = taskUtils.scheduleCronStringTask(this.props, this.props.dispatch);
     }
-    if (this.props.taskType === 'SPECIFIC') {
-      this.setState({
-        cronJob: scheduleTaskAtDateTime(this.props.taskCommand, this.props.taskDate, this.props.taskTime),
-      });
+    if (this.props.type === 'SPECIFIC') {
+      // create the cron object
+      this.cronJob = taskUtils.scheduleDateTimeTask(this.props, this.props.dispatch);
     }
   }
 
-  /**
-   * Destroys the CronJob
-   */
   componentWillUnmount() {
-    if (this.state.cronJob !== null) {
-      log('silly', `removing task: ${this.props.taskName}`);
-      this.state.cronJob.cancel();
+    try {
+      this.cronJob.cancel();
+    } catch (e) {
+      this.props.dispatch(taskActions.removeTaskByName(this.props.name));
     }
   }
 
+  removeTask = () => {
+    this.props.dispatch(taskActions.removeTaskByName(this.props.name));
+    try {
+      this.cronJob.cancel();
+    } catch (e) {
+      console.log(e);
+    }
+
+  };
 
   render() {
     return (
       <TaskCardContainer zDepth={1} >
         <Name>
-          {this.props.taskName}
+          {this.props.name}
         </Name>
 
-        {this.props.taskType === 'RECURRING' ? (
-            <div>
-              <TaskCronString>
-                {this.props.taskCronString} <br />
-                Runs {prettyCron.toString(this.props.taskCronString)}
-              </TaskCronString>
-            </div>
-          ) : (
-            <div>
-              <TaskTime>
-                {isPast(replaceTimeOfDate(this.props.taskTime, this.props.taskDate)) === false ? (
-                    <div>
-                      Next {distanceInWordsToNow(replaceTimeOfDate(this.props.taskTime, this.props.taskDate))}
-                    </div>
-                  ) : (
-                    <div>
-                      Past Task Date/Time
-                    </div>
-                  )}
-              </TaskTime>
-              <TaskDate>
-                Runs {format(this.props.taskDate, 'MM/DD/YY')} @ {format(this.props.taskTime, 'HH:mm')}
-              </TaskDate>
-            </div>
-          )}
+        {this.props.type === 'RECURRING' ?
+          <TaskCronString>
+            {this.props.cronString} <br />
+            Runs {prettyCron.toString(this.props.cronString)}
+          </TaskCronString>
+          :
+          <div>
+            <TaskTime>
+              {isPast(replaceTimeOfDate(this.props.time, this.props.date))
+                ? distanceInWordsToNow(replaceTimeOfDate(this.props.time, this.props.date))
+                : 'Past Task Date/Time'}
+            </TaskTime>
+            <TaskDate>
+              Runs {format(this.props.date, 'MM/DD/YY')} @ {format(this.props.time, 'HH:mm')}
+            </TaskDate>
+          </div>
+        }
 
         <TaskCommand>
-          {this.props.taskCommand}
+          {this.props.command}
         </TaskCommand>
+        <TaskCommand>
+          Times run : {this.props.runs}
+        </TaskCommand>
+
         <Spacer />
+
         <TaskActions>
-          <IconButton
-            onTouchTap={this.props.deleteTask.bind(null, this.props.taskName, this.props.taskTime, this.props.taskCommand)} >
+          <IconButton onTouchTap={this.removeTask} >
             <DeleteIcon />
           </IconButton>
         </TaskActions>
+
       </TaskCardContainer>
     );
   }
 }
 
-TaskCard.propTypes = {
-  deleteTask: React.PropTypes.func.isRequired,
-  taskName: React.PropTypes.string.isRequired,
-  taskCronString: React.PropTypes.string,
-  taskTime: React.PropTypes.object,
-  taskType: React.PropTypes.string,
-  taskDate: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
-  ]),
-  taskCommand: React.PropTypes.string.isRequired,
-};
-
-export default TaskCard;
-
-//////////////////
-// styles
-//////////////////
 const TaskCardContainer = styled(Paper)`
   width: 350px;
   min-height: 200px;
@@ -151,3 +129,4 @@ const TaskActions = styled.div`
 `;
 
 
+export default TaskCard;

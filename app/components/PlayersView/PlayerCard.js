@@ -47,6 +47,7 @@ class PlayersCard extends Component {
           />
           <CardText>
             <TextField
+              name={'playerNote'}
               onChange={this.updateNotes}
               value={this.state.notes}
               style={{width: '100%'}}

@@ -14,16 +14,11 @@ import debug from '../../styles/stylesDebugger';
 import { darkGrey } from '../../styles/colors';
 
 
-@connect((store) => {
-  return {
-    server: store.server,
-    credentials: store.credentials
-  }
-})
+@connect((store) => ({
+  server: store.server,
+  credentials: store.credentials
+}))
 class StatusBar extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
   render() {
     return (
       <Container>

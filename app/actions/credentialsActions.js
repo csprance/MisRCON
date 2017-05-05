@@ -26,8 +26,6 @@ export function removeCredentials(name) {
 }
 
 export function useCredentials(name) {
-  console.log('monkey patch for schedule tasks to work');
-  store.set('userCredentials', store.get('credentials').filter(i => i.name === name)[0]);
   return {
     type: types.USE_CREDENTIALS,
     payload: name

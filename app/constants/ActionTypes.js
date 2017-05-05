@@ -45,5 +45,8 @@ export const PARSING_CHAT_LOGS = 'PARSING_CHAT_LOGS';
 export const PARSED_CHAT_LOGS = 'PARSED_CHAT_LOGS';
 
 // Scheduled Tasks
+export const SHOW_TASK_DIALOG = 'SHOW_TASK_DIALOG';
 export const ADD_TASK = 'ADD_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
+export const INCREMENT_TASK = 'INCREMENT_TASK';
+export const TASKS_LOADED = 'TASKS_LOADED';

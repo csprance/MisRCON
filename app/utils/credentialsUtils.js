@@ -57,3 +57,6 @@ export function credsAreValid(credentials) {
   return retVal === undefined ? true : retVal;
 }
 
+export function credentialsHaveChanged(nextProps) {
+  return nextProps.credentials.active.name.length > 0;
+}

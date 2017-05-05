@@ -43,7 +43,6 @@ export default class PlayersView extends Component {
     this.props.dispatch(serverActions.getStatus());
   };
 
-
   banPlayerAndCloseDialog = () => {
   };
 
@@ -82,6 +81,7 @@ export default class PlayersView extends Component {
       <Container>
         <Actions>
           <Spacer />
+
           <SearchBar
             value={this.state.searchString}
             onChange={this.updateSearchString}
@@ -89,12 +89,16 @@ export default class PlayersView extends Component {
             floatingLabelStyle={{color: white}}
             floatingLabelText="Search...."
           />
+
           <Spacer />
+
           <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
             { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
           </FloatingActionButton>
+
           <Spacer />
         </Actions>
+
         <PlayerList>
           {filterList.map((player) =>
             <PlayerCard
@@ -106,6 +110,7 @@ export default class PlayersView extends Component {
               kick={this.kickPlayer}
             />)}
         </PlayerList>
+
         <PlayersViewBanDialog
           actionCancel={this.hideBanDialog}
           updateBanReason={this.updateBanReason}
@@ -114,9 +119,11 @@ export default class PlayersView extends Component {
           open={this.state.showBanDialog}
           actionSubmit={this.banPlayerAndCloseDialog}
         />
+
         <ProgressIndicator
           loading={this.props.server.loading}
         />
+
       </Container>
     );
   }
