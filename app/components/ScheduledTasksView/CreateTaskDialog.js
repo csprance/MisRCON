@@ -38,9 +38,11 @@ class CreateTaskDialog extends Component {
     };
   }
 
+
   handleClick = () => {
     shell.openExternal('https://crontab.guru/');
   };
+
 
   closeDialog = () => {
     this.props.dispatch(taskActions.closeCreateTaskDialog());
@@ -55,14 +57,14 @@ class CreateTaskDialog extends Component {
     this.closeDialog();
   };
 
-  ////////////////////////////////////////////////////////////
+
   updateTaskTime = (e, time) => {
     this.setState({
       time
     });
   };
 
-  ////////////////////////////////////////////////////////////
+
   updateTaskCommand = (e) => {
     this.setState({
       command: e.target.value,
@@ -70,7 +72,6 @@ class CreateTaskDialog extends Component {
   };
 
 
-  ////////////////////////////////////////////////////////////
   updateTaskName = (e) => {
     this.setState({
       name: e.target.value,
@@ -79,7 +80,6 @@ class CreateTaskDialog extends Component {
   };
 
 
-  ////////////////////////////////////////////////////////////
   updateTaskDate = (e, date) => {
     this.setState({
       date
@@ -87,7 +87,6 @@ class CreateTaskDialog extends Component {
   };
 
 
-  ////////////////////////////////////////////////////////////
   updateTaskCronString = (e) => {
     this.setState({
       cronString: e.target.value
@@ -95,12 +94,12 @@ class CreateTaskDialog extends Component {
   };
 
 
-  ////////////////////////////////////////////////////////////
   updateTaskType = (tab) => {
     this.setState({
       type: tab.props['data-route']
     });
   };
+
 
   render() {
     const actions = [

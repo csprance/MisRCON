@@ -4,7 +4,6 @@
  * Creation Date: 12/8/2016
  * Description: contains a few functions to log things to a file
  */
-
 import fs from 'fs';
 import format from 'date-fns/format';
 
@@ -15,10 +14,10 @@ import format from 'date-fns/format';
  * @param:    {msg}     msg  the msg or object to log out
  */
 export function log(lvl = 'info', msg) {
-  let logPath = 'misrcon.log';
-  let logMsg = `${format(Date.now(), 'MM/DD/YY @ HH:mm:ss')} - [${lvl}] - ${msg}\n\n`;
+  const logPath = 'misrcon.log';
+  const logMsg = `${format(Date.now(), 'MM/DD/YY @ HH:mm:ss')} - [${lvl}] - ${msg}\n\n`;
   // some things we don't want to log to a file what are they?
-  let doNotLogToFile = ['silly', 'debug'];
+  const doNotLogToFile = ['silly', 'debug'];
 
   // create our log file if it doesn't exist
   fs.closeSync(fs.openSync(logPath, 'a'));

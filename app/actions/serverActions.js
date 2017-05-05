@@ -8,9 +8,9 @@ import * as misrcon from 'node-misrcon';
 import * as actionType from '../constants/ActionTypes';
 
 
-//////////////////////////////////////////////////////
+// // // // // // // // //
 // initialData Getter
-//////////////////////////////////////////////////////
+// // // // // // // // //
 export function fetchingServerData() {
   return {
     type: actionType.FETCHING_ALL_SERVER_DATA,
@@ -36,9 +36,9 @@ export function getInitialData() {
   };
 }
 
-//////////////////////////////////////////////////////
+// // // // // // // // //
 // Status
-//////////////////////////////////////////////////////
+// // // // // // // // //
 export function updateStatus(status) {
   return {
     type: actionType.UPDATE_SERVER_STATUS,
@@ -64,9 +64,9 @@ export function getStatus() {
 }
 
 
-//////////////////////////////////////////////////////
+// // // // // // // // //
 // Whitelist
-//////////////////////////////////////////////////////
+// // // // // // // // //
 export function updateWhitelist(whitelist) {
   return {
     type: actionType.UPDATE_SERVER_WHITELIST,
@@ -114,9 +114,9 @@ export function unWhitelistPlayer(steamid) {
 }
 
 
-//////////////////////////////////////////////////////
+// // // // // // // // //
 // Ban
-//////////////////////////////////////////////////////
+// // // // // // // // //
 export function updateBanList(banList) {
   return {
     type: actionType.UPDATE_SERVER_BANLIST,
@@ -163,10 +163,9 @@ export function unBanPlayer(steamid) {
   };
 }
 
-//////////////////////////////////////////////////////
+// // // // // // // // //
 // Kick
-//////////////////////////////////////////////////////
-
+// // // // // // // // //
 export function kickPlayer(steamid) {
   return (dispatch, getState) => {
     misrcon.sendRCONCommandToServer({...getState().credentials.active, command: `mis_kick ${steamid}`})

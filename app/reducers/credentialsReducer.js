@@ -1,5 +1,5 @@
 /**
- * Name: notifyReducer
+ * Name: credentialsReducer
  * Created by chris on 3/17/2017.
  * Description:
  */

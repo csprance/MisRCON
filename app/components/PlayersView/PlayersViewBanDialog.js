@@ -5,6 +5,7 @@
  * Description:
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -43,12 +44,12 @@ const PlayersViewBanDialog = (props) => {
 };
 
 PlayersViewBanDialog.propTypes = {
-  open: React.PropTypes.bool.isRequired,
-  banReason: React.PropTypes.string.isRequired,
-  updateBanReason: React.PropTypes.func.isRequired,
-  steamIDToBan: React.PropTypes.string.isRequired,
-  actionSubmit: React.PropTypes.func.isRequired,
-  actionCancel: React.PropTypes.func.isRequired
+  open: PropTypes.bool.isRequired,
+  banReason: PropTypes.string.isRequired,
+  updateBanReason: PropTypes.func.isRequired,
+  steamIDToBan: PropTypes.string.isRequired,
+  actionSubmit: PropTypes.func.isRequired,
+  actionCancel: PropTypes.func.isRequired
 };
 
 export default PlayersViewBanDialog;

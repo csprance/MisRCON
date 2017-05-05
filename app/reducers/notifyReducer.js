@@ -3,7 +3,6 @@
  * Created by chris on 3/17/2017.
  * Description:
  */
-
 import * as types from '../constants/ActionTypes';
 
 

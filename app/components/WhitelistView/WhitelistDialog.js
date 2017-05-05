@@ -5,6 +5,7 @@
  * Description: contains the fields needed to add a steamid to the whitelist
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -41,11 +42,11 @@ const WhitelistDialog = (props) => {
 
 
 WhitelistDialog.propTypes = {
-  open: React.PropTypes.bool.isRequired,
-  updateSteamID: React.PropTypes.func.isRequired,
-  steamID: React.PropTypes.string.isRequired,
-  actionSubmit: React.PropTypes.func.isRequired,
-  actionCancel: React.PropTypes.func.isRequired
+  open: PropTypes.bool.isRequired,
+  updateSteamID: PropTypes.func.isRequired,
+  steamID: PropTypes.string.isRequired,
+  actionSubmit: PropTypes.func.isRequired,
+  actionCancel: PropTypes.func.isRequired
 };
 
 export default WhitelistDialog;

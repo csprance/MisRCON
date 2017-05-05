@@ -20,6 +20,7 @@ class TaskCard extends Component {
     this.cronJob = {};
   }
 
+
   componentDidMount() {
     // TODO: Move this somewhere else. Maybe into the server so I can have multiple cronJobs running at the same time for multiple servers
     if (this.props.type === 'RECURRING') {
@@ -32,6 +33,7 @@ class TaskCard extends Component {
     }
   }
 
+
   componentWillUnmount() {
     try {
       this.cronJob.cancel();
@@ -40,6 +42,7 @@ class TaskCard extends Component {
     }
   }
 
+
   removeTask = () => {
     this.props.dispatch(taskActions.removeTaskByName(this.props.name));
     try {
@@ -47,8 +50,8 @@ class TaskCard extends Component {
     } catch (e) {
       console.log(e);
     }
-
   };
+
 
   render() {
     return (
@@ -81,9 +84,7 @@ class TaskCard extends Component {
         <TaskCommand>
           Times run : {this.props.runs}
         </TaskCommand>
-
         <Spacer />
-
         <TaskActions>
           <IconButton onTouchTap={this.removeTask} >
             <DeleteIcon />
@@ -127,6 +128,5 @@ const TaskActions = styled.div`
   justify-content:flex-end;
   align-items: center;
 `;
-
 
 export default TaskCard;

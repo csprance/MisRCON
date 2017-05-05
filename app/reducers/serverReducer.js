@@ -1,10 +1,8 @@
 /**
- * Name: notifyReducer
+ * Name: serverReducer
  * Created by chris on 3/17/2017.
  * Description:
  */
-
-// TODO: Store these credentials better somehow I need to not store the password plaintext
 import * as actionType from '../constants/ActionTypes';
 
 const initialState = {

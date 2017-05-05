@@ -27,12 +27,14 @@ class PlayersCard extends Component {
     };
   }
 
+
   updateNotes = (e) => {
     this.setState({
       notes: e.target.value,
     });
     store.set(this.props.steam, {...store.get(this.props.steam), notes: e.target.value});
   };
+
 
   render() {
     const link = String(`https://steamrep.com/profiles/${this.props.steam}`);

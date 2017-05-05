@@ -1,4 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -11,7 +13,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(BaseTheme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(BaseTheme)} >
         {this.props.children}
       </MuiThemeProvider>
     );

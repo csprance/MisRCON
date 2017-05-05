@@ -6,8 +6,10 @@
 import * as actionType from '../constants/ActionTypes';
 import * as taskUtils from '../utils/scheduledTasksUtils';
 
-// Thunks
 
+// // // // // // // // //
+// Thunks
+// // // // // // // // //
 export const loadTasks = (taskList) => {
   return dispatch => {
     // schedule specific tasks
@@ -16,9 +18,9 @@ export const loadTasks = (taskList) => {
     });
   };
 };
-
+// // // // // // // // //
 // Action Creators
-
+// // // // // // // // //
 export function addTaskToState(task) {
   // store it
   taskUtils.addTaskToLocalStorage(task);

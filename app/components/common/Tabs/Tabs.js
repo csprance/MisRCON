@@ -1,10 +1,11 @@
-import React, {Component,
+import React, {
+  Component,
   createElement,
   cloneElement,
   Children,
   isValidElement,
-  PropTypes,
 } from 'react';
+import PropTypes from 'prop-types';
 import warning from 'warning';
 import TabTemplate from './TabTemplate';
 import InkBar from './InkBar';
@@ -79,7 +80,8 @@ class Tabs extends Component {
 
   static defaultProps = {
     initialSelectedIndex: 0,
-    onChange: () => {},
+    onChange: () => {
+    },
   };
 
   static contextTypes = {
@@ -96,8 +98,8 @@ class Tabs extends Component {
       selectedIndex: valueLink.value !== undefined ?
         this.getSelectedIndex(this.props) :
         initialIndex < this.getTabCount() ?
-        initialIndex :
-        0,
+          initialIndex :
+          0,
     });
   }
 
@@ -133,9 +135,9 @@ class Tabs extends Component {
   // Do not use outside of this component, it will be removed once valueLink is deprecated
   getValueLink(props) {
     return props.valueLink || {
-      value: props.value,
-      requestChange: props.onChange,
-    };
+        value: props.value,
+        requestChange: props.onChange,
+      };
   }
 
   getSelectedIndex(props) {
@@ -221,12 +223,12 @@ class Tabs extends Component {
     });
 
     const inkBar = this.state.selectedIndex !== -1 ? (
-      <InkBar
-        left={`${width * this.state.selectedIndex}%`}
-        width={`${width}%`}
-        style={inkBarStyle}
-      />
-    ) : null;
+        <InkBar
+          left={`${width * this.state.selectedIndex}%`}
+          width={`${width}%`}
+          style={inkBarStyle}
+        />
+      ) : null;
 
     const inkBarContainerWidth = tabItemContainerStyle ?
       tabItemContainerStyle.width : '100%';
@@ -236,10 +238,10 @@ class Tabs extends Component {
         style={prepareStyles(Object.assign({}, style))}
         {...other}
       >
-        <div style={prepareStyles(Object.assign(styles.tabItemContainer, tabItemContainerStyle))}>
+        <div style={prepareStyles(Object.assign(styles.tabItemContainer, tabItemContainerStyle))} >
           {tabs}
         </div>
-        <div style={{width: inkBarContainerWidth}}>
+        <div style={{width: inkBarContainerWidth}} >
           {inkBar}
         </div>
         <div

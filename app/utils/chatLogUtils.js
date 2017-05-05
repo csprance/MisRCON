@@ -20,7 +20,7 @@ import {convertTimeStrToDate} from '../utils/dateUtils';
  */
 export function eventizeChatLog(str) {
   //[00:03:36] [SteamID 76561198081989790] [Name xLOGANo] [IP 173.218.38.141:64090] were friendly
-  let eventList = parse(str, {delimiter: ']', relax: true, relax_column_count: true});
+  const eventList = parse(str, {delimiter: ']', relax: true, relax_column_count: true});
   return _.reverse(eventList).map((event) => {
     return {
       type: 'chat',

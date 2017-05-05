@@ -19,11 +19,9 @@ import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
 
-@connect((store) => {
-  return {
-    credentials: store.credentials
-  };
-})
+@connect((store) => ({
+  credentials: store.credentials
+}))
 export default class HomePage extends Component {
   componentDidMount() {
     ipcRenderer.on('clearUserCredentials', () => {
@@ -36,6 +34,7 @@ export default class HomePage extends Component {
       this.props.dispatch(server.getInitialData());
     }
   }
+
 
   render() {
     return (

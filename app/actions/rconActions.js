@@ -16,7 +16,7 @@ export function sendRCONCommandToServer(command) {
     misrcon.sendRCONCommandToServer({...getState().credentials.active, command}).then(res => {
       dispatch(rconRecieved(res));
     }).catch(e => {
-      dispatch(notify.emitError(e))
+      dispatch(notify.emitError(e));
     });
   };
 }
@@ -25,18 +25,18 @@ export function rconSetCommand(cmd) {
   return {
     type: actionType.SET_RCON_COMMAND,
     payload: cmd
-  }
+  };
 }
 
 export function rconPending() {
   return {
     type: actionType.SEND_RCON_COMMAND_PENDING
-  }
+  };
 }
 
 export function rconRecieved(data) {
   return {
     type: actionType.SEND_RCON_COMMAND_RECEIVED,
     payload: data
-  }
+  };
 }

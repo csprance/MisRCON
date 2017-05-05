@@ -7,23 +7,23 @@ import * as misrcon from 'node-misrcon';
 import { connect } from 'react-redux';
 
 import './RCONConsole.global.css';
+import * as externals from '../../../package.json';
+
 import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
 
 
 const welcomeMessage = `MisRCON-by @Csprance
-v0.2.0 - Shaboygan
+v${externals.version} - ${externals.versionName}
 Type help for more options
 or tab to autocomplete
 --------------------------
 
 `;
 
-@connect((store) => {
-  return {
-    credentials: store.credentials
-  };
-})
+@connect((store) => ({
+  credentials: store.credentials
+}))
 class ConsoleView extends Component {
   constructor(props, context) {
     super(props, context);

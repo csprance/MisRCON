@@ -3,8 +3,6 @@
  * Author: Chrissprance
  * Creation Date: 12/11/2016
  * Description: Contains the list of all the whitelisted players on the server
- *              and the logic to add remove and filter them
- *              gets server data sent to it initially in Containers/HomePage
  */
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -25,13 +23,11 @@ import WhitelistDialog from './WhitelistDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
 
-@connect((store) => {
-  return {
-    server: store.server,
-    credentials: store.credentials
-  };
-})
-export default class WhitelistView extends Component {
+@connect((store) => ({
+  server: store.server,
+  credentials: store.credentials
+}))
+class WhitelistView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -42,9 +38,11 @@ export default class WhitelistView extends Component {
     };
   }
 
+
   updateWhitelist = () => {
     this.props.dispatch(serverActions.getWhitelist());
   };
+
 
   addPlayerToWhitelist = () => {
     this.props.dispatch(serverActions.whitelistPlayer(this.state.whitelistDialogSteamID));
@@ -56,11 +54,13 @@ export default class WhitelistView extends Component {
     this.props.dispatch(serverActions.unWhitelistPlayer(steam));
   };
 
+
   showWhitelistDialog = () => {
     this.setState({
       showWhitelistDialog: true
     });
   };
+
 
   hideWhitelistDialog = () => {
     this.setState({
@@ -68,17 +68,20 @@ export default class WhitelistView extends Component {
     });
   };
 
+
   updateWhitelistDialogSteamID = (e) => {
     this.setState({
       whitelistDialogSteamID: e.target.value,
     });
   };
 
+
   updateSearchString = (e) => {
     this.setState({
       searchString: e.target.value
     });
   };
+
 
   render() {
     const fuzzyList = fuzzy.filter(this.state.searchString, _.uniq(this.props.server.whitelist).filter(i => i !== '0'));
@@ -147,7 +150,6 @@ const rotate360 = keyframes`
     transform: rotate(360deg);
   }
 `;
-
 const AnimatedRefresh = styled(RefreshIcon)`
   display: inline-block;
   animation: ${rotate360} 2s linear infinite;
@@ -157,11 +159,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column; 
 `;
-
 const SearchBar = styled(TextField)`
   width: 40%;
 `;
-
 const Actions = styled.div`
   height: 100px;
   min-height: 100px;
@@ -172,7 +172,6 @@ const Actions = styled.div`
   padding-bottom: 25px;
   flex-shrink: 1;
 `;
-
 const PlayerList = styled.div`  
   width: 100%;
   display: flex;
@@ -182,3 +181,5 @@ const PlayerList = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
+
+export default WhitelistView;

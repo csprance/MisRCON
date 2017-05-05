@@ -3,7 +3,6 @@
  * Created by chris on 3/17/2017.
  * Description:
  */
-
 import * as types from '../constants/ActionTypes';
 import * as taskUtils from '../utils/scheduledTasksUtils';
 
@@ -14,7 +13,7 @@ const initialState = {
   tasks: [],             // the array containing all the tasks object data
 };
 
-export default function credentials(state = initialState, action) {
+export default function scheduleTasks(state = initialState, action) {
   switch (action.type) {
     case types.TASKS_LOADED: {
       return {

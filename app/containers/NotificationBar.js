@@ -3,37 +3,31 @@
  * Created by chris on 4/27/2017.
  * Description:
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Snackbar from 'material-ui/Snackbar';
 
-import {connect} from 'react-redux';
-import {red, black, orange} from '../styles/colors';
+import { connect } from 'react-redux';
+import { red, black, orange } from '../styles/colors';
 
-import {dismissNotify} from '../actions/notifyActions';
+import { dismissNotify } from '../actions/notifyActions';
 
-@connect((store) => {
-  return {
-    notificationBar: store.notify
-  }
-})
+@connect((store) => ({
+  notificationBar: store.notify
+}))
 export default class NotificationBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
   dismissError = () => {
     this.props.dispatch((dispatch) => {
       dispatch(dismissNotify());
     });
   };
 
+  
   render() {
     let color;
     if (this.props.notificationBar.warning) color = orange;
     if (this.props.notificationBar.err) color = red;
     if (this.props.notificationBar.info) color = black;
-    let style = {
+    const style = {
       backgroundColor: color
     };
     return (

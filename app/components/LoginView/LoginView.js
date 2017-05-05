@@ -8,13 +8,11 @@ import { connect } from 'react-redux';
 
 import ServerAddOverlay from './ServerAddOverlay';
 import ServerSelectCard from './ServerSelectCard';
-import { black, darkGrey, white } from '../../styles/colors';
+import { black, darkGrey } from '../../styles/colors';
 
-@connect((store) => {
-  return {
-    credentials: store.credentials
-  }
-})
+@connect((store) => ({
+  credentials: store.credentials
+}))
 class LoginView extends Component {
   constructor(props, context) {
     super(props, context);
@@ -38,25 +36,35 @@ class LoginView extends Component {
   render() {
     return (
       <Container>
-        <LoginBox zDepth={2}>
+        <LoginBox zDepth={2} >
           <LoginBoxHeader>
-            <h3 style={{flexGrow: 9}}>Select Server</h3>
+            <h3 style={{flexGrow: 9}} >Select Server</h3>
             <FloatingActionButton
               onTouchTap={this.showServerAddOverlay}
-              mini={true}
-              secondary={true}
-              style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}>
+              mini
+              secondary
+              style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}
+            >
               <ContentAdd />
             </FloatingActionButton>
           </LoginBoxHeader>
           <Content>
-            {this.props.credentials.inactive.map(server => {
-              return (
-                <ServerSelectCard dispatch={this.props.dispatch} key={server.name} name={server.name} ip={server.ip} port={server.port} password={server.password}/>
-              );
-            })}
+            {this.props.credentials.inactive.map(server => (
+              <ServerSelectCard
+                dispatch={this.props.dispatch}
+                key={server.name}
+                name={server.name}
+                ip={server.ip}
+                port={server.port}
+                password={server.password}
+              />
+            ))}
           </Content>
-          <ServerAddOverlay dispatch={this.props.dispatch} show={this.state.show} hideServerAddOverlay={this.hideServerAddOverlay}/>
+          <ServerAddOverlay
+            dispatch={this.props.dispatch}
+            show={this.state.show}
+            hideServerAddOverlay={this.hideServerAddOverlay}
+          />
         </LoginBox>
       </Container>
     );

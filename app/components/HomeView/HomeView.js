@@ -19,28 +19,16 @@ const Home = (props) => (
       contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
       tabTemplateStyle={{display: 'flex'}}
     >
-      <Tab
-        icon={<ConsoleIcon />}
-        label="CONSOLE"
-      >
+      <Tab icon={<ConsoleIcon />} label="CONSOLE" >
         <ConsoleView />
       </Tab>
-      <Tab
-        icon={<PeopleIcon />}
-        label="PLAYERS"
-      >
+      <Tab icon={<PeopleIcon />} label="PLAYERS" >
         <PlayersView players={props.players} />
       </Tab>
-      <Tab
-        icon={<BanIcon />}
-        label="BANS"
-      >
+      <Tab icon={<BanIcon />} label="BANS" >
         <BansView banListPlayers={props.banListPlayers} />
       </Tab>
-      <Tab
-        icon={<WhitelistIcon />}
-        label="WHITELIST"
-      >
+      <Tab icon={<WhitelistIcon />} label="WHITELIST" >
         <WhitelistView whiteListPlayers={props.whiteListPlayers} />
       </Tab>
     </StyledTabs>
@@ -54,13 +42,11 @@ const SplitPane = styled.div`
   flex-grow:1;
 `;
 
-
 const StyledTabs = styled(Tabs)`
   flex-grow:1;
   display:flex;
   flex-direction:column;
   align-items:stretch;
 `;
-
 
 export default Home;

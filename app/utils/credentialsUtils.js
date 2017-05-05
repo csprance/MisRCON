@@ -1,3 +1,4 @@
+//TODO: Document bootStrap addCredentials removeCredentials getStoredCredentials credentialConstraints credsAreValid credentialsHaveChanged
 /**
  * Name: credentialsUtils
  * Created by chris on 4/29/2017.
@@ -14,13 +15,16 @@ export function bootStrap() {
   }
 }
 
+
 export function addCredentials(credentials) {
   store.set('credentials', [].concat(store.get('credentials'), [credentials]));
 }
 
+
 export function removeCredentials(name) {
   store.set('credentials', store.get('credentials').filter(i => i.name !== name));
 }
+
 
 export function getStoredCredentials() {
   return store.get('credentials') === undefined ? [] : store.get('credentials');
@@ -52,10 +56,12 @@ export const credentialConstraints = () => {
   };
 };
 
+
 export function credsAreValid(credentials) {
   const retVal = validate(credentials, credentialConstraints());
   return retVal === undefined ? true : retVal;
 }
+
 
 export function credentialsHaveChanged(nextProps) {
   return nextProps.credentials.active.name.length > 0;

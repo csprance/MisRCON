@@ -1,5 +1,5 @@
 /**
- * Name:
+ * Name: damageLogUtils
  * Author: Chrissprance
  * Creation Date: 12/13/2016
  * Description:
@@ -11,7 +11,7 @@ import axios from 'axios';
 import fs from 'fs';
 import _ from 'lodash';
 
-import {convertTimeStrToDate} from '../utils/dateUtils';
+import { convertTimeStrToDate } from '../utils/dateUtils';
 
 /**
  * Given a string it will return an array of objects that represent a file
@@ -21,7 +21,7 @@ import {convertTimeStrToDate} from '../utils/dateUtils';
 export function eventizeDamageLog(str) {
   //[00:43:11.186] shooterSteamID:76561198081386929, shooterName:"yuju", targetSteamID:76561198338495729, targetName:"hua,zi",
   // weapon:ruger22, distance:5.00, damage:37.34*0.20x=7.47, melee:0, headshot:0, kill:0, part:81(Bip01 L Hand), hitType:ammo_22, projectile:ammo_22
-  let eventList = parse(str, {delimiter: ',', relax: true, relax_column_count: true});
+  const eventList = parse(str, {delimiter: ',', relax: true, relax_column_count: true});
   return _.reverse(eventList).map((event) => {
     return {
       type: 'damage',

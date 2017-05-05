@@ -32,12 +32,14 @@ class ServerAddOverlay extends Component {
     };
   }
 
+
   updatePort = (e) => {
     this.setState({
       port: e.target.value,
       errorTextPort: ''
     });
   };
+
 
   updatePassword = (e) => {
     this.setState({
@@ -46,12 +48,14 @@ class ServerAddOverlay extends Component {
     });
   };
 
+
   updateName = (e) => {
     this.setState({
       name: e.target.value,
       errorTextName: ''
     });
   };
+
 
   updateIP = (e) => {
     this.setState({
@@ -60,40 +64,43 @@ class ServerAddOverlay extends Component {
     });
   };
 
+
   validateAndStoreCredentials = () => {
-    let creds = {
+    const creds = {
       name: this.state.name,
       ip: this.state.ip,
       port: this.state.port,
       password: this.state.password
     };
-    let validation = credentialsUtils.credsAreValid(creds);
+    const validation = credentialsUtils.credsAreValid(creds);
     if (validation === true) {
       this.props.dispatch(credentialsActions.addCredentials(creds));
       this.close();
     }
 
-    if (validation.hasOwnProperty('ip'))
+    if (Object.prototype.hasOwnProperty.call(validation, 'ip')) {
       this.setState({
         errorTextIp: validation.ip[0],
       });
-
-    if (validation.hasOwnProperty('port'))
+    }
+    if (Object.prototype.hasOwnProperty.call(validation, 'port')) {
       this.setState({
         errorTextPort: validation.port[0],
       });
-
-    if (validation.hasOwnProperty('password'))
+    }
+    if (Object.prototype.hasOwnProperty.call(validation, 'password')) {
       this.setState({
         errorTextPassword: validation.password[0],
       });
-
-    if (validation.hasOwnProperty('name'))
+    }
+    if (Object.prototype.hasOwnProperty.call(validation, 'name')) {
       this.setState({
         errorTextName: validation.name[0],
       });
+    }
 
   };
+
 
   close = () => {
     this.props.hideServerAddOverlay();
@@ -102,36 +109,48 @@ class ServerAddOverlay extends Component {
 
   render() {
     return (
-      <Container show={this.props.show}>
+      <Container show={this.props.show} >
         <LoginBoxHeader>
-          <IconButton style={{position: 'absolute', left: 20, top: 20}} touch={true} tooltip={'Go Back'}
-                      onTouchTap={this.close}>
+          <IconButton
+            style={{position: 'absolute', left: 20, top: 20}}
+            touch
+            tooltip={'Go Back'}
+            onTouchTap={this.close}
+          >
             <BackArrowIcon />
           </IconButton>
-          <h3 style={{flexGrow: 9}}>Add Server</h3>
+          <h3 style={{flexGrow: 9}} >Add Server</h3>
         </LoginBoxHeader>
-        <TextField onChange={this.updateName}
-                   errorText={this.state.errorTextName}
-                   value={this.state.name}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="Name"/>
-        <TextField onChange={this.updateIP}
-                   errorText={this.state.errorTextIp}
-                   value={this.state.ip}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="IP"/>
-        <TextField onChange={this.updatePort}
-                   errorText={this.state.errorTextPort}
-                   value={this.state.port}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="Port"/>
-        <TextField onChange={this.updatePassword}
-                   errorText={this.state.errorTextPassword}
-                   value={this.state.password}
-                   floatingLabelStyle={{color: white}}
-                   floatingLabelText="Password"/>
+        <TextField
+          onChange={this.updateName}
+          errorText={this.state.errorTextName}
+          value={this.state.name}
+          floatingLabelStyle={{color: white}}
+          floatingLabelText="Name"
+        />
+        <TextField
+          onChange={this.updateIP}
+          errorText={this.state.errorTextIp}
+          value={this.state.ip}
+          floatingLabelStyle={{color: white}}
+          floatingLabelText="IP"
+        />
+        <TextField
+          onChange={this.updatePort}
+          errorText={this.state.errorTextPort}
+          value={this.state.port}
+          floatingLabelStyle={{color: white}}
+          floatingLabelText="Port"
+        />
+        <TextField
+          onChange={this.updatePassword}
+          errorText={this.state.errorTextPassword}
+          value={this.state.password}
+          floatingLabelStyle={{color: white}}
+          floatingLabelText="Password"
+        />
         <ActionButtons>
-          <FlatButton label="Add Server" secondary={true} onTouchTap={this.validateAndStoreCredentials}/>
+          <FlatButton label="Add Server" secondary onTouchTap={this.validateAndStoreCredentials} />
         </ActionButtons>
       </Container>
     );
@@ -140,7 +159,7 @@ class ServerAddOverlay extends Component {
 
 const Container = styled.div`
   display: flex;
-  left: ${(props) => props.show ? 0 : '900px'};
+  left: ${(props) => (props.show ? 0 : '900px')};
   background: ${lightGray};
   transition-duration: .5s;
   z-index: 10;
@@ -154,7 +173,6 @@ const Container = styled.div`
   flex-align: start;
   flex-grow:1;
   flex-direction: column;
- 
 `;
 
 const LoginBoxHeader = styled.div`
@@ -171,6 +189,5 @@ const ActionButtons = styled.div`
   display; flex;
   margin-top: 20px;
 `;
-
 
 export default ServerAddOverlay;

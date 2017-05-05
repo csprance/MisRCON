@@ -1,7 +1,8 @@
-import {app, BrowserWindow, Menu, shell} from 'electron';
-import {getDamageLogFromFS} from './utils/damageLogUtils';
-import {getChatLogFromFS} from './utils/chatLogUtils';
+import { app, BrowserWindow, Menu, shell } from 'electron';
 import _ from 'lodash';
+
+import { getDamageLogFromFS } from './utils/damageLogUtils';
+import { getChatLogFromFS } from './utils/chatLogUtils';
 
 let menu;
 let template;
@@ -46,13 +47,9 @@ const installExtensions = async() => {
 const {ipcMain} = require('electron');
 
 
-
-
-
 const getEmitters = (data) => {
   return _.uniqBy(data, (e) => e.steam);
 };
-
 
 
 //////////////////////////////////////////
@@ -91,14 +88,6 @@ ipcMain.on('getChatLog', (event, arg) => {
       event.sender.send('receiveChatLog', {failed: true, err: err});
     });
 });
-
-
-
-
-
-
-
-
 
 
 app.on('ready', async() => {

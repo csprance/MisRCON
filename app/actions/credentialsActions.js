@@ -1,9 +1,8 @@
 /**
- * Name: notificationActions
+ * Name: credentialsActions
  * Created by chris on 3/17/2017.
  * Description:
  */
-import store from 'store';
 
 import * as types from '../constants/ActionTypes';
 import * as credentialsUtils from '../utils/credentialsUtils';

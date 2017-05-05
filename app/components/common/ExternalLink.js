@@ -4,20 +4,21 @@
  * Creation Date: 12/9/2016
  * Description: Handles sending a user to an external browser link
  */
-import {log} from '../../utils/loggerUtils';
-import React, {
-  PropTypes,
-} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { shell } from 'electron';
+import { log } from '../../utils/loggerUtils';
 
 const ExternalLink = (props) => {
   const handleClick = () => {
-    require('electron').shell.openExternal(props.to);
+    shell.openExternal(props.to);
     log('info', `Navigating to External Link: ${props.to}`);
   };
 
+
   return (
-    <Pointer onClick={handleClick}>
+    <Pointer onClick={handleClick} >
       {props.children}
     </Pointer>
   );
@@ -30,4 +31,5 @@ ExternalLink.propTypes = {
 const Pointer = styled.div`
   cursor: pointer;
 `;
+
 export default ExternalLink;
