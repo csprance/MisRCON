@@ -10,6 +10,7 @@ taskUtils.bootstrap();
 
 const initialState = {
   open: false,           // is the CreateTaskDialog dialog open
+  display: 'none',           // is the CreateTaskDialog dialog open
   tasks: [],             // the array containing all the tasks object data
 };
 
@@ -43,6 +44,12 @@ export default function scheduleTasks(state = initialState, action) {
       return {
         ...state,
         open: action.payload
+      };
+    }
+    case types.TOGGLE_TASK_LIST: {
+      return {
+        ...state,
+        display: state.display === 'flex' ? 'none' : 'flex'
       };
     }
     default:

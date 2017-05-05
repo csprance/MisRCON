@@ -62,3 +62,8 @@ export function openCreateTaskDialog() {
     payload: true
   };
 }
+export function toggleTaskList() {
+  return {
+    type: actionType.TOGGLE_TASK_LIST,
+  };
+}

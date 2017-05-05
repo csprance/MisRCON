@@ -8,22 +8,19 @@
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import styled from 'styled-components';
-import axios from 'axios';
-import store from 'store';
 import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import WhitelistIcon from 'material-ui/svg-icons/action/assignment';
-// import CloudIcon from 'material-ui/svg-icons/file/cloud';
+import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 
 import { connect } from 'react-redux';
 import * as server from '../actions/serverActions';
-import * as notify from '../actions/notifyActions';
 import * as credentialsActions from '../actions/credentialsActions';
+import * as taskActions from '../actions/scheduledTasksActions';
 
 import * as credentialsUtils from '../utils/credentialsUtils';
 import * as updateUtils from '../utils/updateUtils';
-import * as utils from '../utils/utils';
 
 // redux containers
 import NotificationBar from '../containers/NotificationBar';
@@ -38,39 +35,24 @@ import WhitelistView from '../components/WhitelistView/WhitelistView';
 
 import { Tabs, Tab } from '../components/common/Tabs';
 
+
 @connect((store) => ({
   credentials: store.credentials
 }))
 class HomePage extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      tabRoute: 'console'
+    };
+  }
+
+
   componentDidMount() {
-    updateUtils.bootStrap();
-
-    const notification = (
-      <span>
-          An Update is available &nbsp;
-        <FakeLink
-          onClick={() => {
-            utils.handleClick('https://github.com/csprance/MisRCON/releases/latest');
-          }}
-        >
-          - Click here!
-        </FakeLink>
-      </span>);
-
-    axios.get('https://misrcon-updater.firebaseio.com/version.json')
-      .then(res => {
-        if (res.data !== store.get('version')) {
-          this.props.dispatch(notify.emitInfo(notification));
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
+    updateUtils.bootStrap(this.props.dispatch);
     ipcRenderer.on('clearUserCredentials', () => {
       this.props.dispatch(credentialsActions.logOut());
     });
-
   }
 
 
@@ -79,6 +61,15 @@ class HomePage extends Component {
       this.props.dispatch(server.getInitialData());
     }
   }
+
+
+  changeTabs = (value) => {
+    if (value === 'tasks') {
+      this.props.dispatch(taskActions.toggleTaskList());
+    } else {
+      this.setState({tabRoute: value});
+    }
+  };
 
 
   render() {
@@ -91,25 +82,25 @@ class HomePage extends Component {
             <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
               <SplitPane>
                 <StyledTabs
+                  value={this.state.tabRoute}
+                  onChange={this.changeTabs}
                   tabItemContainerStyle={{minHeight: 72}}
                   contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
                   tabTemplateStyle={{display: 'flex'}}
                 >
-                  <Tab icon={<ConsoleIcon />} label="CONSOLE" >
+                  <Tab icon={<ConsoleIcon />} label="CONSOLE" value="console" >
                     <ConsoleView />
                   </Tab>
-                  <Tab icon={<PeopleIcon />} label="PLAYERS" >
+                  <Tab icon={<PeopleIcon />} label="PLAYERS" value="players" >
                     <PlayersView />
                   </Tab>
-                  <Tab icon={<BanIcon />} label="BANS" >
+                  <Tab icon={<BanIcon />} label="BANS" value="bans" >
                     <BansView />
                   </Tab>
-                  <Tab icon={<WhitelistIcon />} label="WHITELIST" >
+                  <Tab icon={<WhitelistIcon />} label="WHITELIST" value="whitelist" >
                     <WhitelistView />
                   </Tab>
-                  {/*<Tab icon={<CloudIcon />} label="WEATHER" >*/}
-                    {/*<WeatherView />*/}
-                  {/*</Tab>*/}
+                  <Tab icon={<ScheduleIcon />} label="TASKS" value="tasks" />
                 </StyledTabs>
                 <ScheduledTasksView />
               </SplitPane>
@@ -133,9 +124,6 @@ const StyledTabs = styled(Tabs)`
   display:flex;
   flex-direction:column;
   align-items:stretch;
-`;
-const FakeLink = styled.a`
-  cursor: pointer;
 `;
 
 export default HomePage;

@@ -17,18 +17,20 @@ import CreateTaskDialog from './CreateTaskDialog';
 }))
 class ScheduledTasksView extends Component {
 
+
   componentDidMount() {
     this.props.dispatch(taskActions.loadTasks(taskUtils.getTasksFromLocalStorage()));
   }
+
 
   showCreateTaskDialog = () => {
     this.props.dispatch(taskActions.openCreateTaskDialog());
   };
 
-  // TODO: Add in collapse button
+
   render() {
     return (
-      <Wrapper>
+      <Wrapper style={{display: this.props.tasks.display}} >
         <HeaderBar>
           <HeaderTitle >
             SCHEDULED TASKS
@@ -55,9 +57,9 @@ class ScheduledTasksView extends Component {
 
 const Wrapper = styled.div`
   max-width: 420px;
+  display: ${(props) => (props.display)} !important;
   flex-direction: column;
   align-items: stretch;
-  display: flex;
   flex-shrink: 1;
 `;
 const TaskContainer = styled.div`
