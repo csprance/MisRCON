@@ -7,13 +7,15 @@ import * as misrcon from 'node-misrcon';
 import { connect } from 'react-redux';
 
 import './RCONConsole.global.css';
+import ContextMenu from './ContextMenu';
 import * as externals from '../../../package.json';
 
 import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
 
 
-const welcomeMessage = `MisRCON-by @Csprance
+const welcomeMessage =
+  `MisRCON-by @Csprance
 v${externals.version} - ${externals.versionName}
 Type help for more options
 or tab to autocomplete
@@ -28,18 +30,43 @@ class ConsoleView extends Component {
   constructor(props, context) {
     super(props, context);
     this.words = helpCommands.map((el) => el.value);
+    this.state = {
+      contextMenuOpen: false,
+      contextMenuAnchor: {x: 0, y: 0}
+    };
   }
+
 
   getHelpOn = (text) => {
     this.console.log(helpCommands.filter((el) => el.value === text)[0].display);
     this.console.return();
   };
 
+
+  handleContextMenuClick = (e) => {
+    this.setState({
+      contextMenuOpen: true,
+      contextMenuAnchor: {
+        x: e.pageX + 50,
+        y: e.pageY - 50
+      }
+    });
+  };
+
+
+  closeContextMenu = () => {
+    this.setState({
+      contextMenuOpen: false,
+    });
+  };
+
+
   complete = (e) => {
     return fuzzy.filter(e[0], this.words, {}).map((el) => {
       return el.string;
     });
   };
+
 
   clearScreen = () => {
     const container = this.console.child.container;
@@ -52,11 +79,13 @@ class ConsoleView extends Component {
     this.console.return();
   };
 
+
   askingForHelp = (text) => {
     const splitText = text.split(' ');
     if (splitText[0] === 'help') if (splitText.length === 2) return true;
     return false;
   };
+
 
   handleInput = (text) => {
     try {
@@ -75,10 +104,12 @@ class ConsoleView extends Component {
     }
   };
 
+
   help = () => {
     this.console.log(helpText);
     this.console.return();
   };
+
 
   sendCommand = (command) => {
     misrcon.sendRCONCommandToServer({...this.props.credentials.active, command}).then((res) => {
@@ -90,15 +121,30 @@ class ConsoleView extends Component {
     });
   };
 
+
   render() {
     return (
-      <Container>
+      <Container onContextMenu={this.handleContextMenuClick} >
         <Console
           ref={(console) => this.console = console}
           complete={this.complete}
           handler={this.handleInput}
           autofocus
           welcomeMessage={welcomeMessage}
+        />
+        <div
+          ref={(div) => this.anchorDiv = div}
+          style={{
+            position: 'absolute',
+            left: this.state.contextMenuAnchor.x - 50,
+            top: this.state.contextMenuAnchor.y - 10
+          }}
+        />
+        <ContextMenu
+          console={this.console}
+          anchorEl={this.anchorDiv}
+          closeContextMenu={this.closeContextMenu}
+          open={this.state.contextMenuOpen}
         />
       </Container>
     );
