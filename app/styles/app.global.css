@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
 
 body {
-  background: linear-gradient(to left, #414d5a, #29323c);
+  background: #2b2b2b;
   display: flex;
   align-items: stretch;
   flex-grow: 1;

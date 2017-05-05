@@ -32,5 +32,3 @@ export function dismissNotify() {
     type: types.DISMISS_NOTIFY,
   };
 }
-
-

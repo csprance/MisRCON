@@ -54,21 +54,22 @@ class ScheduledTasksView extends Component {
 }
 
 const Wrapper = styled.div`
-  max-width:450px;
-  flex-direction:column;
-  align-items:stretch;
-  display:flex;
+  max-width: 420px;
+  flex-direction: column;
+  align-items: stretch;
+  display: flex;
   flex-shrink: 1;
 `;
 const TaskContainer = styled.div`
   box-sizing: border-box;
-  flex-grow:1;
+  flex-grow: 1;
   display: flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  overflow-y:auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
   padding: 10px;
-  min-width: 400px;
+  min-width: 410px;
+  align-items: center;
 `;
 const HeaderBar = styled.div`
   min-height:72px;
