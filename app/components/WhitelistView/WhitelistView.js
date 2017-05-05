@@ -121,7 +121,7 @@ class WhitelistView extends Component {
               steam={player.string}
               name={player.string}
               dispatch={this.props.dispatch}
-              removePlayerFromWhitelist={this.removePlayerFromWhitelist}
+              removePlayerFromWhitelist
             />)}
         </PlayerList>
 

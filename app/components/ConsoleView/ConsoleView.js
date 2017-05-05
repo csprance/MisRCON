@@ -14,8 +14,7 @@ import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
 
 
-const welcomeMessage =
-  `MisRCON-by @Csprance
+const welcomeMessage = `MisRCON-by @Csprance
 v${externals.version} - ${externals.versionName}
 Type help for more options
 or tab to autocomplete
@@ -68,7 +67,7 @@ class ConsoleView extends Component {
   };
 
 
-  clearScreen = () => {
+  clearConsole = () => {
     const container = this.console.child.container;
     const children = [].slice.call(container.childNodes);
     children.splice(0, 1);
@@ -77,6 +76,7 @@ class ConsoleView extends Component {
       container.removeChild(node);
     });
     this.console.return();
+    this.closeContextMenu();
   };
 
 
@@ -92,7 +92,7 @@ class ConsoleView extends Component {
       // help // get all help commands
       if (text === 'help') this.help();
       // cls // clear screen
-      else if (text === 'cls') this.clearScreen();
+      else if (text === 'cls') this.clearConsole();
       // help [subject] // specific help docs
       else if (this.askingForHelp(text)) this.getHelpOn(text.split(' ')[1]);
       // send command to server
@@ -112,13 +112,15 @@ class ConsoleView extends Component {
 
 
   sendCommand = (command) => {
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command}).then((res) => {
-      this.console.log(res);
-      this.console.return();
-    }).catch((err) => {
-      this.console.log(err);
-      this.console.return();
-    });
+    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command})
+      .then((res) => {
+        this.console.log(res);
+        this.console.return();
+      })
+      .catch((err) => {
+        this.console.log(err);
+        this.console.return();
+      });
   };
 
 
@@ -145,6 +147,7 @@ class ConsoleView extends Component {
           anchorEl={this.anchorDiv}
           closeContextMenu={this.closeContextMenu}
           open={this.state.contextMenuOpen}
+          clearConsole={this.clearConsole}
         />
       </Container>
     );

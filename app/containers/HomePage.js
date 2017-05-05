@@ -10,8 +10,13 @@ import { ipcRenderer } from 'electron';
 import styled from 'styled-components';
 import axios from 'axios';
 import store from 'store';
+import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
+import PeopleIcon from 'material-ui/svg-icons/social/people';
+import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
+import WhitelistIcon from 'material-ui/svg-icons/action/assignment';
 
 import { connect } from 'react-redux';
+
 import * as server from '../actions/serverActions';
 import * as notify from '../actions/notifyActions';
 import * as credentialsActions from '../actions/credentialsActions';
@@ -21,14 +26,19 @@ import * as utils from '../utils/utils';
 
 // redux containers
 import NotificationBar from '../containers/NotificationBar';
-import HomeView from '../components/HomeView/HomeView';
 import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
+import { Tabs, Tab } from '../components/common/Tabs';
+import BansView from '../components/BansView/BansView';
+import ConsoleView from '../components/ConsoleView/ConsoleView';
+import PlayersView from '../components/PlayersView/PlayersView';
+import ScheduledTasksView from '../components/ScheduledTasksView/ScheduledTasksView';
+import WhitelistView from '../components/WhitelistView/WhitelistView';
 
 @connect((store) => ({
   credentials: store.credentials
 }))
-export default class HomePage extends Component {
+class HomePage extends Component {
   componentDidMount() {
     updateUtils.bootStrap();
 
@@ -76,7 +86,27 @@ export default class HomePage extends Component {
             <LoginView />
             :
             <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
-              <HomeView />
+              <SplitPane>
+                <StyledTabs
+                  tabItemContainerStyle={{minHeight: 72}}
+                  contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
+                  tabTemplateStyle={{display: 'flex'}}
+                >
+                  <Tab icon={<ConsoleIcon />} label="CONSOLE" >
+                    <ConsoleView />
+                  </Tab>
+                  <Tab icon={<PeopleIcon />} label="PLAYERS" >
+                    <PlayersView />
+                  </Tab>
+                  <Tab icon={<BanIcon />} label="BANS" >
+                    <BansView />
+                  </Tab>
+                  <Tab icon={<WhitelistIcon />} label="WHITELIST" >
+                    <WhitelistView />
+                  </Tab>
+                </StyledTabs>
+                <ScheduledTasksView />
+              </SplitPane>
               <StatusBar />
             </div>
           }
@@ -87,7 +117,19 @@ export default class HomePage extends Component {
   }
 }
 
-
+const SplitPane = styled.div`
+  display: flex;
+  align-items:stretch;
+  flex-grow:1;
+`;
+const StyledTabs = styled(Tabs)`
+  flex-grow:1;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+`;
 const FakeLink = styled.a`
   cursor: pointer;
 `;
+
+export default HomePage;

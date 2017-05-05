@@ -1,3 +1,4 @@
+// TODO: Stop sending props though with the TaskCard
 /**
  * Name: PlayersView
  * Author: Chrissprance
@@ -105,9 +106,9 @@ export default class PlayersView extends Component {
               key={player.steam + player.name}
               steam={player.steam}
               name={player.name}
-              ban={this.showBanDialog}
+              ban
               dispatch={this.props.dispatch}
-              kick={this.kickPlayer}
+              kick
             />)}
         </PlayerList>
 

@@ -1,3 +1,4 @@
+//TODO Fix CardActions if statements to do be more explicit in what we want to show
 /**
  * Name: PlayersCard
  * Author: Chrissprance

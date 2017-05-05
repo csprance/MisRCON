@@ -108,7 +108,7 @@ export default class BansView extends Component {
               steam={player.string}
               name={player.string}
               dispatch={this.props.dispatch}
-              removePlayerFromBanList={this.removePlayerFromBanList}
+              removePlayerFromBanList
             />)}
         </PlayerList>
         <BanDialog
