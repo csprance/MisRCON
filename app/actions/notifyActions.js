@@ -5,7 +5,6 @@
  */
 import * as types from '../constants/ActionTypes';
 
-
 export function emitError(msg) {
   return {
     type: types.EMIT_ERROR,

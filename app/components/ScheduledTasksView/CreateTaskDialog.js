@@ -15,6 +15,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { connect } from 'react-redux';
 import * as taskActions from '../../actions/scheduledTasksActions';
+import * as utils from '../../utils/utils';
 
 import { white } from '../../styles/colors';
 
@@ -40,9 +41,8 @@ class CreateTaskDialog extends Component {
 
 
   handleClick = () => {
-    shell.openExternal('https://crontab.guru/');
+    utils.handleClick('https://crontab.guru/');
   };
-
 
   closeDialog = () => {
     this.props.dispatch(taskActions.closeCreateTaskDialog());

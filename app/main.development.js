@@ -301,6 +301,11 @@ app.on('ready', async() => {
     }, {
       label: 'Help',
       submenu: [{
+        label: 'Console Commands',
+        click() {
+          shell.openExternal('https://miscreatedgame.com/forums');
+        }
+      }, {
         label: 'Report an issue',
         click() {
           shell.openExternal('https://github.com/csprance/MisRCON/issues');

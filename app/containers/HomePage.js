@@ -7,11 +7,17 @@
  */
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
+import styled from 'styled-components';
+import axios from 'axios';
+import store from 'store';
 
 import { connect } from 'react-redux';
 import * as server from '../actions/serverActions';
+import * as notify from '../actions/notifyActions';
 import * as credentialsActions from '../actions/credentialsActions';
 import * as credentialsUtils from '../utils/credentialsUtils';
+import * as updateUtils from '../utils/updateUtils';
+import * as utils from '../utils/utils';
 
 // redux containers
 import NotificationBar from '../containers/NotificationBar';
@@ -24,10 +30,36 @@ import StatusBar from '../components/StatusBar/StatusBar';
 }))
 export default class HomePage extends Component {
   componentDidMount() {
+    updateUtils.bootStrap();
+
+    const notification = (
+      <span>
+          An Update is available &nbsp;
+        <FakeLink
+          onClick={() => {
+            utils.handleClick('https://github.com/csprance/MisRCON/releases/latest');
+          }}
+        >
+          - Click here!
+        </FakeLink>
+      </span>);
+
+    axios.get('https://misrcon-updater.firebaseio.com/version.json')
+      .then(res => {
+        if (res.data !== store.get('version')) {
+          this.props.dispatch(notify.emitInfo(notification));
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
     ipcRenderer.on('clearUserCredentials', () => {
       this.props.dispatch(credentialsActions.logOut());
     });
+
   }
+
 
   componentWillReceiveProps(nextProps) {
     if (credentialsUtils.credentialsHaveChanged(nextProps)) {
@@ -54,3 +86,8 @@ export default class HomePage extends Component {
     );
   }
 }
+
+
+const FakeLink = styled.a`
+  cursor: pointer;
+`;

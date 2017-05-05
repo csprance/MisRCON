@@ -15,7 +15,7 @@ export const SET_RCON_COMMAND = 'SET_RCON_COMMAND';
 export const EMIT_INFO = 'EMIT_INFO';
 export const EMIT_WARN = 'EMIT_WARN';
 export const EMIT_ERROR = 'EMIT_ERROR';
-export const DISMISS_NOTIFY = 'EMIT_ERROR';
+export const DISMISS_NOTIFY = 'DISMISS_NOTIFY';
 
 
 // Credentials
