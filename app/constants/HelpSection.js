@@ -108,6 +108,133 @@ wm_timeScaleWeather speedscale
 
 Scale of weather speed (The weather speed is independent of day/night speed)
 
+PVE/faction system:
+-------------------
+We added a system that can support of multitude of scenarios like PVE, factions or
+role play. Players, Mutants/Animals and Bases have each been assigned a built-in faction
+and the damage caused between those factions is controlled in detail by a damage multiplier
+matrix.
+
+Players can additionally join factions defined by issuing a chat command "!factionname".
+After a faction is joined it can't be left until a server restart. Faction equipment
+(if present) is only assigned on respawn. The current faction can be determined with
+the chat command "!faction".
+
+Server administrators can fully customize the factions by turning them on/off, the damage,
+their names as well as access steamid restrictions and equipment packs.
+
+Up to 4 factions can be defined. We predefined the factions lawmen, outlaw, military
+and corporate which can be redefined by the server administrators.
+
+This system allows for example a PVE server of the following kind:
+players can't damage each other and bases
+players can join a outlaw or lawmen faction
+outlaw and lawmen can fight each other while the other players are unaffected
+lawmen can't damage each other
+players can damage outlaws but not lawmen
+outlaws could be allowed to damage bases while lawmen can't
+environment can damage anyone (and to increase difficulty player damage to them can be halved while damage to players could be doubled)
+lawmen and outlaw respawn with a equipment pack
+messages for deaths and join/disconnect
+(example below)
+
+
+Basebuilding adjustment:
+------------------------
+The server administrator can now fully disallow basebuilding or set it to allow building of bases even in
+cities.
+
+
+New GameRule CVars:
+-------------------
+g_gameRules_bases=0
+No bases allowed on server
+g_gameRules_bases=1 (Default)
+Normal base building
+g_gameRules_faction3-6=1
+Activate a faction
+Special built-in faction indexes: (built-in factions can't be disabled)
+0 - players (without faction)
+1 - environment (Mutants, Animals, etc)
+2 - bases
+g_gameRules_faction_name0-6="factionname"
+Sets the factionname and chatcommand keyword to join the faction.
+Be sure to select a non conflicting name.
+g_gameRules_faction3-6_steamids="123456;1234567;..." (Default: empty, meaning everyone can join)
+Access restriction to faction (semicolon seperated list)
+g_gameRules_faction0-6_dmg_f0-6=1.0 (Default: All 7x7 cvars are 1.0)
+Damage multiplier of faction x to faction y.
+0.0 no damage
+0.5 means half damage
+1.0 normal damage
+2.0 double damage
+
+
+New GameRule CVars (Whitelisted only):
+--------------------------------------
+g_gameRules_bases=2
+Non-zone restricted bases (Bases can be build in cities for events or server specific requirements etc.)
+g_gameRules_faction3-6_equip="itemclass;itemclass;..."
+Faction equipment packs (semicolon seperated list).
+
+The spelling needs to be exact and case sensitive, should invalid item classes be used it can
+cause your server requiring a full reset of your servers database (so stick to item classes
+defined in the itemspawnmanager). Double check everything and use copy&pase.
+
+We defined some default ones beforehand, the item classes need to be looked up in the pak files:
+Scripts.pak/GameSDK/Scripts/Spawners/ItemSpawnerManager.lua (only use classes not categories)
+
+
+New Messaging CVars (Whitelisted only):
+---------------------------------------
+sv_msg_conn=1
+Will output playername and faction on connect/disconnect in chat
+sv_msg_death=1
+Will output killer, victim and weapon/vehicle as well as cause of death/modifiers and factions in chat
+
+
+------------------------------------------------
+– Example .CFG (PVE with outlaw and lawmen) –
+------------------------------------------------
+– lawmen need to join the faction with !lawmen chat command
+– outlaw need to join the faction with !outlaw chat command
+– players can't damage each other and bases
+g_gameRules_faction0_dmg_f0=0.0
+g_gameRules_faction0_dmg_f2=0.0
+– players can join a outlaw or lawmen faction
+g_gameRules_faction3=1
+g_gameRules_faction3_name="lawmen"
+g_gameRules_faction4=1
+g_gameRules_faction4_name="outlaw"
+– outlaw and lawmen can fight each other while the other players are uneffected
+g_gameRules_faction3_dmg_f0=0.0
+g_gameRules_faction3_dmg_f4=1.0
+g_gameRules_faction4_dmg_f0=0.0
+g_gameRules_faction4_dmg_f3=1.0
+– lawmen can't damage each other
+g_gameRules_faction3_dmg_f3=0.0
+– players can damage outlaws but not lawmen
+g_gameRules_faction0_dmg_f3=0.0
+g_gameRules_faction0_dmg_f4=1.0
+– outlaws could be allowed to damage bases while lawmen can't
+g_gameRules_faction3_dmg_f2=0.0
+g_gameRules_faction4_dmg_f2=1.0
+– environemt can damage anyone (and to increase difficulty player damage to them can be halfed while damage to players could be doubled)
+g_gameRules_faction0_dmg_f1=0.5
+g_gameRules_faction3_dmg_f1=0.5
+g_gameRules_faction4_dmg_f1=0.5
+g_gameRules_faction1_dmg_f0=2.0
+g_gameRules_faction1_dmg_f3=2.0
+g_gameRules_faction1_dmg_f4=2.0
+– lawmen and outlaw respawn with a equipment pack
+g_gameRules_faction3_equip="flexcap_policefrontback_blue;SunglassesBBlack;CanvasShoes;TshirtPoliceBlue;CargoPantsBlack;PoliceBaton;PoliceHandcuffs;PoliceHandcuffKey;Cb_radio;Megaphone;Map"
+g_gameRules_faction4_equip="HeadbandPatternC;BandanaRed;ScarfOrange;HitopsBlack;NoSleevesVestTan;WandererPantsBlack;BaseballBat;DuctTape;Torch"
+– messages for deaths and join/disconnect
+sv_msg_conn=1
+sv_msg_death=1
+– uncomment if wanted: allow bases to be build everywhere
+– (if abused you can define a access restricted faction with a high damage multiplier to clean them up)
+– g_gameRules_bases=2
 
 `;
 export const helpCommands = [{

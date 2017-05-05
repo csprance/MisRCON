@@ -6,10 +6,10 @@
  */
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
+import Halogen from 'halogen';
 import { connect } from 'react-redux';
 
-import { darkGrey } from '../../styles/colors';
+import { white, darkGrey } from '../../styles/colors';
 
 
 @connect((store) => ({
@@ -20,11 +20,29 @@ class StatusBar extends Component {
   render() {
     return (
       <Container>
-        <Item>Name: {this.props.server.status.name}</Item>
+
+        <Item>
+          Name: {this.props.server.loading ?
+          <Halogen.BeatLoader color={white} style={{height: 10}} />
+          : this.props.server.status.name}
+        </Item>
+
         <Item>IP: {this.props.credentials.active.ip} </Item>
+
         <Item>Port: {this.props.credentials.active.port} </Item>
-        <Item>Version: {this.props.server.status.version}</Item>
-        <Item>Players: {this.props.server.status.players}</Item>
+
+        <Item>
+          Version: {this.props.server.loading ?
+          <Halogen.BeatLoader color={white} />
+          : this.props.server.status.version }
+        </Item>
+
+        <Item>
+          Players: {this.props.server.loading ?
+          <Halogen.BeatLoader color={white} />
+          : this.props.server.status.players}
+        </Item>
+
       </Container>
     );
   }
@@ -38,6 +56,7 @@ const Container = styled.div`
   background: ${darkGrey}
 `;
 const Item = styled.div`
+  display: flex;
   min-width: 100px;
   padding: 5px;
 `;

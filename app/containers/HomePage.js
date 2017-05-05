@@ -14,12 +14,13 @@ import ConsoleIcon from 'material-ui/svg-icons/device/dvr';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import BanIcon from 'material-ui/svg-icons/social/sentiment-very-dissatisfied';
 import WhitelistIcon from 'material-ui/svg-icons/action/assignment';
+// import CloudIcon from 'material-ui/svg-icons/file/cloud';
 
 import { connect } from 'react-redux';
-
 import * as server from '../actions/serverActions';
 import * as notify from '../actions/notifyActions';
 import * as credentialsActions from '../actions/credentialsActions';
+
 import * as credentialsUtils from '../utils/credentialsUtils';
 import * as updateUtils from '../utils/updateUtils';
 import * as utils from '../utils/utils';
@@ -28,12 +29,14 @@ import * as utils from '../utils/utils';
 import NotificationBar from '../containers/NotificationBar';
 import LoginView from '../components/LoginView/LoginView';
 import StatusBar from '../components/StatusBar/StatusBar';
-import { Tabs, Tab } from '../components/common/Tabs';
 import BansView from '../components/BansView/BansView';
 import ConsoleView from '../components/ConsoleView/ConsoleView';
 import PlayersView from '../components/PlayersView/PlayersView';
 import ScheduledTasksView from '../components/ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../components/WhitelistView/WhitelistView';
+// import WeatherView from '../components/WeatherView/WeatherView';
+
+import { Tabs, Tab } from '../components/common/Tabs';
 
 @connect((store) => ({
   credentials: store.credentials
@@ -104,6 +107,9 @@ class HomePage extends Component {
                   <Tab icon={<WhitelistIcon />} label="WHITELIST" >
                     <WhitelistView />
                   </Tab>
+                  {/*<Tab icon={<CloudIcon />} label="WEATHER" >*/}
+                    {/*<WeatherView />*/}
+                  {/*</Tab>*/}
                 </StyledTabs>
                 <ScheduledTasksView />
               </SplitPane>

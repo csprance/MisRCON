@@ -55,6 +55,7 @@
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
     "react/jsx-no-bind": "off",
+    "react/jsx-indent": 0,
     "react/prop-types": 0,
     "react/jsx-filename-extension": [
       "error",
