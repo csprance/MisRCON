@@ -3,24 +3,28 @@
 > RCON utility for Miscreated
 
 ## Download
-<a href="https://github.com/csprance/MisRCON/releases/download/0.2.2/MisRCON.Setup.0.2.2.exe" >Download the latest version here</a>
+<a href="https://github.com/csprance/MisRCON/releases/latest" >Download the latest version here</a>
 
-Default installation directory is Users/username/ApplicationData/Local/Programs/MisRCON
+Default installation directory
+
+| Operating System | Default Install Directory |
+| ------------- | ------------- |
+| Windows  | Users/username/ApplicationData/Local/Programs/MisRCON  |
+| Linux  | /usr/local/bin/MisRCON  |
 
 
 
 ## Screenshots
-<a href="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png"><img src="http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png"><img src="http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png"><img src="http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png"><img src="http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_eca48477-cdce-47ad-a253-412e00bb49c9.png"><img src="http://www.csprance.com/shots/2017-05-05_eca48477-cdce-47ad-a253-412e00bb49c9.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_fc2348c9-eb8b-4e41-8fdf-30b0e85c81a2.png"><img src="http://www.csprance.com/shots/2017-05-05_fc2348c9-eb8b-4e41-8fdf-30b0e85c81a2.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_afe2dde2-7376-40dd-9b26-c08f7e9ff90c.png"><img src="http://www.csprance.com/shots/2017-05-05_afe2dde2-7376-40dd-9b26-c08f7e9ff90c.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_47bffbd9-6248-4caf-bc20-bf501e0811b7.png"><img src="http://www.csprance.com/shots/2017-05-05_47bffbd9-6248-4caf-bc20-bf501e0811b7.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_d89f862a-2019-4ca5-96e1-eb2532ec3e43.png"><img src="http://www.csprance.com/shots/2017-05-05_d89f862a-2019-4ca5-96e1-eb2532ec3e43.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_1e457c1c-04a6-4eac-9479-0b2c605ae974.png"><img src="http://www.csprance.com/shots/2017-05-05_1e457c1c-04a6-4eac-9479-0b2c605ae974.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_618c9954-b850-4eec-9b60-7ed1df4052b5.png"><img src="http://www.csprance.com/shots/2017-05-05_618c9954-b850-4eec-9b60-7ed1df4052b5.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_ce1a477e-5f7e-456b-98a2-8f3f03110c2b.png"><img src="http://www.csprance.com/shots/2017-05-05_ce1a477e-5f7e-456b-98a2-8f3f03110c2b.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.csprance.com/shots/2017-05-05_f27b0f2b-c639-4d00-a9d8-692d952627db.png"><img src="http://www.csprance.com/shots/2017-05-05_f27b0f2b-c639-4d00-a9d8-692d952627db.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
-## Previous Versions
-* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.3-macadocious/MisRCON.Setup.0.0.3.exe" >MisRCON.Setup.0.0.3.exe</a>
-* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.21-macadocious/MisRCON.Setup.0.0.21.exe" >MisRCON.Setup.0.0.21.exe</a>
-* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.2-macadocious/MisRCON.Setup.0.0.2.exe" >MisRCON.Setup.0.0.2.exe</a>
-* <a href="https://github.com/csprance/MisRCON/releases/download/v0.0.1-babycakes/MisRCON.Setup.0.0.1.exe" >MisRCON.Setup.0.0.1.exe</a>
  
 ## Developer Install
 * **Note: You must add in your own secrets.js file with a steam API key in app/secrets.js** 
@@ -168,9 +172,10 @@ This boilerplate uses a [two package.json structure](https://github.com/electron
 3. Otherwise, modules used for building, testing and debugging should be included in `devDependencies` in `./package.json`.
 
 
-## Maintainers
+## Contributors
 
 - [Chris Sprance](https://github.com/csprance)
+- [Spafbi](https://github.com/spafbi)
 
 
 
