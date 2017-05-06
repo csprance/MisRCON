@@ -46,7 +46,7 @@ class PlayersCard extends Component {
             avatar={<SteamAvatar steam={this.props.steam} />}
             style={{background: darkGrey}}
             title={this.props.name}
-            subtitle={<ExternalLink to={link} >{this.props.steam}</ExternalLink>}
+            subtitle={<div><ExternalLink to={link} >{this.props.steam}</ExternalLink>{this.props.ping !== undefined ? `Ping: ${this.props.ping}` : ''}</div>}
           />
           <CardText>
             <TextField

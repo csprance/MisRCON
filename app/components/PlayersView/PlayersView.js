@@ -107,6 +107,7 @@ export default class PlayersView extends Component {
               steam={player.steam}
               name={player.name}
               ban
+              ping={player.ping}
               dispatch={this.props.dispatch}
               kick
             />)}

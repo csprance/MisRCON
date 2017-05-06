@@ -88,19 +88,25 @@ class HomePage extends Component {
                   contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
                   tabTemplateStyle={{display: 'flex'}}
                 >
+
                   <Tab icon={<ConsoleIcon />} label="CONSOLE" value="console" >
                     <ConsoleView />
                   </Tab>
+
                   <Tab icon={<PeopleIcon />} label="PLAYERS" value="players" >
                     <PlayersView />
                   </Tab>
+
                   <Tab icon={<BanIcon />} label="BANS" value="bans" >
                     <BansView />
                   </Tab>
+
                   <Tab icon={<WhitelistIcon />} label="WHITELIST" value="whitelist" >
                     <WhitelistView />
                   </Tab>
+
                   <Tab icon={<ScheduleIcon />} label="TASKS" value="tasks" />
+
                 </StyledTabs>
                 <ScheduledTasksView />
               </SplitPane>
