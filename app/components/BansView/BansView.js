@@ -24,8 +24,7 @@ import PlayerCard from '../PlayersView/PlayerCard';
 import BanDialog from './BanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
-
-@connect((store) => {
+@connect(store => {
   return {
     server: store.server,
     credentials: store.credentials
@@ -37,7 +36,7 @@ export default class BansView extends Component {
     this.state = {
       searchString: '',
       showBanDialog: false,
-      banDialogSteamID: '',
+      banDialogSteamID: ''
     };
   }
 
@@ -66,50 +65,56 @@ export default class BansView extends Component {
     });
   };
 
-  updateBanDialogSteamID = (e) => {
+  updateBanDialogSteamID = e => {
     this.setState({
-      banDialogSteamID: e.target.value,
+      banDialogSteamID: e.target.value
     });
   };
 
-  updateSearchString = (e) => {
+  updateSearchString = e => {
     this.setState({
       searchString: e.target.value
     });
   };
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, _.uniq(this.props.server.banlist).filter(i => i !== '0'));
+    const fuzzyList = fuzzy.filter(
+      this.state.searchString,
+      _.uniq(this.props.server.banlist).filter(i => i !== '0')
+    );
     return (
       <Container>
         <Actions>
           <Spacer />
-          <FloatingActionButton onTouchTap={this.showBanDialog} secondary >
+          <FloatingActionButton onTouchTap={this.showBanDialog} secondary>
             <AddIcon />
           </FloatingActionButton>
           <Spacer />
           <SearchBar
             value={this.state.searchString}
             onChange={this.updateSearchString}
-            style={{flex: 4}}
-            floatingLabelStyle={{color: white}}
+            style={{ flex: 4 }}
+            floatingLabelStyle={{ color: white }}
             floatingLabelText="Search...."
           />
           <Spacer />
-          <FloatingActionButton onTouchTap={this.getBanList} secondary >
-            { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
+          <FloatingActionButton onTouchTap={this.getBanList} secondary>
+            {this.props.server.loading === true
+              ? <AnimatedRefresh />
+              : <RefreshIcon />}
           </FloatingActionButton>
           <Spacer />
         </Actions>
         <PlayerList>
-          {fuzzyList.map((player) =>
+          {fuzzyList.map(player => (
             <PlayerCard
               key={player.string}
               steam={player.string}
               name={player.string}
               dispatch={this.props.dispatch}
               removePlayerFromBanList
-            />)}
+            />
+          ))}
         </PlayerList>
         <BanDialog
           open={this.state.showBanDialog}
@@ -118,9 +123,7 @@ export default class BansView extends Component {
           updateSteamID={this.updateBanDialogSteamID}
           steamID={this.state.banDialogSteamID}
         />
-        <ProgressIndicator
-          loading={this.props.server.loading}
-        />
+        <ProgressIndicator loading={this.props.server.loading} />
       </Container>
     );
   }

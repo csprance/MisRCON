@@ -13,7 +13,6 @@ import * as externals from '../../../package.json';
 import { helpText, helpCommands } from '../../constants/HelpSection';
 import { log } from '../../utils/loggerUtils';
 
-
 const welcomeMessage = `MisRCON-by @Csprance
 v${externals.version} - ${externals.versionName}
 Type help for more options
@@ -22,27 +21,25 @@ or tab to autocomplete
 
 `;
 
-@connect((store) => ({
+@connect(store => ({
   credentials: store.credentials
 }))
 class ConsoleView extends Component {
   constructor(props, context) {
     super(props, context);
-    this.words = helpCommands.map((el) => el.value);
+    this.words = helpCommands.map(el => el.value);
     this.state = {
       contextMenuOpen: false,
-      contextMenuAnchor: {x: 0, y: 0}
+      contextMenuAnchor: { x: 0, y: 0 }
     };
   }
 
-
-  getHelpOn = (text) => {
-    this.console.log(helpCommands.filter((el) => el.value === text)[0].display);
+  getHelpOn = text => {
+    this.console.log(helpCommands.filter(el => el.value === text)[0].display);
     this.console.return();
   };
 
-
-  handleContextMenuClick = (e) => {
+  handleContextMenuClick = e => {
     this.setState({
       contextMenuOpen: true,
       contextMenuAnchor: {
@@ -52,51 +49,49 @@ class ConsoleView extends Component {
     });
   };
 
-
   closeContextMenu = () => {
     this.setState({
-      contextMenuOpen: false,
+      contextMenuOpen: false
     });
   };
 
-
-  complete = (e) => {
-    return fuzzy.filter(e[0], this.words, {}).map((el) => {
+  complete = e => {
+    return fuzzy.filter(e[0], this.words, {}).map(el => {
       return el.string;
     });
   };
-
 
   clearConsole = () => {
     const container = this.console.child.container;
     const children = [].slice.call(container.childNodes);
     children.splice(0, 1);
     children.splice(children.length - 3, 3);
-    children.forEach((node) => {
+    children.forEach(node => {
       container.removeChild(node);
     });
     this.console.return();
     this.closeContextMenu();
   };
 
-
-  askingForHelp = (text) => {
+  askingForHelp = text => {
     const splitText = text.split(' ');
     if (splitText[0] === 'help') if (splitText.length === 2) return true;
     return false;
   };
 
-
-  handleInput = (text) => {
+  handleInput = text => {
     try {
       // help // get all help commands
       if (text === 'help') this.help();
-      // cls // clear screen
-      else if (text === 'cls') this.clearConsole();
-      // help [subject] // specific help docs
-      else if (this.askingForHelp(text)) this.getHelpOn(text.split(' ')[1]);
-      // send command to server
-      else this.sendCommand(text);
+      else if (text === 'cls')
+        // cls // clear screen
+        this.clearConsole();
+      else if (this.askingForHelp(text))
+        // help [subject] // specific help docs
+        this.getHelpOn(text.split(' ')[1]);
+      else
+        // send command to server
+        this.sendCommand(text);
     } catch (e) {
       log('error', e);
       this.console.log(String(e));
@@ -104,38 +99,36 @@ class ConsoleView extends Component {
     }
   };
 
-
   help = () => {
     this.console.log(helpText);
     this.console.return();
   };
 
-
-  sendCommand = (command) => {
-    misrcon.sendRCONCommandToServer({...this.props.credentials.active, command})
-      .then((res) => {
+  sendCommand = command => {
+    misrcon
+      .sendRCONCommandToServer({ ...this.props.credentials.active, command })
+      .then(res => {
         this.console.log(res);
         this.console.return();
       })
-      .catch((err) => {
+      .catch(err => {
         this.console.log(err);
         this.console.return();
       });
   };
 
-
   render() {
     return (
-      <Container onContextMenu={this.handleContextMenuClick} >
+      <Container onContextMenu={this.handleContextMenuClick}>
         <Console
-          ref={(console) => this.console = console}
+          ref={console => (this.console = console)}
           complete={this.complete}
           handler={this.handleInput}
           autofocus
           welcomeMessage={welcomeMessage}
         />
         <div
-          ref={(div) => this.anchorDiv = div}
+          ref={div => (this.anchorDiv = div)}
           style={{
             position: 'absolute',
             left: this.state.contextMenuAnchor.x - 50,

@@ -10,43 +10,39 @@ import TaskCard from './TaskCard';
 import AddTasksButton from './AddTaskButton';
 import CreateTaskDialog from './CreateTaskDialog';
 
-
-@connect((store) => ({
+@connect(store => ({
   tasks: store.tasks,
   server: store.server
 }))
 class ScheduledTasksView extends Component {
-
-
   componentDidMount() {
-    this.props.dispatch(taskActions.loadTasks(taskUtils.getTasksFromLocalStorage()));
+    this.props.dispatch(
+      taskActions.loadTasks(taskUtils.getTasksFromLocalStorage())
+    );
   }
-
 
   showCreateTaskDialog = () => {
     this.props.dispatch(taskActions.openCreateTaskDialog());
   };
 
-
   render() {
     return (
-      <Wrapper style={{display: this.props.tasks.display}} >
+      <Wrapper style={{ display: this.props.tasks.display }}>
         <HeaderBar>
-          <HeaderTitle >
+          <HeaderTitle>
             SCHEDULED TASKS
           </HeaderTitle>
-          <AddTasksButton
-            onTouchTap={this.showCreateTaskDialog}
-          />
+          <AddTasksButton onTouchTap={this.showCreateTaskDialog} />
         </HeaderBar>
         <TaskContainer>
-          {this.props.tasks.tasks.map((task) => {
+          {this.props.tasks.tasks.map(task => {
             return (
               <TaskCard
                 {...task}
                 dispatch={this.props.dispatch}
                 key={task.name}
-              />);
+              />
+            );
           })}
         </TaskContainer>
         <CreateTaskDialog />
@@ -57,11 +53,12 @@ class ScheduledTasksView extends Component {
 
 const Wrapper = styled.div`
   max-width: 420px;
-  display: ${(props) => (props.display)} !important;
+  display: ${props => props.display} !important;
   flex-direction: column;
   align-items: stretch;
   flex-shrink: 1;
 `;
+
 const TaskContainer = styled.div`
   box-sizing: border-box;
   flex-grow: 1;
@@ -73,6 +70,7 @@ const TaskContainer = styled.div`
   min-width: 410px;
   align-items: center;
 `;
+
 const HeaderBar = styled.div`
   min-height:72px;
   max-height: 72px;
@@ -83,6 +81,7 @@ const HeaderBar = styled.div`
   justify-content: center;
   background-color: ${black};
 `;
+
 const HeaderTitle = styled.div`
   flex-grow: 1;
 `;

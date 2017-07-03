@@ -13,10 +13,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(BaseTheme)} >
+      <MuiThemeProvider muiTheme={getMuiTheme(BaseTheme)}>
         {this.props.children}
       </MuiThemeProvider>
     );
   }
 }
-

@@ -8,26 +8,21 @@ import Popover from 'material-ui/Popover/Popover';
 import { Menu, MenuItem } from 'material-ui/Menu';
 import { clipboard } from 'electron';
 
-
-const ContextMenu = (props) => {
-  
+const ContextMenu = props => {
   const paste = () => {
     props.console.paste({
       clipboardData: {
-        getData: () => (clipboard.readText())
+        getData: () => clipboard.readText()
       },
-      preventDefault: () => {
-      }
+      preventDefault: () => {}
     });
     props.closeContextMenu();
   };
-
 
   const copy = () => {
     clipboard.writeText(window.getSelection().toString());
     props.closeContextMenu();
   };
-
 
   return (
     <Popover
@@ -43,6 +38,5 @@ const ContextMenu = (props) => {
     </Popover>
   );
 };
-
 
 export default ContextMenu;

@@ -25,7 +25,6 @@
   },
   "build": {
     "appId": "org.entradainteractive.MisRCON",
-    "category": "public.app-category.tools",
     "dmg": {
       "contents": [
         {

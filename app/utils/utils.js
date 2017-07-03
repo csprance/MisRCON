@@ -5,6 +5,6 @@
  */
 import { shell } from 'electron';
 
-export const handleClick = (link) => {
+export const handleClick = link => {
   shell.openExternal(link);
 };

@@ -10,17 +10,10 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-const BanDialog = (props) => {
+const BanDialog = props => {
   const actions = [
-    <FlatButton
-      label="Cancel"
-      onTouchTap={props.actionCancel}
-    />,
-    <FlatButton
-      label="Submit"
-      secondary
-      onTouchTap={props.actionSubmit}
-    />
+    <FlatButton label="Cancel" onTouchTap={props.actionCancel} />,
+    <FlatButton label="Submit" secondary onTouchTap={props.actionSubmit} />
   ];
 
   return (

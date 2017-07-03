@@ -9,8 +9,8 @@ import Drawer from 'material-ui/Drawer';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import {white} from '../../styles/colors';
-const EventsDrawer = (props) => {
+import { white } from '../../styles/colors';
+const EventsDrawer = props => {
   return (
     <Drawer
       docked={false}
@@ -22,68 +22,134 @@ const EventsDrawer = (props) => {
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'column'
-      }}>
+      }}
+    >
 
       <h2>Local Log Paths</h2>
 
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'flex-end'}}>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'flex-end'
+        }}
+      >
         <TextField
-          floatingLabelStyle={{color: white}}
-          style={{width: '85%'}}
+          floatingLabelStyle={{ color: white }}
+          style={{ width: '85%' }}
           onChange={props.handleChatLogPathChange}
           value={props.chatLogPath}
-          floatingLabelText={"Chat Log Path"}
-        />
-        <FlatButton secondary={true} onTouchTap={props.pickChatLogPath} label={"Browse"}/>
-      </div>
-
-
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'flex-end'}}>
-        <TextField
-          floatingLabelStyle={{color: white}}
-          style={{width: '85%'}}
-          onChange={props.handleDamageLogPathChange}
-          value={props.damageLogPath}
-          floatingLabelText={"Damage Log Path"}
+          floatingLabelText={'Chat Log Path'}
         />
         <FlatButton
-          secondary={true} onTouchTap={props.pickDamageLogPath} label={"Browse"}/>
+          secondary={true}
+          onTouchTap={props.pickChatLogPath}
+          label={'Browse'}
+        />
       </div>
 
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <FlatButton secondary={true} onTouchTap={props.parseDamageLogs} label={"Damage"}/>
-        <FlatButton secondary={true} onTouchTap={props.parseChatLogs} label={"Chat"}/>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'flex-end'
+        }}
+      >
+        <TextField
+          floatingLabelStyle={{ color: white }}
+          style={{ width: '85%' }}
+          onChange={props.handleDamageLogPathChange}
+          value={props.damageLogPath}
+          floatingLabelText={'Damage Log Path'}
+        />
+        <FlatButton
+          secondary={true}
+          onTouchTap={props.pickDamageLogPath}
+          label={'Browse'}
+        />
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <FlatButton
+          secondary={true}
+          onTouchTap={props.parseDamageLogs}
+          label={'Damage'}
+        />
+        <FlatButton
+          secondary={true}
+          onTouchTap={props.parseChatLogs}
+          label={'Chat'}
+        />
       </div>
 
       <h2>API Log Access</h2>
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'flex-end'}}>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'flex-end'
+        }}
+      >
         <TextField
           disabled={true}
-          floatingLabelStyle={{color: white}}
-          style={{width: '85%'}}
+          floatingLabelStyle={{ color: white }}
+          style={{ width: '85%' }}
           onChange={props.handleDamageLogPathChange}
           value={props.apiKey}
-          floatingLabelText={"API Key"}
+          floatingLabelText={'API Key'}
         />
       </div>
 
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'flex-end'}}>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'flex-end'
+        }}
+      >
         <TextField
           disabled={true}
-          floatingLabelStyle={{color: white}}
-          style={{width: '85%'}}
+          floatingLabelStyle={{ color: white }}
+          style={{ width: '85%' }}
           onChange={props.handleDamageLogPathChange}
           value={props.userID}
-          floatingLabelText={"User ID"}
+          floatingLabelText={'User ID'}
         />
 
       </div>
 
-      <div style={{display: 'flex', width: '100%', flexShrink: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <FlatButton secondary={true} disabled={true} onTouchTap={()=> {console.log('Connecting To API')}} label={"Connect"}/>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          flexShrink: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <FlatButton
+          secondary={true}
+          disabled={true}
+          onTouchTap={() => {
+            console.log('Connecting To API');
+          }}
+          label={'Connect'}
+        />
       </div>
 
-      <div style={{flexGrow: 1}}></div>
+      <div style={{ flexGrow: 1 }} />
 
     </Drawer>
   );

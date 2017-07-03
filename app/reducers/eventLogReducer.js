@@ -7,12 +7,12 @@ import * as types from '../constants/ActionTypes';
 
 // contains info about the player
 const player = {
-    steam: '76561198064851703',
-    name: 'Load Logs to Show Events',
-    avatar: 'http://placehold.it/42x42',
-    lastUpdate: Date.now(),
-    lastMsg: 'to show events',
-  },
+  steam: '76561198064851703',
+  name: 'Load Logs to Show Events',
+  avatar: 'http://placehold.it/42x42',
+  lastUpdate: Date.now(),
+  lastMsg: 'to show events'
+},
   // a player chat log
   chatEvent = {
     id: 21542,
@@ -20,7 +20,7 @@ const player = {
     name: 'Load Logs',
     steam: '76561198064851703',
     ip: '192.168.1.2',
-    msg: 'To Show events',
+    msg: 'To Show events'
   },
   // an emitter damage log
   damageEvent = {
@@ -46,22 +46,22 @@ const player = {
     emitters: [player],
     chatLogs: [chatEvent],
     damageLogs: [damageEvent],
-    parsing: false,
+    parsing: false
   };
 
 export default function credentials(state = initialState, action) {
   switch (action.type) {
     case types.PARSING_DAMAGE_LOGS: {
-      return {...state, parsing: true};
+      return { ...state, parsing: true };
     }
     case types.PARSED_DAMAGE_LOGS: {
-      return {...state, damageLogs: action.payload, parsing: false};
+      return { ...state, damageLogs: action.payload, parsing: false };
     }
     case types.PARSING_CHAT_LOGS: {
-      return {...state, parsing: true};
+      return { ...state, parsing: true };
     }
     case types.PARSED_CHAT_LOGS: {
-      return {...state, chatLogs: action.payload, parsing: false};
+      return { ...state, chatLogs: action.payload, parsing: false };
     }
     default:
       return state;

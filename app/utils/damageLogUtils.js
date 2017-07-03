@@ -21,11 +21,17 @@ import { convertTimeStrToDate } from '../utils/dateUtils';
 export function eventizeDamageLog(str) {
   //[00:43:11.186] shooterSteamID:76561198081386929, shooterName:"yuju", targetSteamID:76561198338495729, targetName:"hua,zi",
   // weapon:ruger22, distance:5.00, damage:37.34*0.20x=7.47, melee:0, headshot:0, kill:0, part:81(Bip01 L Hand), hitType:ammo_22, projectile:ammo_22
-  const eventList = parse(str, {delimiter: ',', relax: true, relax_column_count: true});
-  return _.reverse(eventList).map((event) => {
+  const eventList = parse(str, {
+    delimiter: ',',
+    relax: true,
+    relax_column_count: true
+  });
+  return _.reverse(eventList).map(event => {
     return {
       type: 'damage',
-      time: convertTimeStrToDate(event[0].split(']')[0].replace('[', '').trim()),
+      time: convertTimeStrToDate(
+        event[0].split(']')[0].replace('[', '').trim()
+      ),
       steam: event[0].split(']')[1].replace('shooterSteamID:', '').trim(),
       name: event[1].replace('shooterName:', '').replace('"', '').trim(),
       targetSteam: event[2].replace('targetSteamID:', '').trim(),
@@ -38,11 +44,10 @@ export function eventizeDamageLog(str) {
       kill: event[9].replace('kill:', '').trim(),
       part: event[10].replace('part:', '').trim(),
       hitType: event[11].replace('hitType:', '').trim(),
-      projectile: event[12].replace('projectile:', '').trim(),
+      projectile: event[12].replace('projectile:', '').trim()
     };
   });
 }
-
 
 /**
  * Goes out and gets the damage logs from the server
@@ -51,18 +56,17 @@ export function eventizeDamageLog(str) {
  * @returns:  {Promise}  promise         A promise that contains a .txt file from the server
  */
 export function getDamageLogFromServer(userId, apiKey) {
-  return axios.get('').then((data) => {
+  return axios.get('').then(data => {
     console.log(data);
   });
 }
-
 
 /**
  * Goes out and gets the damage logs and eventizes them from the file system
  * @param:    {string}   path          location to the file on the system
  * @returns:  {Promise}   string
  */
-export const getDamageLogFromFS = (path) => {
+export const getDamageLogFromFS = path => {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, data) => {
       if (err) reject(err);

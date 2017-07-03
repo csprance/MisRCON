@@ -7,16 +7,14 @@
 //[00:08:14.580] shooterSteamID:76561197978390518, shooterName:"Zacadien", targetSteamID:76561198064851703,
 // targetName:"Snow", weapon:Model70, distance:22.09, damage:53.21*1.00x=53.21, melee:0, headshot:0, kill:1,
 // part:23(Bip01 Spine1), hitType:ammo_223, projectile:ammo_223
-import React, {
-  PropTypes,
-} from 'react';
-import format from 'date-fns/format'
+import React, { PropTypes } from 'react';
+import format from 'date-fns/format';
 import styled from 'styled-components';
 import Paper from 'material-ui/Paper';
 
-import {darkGrey, black, white} from '../../../styles/colors';
+import { darkGrey, black, white } from '../../../styles/colors';
 
-const DamageEventCard = (props) => {
+const DamageEventCard = props => {
   return (
     <DamageEvent zDepth={1}>
       <Time>{format(props.time, 'HH:mm:ss')}</Time>
@@ -44,7 +42,7 @@ const DamageEvent = styled(Paper)`
   width: 80%;
   font-weight: 400;
   color: ${darkGrey};
-  background-color: ${(props)=> props.kill === '1' ? '#b24944' : '#969064'} !important;
+  background-color: ${props => (props.kill === '1' ? '#b24944' : '#969064')} !important;
   position: relative;
   padding: 15px;
   min-height: 120px;
@@ -96,8 +94,7 @@ const Projectile = styled.div`
   
 `;
 
+DamageEventCard.propTypes = {};
+DamageEventCard.defaultProps = {};
 
-DamageEventCard .propTypes = {};
-DamageEventCard .defaultProps = {};
-
-export default DamageEventCard ;
+export default DamageEventCard;

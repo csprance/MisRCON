@@ -13,26 +13,29 @@ import * as taskUtils from '../../utils/scheduledTasksUtils';
 
 import { replaceTimeOfDate } from '../../utils/dateUtils';
 
-
 class TaskCard extends Component {
   constructor(props, context) {
     super(props, context);
     this.cronJob = {};
   }
 
-
   componentDidMount() {
     // TODO: Move this somewhere else. Maybe into the server so I can have multiple cronJobs running at the same time for multiple servers
     if (this.props.type === 'RECURRING') {
       // create the cron object
-      this.cronJob = taskUtils.scheduleCronStringTask(this.props, this.props.dispatch);
+      this.cronJob = taskUtils.scheduleCronStringTask(
+        this.props,
+        this.props.dispatch
+      );
     }
     if (this.props.type === 'SPECIFIC') {
       // create the cron object
-      this.cronJob = taskUtils.scheduleDateTimeTask(this.props, this.props.dispatch);
+      this.cronJob = taskUtils.scheduleDateTimeTask(
+        this.props,
+        this.props.dispatch
+      );
     }
   }
-
 
   componentWillUnmount() {
     try {
@@ -41,7 +44,6 @@ class TaskCard extends Component {
       this.props.dispatch(taskActions.removeTaskByName(this.props.name));
     }
   }
-
 
   removeTask = () => {
     this.props.dispatch(taskActions.removeTaskByName(this.props.name));
@@ -52,31 +54,36 @@ class TaskCard extends Component {
     }
   };
 
-
   render() {
     return (
-      <TaskCardContainer zDepth={1} >
+      <TaskCardContainer zDepth={1}>
         <Name>
           {this.props.name}
         </Name>
 
-        {this.props.type === 'RECURRING' ?
-          <TaskCronString>
-            {this.props.cronString} <br />
-            Runs {prettyCron.toString(this.props.cronString)}
-          </TaskCronString>
-          :
-          <div>
-            <TaskTime>
-              {isPast(replaceTimeOfDate(this.props.time, this.props.date))
-                ? distanceInWordsToNow(replaceTimeOfDate(this.props.time, this.props.date))
-                : 'Past Task Date/Time'}
-            </TaskTime>
-            <TaskDate>
-              Runs {format(this.props.date, 'MM/DD/YY')} @ {format(this.props.time, 'HH:mm')}
-            </TaskDate>
-          </div>
-        }
+        {this.props.type === 'RECURRING'
+          ? <TaskCronString>
+              {this.props.cronString} <br />
+              Runs {prettyCron.toString(this.props.cronString)}
+            </TaskCronString>
+          : <div>
+              <TaskTime>
+                {isPast(replaceTimeOfDate(this.props.time, this.props.date))
+                  ? distanceInWordsToNow(
+                      replaceTimeOfDate(this.props.time, this.props.date)
+                    )
+                  : 'Past Task Date/Time'}
+              </TaskTime>
+              <TaskDate>
+                Runs
+                {' '}
+                {format(this.props.date, 'MM/DD/YY')}
+                {' '}
+                @
+                {' '}
+                {format(this.props.time, 'HH:mm')}
+              </TaskDate>
+            </div>}
 
         <TaskCommand>
           {this.props.command}
@@ -86,7 +93,7 @@ class TaskCard extends Component {
         </TaskCommand>
         <Spacer />
         <TaskActions>
-          <IconButton onTouchTap={this.removeTask} >
+          <IconButton onTouchTap={this.removeTask}>
             <DeleteIcon />
           </IconButton>
         </TaskActions>

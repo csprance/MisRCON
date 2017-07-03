@@ -13,32 +13,29 @@ import * as credentialsActions from '../../actions/credentialsActions';
 
 import { lightGray } from '../../styles/colors';
 
-
 // TODO: add in an edit button
 
-const ServerSelectCard = (props) => {
+const ServerSelectCard = props => {
   const useCredentials = () => {
     props.dispatch(credentialsActions.useCredentials(props.name));
   };
-
 
   const removeCredentials = () => {
     props.dispatch(credentialsActions.removeCredentials(props.name));
   };
 
-
   return (
-    <Container className="server-select" >
+    <Container className="server-select">
       <ServerDetails>
         <ServerName>{props.name}</ServerName>
         <ServerIp>{props.ip}:{props.port}</ServerIp>
       </ServerDetails>
 
-      <IconButton onTouchTap={removeCredentials} touch tooltip={'Delete'} >
+      <IconButton onTouchTap={removeCredentials} touch tooltip={'Delete'}>
         <TrashIcon />
       </IconButton>
 
-      <IconButton onTouchTap={useCredentials} touch tooltip={'Connect'} >
+      <IconButton onTouchTap={useCredentials} touch tooltip={'Connect'}>
         <PlayArrowIcon />
       </IconButton>
 

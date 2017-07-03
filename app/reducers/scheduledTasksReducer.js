@@ -9,9 +9,9 @@ import * as taskUtils from '../utils/scheduledTasksUtils';
 taskUtils.bootstrap();
 
 const initialState = {
-  open: false,           // is the CreateTaskDialog dialog open
-  display: 'none',           // is the CreateTaskDialog dialog open
-  tasks: [],             // the array containing all the tasks object data
+  open: false, // is the CreateTaskDialog dialog open
+  display: 'none', // is the CreateTaskDialog dialog open
+  tasks: [] // the array containing all the tasks object data
 };
 
 export default function scheduleTasks(state = initialState, action) {
@@ -37,7 +37,9 @@ export default function scheduleTasks(state = initialState, action) {
     case types.INCREMENT_TASK: {
       return {
         ...state,
-        tasks: state.tasks.map(i => (i.name === action.payload ? {...i, runs: i.runs + 1} : i))
+        tasks: state.tasks.map(
+          i => (i.name === action.payload ? { ...i, runs: i.runs + 1 } : i)
+        )
       };
     }
     case types.SHOW_TASK_DIALOG: {

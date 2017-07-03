@@ -9,7 +9,6 @@ import ReactDOM from 'react-dom';
 import clone from 'lodash.clone';
 
 let ChatView = React.createClass({
-
   propTypes: {
     flipped: React.PropTypes.bool,
     scrollLoadThreshold: React.PropTypes.number,
@@ -18,16 +17,16 @@ let ChatView = React.createClass({
     className: React.PropTypes.string
   },
 
-  getDefaultProps () {
+  getDefaultProps() {
     return {
       flipped: false,
       scrollLoadThreshold: 10,
-      loadingSpinnerDelegate: <div/>,
+      loadingSpinnerDelegate: <div />,
       className: ''
     };
   },
 
-  getInitialState () {
+  getInitialState() {
     this.rafRequestId = null; // for cleaning up outstanding requestAnimationFrames on WillUnmount
     this.scrollTop = 0; // regular mode initial scroll
     this.scrollHeight = undefined; // it's okay, this won't be read until the second render.
@@ -39,23 +38,30 @@ let ChatView = React.createClass({
     };
   },
 
-  componentWillUpdate (nextProps, nextState) {},
+  componentWillUpdate(nextProps, nextState) {},
 
-  render () {
+  render() {
     let displayables = clone(this.props.children);
     if (this.props.flipped) {
       displayables.reverse();
     }
 
-    let loadSpinner = <div ref="loadingSpinner">
-      {this.state.isInfiniteLoading ? this.props.loadingSpinnerDelegate : null}
-    </div>;
+    let loadSpinner = (
+      <div ref="loadingSpinner">
+        {this.state.isInfiniteLoading
+          ? this.props.loadingSpinnerDelegate
+          : null}
+      </div>
+    );
 
     // Must not hook onScroll event directly - that will break hardware accelerated scrolling.
     // We poll it with requestAnimationFrame instead.
     return (
-      <div className={this.props.className} ref="scrollable"
-           style={{overflowX: 'hidden', overflowY: 'scroll'}}>
+      <div
+        className={this.props.className}
+        ref="scrollable"
+        style={{ overflowX: 'hidden', overflowY: 'scroll' }}
+      >
         <div ref="smoothScrollingWrapper">
           {this.props.flipped ? loadSpinner : null}
           {displayables}
@@ -67,7 +73,7 @@ let ChatView = React.createClass({
 
   // detect when dom has changed underneath us- either scrollTop or scrollHeight (layout reflow)
   // may have changed.
-  pollScroll () {
+  pollScroll() {
     let domNode = ReactDOM.findDOMNode(this);
     if (domNode.scrollTop !== this.scrollTop) {
       if (this.shouldTriggerLoad(domNode)) {
@@ -81,23 +87,30 @@ let ChatView = React.createClass({
     this.rafRequestId = window.requestAnimationFrame(this.pollScroll);
   },
 
-  isPassedThreshold (flipped, scrollLoadThreshold, scrollTop, scrollHeight, clientHeight) {
+  isPassedThreshold(
+    flipped,
+    scrollLoadThreshold,
+    scrollTop,
+    scrollHeight,
+    clientHeight
+  ) {
     return flipped
       ? scrollTop <= scrollLoadThreshold
-      : scrollTop >= (scrollHeight - clientHeight - scrollLoadThreshold);
+      : scrollTop >= scrollHeight - clientHeight - scrollLoadThreshold;
   },
 
-  shouldTriggerLoad (domNode) {
+  shouldTriggerLoad(domNode) {
     let passedThreshold = this.isPassedThreshold(
       this.props.flipped,
       this.props.scrollLoadThreshold,
       domNode.scrollTop,
       domNode.scrollHeight,
-      domNode.clientHeight);
+      domNode.clientHeight
+    );
     return passedThreshold && !this.state.isInfiniteLoading;
   },
 
-  componentDidMount () {
+  componentDidMount() {
     let scrollableDomEl = ReactDOM.findDOMNode(this);
 
     // If there are not yet any children (they are still loading),
@@ -111,11 +124,11 @@ let ChatView = React.createClass({
     this.rafRequestId = window.requestAnimationFrame(this.pollScroll);
   },
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.cancelAnimationFrame(this.rafRequestId);
   },
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     this.updateScrollTop();
   },
 
@@ -123,7 +136,9 @@ let ChatView = React.createClass({
     let scrollableDomEl = ReactDOM.findDOMNode(this);
 
     //todo this is only the happy path
-    let newScrollTop = scrollableDomEl.scrollTop + (this.props.flipped
+    let newScrollTop =
+      scrollableDomEl.scrollTop +
+      (this.props.flipped
         ? scrollableDomEl.scrollHeight - (this.scrollHeight || 0)
         : 0);
 
@@ -141,6 +156,5 @@ let ChatView = React.createClass({
     // We are only handling half of the cases. Or an image resized above or below us.
   }
 });
-
 
 export default ChatView;

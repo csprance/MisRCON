@@ -15,30 +15,30 @@ const initialState = {
     gameRules: '',
     time: '',
     players: '',
-    playersArray: [],
+    playersArray: []
   },
   whitelist: [],
-  banlist: [],
+  banlist: []
 };
 
 export default function server(state = initialState, action) {
   switch (action.type) {
     case actionType.FETCHING_SERVER_BANLIST:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case actionType.FETCHING_SERVER_WHITELIST:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case actionType.FETCHING_ALL_SERVER_DATA:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case actionType.FETCHING_SERVER_STATUS:
-      return {...state, loading: true};
+      return { ...state, loading: true };
     case actionType.UPDATE_SERVER_STATUS:
-      return {...state, status: action.payload, loading: false};
+      return { ...state, status: action.payload, loading: false };
     case actionType.UPDATE_SERVER_WHITELIST:
-      return {...state, whitelist: action.payload, loading: false};
+      return { ...state, whitelist: action.payload, loading: false };
     case actionType.UPDATE_SERVER_BANLIST:
-      return {...state, banlist: action.payload, loading: false};
+      return { ...state, banlist: action.payload, loading: false };
     case actionType.UPDATE_ALL_SERVER_DATA:
-      return {...action.payload, loading: false};
+      return { ...action.payload, loading: false };
     default:
       return state;
   }

@@ -7,7 +7,6 @@
 import fs from 'fs';
 import format from 'date-fns/format';
 
-
 /**
  * Replaces the time of a date [time, date]
  * @param:    {string}  lvl  the log level to log at [silly, debug, info, warn, error] defaults to info
@@ -27,7 +26,7 @@ export function log(lvl = 'info', msg) {
     console.log(logMsg);
   } else {
     // if it's not in the ignore file log list then log it to a file
-    fs.appendFile(logPath, logMsg, (err) => {
+    fs.appendFile(logPath, logMsg, err => {
       if (err) console.log(err);
     });
   }

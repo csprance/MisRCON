@@ -11,17 +11,16 @@ import { red, black, orange } from '../styles/colors';
 
 import { dismissNotify } from '../actions/notifyActions';
 
-@connect((store) => ({
+@connect(store => ({
   notificationBar: store.notify
 }))
 export default class NotificationBar extends Component {
   dismissError = () => {
-    this.props.dispatch((dispatch) => {
+    this.props.dispatch(dispatch => {
       dispatch(dismissNotify());
     });
   };
 
-  
   render() {
     let color;
     if (this.props.notificationBar.warning) color = orange;

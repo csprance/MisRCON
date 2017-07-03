@@ -4,24 +4,18 @@
  * Creation Date: 12/14/2016
  * Description: The compoonent used to dispaly information about a chatEvent
  */
-import React, {
-  PropTypes,
-} from 'react';
+import React, { PropTypes } from 'react';
 import SteamAvatar from '../../common/SteamAvatar';
 import styled from 'styled-components';
 import Paper from 'material-ui/Paper';
-import format from 'date-fns/format'
+import format from 'date-fns/format';
 
-import {darkGrey, offWhite} from '../../../styles/colors';
+import { darkGrey, offWhite } from '../../../styles/colors';
 
-const ChatEventCard = (props) => {
+const ChatEventCard = props => {
   return (
     <ChatEvent zDepth={1}>
-      <SteamAvatar
-        style={ChatAvatarStyle}
-        steam={props.steam}
-        size={60}
-      />
+      <SteamAvatar style={ChatAvatarStyle} steam={props.steam} size={60} />
       <Time>{format(props.time, 'HH:mm:ss')}</Time>
       <Name>{props.name} - <Steam>{props.steam}</Steam></Name>
       <IP>{props.ip}</IP>
@@ -53,7 +47,7 @@ const IP = styled.div`
 const ChatAvatarStyle = {
   position: 'absolute',
   left: -85,
-  top: 0,
+  top: 0
 };
 const ChatEvent = styled(Paper)`
   margin-bottom: 25px;
@@ -83,4 +77,4 @@ const ChatEvent = styled(Paper)`
 ChatEventCard.propTypes = {};
 ChatEventCard.defaultProps = {};
 
-export default ChatEventCard ;
+export default ChatEventCard;

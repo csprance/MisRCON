@@ -5,25 +5,30 @@
  * Description: Contains a list of all the steamids emitting events on the server
  */
 import React from 'react';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
 
-
 import EmittersListHeader from './EmittersListHeader';
-import Emitter from './Emitter'
+import Emitter from './Emitter';
 
-
-const EmittersList = (props) => (
+const EmittersList = props => (
   <Container>
-    <EmittersListHeader handleDrawerOpen={props.handleDrawerOpen} parseAllLogs={props.parseAllLogs}/>
+    <EmittersListHeader
+      handleDrawerOpen={props.handleDrawerOpen}
+      parseAllLogs={props.parseAllLogs}
+    />
     <StaticList>
-      <TextField name={'searchField'} style={{width: '85%', paddingLeft: 15}} placeholder="Search...."/>
+      <TextField
+        name={'searchField'}
+        style={{ width: '85%', paddingLeft: 15 }}
+        placeholder="Search...."
+      />
       <ListItem
         primaryText="All Events"
         onTouchTap={props.onSelect.bind(null, 'ALL')}
       />
-      {props.emitters.map((emitter) => {
+      {props.emitters.map(emitter => {
         return (
           <Emitter
             kickPlayer={props.kickPlayer}

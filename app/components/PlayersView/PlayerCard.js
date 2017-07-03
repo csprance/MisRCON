@@ -19,23 +19,25 @@ import { darkGrey, white } from '../../styles/colors';
 import ExternalLink from '../common/ExternalLink';
 import SteamAvatar from '../common/SteamAvatar';
 
-
 class PlayersCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: store.get(this.props.steam) !== undefined ? store.get(this.props.steam).notes : ''
+      notes: store.get(this.props.steam) !== undefined
+        ? store.get(this.props.steam).notes
+        : ''
     };
   }
 
-
-  updateNotes = (e) => {
+  updateNotes = e => {
     this.setState({
-      notes: e.target.value,
+      notes: e.target.value
     });
-    store.set(this.props.steam, {...store.get(this.props.steam), notes: e.target.value});
+    store.set(this.props.steam, {
+      ...store.get(this.props.steam),
+      notes: e.target.value
+    });
   };
-
 
   render() {
     const link = String(`https://steamrep.com/profiles/${this.props.steam}`);
@@ -44,46 +46,66 @@ class PlayersCard extends Component {
         <Card>
           <CardHeader
             avatar={<SteamAvatar steam={this.props.steam} />}
-            style={{background: darkGrey}}
+            style={{ background: darkGrey }}
             title={this.props.name}
-            subtitle={<div><ExternalLink to={link} >{this.props.steam}</ExternalLink>{this.props.ping !== undefined ? `Ping: ${this.props.ping}` : ''}</div>}
+            subtitle={
+              <div>
+                <ExternalLink to={link}>{this.props.steam}</ExternalLink>
+                {this.props.ping !== undefined
+                  ? `Ping: ${this.props.ping}`
+                  : ''}
+              </div>
+            }
           />
           <CardText>
             <TextField
               name={'playerNote'}
               onChange={this.updateNotes}
               value={this.state.notes}
-              style={{width: '100%'}}
-              floatingLabelStyle={{color: white}}
+              style={{ width: '100%' }}
+              floatingLabelStyle={{ color: white }}
               floatingLabelText="Notes:"
             />
           </CardText>
-          <CardActions style={{display: 'flex'}} >
+          <CardActions style={{ display: 'flex' }}>
             <Spacer />
 
             {this.props.removePlayerFromBanList !== undefined &&
-            <FlatButton
-              label="UNBan"
-              onTouchTap={() => this.props.dispatch(serverActions.unBanPlayer(this.props.steam))}
-            />}
+              <FlatButton
+                label="UNBan"
+                onTouchTap={() =>
+                  this.props.dispatch(
+                    serverActions.unBanPlayer(this.props.steam)
+                  )}
+              />}
 
             {this.props.removePlayerFromWhitelist !== undefined &&
-            <FlatButton
-              label="Remove"
-              onTouchTap={() => this.props.dispatch(serverActions.unWhitelistPlayer(this.props.steam))}
-            />}
+              <FlatButton
+                label="Remove"
+                onTouchTap={() =>
+                  this.props.dispatch(
+                    serverActions.unWhitelistPlayer(this.props.steam)
+                  )}
+              />}
 
             {this.props.kick !== undefined &&
-            <FlatButton
-              label="Kick"
-              onTouchTap={() => this.props.dispatch(serverActions.kickPlayer(this.props.steam))}
-            />}
+              <FlatButton
+                label="Kick"
+                onTouchTap={() =>
+                  this.props.dispatch(
+                    serverActions.kickPlayer(this.props.steam)
+                  )}
+              />}
 
             {this.props.ban !== undefined &&
-            <FlatButton
-              secondary label="Ban"
-              onTouchTap={() => this.props.dispatch(serverActions.banPlayer(this.props.steam))}
-            />}
+              <FlatButton
+                secondary
+                label="Ban"
+                onTouchTap={() =>
+                  this.props.dispatch(
+                    serverActions.banPlayer(this.props.steam)
+                  )}
+              />}
 
           </CardActions>
         </Card>

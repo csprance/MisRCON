@@ -19,7 +19,7 @@ import * as utils from '../../utils/utils';
 
 import { white } from '../../styles/colors';
 
-@connect((store) => ({
+@connect(store => ({
   credentials: store.credentials,
   tasks: store.tasks,
   server: store.server
@@ -35,10 +35,9 @@ class CreateTaskDialog extends Component {
       command: '',
       type: 'SPECIFIC',
       cronString: '',
-      runs: 0,
+      runs: 0
     };
   }
-
 
   handleClick = () => {
     utils.handleClick('https://crontab.guru/');
@@ -49,14 +48,15 @@ class CreateTaskDialog extends Component {
   };
 
   createTask = () => {
-    this.props.dispatch(taskActions.addTaskToState({
-      ...this.props.credentials.active,
-      ...this.state,
-      serverName: this.props.server.status.name
-    }));
+    this.props.dispatch(
+      taskActions.addTaskToState({
+        ...this.props.credentials.active,
+        ...this.state,
+        serverName: this.props.server.status.name
+      })
+    );
     this.closeDialog();
   };
-
 
   updateTaskTime = (e, time) => {
     this.setState({
@@ -64,21 +64,18 @@ class CreateTaskDialog extends Component {
     });
   };
 
-
-  updateTaskCommand = (e) => {
+  updateTaskCommand = e => {
     this.setState({
-      command: e.target.value,
+      command: e.target.value
     });
   };
 
-
-  updateTaskName = (e) => {
+  updateTaskName = e => {
     this.setState({
       name: e.target.value,
       nameError: ''
     });
   };
-
 
   updateTaskDate = (e, date) => {
     this.setState({
@@ -86,20 +83,17 @@ class CreateTaskDialog extends Component {
     });
   };
 
-
-  updateTaskCronString = (e) => {
+  updateTaskCronString = e => {
     this.setState({
       cronString: e.target.value
     });
   };
 
-
-  updateTaskType = (tab) => {
+  updateTaskType = tab => {
     this.setState({
       type: tab.props['data-route']
     });
   };
-
 
   render() {
     const actions = [
@@ -115,13 +109,17 @@ class CreateTaskDialog extends Component {
         open={this.props.tasks.open}
       >
         <Tabs>
-          <Tab label="Specific Date" data-route="SPECIFIC" onActive={this.updateTaskType} >
+          <Tab
+            label="Specific Date"
+            data-route="SPECIFIC"
+            onActive={this.updateTaskType}
+          >
             <Container>
               <TextField
                 style={inputStyles}
                 value={this.state.name}
                 floatingLabelText="Task Name"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 errorText={this.state.nameError}
                 onChange={this.updateTaskName}
               />
@@ -129,44 +127,59 @@ class CreateTaskDialog extends Component {
                 style={inputStyles}
                 value={this.state.time}
                 floatingLabelText="Task Run Time"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 onChange={this.updateTaskTime}
               />
               <DatePicker
                 style={inputStyles}
                 value={this.state.date}
                 floatingLabelText="Task Run Date"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 onChange={this.updateTaskDate}
               />
               <TextField
                 style={inputStyles}
                 value={this.state.command}
                 floatingLabelText="Command to execute"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 onChange={this.updateTaskCommand}
               />
             </Container>
           </Tab>
-          <Tab label="Recurring" data-route="RECURRING" onActive={this.updateTaskType} >
+          <Tab
+            label="Recurring"
+            data-route="RECURRING"
+            onActive={this.updateTaskType}
+          >
             <Container>
               <TextField
                 style={inputStyles}
                 value={this.state.name}
                 floatingLabelText="Task Name"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 errorText={this.state.nameError}
                 onChange={this.updateTaskName}
               />
-              <div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} >
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
                 <TextField
-                  style={{flexGrow: 9}}
+                  style={{ flexGrow: 9 }}
                   value={this.state.cronString}
                   floatingLabelText="Cron String [ss mm hh dd month dayofweek]"
-                  floatingLabelStyle={{color: white}}
+                  floatingLabelStyle={{ color: white }}
                   onChange={this.updateTaskCronString}
                 />
-                <IconButton tooltip="WTF is a Cron String?" style={{flexGrow: 1}} onTouchTap={this.handleClick} >
+                <IconButton
+                  tooltip="WTF is a Cron String?"
+                  style={{ flexGrow: 1 }}
+                  onTouchTap={this.handleClick}
+                >
                   <HelpIcon />
                 </IconButton>
               </div>
@@ -174,7 +187,7 @@ class CreateTaskDialog extends Component {
                 style={inputStyles}
                 value={this.state.command}
                 floatingLabelText="Command to execute"
-                floatingLabelStyle={{color: white}}
+                floatingLabelStyle={{ color: white }}
                 onChange={this.updateTaskCommand}
               />
             </Container>
@@ -185,7 +198,7 @@ class CreateTaskDialog extends Component {
   }
 }
 
-const inputStyles = {width: '100%'};
+const inputStyles = { width: '100%' };
 
 const Container = styled.div`
   display: flex;

@@ -9,10 +9,10 @@
  * Events are any action that causes a log line to be created.
  *
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import SplitPane from 'react-split-pane';
-import _ from 'lodash'
+import _ from 'lodash';
 import store from 'store';
 
 import EventsContainer from './EventsContainer';
@@ -20,9 +20,9 @@ import './eventsView.global.css';
 import EmittersList from './EmittersList';
 import EventsDrawer from './EventsDrawer';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
-import {emitters, events} from '../../initialState'
-const {dialog} = require('electron').remote;
-const {ipcRenderer} = require('electron');
+import { emitters, events } from '../../initialState';
+const { dialog } = require('electron').remote;
+const { ipcRenderer } = require('electron');
 
 export default class EventsView extends Component {
   constructor(props, context) {
@@ -30,8 +30,8 @@ export default class EventsView extends Component {
     const chatLogPath = store.get('chatLogPath');
     const damageLogPath = store.get('damageLogPath');
     this.state = {
-      chatLogPath: chatLogPath !== undefined ? chatLogPath : "",
-      damageLogPath: damageLogPath !== undefined ? damageLogPath : "",
+      chatLogPath: chatLogPath !== undefined ? chatLogPath : '',
+      damageLogPath: damageLogPath !== undefined ? damageLogPath : '',
       selected: 'ALL',
       drawerOpen: false,
       emitters: emitters,
@@ -40,7 +40,7 @@ export default class EventsView extends Component {
       eventsIdx: 15,
       incAmt: 15,
       killOnlyToggle: false
-    }
+    };
   }
 
   //////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ export default class EventsView extends Component {
         emitters: arg.emitters,
         allEvents: arg.allEvents,
         events: _.slice(arg.allEvents, 0, this.state.eventsIdx),
-        eventsIdx: this.state.eventsIdx + this.state.incAmt,
+        eventsIdx: this.state.eventsIdx + this.state.incAmt
       });
     });
 
@@ -65,73 +65,78 @@ export default class EventsView extends Component {
         emitters: arg.emitters,
         allEvents: arg.allEvents,
         events: _.slice(arg.allEvents, 0, this.state.eventsIdx),
-        eventsIdx: this.state.eventsIdx + this.state.incAmt,
+        eventsIdx: this.state.eventsIdx + this.state.incAmt
       });
     });
   }
-
 
   //////////////////////////////////////////////////////////////
   // Handlers
   //////////////////////////////////////////////////////////////
 
   pickChatLogPath = () => {
-    dialog.showOpenDialog({
-      properties: ['openFile'],
-      filters: [{name: 'Chat Logs', extensions: ['txt']}]
-    }, (files) => {
-      if (files) this.setState({chatLogPath: files[0]});
-      if (files) store.set('chatLogPath', files[0]);
-    })
+    dialog.showOpenDialog(
+      {
+        properties: ['openFile'],
+        filters: [{ name: 'Chat Logs', extensions: ['txt'] }]
+      },
+      files => {
+        if (files) this.setState({ chatLogPath: files[0] });
+        if (files) store.set('chatLogPath', files[0]);
+      }
+    );
   };
 
   pickDamageLogPath = () => {
-    dialog.showOpenDialog({
-      properties: ['openFile'],
-      filters: [{name: 'Chat Logs', extensions: ['txt']}]
-    }, (files) => {
-      if (files) this.setState({damageLogPath: files[0]});
-      if (files) store.set('damageLogPath', files[0]);
-    })
+    dialog.showOpenDialog(
+      {
+        properties: ['openFile'],
+        filters: [{ name: 'Chat Logs', extensions: ['txt'] }]
+      },
+      files => {
+        if (files) this.setState({ damageLogPath: files[0] });
+        if (files) store.set('damageLogPath', files[0]);
+      }
+    );
   };
 
-  handleChatLogPathChange = (e) => {
+  handleChatLogPathChange = e => {
     console.log(e);
     this.setState({
-      chatLogPath: e.target.value,
+      chatLogPath: e.target.value
     });
     store.set('chatLogPath', e.target.value);
   };
 
-  handleDamageLogPathChange = (e) => {
+  handleDamageLogPathChange = e => {
     this.setState({
-      damageLogPath: e.target.value,
+      damageLogPath: e.target.value
     });
     store.set('damageLogPath', e.target.value);
   };
 
-  handleDrawerOpen = (open) => {
+  handleDrawerOpen = open => {
     this.setState({
-      drawerOpen: typeof open === "boolean" ? open : true,
+      drawerOpen: typeof open === 'boolean' ? open : true
     });
   };
 
   handleDrawerClose = () => {
     this.setState({
-      drawerOpen: false,
+      drawerOpen: false
     });
   };
 
   startLoad = () => {
     this.handleDrawerClose();
     this.setState({
-      loading: true,
+      loading: true
     });
   };
 
   stopLoad = () => {
     this.setState({
-      loading: false,
+      loading: false
     });
   };
 
@@ -140,27 +145,24 @@ export default class EventsView extends Component {
       allDamageEvents: [],
       damageEvents: [],
       emitters: [],
-      eventsIdx: this.state.incAmt,
+      eventsIdx: this.state.incAmt
     });
   };
   //////////////////////////////////////////////////////////////
   // Custom Methods
   //////////////////////////////////////////////////////////////
 
-
-
-  banPlayer = (steam) => {
-    console.log('Banning player: ', steam)
+  banPlayer = steam => {
+    console.log('Banning player: ', steam);
   };
 
-  kickPlayer = (steam) => {
-    console.log('Kicking player: ', steam)
+  kickPlayer = steam => {
+    console.log('Kicking player: ', steam);
   };
 
-  unWhiteListPlayer = (steam) => {
-    console.log('unWhiteListingplayer: ', steam)
+  unWhiteListPlayer = steam => {
+    console.log('unWhiteListingplayer: ', steam);
   };
-
 
   parseChatLogs = () => {
     this.startLoad();
@@ -168,33 +170,40 @@ export default class EventsView extends Component {
     ipcRenderer.send('getChatLog', this.state.chatLogPath);
   };
 
-
   parseDamageLogs = () => {
     this.startLoad();
     this.resetEvents();
     ipcRenderer.send('getDamageLog', this.state.damageLogPath);
   };
 
-  sendData = () => {
+  sendData = () => {};
 
-  };
-
-
-  onSelect = (steam) => {
+  onSelect = steam => {
     this.setState({
       selected: steam,
-      events: _.slice(this.state.allEvents.filter((e) => steam === 'ALL' ? true : e.steam === steam), 0, this.state.incAmt),
-      eventsIdx: 50,
+      events: _.slice(
+        this.state.allEvents.filter(
+          e => (steam === 'ALL' ? true : e.steam === steam)
+        ),
+        0,
+        this.state.incAmt
+      ),
+      eventsIdx: 50
     });
     document.getElementsByClassName('events-list')[0].scrollTop = 0;
   };
 
-  loadMore = (selected) => {
+  loadMore = selected => {
     //TODO: This sucks improve this. It is really bad at the end of a list scrolling up and down.
     // Maybe replace this scroll lib
     return new Promise((resolve, reject) => {
-      const isSelected = (e) => selected === 'ALL' ? true : e.steam === selected;
-      let more = _.slice(this.state.allEvents.filter(isSelected), 0, this.state.eventsIdx);
+      const isSelected = e =>
+        selected === 'ALL' ? true : e.steam === selected;
+      let more = _.slice(
+        this.state.allEvents.filter(isSelected),
+        0,
+        this.state.eventsIdx
+      );
       this.setState({
         events: more,
         eventsIdx: this.state.eventsIdx + this.state.incAmt
@@ -205,15 +214,13 @@ export default class EventsView extends Component {
 
   //TODO: Move this to a different folder
   // Filter data and set the state of allEvents with the new data
-  filterData = (data) => {
-
+  filterData = data => {
     const filters = {
-      isChat: (e) => e.type === 'chat',
-      isSelected: (steam) => (e) => steam === 'ALL' ? true : e.steam === steam,
-      isDamage: (e) => e.type === 'chat',
-      isAKill: (e) => e.kill === '1',
+      isChat: e => e.type === 'chat',
+      isSelected: steam => e => (steam === 'ALL' ? true : e.steam === steam),
+      isDamage: e => e.type === 'chat',
+      isAKill: e => e.kill === '1'
     };
-
 
     // if (!this.state.killOnlyToggle) {
     //   console.log('Showing ONLY KILL EVENTS');
@@ -230,19 +237,16 @@ export default class EventsView extends Component {
     //     filterKillRule: (e) => true,
     //   });
     // }
-
   };
-
 
   toggleKills = () => {
     this.setState({
-      killOnlyToggle: !this.state.killOnlyToggle,
+      killOnlyToggle: !this.state.killOnlyToggle
     });
     if (this.state.killOnlyToggle) this.filterData(data);
     if (!this.state.killOnlyToggle) this.filterData(data);
     this.filterData();
   };
-
 
   render() {
     return (
@@ -282,7 +286,7 @@ export default class EventsView extends Component {
           handleDrawerClose={this.handleDrawerClose}
           handleDrawerOpen={this.handleDrawerOpen}
         />
-        <ProgressIndicator loading={this.state.loading}/>
+        <ProgressIndicator loading={this.state.loading} />
       </Container>
     );
   }

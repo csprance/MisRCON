@@ -1,5 +1,5 @@
-import {combineReducers} from 'redux';
-import {routerReducer as routing} from 'react-router-redux';
+import { combineReducers } from 'redux';
+import { routerReducer as routing } from 'react-router-redux';
 
 import notify from './notifyReducer';
 import rcon from './rconReducer';

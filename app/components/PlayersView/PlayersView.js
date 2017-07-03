@@ -23,7 +23,7 @@ import PlayerCard from './PlayerCard';
 import PlayersViewBanDialog from './PlayersViewBanDialog';
 import ProgressIndicator from '../common/ProgressIndicator/ProgressIndicator';
 
-@connect((store) => {
+@connect(store => {
   return {
     server: store.server,
     credentials: store.credentials
@@ -36,7 +36,7 @@ export default class PlayersView extends Component {
       searchString: '',
       showBanDialog: false,
       banDialogBanReason: '',
-      banDialogSteamID: '',
+      banDialogSteamID: ''
     };
   }
 
@@ -44,13 +44,11 @@ export default class PlayersView extends Component {
     this.props.dispatch(serverActions.getStatus());
   };
 
-  banPlayerAndCloseDialog = () => {
-  };
+  banPlayerAndCloseDialog = () => {};
 
-  kickPlayer = (steam) => {
-  };
+  kickPlayer = steam => {};
 
-  showBanDialog = (steam) => {
+  showBanDialog = steam => {
     this.setState({
       showBanDialog: true,
       banDialogSteamID: steam
@@ -63,21 +61,27 @@ export default class PlayersView extends Component {
     });
   };
 
-  updateSearchString = (e) => {
+  updateSearchString = e => {
     this.setState({
       searchString: e.target.value
     });
   };
 
-  updateBanReason = (e) => {
+  updateBanReason = e => {
     this.setState({
       banDialogBanReason: e.target.value
     });
   };
 
   render() {
-    const fuzzyList = fuzzy.filter(this.state.searchString, this.props.server.status.playersArray, {extract: (el) => el.name}).map((el) => el.string);
-    const filterList = this.props.server.status.playersArray.filter((player) => fuzzyList.indexOf(player.name) >= 0);
+    const fuzzyList = fuzzy
+      .filter(this.state.searchString, this.props.server.status.playersArray, {
+        extract: el => el.name
+      })
+      .map(el => el.string);
+    const filterList = this.props.server.status.playersArray.filter(
+      player => fuzzyList.indexOf(player.name) >= 0
+    );
     return (
       <Container>
         <Actions>
@@ -86,22 +90,27 @@ export default class PlayersView extends Component {
           <SearchBar
             value={this.state.searchString}
             onChange={this.updateSearchString}
-            style={{flex: 4}}
-            floatingLabelStyle={{color: white}}
+            style={{ flex: 4 }}
+            floatingLabelStyle={{ color: white }}
             floatingLabelText="Search...."
           />
 
           <Spacer />
 
-          <FloatingActionButton onTouchTap={this.getPlayersAndAddToState} secondary>
-            { (this.props.server.loading === true ? <AnimatedRefresh /> : <RefreshIcon />) }
+          <FloatingActionButton
+            onTouchTap={this.getPlayersAndAddToState}
+            secondary
+          >
+            {this.props.server.loading === true
+              ? <AnimatedRefresh />
+              : <RefreshIcon />}
           </FloatingActionButton>
 
           <Spacer />
         </Actions>
 
         <PlayerList>
-          {filterList.map((player) =>
+          {filterList.map(player => (
             <PlayerCard
               key={player.steam + player.name}
               steam={player.steam}
@@ -110,7 +119,8 @@ export default class PlayersView extends Component {
               ping={player.ping}
               dispatch={this.props.dispatch}
               kick
-            />)}
+            />
+          ))}
         </PlayerList>
 
         <PlayersViewBanDialog
@@ -122,9 +132,7 @@ export default class PlayersView extends Component {
           actionSubmit={this.banPlayerAndCloseDialog}
         />
 
-        <ProgressIndicator
-          loading={this.props.server.loading}
-        />
+        <ProgressIndicator loading={this.props.server.loading} />
 
       </Container>
     );

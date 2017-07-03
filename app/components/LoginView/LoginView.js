@@ -10,7 +10,7 @@ import ServerAddOverlay from './ServerAddOverlay';
 import ServerSelectCard from './ServerSelectCard';
 import { black, darkGrey } from '../../styles/colors';
 
-@connect((store) => ({
+@connect(store => ({
   credentials: store.credentials
 }))
 class LoginView extends Component {
@@ -23,27 +23,32 @@ class LoginView extends Component {
 
   showServerAddOverlay = () => {
     this.setState({
-      show: true,
+      show: true
     });
   };
 
   hideServerAddOverlay = () => {
     this.setState({
-      show: false,
+      show: false
     });
   };
 
   render() {
     return (
       <Container>
-        <LoginBox zDepth={2} >
+        <LoginBox zDepth={2}>
           <LoginBoxHeader>
-            <h3 style={{flexGrow: 9}} >Select Server</h3>
+            <h3 style={{ flexGrow: 9 }}>Select Server</h3>
             <FloatingActionButton
               onTouchTap={this.showServerAddOverlay}
               mini
               secondary
-              style={{marginRight: 20, position: 'absolute', right: 0, top: 25}}
+              style={{
+                marginRight: 20,
+                position: 'absolute',
+                right: 0,
+                top: 25
+              }}
             >
               <ContentAdd />
             </FloatingActionButton>

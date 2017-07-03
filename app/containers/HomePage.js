@@ -29,14 +29,14 @@ import StatusBar from '../components/StatusBar/StatusBar';
 import BansView from '../components/BansView/BansView';
 import ConsoleView from '../components/ConsoleView/ConsoleView';
 import PlayersView from '../components/PlayersView/PlayersView';
-import ScheduledTasksView from '../components/ScheduledTasksView/ScheduledTasksView';
+import ScheduledTasksView
+  from '../components/ScheduledTasksView/ScheduledTasksView';
 import WhitelistView from '../components/WhitelistView/WhitelistView';
 // import WeatherView from '../components/WeatherView/WeatherView';
 
 import { Tabs, Tab } from '../components/common/Tabs';
 
-
-@connect((store) => ({
+@connect(store => ({
   credentials: store.credentials
 }))
 class HomePage extends Component {
@@ -47,7 +47,6 @@ class HomePage extends Component {
     };
   }
 
-
   componentDidMount() {
     updateUtils.bootStrap(this.props.dispatch);
     ipcRenderer.on('clearUserCredentials', () => {
@@ -55,64 +54,73 @@ class HomePage extends Component {
     });
   }
 
-
   componentWillReceiveProps(nextProps) {
     if (credentialsUtils.credentialsHaveChanged(nextProps)) {
       this.props.dispatch(server.getInitialData());
     }
   }
 
-
-  changeTabs = (value) => {
+  changeTabs = value => {
     if (value === 'tasks') {
       this.props.dispatch(taskActions.toggleTaskList());
     } else {
-      this.setState({tabRoute: value});
+      this.setState({ tabRoute: value });
     }
   };
 
-
   render() {
     return (
-      <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
-        <div style={{width: '100%', display: 'flex', flexGrow: 1}} >
-          {this.props.credentials.active.name.length === 0 ?
-            <LoginView />
-            :
-            <div style={{width: '100%', display: 'flex', flexDirection: 'column'}} >
-              <SplitPane>
-                <StyledTabs
-                  value={this.state.tabRoute}
-                  onChange={this.changeTabs}
-                  tabItemContainerStyle={{minHeight: 72}}
-                  contentContainerStyle={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}
-                  tabTemplateStyle={{display: 'flex'}}
-                >
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: '100%', display: 'flex', flexGrow: 1 }}>
+          {this.props.credentials.active.name.length === 0
+            ? <LoginView />
+            : <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <SplitPane>
+                  <StyledTabs
+                    value={this.state.tabRoute}
+                    onChange={this.changeTabs}
+                    tabItemContainerStyle={{ minHeight: 72 }}
+                    contentContainerStyle={{
+                      flexGrow: 1,
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                    tabTemplateStyle={{ display: 'flex' }}
+                  >
 
-                  <Tab icon={<ConsoleIcon />} label="CONSOLE" value="console" >
-                    <ConsoleView />
-                  </Tab>
+                    <Tab icon={<ConsoleIcon />} label="CONSOLE" value="console">
+                      <ConsoleView />
+                    </Tab>
 
-                  <Tab icon={<PeopleIcon />} label="PLAYERS" value="players" >
-                    <PlayersView />
-                  </Tab>
+                    <Tab icon={<PeopleIcon />} label="PLAYERS" value="players">
+                      <PlayersView />
+                    </Tab>
 
-                  <Tab icon={<BanIcon />} label="BANS" value="bans" >
-                    <BansView />
-                  </Tab>
+                    <Tab icon={<BanIcon />} label="BANS" value="bans">
+                      <BansView />
+                    </Tab>
 
-                  <Tab icon={<WhitelistIcon />} label="WHITELIST" value="whitelist" >
-                    <WhitelistView />
-                  </Tab>
+                    <Tab
+                      icon={<WhitelistIcon />}
+                      label="WHITELIST"
+                      value="whitelist"
+                    >
+                      <WhitelistView />
+                    </Tab>
 
-                  <Tab icon={<ScheduleIcon />} label="TASKS" value="tasks" />
+                    <Tab icon={<ScheduleIcon />} label="TASKS" value="tasks" />
 
-                </StyledTabs>
-                <ScheduledTasksView />
-              </SplitPane>
-              <StatusBar />
-            </div>
-          }
+                  </StyledTabs>
+                  <ScheduledTasksView />
+                </SplitPane>
+                <StatusBar />
+              </div>}
           <NotificationBar />
         </div>
       </div>

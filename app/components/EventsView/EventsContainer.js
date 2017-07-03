@@ -5,9 +5,7 @@
  * Description: Contains all the events from the currently select SteamiD (or all events)
  *              from the EmittersList
  */
-import React, {
-  PropTypes,
-} from 'react';
+import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 import ReactChatView from './ChatView';
 import List from 'react-virtualized';
@@ -16,8 +14,9 @@ import ChatEventCard from './EventCards/ChatEventCard';
 import DamageEventCard from './EventCards/DamageEventCard';
 import EventsContainerHeader from './EventsContainerHeader';
 
-const EventContainer = (props) => {
-  const isSelected = (event) => props.selected === 'ALL' ? true : event.steam === props.selected;
+const EventContainer = props => {
+  const isSelected = event =>
+    props.selected === 'ALL' ? true : event.steam === props.selected;
   return (
     <div>
       <EventsContainerHeader
@@ -32,10 +31,10 @@ const EventContainer = (props) => {
         scrollLoadThreshold={50}
         onInfiniteLoad={props.loadMore.bind(null, props.selected)}
       >
-        {props.events.filter(isSelected)
-          .map((event) => {
-            if (event.type === 'chat') {
-              return (<ChatEventCard
+        {props.events.filter(isSelected).map(event => {
+          if (event.type === 'chat') {
+            return (
+              <ChatEventCard
                 key={event.steam + String(Math.random())}
                 avatar={event.avatar}
                 time={event.time}
@@ -43,9 +42,11 @@ const EventContainer = (props) => {
                 steam={event.steam}
                 ip={event.ip}
                 msg={event.msg}
-              />);
-            } else {
-              return (<DamageEventCard
+              />
+            );
+          } else {
+            return (
+              <DamageEventCard
                 key={event.steam + String(Math.random())}
                 kill={event.kill}
                 time={event.time}
@@ -61,9 +62,10 @@ const EventContainer = (props) => {
                 part={event.part}
                 hitType={event.hitType}
                 projectile={event.projectile}
-              />);
-            }
-          })}
+              />
+            );
+          }
+        })}
       </Container>
     </div>
   );
@@ -84,6 +86,5 @@ const Container = styled(ReactChatView)`
   right:0px;
   bottom:0px;  
 `;
-
 
 export default EventContainer;

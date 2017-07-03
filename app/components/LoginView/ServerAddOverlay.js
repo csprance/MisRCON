@@ -28,42 +28,37 @@ class ServerAddOverlay extends Component {
       errorTextPassword: '',
       errorTextPort: '',
       errorTextIp: '',
-      errorTextName: '',
+      errorTextName: ''
     };
   }
 
-
-  updatePort = (e) => {
+  updatePort = e => {
     this.setState({
       port: e.target.value,
       errorTextPort: ''
     });
   };
 
-
-  updatePassword = (e) => {
+  updatePassword = e => {
     this.setState({
       password: e.target.value,
       errorTextPassword: ''
     });
   };
 
-
-  updateName = (e) => {
+  updateName = e => {
     this.setState({
       name: e.target.value,
       errorTextName: ''
     });
   };
 
-
-  updateIP = (e) => {
+  updateIP = e => {
     this.setState({
       ip: e.target.value,
       errorTextIp: ''
     });
   };
-
 
   validateAndStoreCredentials = () => {
     const creds = {
@@ -80,77 +75,78 @@ class ServerAddOverlay extends Component {
 
     if (Object.prototype.hasOwnProperty.call(validation, 'ip')) {
       this.setState({
-        errorTextIp: validation.ip[0],
+        errorTextIp: validation.ip[0]
       });
     }
     if (Object.prototype.hasOwnProperty.call(validation, 'port')) {
       this.setState({
-        errorTextPort: validation.port[0],
+        errorTextPort: validation.port[0]
       });
     }
     if (Object.prototype.hasOwnProperty.call(validation, 'password')) {
       this.setState({
-        errorTextPassword: validation.password[0],
+        errorTextPassword: validation.password[0]
       });
     }
     if (Object.prototype.hasOwnProperty.call(validation, 'name')) {
       this.setState({
-        errorTextName: validation.name[0],
+        errorTextName: validation.name[0]
       });
     }
-
   };
-
 
   close = () => {
     this.props.hideServerAddOverlay();
   };
 
-
   render() {
     return (
-      <Container show={this.props.show} >
+      <Container show={this.props.show}>
         <LoginBoxHeader>
           <IconButton
-            style={{position: 'absolute', left: 20, top: 20}}
+            style={{ position: 'absolute', left: 20, top: 20 }}
             touch
             tooltip={'Go Back'}
             onTouchTap={this.close}
           >
             <BackArrowIcon />
           </IconButton>
-          <h3 style={{flexGrow: 9}} >Add Server</h3>
+          <h3 style={{ flexGrow: 9 }}>Add Server</h3>
         </LoginBoxHeader>
         <TextField
           onChange={this.updateName}
           errorText={this.state.errorTextName}
           value={this.state.name}
-          floatingLabelStyle={{color: white}}
+          floatingLabelStyle={{ color: white }}
           floatingLabelText="Name"
         />
         <TextField
           onChange={this.updateIP}
           errorText={this.state.errorTextIp}
           value={this.state.ip}
-          floatingLabelStyle={{color: white}}
+          floatingLabelStyle={{ color: white }}
           floatingLabelText="IP"
         />
         <TextField
           onChange={this.updatePort}
           errorText={this.state.errorTextPort}
           value={this.state.port}
-          floatingLabelStyle={{color: white}}
+          floatingLabelStyle={{ color: white }}
           floatingLabelText="Port"
         />
         <TextField
           onChange={this.updatePassword}
           errorText={this.state.errorTextPassword}
           value={this.state.password}
-          floatingLabelStyle={{color: white}}
+          floatingLabelStyle={{ color: white }}
           floatingLabelText="Password"
         />
         <ActionButtons>
-          <FlatButton label="Add Server" secondary onTouchTap={this.validateAndStoreCredentials} />
+          <FlatButton
+            label="Add Server"
+            secondary
+            onTouchTap={this.validateAndStoreCredentials}
+          />
         </ActionButtons>
       </Container>
     );
@@ -159,7 +155,7 @@ class ServerAddOverlay extends Component {
 
 const Container = styled.div`
   display: flex;
-  left: ${(props) => (props.show ? 0 : '900px')};
+  left: ${props => (props.show ? 0 : '900px')};
   background: ${lightGray};
   transition-duration: .5s;
   z-index: 10;
