@@ -2,23 +2,21 @@
  * Base webpack config used across other specific configs
  */
 
-import path from 'path';
-import validate from 'webpack-validator';
-import { dependencies as externals } from './app/package.json';
+const path = require('path');
+const {
+  dependencies: externals
+} = require('./app/package.json');
 
-export default validate({
+module.exports = {
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel-loader'],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      }
-    ]
+    loaders: [{
+      test: /\.tsx?$/,
+      loaders: ['react-hot-loader/webpack', 'ts-loader'],
+      exclude: /node_modules/
+    }, {
+      test: /\.json$/,
+      loader: 'json-loader'
+    }]
   },
 
   output: {
@@ -31,18 +29,14 @@ export default validate({
 
   // https://webpack.github.io/docs/configuration.html#resolve
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json'],
-    packageMains: [
-      'webpack',
-      'browser',
-      'web',
-      'browserify',
-      ['jam', 'main'],
-      'main'
+    extensions: ['.js', '.ts', '.tsx', '.json'],
+    modules: [
+      path.join(__dirname, 'app'),
+      'node_modules',
     ]
   },
 
   plugins: [],
 
   externals: Object.keys(externals || {})
-});
+};

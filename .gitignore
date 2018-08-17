@@ -1,7 +1,6 @@
 # Logs
 logs
 *.log
-.idea
 
 # Runtime data
 pids
@@ -24,7 +23,7 @@ coverage
 build/Release
 
 # Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-gitgit s
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 app/node_modules
 
@@ -42,5 +41,5 @@ app/style.css.map
 dist
 main.js
 main.js.map
-.idea/
-/app/secrets.js
+
+.idea

@@ -1,57 +1,54 @@
-<a href="https://github.com/csprance/MisRCON/blob/master/resources/icon.png" ><img src="https://github.com/csprance/MisRCON/blob/master/resources/icon.png?raw=true" alt="IMAGE ALT TEXT HERE" width="320" height="320" border="10" /></a><br/>
-# MisRCON
-> RCON utility for Miscreated
+# electron-react-typescript-boilerplate
 
-## Download
-<a href="https://github.com/csprance/MisRCON/releases/latest" >Download the latest version here</a>
+[![Build Status][travis-image]][travis-url]
+[![Greenkeeper badge](https://badges.greenkeeper.io/iRath96/electron-react-typescript-boilerplate.svg)](https://greenkeeper.io/)
 
-Default installation directory
+This is a slight modificiation of the great [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate) by chentsulin.
+Instead of [Babel](https://babeljs.io) and [flow](https://flowtype.org) this version uses [TypeScript](https://www.typescriptlang.org). Support for [Sass](http://sass-lang.com) has also been added.
 
-| Operating System | Default Install Directory |
-| ------------- | ------------- |
-| Windows  | Users/username/ApplicationData/Local/Programs/MisRCON  |
-| Linux  | /usr/local/bin/MisRCON  |
+# electron-react-boilerplate
 
+![](./erb-logo.png)
 
+> Live editing development on desktop app
 
-## Screenshots
-<a href="http://www.csprance.com/shots/2017-05-05_eca48477-cdce-47ad-a253-412e00bb49c9.png"><img src="http://www.csprance.com/shots/2017-05-05_eca48477-cdce-47ad-a253-412e00bb49c9.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_fc2348c9-eb8b-4e41-8fdf-30b0e85c81a2.png"><img src="http://www.csprance.com/shots/2017-05-05_fc2348c9-eb8b-4e41-8fdf-30b0e85c81a2.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_afe2dde2-7376-40dd-9b26-c08f7e9ff90c.png"><img src="http://www.csprance.com/shots/2017-05-05_afe2dde2-7376-40dd-9b26-c08f7e9ff90c.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_47bffbd9-6248-4caf-bc20-bf501e0811b7.png"><img src="http://www.csprance.com/shots/2017-05-05_47bffbd9-6248-4caf-bc20-bf501e0811b7.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_d89f862a-2019-4ca5-96e1-eb2532ec3e43.png"><img src="http://www.csprance.com/shots/2017-05-05_d89f862a-2019-4ca5-96e1-eb2532ec3e43.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_1e457c1c-04a6-4eac-9479-0b2c605ae974.png"><img src="http://www.csprance.com/shots/2017-05-05_1e457c1c-04a6-4eac-9479-0b2c605ae974.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_618c9954-b850-4eec-9b60-7ed1df4052b5.png"><img src="http://www.csprance.com/shots/2017-05-05_618c9954-b850-4eec-9b60-7ed1df4052b5.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_ce1a477e-5f7e-456b-98a2-8f3f03110c2b.png"><img src="http://www.csprance.com/shots/2017-05-05_ce1a477e-5f7e-456b-98a2-8f3f03110c2b.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-<a href="http://www.csprance.com/shots/2017-05-05_f27b0f2b-c639-4d00-a9d8-692d952627db.png"><img src="http://www.csprance.com/shots/2017-05-05_f27b0f2b-c639-4d00-a9d8-692d952627db.png" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+[Electron](http://electron.atom.io/) application boilerplate based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router), [Webpack](http://webpack.github.io/docs/), [React Transform HMR](https://github.com/gaearon/react-transform-hmr) for rapid application development
 
- 
-## Developer Install
-* **Note: You must add in your own secrets.js file with a steam API key in app/secrets.js** 
-```js
-export const apiKey = 'APIKEY';
-export const chatLogPath = 'C:\\Downloads\\chatlog_2016-12-13.txt';
-export const damageLogPath = 'C:\\Downloads\\damagelog_2016-11-25.txt';
-```
+## Screenshot
+
+![Electron Boilerplate Demo](https://cloud.githubusercontent.com/assets/3382565/10557547/b1f07a4e-74e3-11e5-8d27-79ab6947d429.gif)
+
+## Install
+
 * **Note: requires a node version >= 6 and an npm version >= 3.**
 * **If you have installation or compilation issues with this project, please see [our debugging guide](https://github.com/chentsulin/electron-react-boilerplate/issues/400)**
 
 First, clone the repo via git:
 
 ```bash
-git clone https://github.com/csprance/MisRCON
+git clone https://github.com/iRath96/electron-react-typescript-boilerplate.git your-project-name
 ```
 
 And then install dependencies.
 **ProTip**: Install with [yarn](https://github.com/yarnpkg/yarn) for faster and safer installation
 
 ```bash
-$ cd MisRCON && npm install
+$ cd your-project-name && npm install
 ```
 
-## Developer Run
+:bulb: *In order to remove boilerplate sample code, simply run `npm run cleanup`. After this is run, the initial sample boilerplate code will be removed in order for a clean project for starting custom dev*
 
-To start development run the command
+## Run
+
+Run these two commands __simultaneously__ in different console tabs.
+
+```bash
+$ npm run hot-server
+$ npm run start-hot
+```
+
+or run two servers with one command
+
 ```bash
 $ npm run dev
 ```
@@ -59,7 +56,7 @@ $ npm run dev
 ## Editor Configuration
 **Atom**
 ```bash
-apm install editorconfig es6-javascript autocomplete-flow javascript-snippets linter linter-eslint language-babel
+apm install editorconfig es6-javascript atom-ternjs javascript-snippets linter linter-eslint language-babel autocomplete-modules
 ```
 
 **Sublime**
@@ -171,16 +168,46 @@ This boilerplate uses a [two package.json structure](https://github.com/electron
 2. If a module is `import`ed by another module, include it in `dependencies` in `./package.json`.   See [this ESLint rule](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md).
 3. Otherwise, modules used for building, testing and debugging should be included in `devDependencies` in `./package.json`.
 
+## Static Type Checking
+This project comes with Flow support out of the box! You can annotate your code with types, [get Flow errors as ESLint errors](https://github.com/amilajack/eslint-plugin-flowtype-errors), and get [type errors during runtime](https://github.com/gcanti/babel-plugin-tcomb-boilerplate) during development. Types are completely optional.
 
-## Contributors
+## Native-like UI
 
-- [Chris Sprance](https://github.com/csprance)
-- [Spafbi](https://github.com/spafbi)
+If you want to have native-like User Interface (OS X El Capitan and Windows 10), [react-desktop](https://github.com/gabrielbull/react-desktop) may perfect suit for you.
 
+## Dispatching redux actions from main process
+
+see discusses in [#118](https://github.com/chentsulin/electron-react-boilerplate/issues/118) and [#108](https://github.com/chentsulin/electron-react-boilerplate/issues/108)
+
+## How to keep the boilerplate updated
+
+If your application is a fork from this repo, you can add this repo to another git remote:
+
+```sh
+git remote add upstream https://github.com/chentsulin/electron-react-boilerplate.git
+```
+
+Then, use git to merge some latest commits:
+
+```sh
+git pull upstream master
+```
+
+## Maintainers
+
+- [C. T. Lin](https://github.com/chentsulin)
+- [Jhen-Jie Hong](https://github.com/jhen0409)
+- [Amila Welihinda](https://github.com/amilajack)
 
 
 ## License
-MIT 
+MIT © [C. T. Lin](https://github.com/chentsulin)
 
-## Credits
-This application is forked from the electron-react-boilerplate
+[npm-image]: https://img.shields.io/npm/v/electron-react-boilerplate.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/electron-react-boilerplate
+[travis-image]: https://travis-ci.org/iRath96/electron-react-typescript-boilerplate.svg?branch=master
+[travis-url]: https://travis-ci.org/iRath96/electron-react-typescript-boilerplate
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/github/chentsulin/electron-react-boilerplate?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/chentsulin/electron-react-boilerplate/branch/master
+[david_img]: https://img.shields.io/david/chentsulin/electron-react-boilerplate.svg
+[david_site]: https://david-dm.org/chentsulin/electron-react-boilerplate

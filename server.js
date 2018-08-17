@@ -1,17 +1,15 @@
-/* eslint-disable no-console */
 /**
  * Setup and run the development server for Hot-Module-Replacement
  * https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
- * @flow
  */
 
-import express from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import { spawn } from 'child_process';
+const express = require('express');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const { spawn } = require('child_process');
 
-import config from './webpack.config.development';
+const config = require('./webpack.config.development');
 
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -36,11 +34,7 @@ const server = app.listen(PORT, 'localhost', serverError => {
   }
 
   if (argv['start-hot']) {
-    spawn('npm', ['run', 'start-hot'], {
-      shell: true,
-      env: process.env,
-      stdio: 'inherit'
-    })
+    spawn('npm', ['run', 'start-hot'], { shell: true, env: process.env, stdio: 'inherit' })
       .on('close', code => process.exit(code))
       .on('error', spawnError => console.error(spawnError));
   }
