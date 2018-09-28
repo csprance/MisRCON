@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+</head>
+<body>
+  <div id="App"></div>
+</body>
+
+
+<script>window.exports = module.exports</script>
+<script type="text/tsx">
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Provider } from 'react-redux';
+import { AppContainer } from 'react-hot-loader';
+import { configureStore } from "./redux/store";
+import { theme } from "./styles/theme";
+
+const store = configureStore();
+let render = () => {
+  const { App } = require('./app');
+  ReactDOM.render(
+    <Provider store={store}>
+      <MuiThemeProvider
+      theme={theme}
+      >
+        <CssBaseline />
+        <AppContainer>
+          <App />
+        </AppContainer>
+      </MuiThemeProvider>
+    </Provider>,
+    document.getElementById('App')
+  );
+};
+
+render();
+if (module.hot) {
+  module.hot.accept(render);
+}
+</script>
+</html>

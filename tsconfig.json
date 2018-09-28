@@ -1,42 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "jsx": "react",
-    "lib": [
-      "dom",
-      "es6",
-      "dom.iterable",
-      "scripthost"
-    ],
-    "types": [],
-
-    "alwaysStrict": true,
-    "strictNullChecks": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "declaration": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
-    
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-
-    "sourceMap": true,
-
-    "outDir": "dist"
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "pretty": true,
+    "target": "es2015",
+    "jsx": "react"
   },
-  "files": [
-    "app/index.tsx"
-  ],
-  "include": [
-    "app/**/*.ts",
-    "app/**/*.tsx",
-    "test/**/*.ts",
-    "test/**/*.tsx",
-    "node_modules/@types/**/*.d.ts"
-  ],
-  "exclude": [
-    "dist"
-  ]
+  "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2
+  }
 }
