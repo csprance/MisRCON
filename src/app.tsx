@@ -5,11 +5,10 @@ import { injectGlobalStyles } from './styles/global-styles';
 import Admin from './containers/Admin';
 import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
+// import Login from './containers/Login';
 import ServerSelect from './containers/ServerSelect';
 
-// import RCONTerminal from './components/RCONTerminal';
-import Login from './containers/Login';
-//
+
 export class App extends React.Component<undefined, undefined> {
   public componentDidMount() {
     injectGlobalStyles();
@@ -19,7 +18,7 @@ export class App extends React.Component<undefined, undefined> {
     return (
       <Router>
         <Switch>
-          <Route exact path={'/'} component={Login} />
+          <Route exact path={'/'} component={Admin} />
           <Route path={'/select'} component={ServerSelect} />
           <Route path={'/create'} component={CreateAccount} />
           <Route path={'/forgot'} component={ForgotPassword} />

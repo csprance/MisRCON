@@ -1,36 +1,28 @@
 import { Dispatch } from 'redux';
-import { createAsyncAction, createAction } from 'typesafe-actions';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 import { IRootState } from '../index';
 import { addToDb } from './rcon-helpers';
 import { Todo } from './rcon-types';
 
-export const addTodo = createAsyncAction(
-  'todo/REQUEST',
-  'todo/SUCCESS',
-  'todo/FAILED'
+export const sendRCON = createAsyncAction(
+  'rcon/REQUEST',
+  'rcon/SUCCESS',
+  'rcon/FAILED'
 )<void, any[], string>();
 
-export const addTodoFlow = async (
+export const sendRCONFlow = async (
   todo: Todo,
   dispatch: Dispatch<IRootState>
-): Promise<void> => {
+): Promise<any> => {
   // Tell Redux were requesting data from the db
-  dispatch(addTodo.request());
+  dispatch(sendRCON.request());
   try {
     // Do the actual request
-    dispatch(addTodo.success(await addToDb(todo)));
+    const results = await addToDb(todo);
+    dispatch(sendRCON.success(results));
+    return results;
   } catch (err) {
     // Catch the err
-    addTodo.failure(err.toString());
+    sendRCON.failure(err.toString());
   }
 };
-
-export const removeTodo = createAction(
-  'todo/REMOVE_TODO',
-  resolve => (id: number) => resolve(id)
-);
-
-export const toggleComplete = createAction(
-  'todo/TOGGLE_COMPLETE',
-  resolve => (id: number) => resolve(id)
-);

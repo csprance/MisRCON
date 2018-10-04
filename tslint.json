@@ -1,5 +1,6 @@
 {
   "rules": {
+    "variable-name": false,
     "no-submodule-imports": false,
     "no-empty-interface": false,
     "interface-over-type-literal": false,
