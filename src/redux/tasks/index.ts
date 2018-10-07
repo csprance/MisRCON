@@ -1,30 +1,26 @@
-import { ActionType, getType } from 'typesafe-actions';
-import * as todoActions from './todo-actions';
-import { default as defaultState } from './todo-state';
-import { TodoState as _TodoState } from './todo-types';
+import {ActionType, getType} from 'typesafe-actions';
+import * as tasksActions from './tasks-actions';
+import {default as defaultState} from './tasks-state';
+import {TasksState} from './tasks-types';
 
-export type TodoState = _TodoState;
-export type DbActions = ActionType<typeof todoActions>;
+
+export type TaskActions = ActionType<typeof tasksActions>;
 
 export const reducer = (
-  state: TodoState = defaultState,
-  action: DbActions
-): TodoState => {
+  state: TasksState = defaultState,
+  action: TaskActions
+): TasksState => {
   switch (action.type) {
-    case getType(todoActions.addTodo.request):
-      return state;
-    case getType(todoActions.addTodo.success):
-      return state.concat(action.payload);
-    case getType(todoActions.addTodo.failure):
-      return state;
-    case getType(todoActions.removeTodo):
+    case getType(tasksActions.addTask):
+      return [...state, action.payload];
+    case getType(tasksActions.removeTask):
       return state.filter(todo => todo.id  !== action.payload);
-    case getType(todoActions.toggleComplete):
-      return state.map(todo => {
-        if (todo.id === action.payload){
-          todo.completed = !todo.completed;
+    case getType(tasksActions.toggleTaskEnabled):
+      return state.map(task => {
+        if (task.id === action.payload){
+          task.enabled = !task.enabled;
         }
-        return todo;
+        return task;
       });
     default:
       return state;

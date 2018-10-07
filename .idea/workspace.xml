@@ -2,43 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2cf91a46-6311-4d30-906b-0e28c8515a81" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/RCONTerminal/terminal-commands/chuck.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RCONTerminal/terminal-commands/help.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RCONTerminal/terminal-commands/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RCONTerminal/terminal-commands/rcon-commands.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repl.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/@types/global.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/@types/global.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/OutputList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/OutputList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/ReactTerminal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/ReactTerminal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/TerminalContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/TerminalContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/OutputContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/OutputContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Admin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/CreateAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CreateAccount.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/players/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/players/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/players/players-actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/players/players-actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/players/players-helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/players/players-helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/players/players-state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/players/players-state.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/players/players-types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/players/players-types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/rcon/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rcon/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/rcon/rcon-actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rcon/rcon-actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/rcon/rcon-helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rcon/rcon-helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/rcon/rcon-state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rcon/rcon-state.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/rcon/rcon-types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/rcon/rcon-types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/servers/servers-actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/servers/servers-actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/servers/servers-selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/servers/servers-selectors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/servers/servers-state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/servers/servers-state.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/servers/servers-types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/servers/servers-types.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/global-styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/global-styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/tasks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/tasks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/tasks/todo-actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/tasks/tasks-actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/tasks/todo-helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/tasks/tasks-helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/tasks/todo-state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/tasks/tasks-state.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/tasks/todo-types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/tasks/tasks-types.d.ts" afterDir="false" />
     </list>
     <ignored mask="rest-client.private.env.json" />
     <ignored mask="http-client.private.env.json" />
@@ -143,22 +112,80 @@
       <usages-collector id="statistics.php.composer.actions" />
       <usages-collector id="statistics.php.rename.constructor" />
     </session>
+    <session id="200254120">
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="ts" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="TypeScript" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="ts" value="279" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="TypeScript" value="279" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts">
+        <counts>
+          <entry key="TsLintLanguageService" value="1" />
+          <entry key="TypeScriptServerServiceImpl" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="FIRST">
-              <first_editor relative-caret-position="345">
-                <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/redux/tasks/index.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="247">
+                  <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/redux/tasks/tasks-types.d.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-7">
+                  <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/redux/tasks/tasks-actions.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="322">
+                  <caret line="14" column="30" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="30" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -213,9 +240,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/emulator-state/EmulatorState.ts" />
-        <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/emulator/auto-complete.ts" />
-        <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/commands/util/_head_tail_util.ts" />
         <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/emulator-output/output-factory.ts" />
         <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/emulator/command-runner.ts" />
         <option value="$PROJECT_DIR$/src/components/RCONTerminal/javascript-terminal/emulator/emulator-error.ts" />
@@ -264,6 +288,9 @@
         <option value="$PROJECT_DIR$/src/containers/Admin.tsx" />
         <option value="$PROJECT_DIR$/src/redux/servers/servers-state.ts" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/redux/tasks/tasks-types.d.ts" />
+        <option value="$PROJECT_DIR$/src/redux/tasks/tasks-actions.ts" />
+        <option value="$PROJECT_DIR$/src/redux/tasks/index.ts" />
       </list>
     </option>
   </component>
@@ -287,11 +314,9 @@
   </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
-    <handled-path value="$PROJECT_DIR$/out/MisRCON-win32-x64/resources/app/node_modules" />
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
-      <path value="$PROJECT_DIR$/out/MisRCON-win32-x64/resources/app/package.json" />
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
@@ -299,10 +324,10 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="90" />
-    <option name="y" value="310" />
-    <option name="width" value="3860" />
-    <option name="height" value="2130" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1060" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -313,7 +338,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -321,10 +345,29 @@
               <item name="MisRCON" type="b2602c69:ProjectViewProjectNode" />
               <item name="MisRCON" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="MisRCON" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MisRCON" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MisRCON" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MisRCON" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="redux" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MisRCON" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MisRCON" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="redux" type="462c0819:PsiDirectoryNode" />
+              <item name="tasks" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,28 +391,28 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="C:\MisRCON\node_modules\eslint" />
     <property name="node.js.selected.package.standard" value="C:\MisRCON\node_modules\eslint" />
-    <property name="node.js.selected.package.tslint" value="C:\MisRCON\node_modules\tslint" />
+    <property name="node.js.selected.package.tslint" value="D:\MisRCON\node_modules\tslint" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
-    <property name="ts.external.directory.path" value="C:\MisRCON\node_modules\typescript\lib" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="ts.external.directory.path" value="D:\MisRCON\node_modules\typescript\lib" />
     <property name="typescript-compiler-editor-notification" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\MisRCON\src\components\RCONTerminal\terminal-commands" />
-      <recent name="C:\MisRCON\src\components\golden-layout" />
-      <recent name="C:\MisRCON\src\containers" />
-      <recent name="C:\MisRCON\src\resources\images" />
-      <recent name="C:\MisRCON\src\redux" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\MisRCON\src\components\RCONTerminal\terminal-commands" />
       <recent name="C:\MisRCON\src\components\RCONTerminal\javascript-terminal" />
       <recent name="C:\MisRCON\src\components\RCONTerminal\react-terminal-component" />
       <recent name="C:\MisRCON\src\components\RCONTerminal" />
       <recent name="C:\MisRCON\src\resources" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\MisRCON\src\components\RCONTerminal\terminal-commands" />
+      <recent name="C:\MisRCON\src\components\golden-layout" />
+      <recent name="C:\MisRCON\src\containers" />
+      <recent name="C:\MisRCON\src\resources\images" />
+      <recent name="C:\MisRCON\src\redux" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -748,12 +791,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="3086" height="1702" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.52891" visible="true" weight="0.10072655" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5268505" visible="true" weight="0.14966443" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="npm" order="2" sideWeight="0.47109005" side_tool="true" visible="true" weight="0.10072655" />
+      <window_info id="npm" order="2" sideWeight="0.47314948" side_tool="true" visible="true" weight="0.14966443" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Designer" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
@@ -767,7 +809,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50581706" side_tool="true" weight="0.26607883" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4976203" visible="true" weight="0.31803492" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4976203" weight="0.24492754" />
       <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.4976203" weight="0.32837752" />
       <window_info anchor="bottom" x="841" y="1247" width="2570" height="387" id="Flow" order="13" sideWeight="0.4947118" weight="0.24951519" />
       <window_info anchor="bottom" id="TypeScript" order="14" weight="0.32902393" />
@@ -797,41 +839,7 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="35" lean-forward="true" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/OutputList.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-output/output-type.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/TextOutput.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator/plugins/HistoryKeyboardPlugin.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator/plugins/HistoryKeyboardPlugin.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/index.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
@@ -867,13 +875,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="389">
           <caret line="833" column="4" selection-start-line="833" selection-start-column="4" selection-end-line="833" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/redux/tasks/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -967,27 +968,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/outputs.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/EmulatorState.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="43" lean-forward="true" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/environment-variables.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/outputs.d.ts" />
+    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/EmulatorState.d.ts" />
+    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-state/environment-variables.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/terminal-commands/index.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
@@ -1033,13 +1016,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-output/output-factory.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/async-javascript-terminal/lib/emulator-output/output-factory.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/output/OutputContainer.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -1081,13 +1058,6 @@
     <entry file="file://$PROJECT_DIR$/src/redux/servers/servers-helpers.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/redux/servers/servers-actions.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" column="39" lean-forward="true" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/redux/servers/servers-state.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
@@ -1111,15 +1081,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/index.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/redux/servers/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" column="44" lean-forward="true" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+        <state relative-caret-position="851">
+          <caret line="37" column="6" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1130,6 +1093,55 @@
             <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/index.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RCONTerminal/react-terminal-component/themes/default.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/servers/servers-actions.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/servers/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="19" column="44" lean-forward="true" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/tasks/tasks-types.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/tasks/tasks-actions.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/tasks/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
         </state>
       </provider>
     </entry>
