@@ -1,9 +1,9 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import { rootReducer, IRootState } from './index';
-import { Store } from 'redux';
-import thunk from 'redux-thunk';
+import { applyMiddleware, compose, createStore, Store } from 'redux';
 import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
+
 import { DEV } from '../constants/env';
+import { IRootState, rootReducer } from './index';
 
 export const configureStore = (): Store<IRootState> => {
   const composeEnhancers =

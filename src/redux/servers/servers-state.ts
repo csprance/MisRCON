@@ -8,6 +8,6 @@ export default [
     ip: '192.168.1.1',
     port: 60490,
     hash: 'THisIsCool324HashMan',
-    active: false
+    active: true
   }
 ] as ServersState;

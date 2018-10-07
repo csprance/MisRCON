@@ -1,6 +1,11 @@
-import { app, BrowserWindow } from 'electron';
+import * as Splashscreen from '@trodi/electron-splashscreen';
+import { app } from 'electron';
 import { enableLiveReload } from 'electron-compile';
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import installExtension, {
+REACT_DEVELOPER_TOOLS,
+REDUX_DEVTOOLS
+} from 'electron-devtools-installer';
+import * as path from 'path';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,14 +14,26 @@ let mainWindow: Electron.BrowserWindow | null = null;
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) {
-  enableLiveReload({strategy: 'react-hmr'});
+  enableLiveReload({ strategy: 'react-hmr' });
 }
 
 const createWindow = async () => {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  const windowOptions = {
+    width: 1024,
+    height: 768,
+    show: false
+  };
+  // configure the splashscreen
+  mainWindow = Splashscreen.initSplashScreen({
+    windowOpts: windowOptions,
+    templateUrl: path.join(__dirname, 'resources','images', 'icon.png'),
+    delay: 0, // force show immediately since example will load fast
+    minVisible: 1500, // show for 1.5s so example is obvious
+    splashScreenOpts: {
+      width: 400,
+      height: 400,
+      transparent: true
+    }
   });
 
   // and load the index.html of the app.

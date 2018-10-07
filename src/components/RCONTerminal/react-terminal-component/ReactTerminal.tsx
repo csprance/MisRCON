@@ -1,27 +1,31 @@
 import {
+  Emulator,
   EmulatorState,
-  HistoryKeyboardPlugin
+  HistoryKeyboardPlugin,
+  OutputType
 } from 'async-javascript-terminal';
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import CommandInput from './input/CommandInput';
-import defaultRenderers from './output/index';
+import HeaderOutput from './output/HeaderOutput';
+import TextErrorOutput from './output/TextErrorOutput';
+import TextOutput from './output/TextOutput';
 import OutputList from './OutputList';
 import TerminalContainer from './TerminalContainer';
 import defaultTheme from './themes/default';
 
 type State = {
-  emulatorState: any;
-  inputStr: any;
+  emulatorState: EmulatorState;
+  inputStr: string;
   disabled: boolean;
 };
 type Props = {
-  emulator: any;
+  emulator: Emulator;
   theme: any;
   promptSymbol: string;
   outputRenderers: any;
-  emulatorState: any;
+  emulatorState: EmulatorState;
   inputStr: string;
 };
 class Terminal extends React.Component<Props, State> {
@@ -29,12 +33,16 @@ class Terminal extends React.Component<Props, State> {
     emulatorState: EmulatorState.createEmpty(),
     theme: defaultTheme,
     promptSymbol: '🎮',
-    outputRenderers: defaultRenderers,
+    outputRenderers: {
+      [OutputType.TEXT_OUTPUT_TYPE]: TextOutput,
+      [OutputType.TEXT_ERROR_OUTPUT_TYPE]: TextErrorOutput,
+      [OutputType.HEADER_OUTPUT_TYPE]: HeaderOutput
+    },
     inputStr: ''
   };
 
-  emulator: any;
-  historyKeyboardPlugin: any;
+  emulator: Emulator;
+  historyKeyboardPlugin: HistoryKeyboardPlugin;
   plugins: any[];
   inputRef: any;
 
@@ -54,18 +62,6 @@ class Terminal extends React.Component<Props, State> {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputSubmit = this.onInputSubmit.bind(this);
     this.onInputKeyDownEvent = this.onInputKeyDownEvent.bind(this);
-  }
-
-  shouldComponentUpdate(state: any, nextState: any) {
-    if (state.disabled !== nextState.disabled) {
-      return true;
-    }
-    const isOutputEqual =
-      this.state.emulatorState.getOutputs() ===
-      nextState.emulatorState.getOutputs();
-    const isInputStrEqual = this.state.inputStr === nextState.inputStr;
-
-    return !isOutputEqual || !isInputStrEqual;
   }
 
   componentDidUpdate() {
@@ -143,6 +139,10 @@ class Terminal extends React.Component<Props, State> {
         break;
     }
   }
+
+  focusTerminal = () => {
+    this.inputRef.focus();
+  };
 
   render() {
     const { disabled } = this.state;

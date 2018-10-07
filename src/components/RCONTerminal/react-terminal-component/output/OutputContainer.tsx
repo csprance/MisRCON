@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-const OutputContainer = styled.div``;
+const OutputContainer = styled.pre``;
 
 export default OutputContainer;

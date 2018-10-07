@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,

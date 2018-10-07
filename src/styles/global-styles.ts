@@ -20,5 +20,13 @@ export const injectGlobalStyles = () => {
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
+  #App {
+  flex-grow: 1;
+  }
+  body, html {
+    display: flex;
+    flex-grow: 1; 
+    height: 100%;
+  }
   `;
 };

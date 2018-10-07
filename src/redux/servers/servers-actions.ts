@@ -1,9 +1,9 @@
 import { createAction } from 'typesafe-actions';
-import { Server } from './servers-types';
+import { IServer } from './servers-types';
 
 export const addServer = createAction(
   'servers/ADD_SERVER',
-  resolve => (server: Server) => resolve(server)
+  resolve => (server: IServer) => resolve(server)
 );
 
 export const removeServer = createAction(

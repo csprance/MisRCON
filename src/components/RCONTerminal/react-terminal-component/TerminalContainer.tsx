@@ -5,7 +5,8 @@ const TerminalContainer = styled.div`
   & > :last-child {
     padding-bottom: ${({ theme }) => theme.spacing};
   }
-  height: 50vh;
+  height: 100%;
+  flex-grow: 1;
   line-height: 1.2em;
   padding: ${({ theme }) => theme.spacing};
   overflow-y: scroll;

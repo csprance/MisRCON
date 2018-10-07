@@ -1,8 +1,21 @@
-// All the types associated with the state from the db
-export type Todo  = {
-  id: number;
-  completed: boolean;
-  todoText: string;
 
+// This is the actual request object in a normalized form for our app
+export interface IRCONRequest {
+  ip: string;
+  port: string;
+  password: string;
+  // The command to send to the server
+  command: string;
+  // The time the request was executed
+  date: number;
+  // Did the request succeed?
+  completed: boolean;
+  // The data from the server
+  response: string;
 }
-export type TodoState = Todo[];
+export type RCONState = {
+  // Is the rcon sending?
+  sending: boolean;
+  // A history of all of the sent requests
+  requests: IRCONRequest[]
+};

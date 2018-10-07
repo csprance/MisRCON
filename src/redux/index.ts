@@ -1,19 +1,25 @@
 import { combineReducers } from 'redux';
-// import { reducer as rcon, RconState } from './rcon';
-// import { reducer as players, PlayersState } from './players';
-import { reducer as servers, ServersState } from './servers';
-// import { reducer as tasks, TasksState } from './tasks';
+
+// Reducers
+import { reducer as players } from './players';
+import { reducer as rcon } from './rcon';
+import { reducer as servers } from './servers';
+
+// Types
+import { PlayersState } from './players/players-types';
+import { RCONState } from './rcon/rcon-types';
+import { ServersState } from './servers/servers-types';
 
 export const rootReducer = combineReducers<IRootState>({
-  // players,
-  // rcon,
-  servers,
+  players,
+  rcon,
+  servers
   // tasks
 });
 
 export interface IRootState {
-  // players: PlayersState;
-  // rcon: RconState;
+  players: PlayersState;
+  rcon: RCONState;
   servers: ServersState;
   // tasks: TasksState;
 }

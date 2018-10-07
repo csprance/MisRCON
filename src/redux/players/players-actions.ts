@@ -1,36 +1,32 @@
 import { Dispatch } from 'redux';
-import { createAsyncAction, createAction } from 'typesafe-actions';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 import { IRootState } from '../index';
-import { addToDb } from './todo-helpers';
-import { Todo } from './todo-types';
+import { IPlayer } from './players-types';
 
-export const addTodo = createAsyncAction(
-  'todo/REQUEST',
-  'todo/SUCCESS',
-  'todo/FAILED'
-)<void, any[], string>();
+export const addPlayer = createAsyncAction(
+  'players/ADD_PLAYER_REQUEST',
+  'players/ADD_PLAYER_SUCCESS',
+  'players/ADD_PLAYER_FAILED'
+)<void, IPlayer, string>();
 
-export const addTodoFlow = async (
-  todo: Todo,
+// Given some parameters about a player add them to the state
+export const addPlayerFlow = async (
+  player: IPlayer,
   dispatch: Dispatch<IRootState>
 ): Promise<void> => {
   // Tell Redux were requesting data from the db
-  dispatch(addTodo.request());
+  dispatch(addPlayer.request());
   try {
     // Do the actual request
-    dispatch(addTodo.success(await addToDb(todo)));
+    dispatch(addPlayer.success(player));
   } catch (err) {
     // Catch the err
-    addTodo.failure(err.toString());
+    dispatch(addPlayer.failure(err.toString()));
   }
 };
 
-export const removeTodo = createAction(
-  'todo/REMOVE_TODO',
-  resolve => (id: number) => resolve(id)
-);
-
-export const toggleComplete = createAction(
-  'todo/TOGGLE_COMPLETE',
-  resolve => (id: number) => resolve(id)
+export const updatePlayer = createAction(
+  'players/UPDATE_PLAYER',
+  resolve => (steamid: string, args: Partial<IPlayer>) =>
+    resolve({ steamid, args })
 );

@@ -14,6 +14,7 @@ const OutputList = ({
 }: Props) => (
   <div className={'terminalOutput'}>
     {outputs.map((output: any) => {
+
       const type = output.get('type');
       const content = output.get('content');
 

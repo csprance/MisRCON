@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "RCON Tool for Miscreated game.",
   "main": "src/index.ts",
   "scripts": {
@@ -57,7 +57,8 @@
   "dependencies": {
     "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^2.0.2",
-    "async-javascript-terminal": "^2.0.0",
+    "@trodi/electron-splashscreen": "^0.3.1",
+    "async-javascript-terminal": "^2.0.1",
     "axios": "^0.18.0",
     "electron": "^3.0.2",
     "electron-compile": "^6.4.3",

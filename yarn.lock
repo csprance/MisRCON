@@ -75,9 +75,9 @@
     recompose "^0.28.0"
 
 "@octokit/rest@^15.2.6":
-  version "15.12.1"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.12.1.tgz#f0dc169f336f8fd05ae8d8c83371b2f0c0dd8de1"
-  integrity sha512-Nn3o2iVHHWNbw8MSOWTa67/6N1e7muaDWVMWr3FXUDSlMzB3lXlr6EdO1hwfUzpmZAkNc1rFN4y0tuy38gtd+A==
+  version "15.13.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.13.0.tgz#078262de2f1d1b02ead7a00c4a3870f517528bcb"
+  integrity sha512-zgsrqMCLcv4XqpT0QGUykHTvKo33aCVzXP86Bq6HmeKuwY6hEWJ+AVCeL/m3bXk1JBpLyBgzjJDfWEfZcqsR6g==
   dependencies:
     before-after-hook "^1.1.0"
     btoa-lite "^1.0.0"
@@ -117,6 +117,11 @@
     vue-hot-reload-api "^2.0.1"
     vue-template-compiler "^2.0.0-alpha.8"
     vue-template-es2015-compiler "^1.4.2"
+
+"@trodi/electron-splashscreen@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@trodi/electron-splashscreen/-/electron-splashscreen-0.3.1.tgz#7e454644ee3017ef012ba1e18977c96bc0c5b70a"
+  integrity sha512-2NilGoVuVNBKoOwjnDp9MIsb5gPJZTxEK5Dg/Vd/TaOvgMwFl4aPAWky3+O3OH2SISUdmvQyWo0UmWMnjY+04A==
 
 "@types/electron-devtools-installer@^2.0.2":
   version "2.2.0"
@@ -214,9 +219,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.0.5":
-  version "16.4.14"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.14.tgz#47c604c8e46ed674bbdf4aabf82b34b9041c6a04"
-  integrity sha512-Gh8irag2dbZ2K6vPn+S8+LNrULuG3zlCgJjVUrvuiUK7waw9d9CFk2A/tZFyGhcMDUyO7tznbx1ZasqlAGjHxA==
+  version "16.4.15"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.15.tgz#1f24f1d03b1fc682d92f8485be99d59bf7981191"
+  integrity sha512-EFQyVZhZCrRjwYDVziTEUGri/ygArIi/ES+JAI0j+3FR0LZ0uRfq2Ed7YnZ1CCn9CM3malSWwTKw5Jo0gVV82A==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -489,10 +494,10 @@ assert-plus@^0.2.0:
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-0.2.0.tgz#d74e1b87e7affc0db8aadb7021f3fe48101ab234"
   integrity sha1-104bh+ev/A24qttwIfP+SBAasjQ=
 
-async-javascript-terminal@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/async-javascript-terminal/-/async-javascript-terminal-2.0.0.tgz#6eb1934d6e95bc1e9cdb289baee1bfdb5f3e15d5"
-  integrity sha512-WRLfk85VJHhAOB94VAoO/o/T9kWbLOZTVpkvfCeU62J7dJs/+PILAhO8lwLJc8k/mF/bH6mC0N+BLMW61C6Ptw==
+async-javascript-terminal@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/async-javascript-terminal/-/async-javascript-terminal-2.0.1.tgz#65314c5c20ab68dc37c960da6f166f32305ea97c"
+  integrity sha512-qV9uCsiJHkrI5k+BK7NzP2uvd0TUVPok8jVbeXUn0kF96W6g+Dwb04FT+IR7EIszlPVXJAwoINobo6pD9hLOPg==
   dependencies:
     get-options "^1.1.1"
     immutable "^4.0.0-rc.9"
@@ -539,9 +544,9 @@ autoprefixer@^6.3.1:
     postcss-value-parser "^3.2.3"
 
 aws-sdk@^2.9.0:
-  version "2.327.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.327.0.tgz#0192f71f764182bd2f81a65851071ed5265121bd"
-  integrity sha512-qmDXPR7i2NhK2Gsvfh9TIkHyx6P1YGQ+3n08EIJrQ+Lgl8mS63Xg5AuMtOXszdRivjh3G6LTJe6HXmpsebkL1w==
+  version "2.329.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.329.0.tgz#616da7ca5e1909e53333148694990e068272150f"
+  integrity sha512-5yti9jyL6QL8CP5LGKX3uyrQcLAvLk6kyMZ749+F68IsutFKi0DaYxjxqx7lqWfzCSH3Z5REJ+XeywJLQ2tqfQ==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -2540,9 +2545,9 @@ electron-squirrel-startup@^1.0.0:
     debug "^2.2.0"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
-  version "1.3.73"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.73.tgz#aa67787067d58cc3920089368b3b8d6fe0fc12f6"
-  integrity sha512-6PIg7v9zRoVGh6EheRF8h6Plti+3Yo/qtHobS4/Htyt53DNHmKKGFqSae1AIk0k1S4gCQvt7I2WgpbuZNcDY+g==
+  version "1.3.74"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.74.tgz#443f60655e0de630491ca4e48e4436bc375debd1"
+  integrity sha512-MJm7r64Kt1jQCLEiyfgfcu9lbO6/7jjfpH8x2FrutQ4Cb93aS+6dlfW+G65rPhVTjlTmwCfjQGCKZVEaaltOwQ==
 
 electron-windows-store@^0.12.0:
   version "0.12.0"
@@ -6139,9 +6144,9 @@ spawn-sync@^1.0.15:
     os-shim "^0.1.2"
 
 spdx-correct@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.0.1.tgz#434434ff9d1726b4d9f4219d1004813d80639e30"
-  integrity sha512-hxSPZbRZvSDuOvADntOElzJpenIR7wXJkuoUcUtS0erbgt2fgeaoPIYretfKpslMhfFDY4k0MZ2F5CUzhBsSvQ==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.0.2.tgz#19bb409e91b47b1ad54159243f7312a858db3c2e"
+  integrity sha512-q9hedtzyXHr5S0A1vEPoK/7l8NpfkFYTq6iCY+Pno2ZbdZR6WexZFtqeVGkGxW3TEJMN914Z55EnAGMmenlIQQ==
   dependencies:
     spdx-expression-parse "^3.0.0"
     spdx-license-ids "^3.0.0"

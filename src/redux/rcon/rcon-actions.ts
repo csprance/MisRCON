@@ -1,28 +1,45 @@
+import { NodeMisrcon } from 'node-misrcon';
 import { Dispatch } from 'redux';
-import { createAction, createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction } from 'typesafe-actions';
 import { IRootState } from '../index';
-import { addToDb } from './rcon-helpers';
-import { Todo } from './rcon-types';
+import { IRCONRequest } from './rcon-types';
 
 export const sendRCON = createAsyncAction(
   'rcon/REQUEST',
   'rcon/SUCCESS',
   'rcon/FAILED'
-)<void, any[], string>();
+)<void, IRCONRequest, IRCONRequest>();
 
 export const sendRCONFlow = async (
-  todo: Todo,
+  { ip, port, password, command }: IRCONRequest,
   dispatch: Dispatch<IRootState>
-): Promise<any> => {
-  // Tell Redux were requesting data from the db
+): Promise<IRCONRequest> => {
   dispatch(sendRCON.request());
+  // Initialize our request object and rcon api
+  const rcon = new NodeMisrcon({ ip, port, password });
+  const request: IRCONRequest = {
+    response: '',
+    command,
+    date: Date.now(),
+    ip,
+    port,
+    password,
+    completed: true
+  };
   try {
-    // Do the actual request
-    const results = await addToDb(todo);
-    dispatch(sendRCON.success(results));
-    return results;
+    // Try to do the rcon request
+    request.response = await rcon.send(command);
+    request.date = Date.now();
+    // Dispatch our success
+    dispatch(sendRCON.success(request));
+    return request;
   } catch (err) {
-    // Catch the err
-    sendRCON.failure(err.toString());
+    // Catch the err and add it to the requests history
+    request.response = err.toString();
+    request.completed = false;
+    request.date = Date.now();
+    // Dispatch our failure
+    dispatch(sendRCON.failure(request));
+    return request;
   }
 };

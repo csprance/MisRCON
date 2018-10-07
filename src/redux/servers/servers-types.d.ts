@@ -1,5 +1,5 @@
 // All the types associated with the state from the db
-export type Server = {
+export interface IServer {
   // The ID of the Server
   id: number;
   // The Friendly Name of the Server
@@ -13,6 +13,6 @@ export type Server = {
   hash: string;
   // Is this server active
   active: boolean;
-};
+}
 
-export type ServersState = Server[];
+export type ServersState = IServer[];
