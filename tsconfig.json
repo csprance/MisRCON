@@ -5,7 +5,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "declaration": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,
@@ -14,6 +14,8 @@
     "noUnusedParameters": true,
     "importHelpers": true,
     "noEmitHelpers": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "pretty": true,
@@ -23,5 +25,9 @@
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "out"
+  ]
 }

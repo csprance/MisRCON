@@ -9,16 +9,19 @@ import * as React from 'react';
 
 import * as npmPackage from '../../../package.json';
 import ReactTerminal from './react-terminal-component';
-import terminalCommands from './terminal-commands';
+import makeTerminalCommands from './terminal-commands';
 
-import { IRCONRequest } from '../../redux/rcon/rcon-types';
-import { IServer } from '../../redux/servers/servers-types';
+import { Dispatch } from '../../redux/redux-types';
+import { IServer } from '../../redux/servers';
 
 type Props = {
-  sendRCON: () => Promise<IRCONRequest>;
+  dispatch: Dispatch;
   activeServer: IServer;
 };
-type State = {};
+type State = {
+  emulator: Emulator;
+  terminalState: EmulatorState;
+};
 class RCONTerminal extends React.Component<Props, State> {
   public static defaultProps = {};
   public state = {
@@ -31,10 +34,17 @@ class RCONTerminal extends React.Component<Props, State> {
       }),
       outputs: Outputs.create([
         OutputFactory.makeTextOutput(`MisRCON - V${npmPackage.version}`),
-        OutputFactory.makeTextOutput('Type help for more options'),
+        OutputFactory.makeTextOutput(
+          <span>
+            Type any rcon command or <span style={{ color: 'orange' }}>
+              help
+            </span>{' '}
+            for more options
+          </span>
+        ),
         OutputFactory.makeTextOutput('-----')
       ]),
-      commandMapping: terminalCommands
+      commandMapping: makeTerminalCommands(this.props.dispatch)
     })
   };
 
@@ -42,7 +52,6 @@ class RCONTerminal extends React.Component<Props, State> {
     const { terminalState } = this.state;
     return (
       <ReactTerminal
-        inputStr={''}
         emulator={this.state.emulator}
         emulatorState={terminalState}
       />

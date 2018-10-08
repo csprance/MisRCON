@@ -19,7 +19,7 @@ export default {
       }
       // return all help topics
       const commandNames = Array.from(state.getCommandMapping().keySeq())
-        .filter((commandName: string) => commandName !== 'default')
+        .filter((commandName: string) => commandName !== 'default') // Filter out the default command
         .map((commandName: string) => (
           <div key={commandName}>{commandName}</div>
         ));

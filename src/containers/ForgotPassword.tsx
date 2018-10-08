@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link as DOMLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import MisRCONLogo from '../components/images/MisRCONLogo';
+import { RootState } from '../redux/redux-types';
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,4 +74,5 @@ class ForgotPassword extends React.Component<Props, State> {
   }
 }
 
-export default ForgotPassword;
+export const mapStateToProps = (_: RootState) => ({});
+export default connect(mapStateToProps)(ForgotPassword);

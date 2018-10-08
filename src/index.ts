@@ -1,10 +1,10 @@
 import * as Splashscreen from '@trodi/electron-splashscreen';
 import { app } from 'electron';
 import { enableLiveReload } from 'electron-compile';
-import installExtension, {
-REACT_DEVELOPER_TOOLS,
-REDUX_DEVTOOLS
-} from 'electron-devtools-installer';
+// import installExtension, {
+//   REACT_DEVELOPER_TOOLS,
+//   REDUX_DEVTOOLS
+// } from 'electron-devtools-installer';
 import * as path from 'path';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -26,7 +26,7 @@ const createWindow = async () => {
   // configure the splashscreen
   mainWindow = Splashscreen.initSplashScreen({
     windowOpts: windowOptions,
-    templateUrl: path.join(__dirname, 'resources','images', 'icon.png'),
+    templateUrl: path.join(__dirname, 'resources', 'images', 'icon.png'),
     delay: 0, // force show immediately since example will load fast
     minVisible: 1500, // show for 1.5s so example is obvious
     splashScreenOpts: {
@@ -41,17 +41,24 @@ const createWindow = async () => {
 
   // Open the DevTools.
   if (isDevMode) {
-    await installExtension(REACT_DEVELOPER_TOOLS);
-    await installExtension(REDUX_DEVTOOLS);
+    // await installExtension(REDUX_DEVTOOLS);
+    // await installExtension(REACT_DEVELOPER_TOOLS);
     mainWindow.webContents.openDevTools();
   }
 
-  // Emitted when the window is closed.
   mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null;
+    app.quit();
+  });
+
+  mainWindow.on('unresponsive', () => {
+    mainWindow = null;
+    app.quit();
+  });
+
+  mainWindow.webContents.on('crashed', () => {
+    mainWindow = null;
+    app.quit();
   });
 };
 
@@ -64,6 +71,7 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+  app.quit();
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -75,6 +83,11 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+process.on('uncaughtException', () => {
+  mainWindow = null;
+  app.quit();
 });
 
 // In this file you can include the rest of your app's specific main process

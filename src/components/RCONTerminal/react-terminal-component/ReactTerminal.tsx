@@ -22,24 +22,21 @@ type State = {
 };
 type Props = {
   emulator: Emulator;
-  theme: any;
-  promptSymbol: string;
-  outputRenderers: any;
-  emulatorState: EmulatorState;
-  inputStr: string;
+} & Partial<DefaultProps>;
+type DefaultProps = Readonly<typeof defaultProps>;
+const defaultProps = {
+  emulatorState: EmulatorState.createEmpty(),
+  theme: defaultTheme,
+  promptSymbol: '🎮',
+  outputRenderers: {
+    [OutputType.TEXT_OUTPUT_TYPE]: TextOutput,
+    [OutputType.TEXT_ERROR_OUTPUT_TYPE]: TextErrorOutput,
+    [OutputType.HEADER_OUTPUT_TYPE]: HeaderOutput
+  },
+  inputStr: ''
 };
 class Terminal extends React.Component<Props, State> {
-  static defaultProps = {
-    emulatorState: EmulatorState.createEmpty(),
-    theme: defaultTheme,
-    promptSymbol: '🎮',
-    outputRenderers: {
-      [OutputType.TEXT_OUTPUT_TYPE]: TextOutput,
-      [OutputType.TEXT_ERROR_OUTPUT_TYPE]: TextErrorOutput,
-      [OutputType.HEADER_OUTPUT_TYPE]: HeaderOutput
-    },
-    inputStr: ''
-  };
+  static defaultProps = defaultProps;
 
   emulator: Emulator;
   historyKeyboardPlugin: HistoryKeyboardPlugin;
@@ -50,13 +47,13 @@ class Terminal extends React.Component<Props, State> {
     super(props);
     this.emulator = this.props.emulator;
     this.historyKeyboardPlugin = new HistoryKeyboardPlugin(
-      this.props.emulatorState
+      this.props.emulatorState! // Non-null assertion
     );
     this.plugins = [this.historyKeyboardPlugin];
     this.state = {
       disabled: false,
-      emulatorState: this.props.emulatorState,
-      inputStr: this.props.inputStr
+      emulatorState: this.props.emulatorState!, // Non-null assertion
+      inputStr: this.props.inputStr! // Non-null assertion
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -162,7 +159,10 @@ class Terminal extends React.Component<Props, State> {
             ref={inputRef => {
               this.inputRef = inputRef;
             }}
-            promptSymbol={promptSymbol}
+            promptSymbol={
+              // Non-null assertion
+              promptSymbol!
+            }
             value={this.state.inputStr}
             onSubmit={this.onInputSubmit}
             onKeyDown={this.onInputKeyDownEvent}

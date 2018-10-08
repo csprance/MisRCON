@@ -1,5 +1,4 @@
 node_modules
 out
-secrets.js
-secrets.ts
+src/secrets.ts
 .idea

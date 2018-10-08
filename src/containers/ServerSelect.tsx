@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link as DOMLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { RootState } from '../redux/redux-types';
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,4 +94,5 @@ class ServerSelect extends React.Component<Props, State> {
   }
 }
 
-export default ServerSelect;
+export const mapStateToProps = (_: RootState) => ({});
+export default connect(mapStateToProps)(ServerSelect);

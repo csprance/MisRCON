@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link as DOMLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,6 +15,7 @@ import AccountCircle from '@material-ui/icons/SupervisorAccount';
 
 import MisRCONLogo from '../components/images/MisRCONLogo';
 import Link from '../components/Link';
+import { RootState } from '../redux/redux-types';
 
 const Wrapper = styled.div`
   display: flex;
@@ -114,4 +116,5 @@ class Login extends React.Component<Props, State> {
   }
 }
 
-export default Login;
+export const mapStateToProps = (_: RootState) => ({});
+export default connect(mapStateToProps)(Login);

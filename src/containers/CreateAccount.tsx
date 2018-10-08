@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link as DOMLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import MisRCONLogo from '../components/images/MisRCONLogo';
+import { RootState } from '../redux/redux-types';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,7 +46,10 @@ class CreateAccount extends React.Component<Props, State> {
         <InnerWrapper>
           <MisRCONLogo />
           <Typography variant={'display1'}>Create Account</Typography>
-          <div style={{textAlign: 'center'}}>An account will help keep all of your servers data secure under one common username and password</div>
+          <div style={{ textAlign: 'center' }}>
+            An account will help keep all of your servers data secure under one
+            common username and password
+          </div>
           <CenterSection>
             <TextField fullWidth name={'email'} label={'Email'} />
             <TextField fullWidth name={'username'} label={'Username'} />
@@ -71,4 +76,5 @@ class CreateAccount extends React.Component<Props, State> {
   }
 }
 
-export default CreateAccount;
+export const mapStateToProps = (_: RootState) => ({});
+export default connect(mapStateToProps)(CreateAccount);

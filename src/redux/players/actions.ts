@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
 import { createAction, createAsyncAction } from 'typesafe-actions';
-import { IRootState } from '../index';
-import { IPlayer } from './players-types';
+import { IPlayer } from './types';
 
 export const addPlayer = createAsyncAction(
   'players/ADD_PLAYER_REQUEST',
@@ -12,7 +11,7 @@ export const addPlayer = createAsyncAction(
 // Given some parameters about a player add them to the state
 export const addPlayerFlow = async (
   player: IPlayer,
-  dispatch: Dispatch<IRootState>
+  dispatch: Dispatch
 ): Promise<void> => {
   // Tell Redux were requesting data from the db
   dispatch(addPlayer.request());

@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { IServer } from './servers-types';
+import { IServer } from './types';
 
 export const addServer = createAction(
   'servers/ADD_SERVER',

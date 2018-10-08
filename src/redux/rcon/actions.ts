@@ -1,8 +1,8 @@
 import { NodeMisrcon } from 'node-misrcon';
-import { Dispatch } from 'redux';
+
 import { createAsyncAction } from 'typesafe-actions';
-import { IRootState } from '../index';
-import { IRCONRequest } from './rcon-types';
+import { AsyncThunkResult } from '../redux-types';
+import { IRCONRequest } from './types';
 
 export const sendRCON = createAsyncAction(
   'rcon/REQUEST',
@@ -10,10 +10,12 @@ export const sendRCON = createAsyncAction(
   'rcon/FAILED'
 )<void, IRCONRequest, IRCONRequest>();
 
-export const sendRCONFlow = async (
-  { ip, port, password, command }: IRCONRequest,
-  dispatch: Dispatch<IRootState>
-): Promise<IRCONRequest> => {
+export const sendRCONAsyncThunk = ({
+  ip,
+  port,
+  password,
+  command
+}: IRCONRequest): AsyncThunkResult<IRCONRequest> => async dispatch => {
   dispatch(sendRCON.request());
   // Initialize our request object and rcon api
   const rcon = new NodeMisrcon({ ip, port, password });

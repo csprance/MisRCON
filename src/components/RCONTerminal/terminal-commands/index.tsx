@@ -1,17 +1,23 @@
 import {
   CommandMapping,
-  defaultCommandMapping,
+  defaultCommandMapping
 } from 'async-javascript-terminal';
 
 import chuck from './chuck';
 import help from './help';
-import rconCommands from './rcon-commands';
+import makeRconCommands from './rcon-commands';
+import makeTaskCommand from './task';
 
-export default CommandMapping.create({
-  ...rconCommands,
-  clear: defaultCommandMapping.clear,
-  history: defaultCommandMapping.history,
-  echo: defaultCommandMapping.echo,
-  chuck,
-  help
-});
+import { Dispatch } from '../../../redux/redux-types';
+
+export default (dispatch: Dispatch) =>
+  CommandMapping.create({
+    task: makeTaskCommand(dispatch),
+    ...makeRconCommands(dispatch),
+    clear: defaultCommandMapping.clear,
+    history: defaultCommandMapping.history,
+    echo: defaultCommandMapping.echo,
+    printenv: defaultCommandMapping.printenv,
+    chuck,
+    help
+  });
