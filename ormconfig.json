@@ -1,0 +1,7 @@
+{
+  "type": "sqlite",
+  "database": "misrcon.db",
+  "entities": ["src/redux/servers/entity.ts"],
+  "synchronize": true,
+  "logging": false
+}

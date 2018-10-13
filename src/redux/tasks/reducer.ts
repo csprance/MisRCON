@@ -10,22 +10,31 @@ export default (
   action: TasksActions
 ): TasksState => {
   switch (action.type) {
-    case getType(tasksActions.addTask):
+    case getType(tasksActions.hydrateFromDb.success):
+      return action.payload;
+
+    case getType(tasksActions.addTask.success):
       return [...state, action.payload];
-    case getType(tasksActions.removeTaskByID):
-      return state.filter(task => task.id !== action.payload);
 
-    case getType(tasksActions.removeTaskByName):
-      return state.filter(task => task.name !== action.payload);
+    case getType(tasksActions.removeTask.success):
+      return state.filter(task => {
+        if (task.id === action.payload) {
+          task.job.stop();
+          return false;
+        }
+        return true;
+      });
 
-    case getType(tasksActions.removeTaskByCronString):
-      return state.filter(task => task.cronString !== action.payload);
-
-
-    case getType(tasksActions.toggleTaskEnabled):
+    case getType(tasksActions.toggleTaskEnabled.success):
       return state.map(task => {
         if (task.id === action.payload) {
-          task.enabled = !task.enabled;
+          task.active = !task.active;
+          if (!task.active) {
+            task.job.stop();
+          }
+          if (task.active) {
+            task.job.start();
+          }
         }
         return task;
       });

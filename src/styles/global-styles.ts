@@ -1,15 +1,9 @@
 import { injectGlobal } from 'styled-components';
-import { theme } from './theme';
+// import { theme } from './theme';
 
 export const injectGlobalStyles = () => {
   // noinspection TsLint
   injectGlobal`
-  * {
-    color: ${theme.palette.text.primary};
-    font-family: ${theme.typography.fontFamily};
-    font-size: ${theme.typography.fontSize};
-    font-weight: ${theme.typography.fontWeightLight};
-  }
   *::-webkit-scrollbar {
     width: 5px;
   }

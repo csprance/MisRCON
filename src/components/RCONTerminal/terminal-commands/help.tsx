@@ -1,4 +1,4 @@
-import {Emulator, OutputFactory} from "async-javascript-terminal";
+import { Emulator, OutputFactory } from 'async-javascript-terminal';
 import * as React from 'react';
 
 export default {
@@ -18,11 +18,11 @@ export default {
         };
       }
       // return all help topics
-      const commandNames = Array.from(state.getCommandMapping().keySeq())
-        .filter((commandName: string) => commandName !== 'default') // Filter out the default command
-        .map((commandName: string) => (
-          <div key={commandName}>{commandName}</div>
-        ));
+      const commandNames = (Array.from(
+        state.getCommandMapping().keySeq()
+      ) as string[])
+        .filter(commandName => commandName !== 'default') // Filter out the default command
+        .map(commandName => <div key={commandName}>{commandName}</div>);
       return {
         output: OutputFactory.makeTextOutput(<pre>{commandNames}</pre>)
       };
@@ -41,4 +41,4 @@ Example:
 Get a funny chuck norris joke right in the terminal.
 
 `
-}
+};

@@ -6,12 +6,14 @@ import { rootReducer } from './index';
 import { RootAction, RootState } from './redux-types';
 
 export const configureStore = () => {
-
-  return createStore(rootReducer, applyMiddleware(
-    (thunk as ThunkMiddleware<RootState, RootAction>),
-    createLogger({
-      predicate: (_, action) => !/^@@/.test(action.type),
-      collapsed: false
-    })
-  ));
+  return createStore(
+    rootReducer,
+    applyMiddleware(
+      thunk as ThunkMiddleware<RootState, RootAction>,
+      createLogger({
+        predicate: (_, action) => !/^@@/.test(action.type),
+        collapsed: false
+      })
+    )
+  );
 };

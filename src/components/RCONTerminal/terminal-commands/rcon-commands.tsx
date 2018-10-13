@@ -5,16 +5,17 @@ import { makeRCONRequestObject } from '../../../redux/rcon/utils';
 import { Dispatch } from '../../../redux/redux-types';
 
 const makeRconFunc = (command: string, dispatch: Dispatch) => async (
-  state: EmulatorState,
+  _: EmulatorState,
   opts: string[]
 ) => {
   try {
-    const env = state.getEnvVariables();
+    const servers = await dispatch((_, getState)=> getState().servers);
+    const activeServer = servers.find(server => server.active)!;
 
     const request = makeRCONRequestObject(
-      env.get('ip'),
-      env.get('port'),
-      env.get('password'),
+      activeServer.ip,
+      activeServer.port.toString(),
+      activeServer.hash,
       [command === 'default' ? null : command, ...opts].join(' ').trim()
     );
     const { response } = await dispatch(rconActions.sendRCONAsyncThunk(request));

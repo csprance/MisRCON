@@ -6,6 +6,7 @@ import { enableLiveReload } from 'electron-compile';
 //   REDUX_DEVTOOLS
 // } from 'electron-devtools-installer';
 import * as path from 'path';
+import 'reflect-metadata';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -18,6 +19,7 @@ if (isDevMode) {
 }
 
 const createWindow = async () => {
+
   const windowOptions = {
     width: 1024,
     height: 768,

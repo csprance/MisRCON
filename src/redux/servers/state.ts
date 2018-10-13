@@ -1,15 +1,13 @@
 // The Default state for the db
-import secretServers from '../../secrets'
-import { ServersState } from './types';
+import { IServer, ServersState } from './types';
 
-export default [
-  ...secretServers,
-  {
-    id: 1,
-    name: 'US75',
-    ip: '192.168.2.1',
-    port: 60499,
-    hash: 'THisIsCool324HashMan',
-    active: false
-  }
-] as ServersState;
+export const defaultServer: IServer = {
+  id: 'loading',
+  name: 'loading',
+  ip: 'loading',
+  port: -1,
+  hash: 'THisIsCool324HashMan',
+  active: true
+};
+
+export default [] as ServersState;

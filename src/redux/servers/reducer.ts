@@ -10,17 +10,8 @@ export default (
   action: ServersActions
 ): ServersState => {
   switch (action.type) {
-    case getType(serversActions.addServer):
-      return state.concat(action.payload);
-
-    case getType(serversActions.removeServer):
-      return state.filter(server => server.id !== action.payload);
-
-    case getType(serversActions.markActive):
-      return state.map(server => ({
-        ...server,
-        active: server.id !== action.payload
-      }));
+    case getType(serversActions.hydrateFromDb.success):
+      return action.payload;
 
     default:
       return state;

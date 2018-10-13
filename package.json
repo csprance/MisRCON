@@ -1,11 +1,11 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.1",
-  "description": "RCON Tool for Miscreated game.",
+  "version": "3.0.0-dev-1",
+  "description": "RCON Tool and Map for Miscreated game.",
   "main": "src/index.ts",
   "scripts": {
-    "start": "electron-forge start -l",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -37,7 +37,8 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "icon": "src/resources/icon"
       },
       "electronWinstallerConfig": {
         "name": "misrcon"
@@ -58,16 +59,18 @@
     "@material-ui/core": "^3.1.2",
     "@material-ui/icons": "^3.0.1",
     "@trodi/electron-splashscreen": "^0.3.1",
-    "async-javascript-terminal": "^2.0.1",
+    "async-javascript-terminal": "2.0.2",
     "axios": "^0.18.0",
+    "cron": "^1.4.1",
     "electron": "3.0.2",
     "electron-compile": "^6.4.3",
     "electron-devtools-installer": "^2.2.4",
     "font-awesome": "^4.7.0",
-    "get-options": "^1.1.1",
+    "get-options": "^1.1.2",
     "history": "^4.7.2",
-    "node-cron": "^2.0.1",
-    "node-misrcon": "^1.0.8",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "node-misrcon": "1.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
@@ -78,13 +81,19 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "reflect-metadata": "^0.1.12",
+    "sqlite3": "^4.0.2",
     "styled-components": "^3.4.9",
     "tslib": "^1.9.3",
+    "typeorm": "^0.2.7",
     "typesafe-actions": "^2.0.4"
   },
   "devDependencies": {
+    "@types/cron": "^1.3.0",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/history": "^4.7.0",
+    "@types/moment": "^2.13.0",
+    "@types/moment-timezone": "^0.5.9",
     "@types/node": "^10.11.4",
     "@types/react": "^16.4.16",
     "@types/react-dom": "^16.0.8",

@@ -61,6 +61,10 @@ class Terminal extends React.Component<Props, State> {
     this.onInputKeyDownEvent = this.onInputKeyDownEvent.bind(this);
   }
 
+  componentDidMount() {
+    this.focusTerminal();
+  }
+
   componentDidUpdate() {
     if (this.inputRef) {
       this.inputRef.scrollIntoView();

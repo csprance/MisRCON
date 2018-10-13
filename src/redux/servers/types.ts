@@ -1,7 +1,7 @@
 // All the types associated with the state from the db
 export interface IServer {
   // The ID of the Server
-  id: number;
+  id: string;
   // The Friendly Name of the Server
   name: string;
   // The Ip Address of the Game Server
@@ -14,5 +14,6 @@ export interface IServer {
   // Is this server active
   active: boolean;
 }
+
 
 export type ServersState = IServer[];

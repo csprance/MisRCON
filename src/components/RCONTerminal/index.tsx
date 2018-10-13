@@ -2,6 +2,7 @@ import {
   Emulator,
   EmulatorState,
   EnvironmentVariables,
+  History,
   OutputFactory,
   Outputs
 } from 'async-javascript-terminal';
@@ -27,6 +28,7 @@ class RCONTerminal extends React.Component<Props, State> {
   public state = {
     emulator: new Emulator(),
     terminalState: EmulatorState.create({
+      history: History.create(['server --ls', 'server --add --name test', 'task --ls']),
       environmentVariables: EnvironmentVariables.create({
         password: this.props.activeServer.hash,
         ip: this.props.activeServer.ip,
@@ -36,10 +38,8 @@ class RCONTerminal extends React.Component<Props, State> {
         OutputFactory.makeTextOutput(`MisRCON - V${npmPackage.version}`),
         OutputFactory.makeTextOutput(
           <span>
-            Type any rcon command or <span style={{ color: 'orange' }}>
-              help
-            </span>{' '}
-            for more options
+            Type any rcon command or{' '}
+            <span style={{ color: 'orange' }}>help</span> for more options
           </span>
         ),
         OutputFactory.makeTextOutput('-----')
@@ -52,6 +52,7 @@ class RCONTerminal extends React.Component<Props, State> {
     const { terminalState } = this.state;
     return (
       <ReactTerminal
+        inputStr={'task --add --name test --send test --id 55 --cron * * * * * *'}
         emulator={this.state.emulator}
         emulatorState={terminalState}
       />

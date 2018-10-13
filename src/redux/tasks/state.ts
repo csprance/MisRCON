@@ -1,34 +1,17 @@
+import { CronJob } from 'cron';
 import { TasksState } from './types';
+
+export const makeDefaultCron = () =>
+  new CronJob('* * * * * *', () => ({}), () => ({}), false, 'America/New_York');
 
 export default [
   {
     id: 0,
     cronString: '* * * * * *',
-    date: false,
+    timeZone: 'New York',
+    date: null,
     name: 'test recurring',
-    enabled: true,
-    job: {
-      command: 'status'
-    }
-  },
-  {
-    id: 1,
-    cronString: '6 6 6 6 6 6',
-    date: false,
-    name: 'test recurring 2',
-    enabled: true,
-    job: {
-      command: 'status'
-    }
-  },
-  {
-    id: 2,
-    cronString: false,
-    date: Date.now(),
-    name: 'test specific',
-    enabled: true,
-    job: {
-      command: 'status'
-    }
+    active: true,
+    job: makeDefaultCron()
   }
 ] as TasksState;
