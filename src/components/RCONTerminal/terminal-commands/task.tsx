@@ -1,5 +1,5 @@
 import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
-import getOpts = require('get-options');
+import * as getOpts from 'get-options';
 import * as React from 'react';
 import { Dispatch } from '../../../redux/redux-types';
 import { ITask, tasksActions } from '../../../redux/tasks';
@@ -28,6 +28,7 @@ export default (dispatch: Dispatch) => ({
       const command = options.send ? options.send.join(' ') : '';
       const name = options.name ? options.name.join(' ') : 'Task From CLI';
       const id = options.id ? parseInt(options.id, 10) : -1;
+
 
       // Add an rcon task
       if (options.add) {

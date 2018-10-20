@@ -7,9 +7,11 @@ import { injectGlobalStyles } from './styles/global-styles';
 import Admin from './containers/Admin';
 import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
+import Map from './containers/Map';
 // import Login from './containers/Login';
 import ServerSelect from './containers/ServerSelect';
 import createConnection from './db';
+import { misMapActions } from './redux/mismap';
 import { Dispatch } from './redux/redux-types';
 import { serversActions } from './redux/servers';
 import { tasksActions } from './redux/tasks';
@@ -24,13 +26,14 @@ class WrappedApp extends React.Component<Props, State> {
     await createConnection();
     await this.props.dispatch(serversActions.hydrateFromDbThunk());
     await this.props.dispatch(tasksActions.hydrateFromDbThunk());
+    await this.props.dispatch(misMapActions.hydrateFromDbThunk());
   }
 
   public render() {
     return (
       <Router>
         <Switch>
-          <Route exact path={'/'} component={Admin} />
+          <Route exact path={'/'} component={Map} />
           {/*<Route exact path={'/'} component={Login} />*/}
           <Route path={'/select'} component={ServerSelect} />
           <Route path={'/create'} component={CreateAccount} />

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 // Reducers
+import { misMapReducer as misMap } from './mismap';
 import { playersReducer as players } from './players';
 import { rconReducer as rcon } from './rcon';
 import { serversReducer as servers } from './servers';
@@ -11,5 +12,6 @@ export const rootReducer = combineReducers({
   players,
   rcon,
   servers,
-  tasks
+  tasks,
+  misMap
 });

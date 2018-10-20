@@ -17,6 +17,7 @@ const OutputList = ({
 
       const type = output.get('type');
       const content = output.get('content');
+      const date = output.get('date');
 
       if (!outputRenderers.hasOwnProperty(type)) {
         throw new Error(
@@ -31,6 +32,7 @@ const OutputList = ({
           key={uniqueKey++}
           {...outputRendererProps}
           content={content}
+          date={date}
         />
       );
     })}

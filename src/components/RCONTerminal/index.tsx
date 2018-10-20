@@ -52,7 +52,7 @@ class RCONTerminal extends React.Component<Props, State> {
     const { terminalState } = this.state;
     return (
       <ReactTerminal
-        inputStr={'task --add --name test --send test --id 55 --cron * * * * * *'}
+        inputStr={'task --ls'}
         emulator={this.state.emulator}
         emulatorState={terminalState}
       />

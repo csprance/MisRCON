@@ -2,7 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export default class Task {
-  @PrimaryGeneratedColumn() public id: number;
+  @PrimaryGeneratedColumn() public _id: number;
+  @Column('int') public id: number;
   @Column('varchar') public timeZone: string;
   @Column('varchar') public name: string;
   @Column('boolean') public active: boolean;

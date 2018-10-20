@@ -1,14 +1,14 @@
 import { ConnectionOptions, createConnection, getConnection } from 'typeorm';
+
+import Markers from './entities/Markers';
 import Server from './entities/Server';
 import Task from './entities/Task';
 
 export default async () => {
-  // TODO: Find a better way to do this. Because HMR reloads our app each time
-  // TODO: it tries to create a new connection. So here we just close and recreate it
   const opts: ConnectionOptions = {
     type: 'sqlite',
     database: 'misrcon.db',
-    entities: [Server, Task],
+    entities: [Server, Task, Markers],
     synchronize: true,
     logging: false
   };

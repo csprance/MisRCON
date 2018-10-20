@@ -10,13 +10,6 @@ export default (
   action: PlayersActions
 ): PlayersState => {
   switch (action.type) {
-    // addPlayerFlow
-    case getType(playersActions.addPlayer.request):
-      return state;
-    case getType(playersActions.addPlayer.success):
-      return state;
-    case getType(playersActions.addPlayer.failure):
-      return state;
     // Update Player with any number of keys/values
     case getType(playersActions.updatePlayer):
       // Find the player from state

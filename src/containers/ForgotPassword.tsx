@@ -47,7 +47,7 @@ class ForgotPassword extends React.Component<Props, State> {
       <Wrapper>
         <InnerWrapper>
           <MisRCONLogo />
-          <Typography variant={'display1'}>Forgot Password</Typography>
+          <Typography variant={'h4'}>Forgot Password</Typography>
           <CenterSection>
             <TextField fullWidth name={'email'} label={'Email'} />
             <TextField fullWidth name={'username'} label={'Username'} />

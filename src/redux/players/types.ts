@@ -1,7 +1,7 @@
-import { IPlayer as NMIPlayer } from 'node-misrcon/dist/types/types';
+import * as misrcon from 'node-misrcon';
 
 // All the types associated with the state from the db
-export interface IPlayer extends NMIPlayer {
+export interface IPlayer extends misrcon.IPlayer {
   avatarUrl: string;
   notes: string;
   banned: boolean;

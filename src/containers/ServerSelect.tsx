@@ -54,7 +54,7 @@ class ServerSelect extends React.Component<Props, State> {
     return (
       <Wrapper>
         <InnerWrapper>
-          <Typography variant={'display1'}>Server Select</Typography>
+          <Typography variant={'h4'}>Server Select</Typography>
 
           <List
             style={{

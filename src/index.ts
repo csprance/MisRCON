@@ -1,10 +1,10 @@
 import * as Splashscreen from '@trodi/electron-splashscreen';
 import { app } from 'electron';
 import { enableLiveReload } from 'electron-compile';
-// import installExtension, {
-//   REACT_DEVELOPER_TOOLS,
-//   REDUX_DEVTOOLS
-// } from 'electron-devtools-installer';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS
+} from 'electron-devtools-installer';
 import * as path from 'path';
 import 'reflect-metadata';
 
@@ -23,7 +23,9 @@ const createWindow = async () => {
   const windowOptions = {
     width: 1024,
     height: 768,
-    show: false
+    backgroundColor: '#333333',
+    show: false,
+    icon: path.join(__dirname, 'resources/images/64x64.png')
   };
   // configure the splashscreen
   mainWindow = Splashscreen.initSplashScreen({
@@ -43,8 +45,8 @@ const createWindow = async () => {
 
   // Open the DevTools.
   if (isDevMode) {
-    // await installExtension(REDUX_DEVTOOLS);
-    // await installExtension(REACT_DEVELOPER_TOOLS);
+    await installExtension(REDUX_DEVTOOLS);
+    await installExtension(REACT_DEVELOPER_TOOLS);
     mainWindow.webContents.openDevTools();
   }
 
