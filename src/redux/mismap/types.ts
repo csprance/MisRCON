@@ -1,9 +1,9 @@
-import Markers from "../../db/entities/Markers";
+import Marker from "../../db/entities/Markers";
 
 
-export type MisMapMarkersByLayer  = Array<[string, Markers[]]>;
+export type MisMapMarkersByLayer  = Array<[string, Marker[]]>;
 
 export type MisMapState = {
-  markers: Markers[];
+  markers: Marker[];
 };
 

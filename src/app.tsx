@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { MemoryRouter as Router, Route, Switch } from 'react-router';
+import styled from 'styled-components';
 
 import { injectGlobalStyles } from './styles/global-styles';
 
@@ -16,6 +17,13 @@ import { Dispatch } from './redux/redux-types';
 import { serversActions } from './redux/servers';
 import { tasksActions } from './redux/tasks';
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+`;
 type Props = {
   dispatch: Dispatch;
 };
@@ -24,23 +32,31 @@ class WrappedApp extends React.Component<Props, State> {
   public async componentDidMount() {
     injectGlobalStyles();
     await createConnection();
-    await this.props.dispatch(serversActions.hydrateFromDbThunk());
-    await this.props.dispatch(tasksActions.hydrateFromDbThunk());
-    await this.props.dispatch(misMapActions.hydrateFromDbThunk());
+    await this.hydrateAllFromDatabase();
   }
+  hydrateAllFromDatabase = async () => {
+    const { dispatch } = this.props;
+    await Promise.all([
+      dispatch(serversActions.hydrateFromDbThunk()),
+      dispatch(tasksActions.hydrateFromDbThunk()),
+      dispatch(misMapActions.hydrateFromDbThunk())
+    ]);
+  };
 
   public render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path={'/'} component={Map} />
-          {/*<Route exact path={'/'} component={Login} />*/}
-          <Route path={'/select'} component={ServerSelect} />
-          <Route path={'/create'} component={CreateAccount} />
-          <Route path={'/forgot'} component={ForgotPassword} />
-          <Route path={'/admin'} component={Admin} />
-        </Switch>
-      </Router>
+      <Wrapper>
+        <Router>
+          <Switch>
+            <Route exact path={'/'} component={Admin} />
+            {/*<Route exact path={'/'} component={Login} />*/}
+            <Route path={'/select'} component={ServerSelect} />
+            <Route path={'/create'} component={CreateAccount} />
+            <Route path={'/forgot'} component={ForgotPassword} />
+            <Route path={'/admin'} component={Admin} />
+          </Switch>
+        </Router>
+      </Wrapper>
     );
   }
 }

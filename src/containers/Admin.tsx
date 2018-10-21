@@ -7,27 +7,15 @@ import { IServer } from '../redux/servers';
 import RCONTerminal from '../components/RCONTerminal';
 import { getActiveServer } from '../redux/servers/selectors';
 
-type Props = {
+interface Props {
   dispatch: Dispatch;
   activeServer: IServer;
-};
-type State = {};
-class Admin extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state = {};
-
-  public render() {
-    const { activeServer } = this.props;
-    return (
-      <RCONTerminal
-        activeServer={activeServer}
-        dispatch={this.props.dispatch}
-      />
-    );
-  }
 }
+const Admin: React.SFC<Props> = props => {
+  return <RCONTerminal {...props} />;
+};
 
-export const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState, _: Props) => ({
   activeServer: getActiveServer(state),
   tasks: state.tasks
 });

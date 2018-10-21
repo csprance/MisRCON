@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch as ReduxDispatch } from 'redux';
+import { AnyAction, Dispatch as ReduxDispatch, Store } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { StateType } from 'typesafe-actions';
 
@@ -28,3 +28,6 @@ export type ThunkResult<R> = ThunkAction<R, RootState, undefined, AnyAction>;
 
 export type Dispatch = ThunkDispatch<RootState, any, RootAction> &
   ReduxDispatch<RootAction>;
+
+// Dispatch is not Thunk-Compatible here
+export type AppStore = Store<RootState, RootAction>;

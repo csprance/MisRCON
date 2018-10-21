@@ -1,7 +1,7 @@
 import { getConnection } from 'typeorm';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
-import Marker from '../../db/entities/Markers';
+import Marker from '../../db/entities/Marker';
 import { AsyncThunkResult } from '../redux-types';
 import { MisMapState } from './types';
 

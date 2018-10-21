@@ -1,6 +1,6 @@
 import { ConnectionOptions, createConnection, getConnection } from 'typeorm';
 
-import Markers from './entities/Markers';
+import Marker from './entities/Marker';
 import Server from './entities/Server';
 import Task from './entities/Task';
 
@@ -8,7 +8,7 @@ export default async () => {
   const opts: ConnectionOptions = {
     type: 'sqlite',
     database: 'misrcon.db',
-    entities: [Server, Task, Markers],
+    entities: [Server, Task, Marker],
     synchronize: true,
     logging: false
   };

@@ -46,10 +46,10 @@ class CreateAccount extends React.Component<Props, State> {
         <InnerWrapper>
           <MisRCONLogo />
           <Typography variant={'h4'}>Create Account</Typography>
-          <div style={{ textAlign: 'center' }}>
+          <Typography variant={'body2'} align={'center'}>
             An account will help keep all of your servers data secure under one
             common username and password
-          </div>
+          </Typography>
           <CenterSection>
             <TextField fullWidth name={'email'} label={'Email'} />
             <TextField fullWidth name={'username'} label={'Username'} />

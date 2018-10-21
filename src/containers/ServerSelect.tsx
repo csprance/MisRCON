@@ -55,7 +55,6 @@ class ServerSelect extends React.Component<Props, State> {
       <Wrapper>
         <InnerWrapper>
           <Typography variant={'h4'}>Server Select</Typography>
-
           <List
             style={{
               minHeight: 380,
