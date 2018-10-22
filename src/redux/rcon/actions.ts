@@ -1,6 +1,7 @@
 import { NodeMisrcon } from 'node-misrcon';
-
 import { createAsyncAction } from 'typesafe-actions';
+
+import { logRCONError, logRCONResponse } from '../../lib/logger';
 import { AsyncThunkResult } from '../redux-types';
 import { IRCONRequest } from './types';
 
@@ -34,6 +35,7 @@ export const sendRCONAsyncThunk = ({
     request.date = Date.now();
     // Dispatch our success
     dispatch(sendRCON.success(request));
+    logRCONResponse(request);
     return request;
   } catch (err) {
     // Catch the err and add it to the requests history
@@ -42,6 +44,7 @@ export const sendRCONAsyncThunk = ({
     request.date = Date.now();
     // Dispatch our failure
     dispatch(sendRCON.failure(request));
+    logRCONError(request);
     return request;
   }
 };

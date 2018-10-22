@@ -15,7 +15,7 @@ const Admin: React.SFC<Props> = props => {
   return <RCONTerminal {...props} />;
 };
 
-export const mapStateToProps = (state: RootState, _: Props) => ({
+export const mapStateToProps = (state: RootState) => ({
   activeServer: getActiveServer(state),
   tasks: state.tasks
 });

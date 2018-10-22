@@ -13,7 +13,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+import FloatingBackButton from '../components/FloatingBackButton';
 import { RootState } from '../redux/redux-types';
+import { ServersState } from '../redux/servers';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +37,9 @@ const InnerWrapper = styled(Paper)`
   justify-content: flex-start;
 `;
 
-type Props = {};
+type Props = {
+  servers: ServersState;
+};
 type State = {
   open: boolean;
 };
@@ -51,8 +56,10 @@ class ServerSelect extends React.Component<Props, State> {
   };
 
   public render() {
+    const { servers } = this.props;
     return (
       <Wrapper>
+        <FloatingBackButton to={'/'} />
         <InnerWrapper>
           <Typography variant={'h4'}>Server Select</Typography>
           <List
@@ -65,10 +72,10 @@ class ServerSelect extends React.Component<Props, State> {
             }}
             component={'nav'}
           >
-            {[0, 1, 2, 3].map(item => (
-              <ListItem button onClick={this.handleClick} key={item}>
+            {servers.map(item => (
+              <ListItem button onClick={this.handleClick} key={item.id} dense>
                 <Avatar alt={'R'} src={'http://placehold.it/42x42'} />
-                <ListItemText inset primary={`Dev Server ${item}`} />
+                <ListItemText inset primary={item.name} secondary={`${item.ip}:${item.port}`}/>
                 <ListItemSecondaryAction>
                   <IconButton aria-label={'Menu'}>
                     <MoreVertIcon />
@@ -93,5 +100,7 @@ class ServerSelect extends React.Component<Props, State> {
   }
 }
 
-export const mapStateToProps = (_: RootState) => ({});
+export const mapStateToProps = (state: RootState) => ({
+  servers: state.servers
+});
 export default connect(mapStateToProps)(ServerSelect);

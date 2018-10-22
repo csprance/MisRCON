@@ -10,16 +10,23 @@ import {
 } from 'react-leaflet';
 import { connect } from 'react-redux';
 
-import { misMapActions, misMapSelectors } from '../redux/mismap';
-import { MisMapMarkersByLayer } from '../redux/mismap/types';
+import { MAP_BOUNDS } from '../constants/map-constants';
+import {
+  misMapActions,
+  misMapSelectors,
+  MisMapTypes,
+  misMapUtils
+} from '../redux/mismap';
 import { Dispatch, RootState } from '../redux/redux-types';
 
 type Props = {
   dispatch: Dispatch;
-  layers: MisMapMarkersByLayer;
+  layers: MisMapTypes.MisMapMarkersByLayer;
   addMarker: (marker: any) => void;
+  showing?: boolean;
 };
 class Map extends React.Component<Props> {
+  mapRef: any;
   public state = {
     map: {
       tileLayer: {
@@ -28,7 +35,7 @@ class Map extends React.Component<Props> {
         },
         crs: L.CRS.Simple,
         noWrap: true,
-        bounds: [[-90, -180], [90, 180]] as L.LatLngBoundsLiteral,
+        bounds: MAP_BOUNDS,
         tms: true,
         attributionControl: false,
         trackResize: true,
@@ -40,7 +47,7 @@ class Map extends React.Component<Props> {
         zoom: 3,
         minZoom: 0,
         maxZoom: 6,
-        maxBounds: [[-90, -180], [90, 180]] as L.LatLngBoundsLiteral
+        maxBounds: MAP_BOUNDS
       }
     },
     e: {}, // event data from the left click sent to context menu
@@ -55,13 +62,22 @@ class Map extends React.Component<Props> {
     super(props);
   }
 
+  componentWillReceiveProps() {
+    this.mapRef.leafletElement.invalidateSize();
+  }
+
   onClick = (e: L.LeafletMouseEvent) => {
+    const { x, y } = misMapUtils.convertLatLngToVec2(
+      e.latlng.lat,
+      e.latlng.lng,
+      this.mapRef.leafletElement
+    );
     this.props.addMarker({
       id: Math.random(),
       layer: 'Click Layer',
       posX: e.latlng.lat,
       posY: e.latlng.lng,
-      content: e.layerPoint.x
+      content: `X:${x} Y:${y} `
     });
   };
 
@@ -69,6 +85,7 @@ class Map extends React.Component<Props> {
     const { layers } = this.props;
     return (
       <LeafletMap
+        ref={(ref: any) => (this.mapRef = ref)}
         onClick={this.onClick}
         {...this.state.map.options}
         style={{ height: '100%', width: '100%', background: 'transparent' }}

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import Marker from '../../db/entities/Markers';
+import Marker from '../../db/entities/Marker';
 import { RootState } from '../redux-types';
 
 export const misMapSelector = (state: RootState) => state.misMap;

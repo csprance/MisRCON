@@ -7,6 +7,7 @@ import installExtension, {
 } from 'electron-devtools-installer';
 import * as path from 'path';
 import 'reflect-metadata';
+import logger from './lib/logger';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,6 +20,7 @@ if (isDevMode) {
 }
 
 const createWindow = async () => {
+  logger.info('MisRCON Starting');
 
   const windowOptions = {
     width: 1024,
@@ -89,10 +91,14 @@ app.on('activate', () => {
   }
 });
 
-process.on('uncaughtException', () => {
+process.on('uncaughtException', err => {
+  logger.error('uncaughtException', err);
   mainWindow = null;
   app.quit();
 });
 
+process.on('unhandledRejection', err => {
+  logger.error('unhandledRejection', err);
+});
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
