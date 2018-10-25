@@ -1,12 +1,11 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link as DOMLink } from 'react-router-dom';
-import styled from 'styled-components';
-
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link as DOMLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import FloatingBackButton from '../components/FloatingBackButton';
 import MisRCONLogo from '../components/images/MisRCONLogo';
@@ -49,8 +48,8 @@ class CreateAccount extends React.Component<Props, State> {
           <MisRCONLogo />
           <Typography variant={'h4'}>Create Account</Typography>
           <Typography variant={'body2'} align={'center'}>
-            An account will help keep all of your servers data secure under one
-            common username and password
+            An account will help keep all of your servers
+            data secure under one common username and password
           </Typography>
           <CenterSection>
             <TextField fullWidth name={'email'} label={'Email'} />

@@ -1,8 +1,3 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link as DOMLink } from 'react-router-dom';
-import styled from 'styled-components';
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,12 +6,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { MemoryHistory } from 'history';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link as DOMLink } from 'react-router-dom';
+import styled from 'styled-components';
 
-import FloatingBackButton from '../components/FloatingBackButton';
-import { RootState } from '../redux/redux-types';
+// import FloatingBackButton from '../components/FloatingBackButton';
+import { Dispatch, RootState } from '../redux/redux-types';
 import { ServersState } from '../redux/servers';
+import { markActiveThunk, removeFromDbThunk } from '../redux/servers/actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +41,9 @@ const InnerWrapper = styled(Paper)`
 
 type Props = {
   servers: ServersState;
+  markServerActive: (id: string) => void;
+  deleteServer: (id: string) => void;
+  history: MemoryHistory;
 };
 type State = {
   open: boolean;
@@ -49,17 +54,20 @@ class ServerSelect extends React.Component<Props, State> {
     open: true
   };
 
-  public handleClick = () => {
-    this.setState({
-      open: !this.state.open
-    });
+  public handleClick = (id: string) => {
+    this.props.markServerActive(id);
+    this.props.history.push('/admin');
+  };
+
+  public handleMenuClick = (id: string) => {
+    this.props.deleteServer(id);
   };
 
   public render() {
     const { servers } = this.props;
     return (
       <Wrapper>
-        <FloatingBackButton to={'/'} />
+        {/*<FloatingBackButton to={'/'} />*/}
         <InnerWrapper>
           <Typography variant={'h4'}>Server Select</Typography>
           <List
@@ -73,19 +81,33 @@ class ServerSelect extends React.Component<Props, State> {
             component={'nav'}
           >
             {servers.map(item => (
-              <ListItem button onClick={this.handleClick} key={item.id} dense>
+              <ListItem
+                button
+                onClick={() => this.handleClick(item.id)}
+                key={item.id}
+                dense
+              >
                 <Avatar alt={'R'} src={'http://placehold.it/42x42'} />
-                <ListItemText inset primary={item.name} secondary={`${item.ip}:${item.port}`}/>
+                <ListItemText
+                  inset
+                  primary={item.name}
+                  secondary={`${item.ip}:${item.port}`}
+                />
                 <ListItemSecondaryAction>
-                  <IconButton aria-label={'Menu'}>
-                    <MoreVertIcon />
-                  </IconButton>
+                  <Tooltip title={'Delete Server'} placement={'right'}>
+                    <IconButton
+                      aria-label={'Menu'}
+                      onClick={() => this.handleMenuClick(item.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
           </List>
           <Button
-            to={'/admin'}
+            to={'/add'}
             // @ts-ignore
             component={DOMLink}
             variant={'contained'}
@@ -103,4 +125,8 @@ class ServerSelect extends React.Component<Props, State> {
 export const mapStateToProps = (state: RootState) => ({
   servers: state.servers
 });
-export default connect(mapStateToProps)(ServerSelect);
+export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  markServerActive: (id: string) => dispatch(markActiveThunk(id)),
+  deleteServer: (id: string) => dispatch(removeFromDbThunk({ id }))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ServerSelect);

@@ -1,14 +1,13 @@
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link as DOMLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-
-import FloatingBackButton from "../components/FloatingBackButton";
+import FloatingBackButton from '../components/FloatingBackButton';
 import MisRCONLogo from '../components/images/MisRCONLogo';
 import { RootState } from '../redux/redux-types';
 
@@ -46,7 +45,7 @@ class ForgotPassword extends React.Component<Props, State> {
   public render() {
     return (
       <Wrapper>
-        <FloatingBackButton to={'/'}/>
+        <FloatingBackButton to={'/'} />
         <InnerWrapper>
           <MisRCONLogo />
           <Typography variant={'h4'}>Forgot Password</Typography>

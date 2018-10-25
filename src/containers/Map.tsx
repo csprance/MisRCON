@@ -118,5 +118,4 @@ export const mapStateToProps = (state: RootState) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   addMarker: (marker: any) => dispatch(misMapActions.addMarker(marker))
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

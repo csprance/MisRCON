@@ -20,7 +20,7 @@ export const hydrateFromDb = createAsyncAction(
   'servers/HYDRATE_REQUEST',
   'servers/HYDRATE_SUCCESS',
   'servers/HYDRATE_FAILED'
-)<void, ServersState, string>();
+)<void, Server[], string>();
 // Thunk
 export const hydrateFromDbThunk = (): AsyncThunkResult<
   void

@@ -18,6 +18,5 @@ export default async () => {
     const connection = getConnection();
     await connection.close();
     await createConnection(opts);
-    console.log('Recreated DB After Reload');
   }
 };

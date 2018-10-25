@@ -9,10 +9,10 @@ import createConnection from './db';
 import { injectGlobalStyles } from './styles/global-styles';
 
 // Containers
+import AddServer from './containers/AddServer';
 import Admin from './containers/Admin';
 import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
-import Login from './containers/Login';
 import Map from './containers/Map';
 import ServerSelect from './containers/ServerSelect';
 // Redux
@@ -47,12 +47,11 @@ class WrappedApp extends React.Component<Props, State> {
       <Router>
         <Switch>
           <Route exact path={'/'} component={ServerSelect} />
-          <Route exact path={'/'} component={withTerminal(Map)} />
-          <Route exact path={'/'} component={Login} />
-          <Route path={'/select'} component={ServerSelect} />
           <Route path={'/create'} component={CreateAccount} />
           <Route path={'/forgot'} component={ForgotPassword} />
           <Route path={'/admin'} component={Admin} />
+          <Route path={'/add'} component={AddServer} />
+          <Route path={'/map'} component={withTerminal(Map)} />
         </Switch>
       </Router>
     );

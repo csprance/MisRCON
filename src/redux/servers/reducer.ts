@@ -12,7 +12,6 @@ export default (
   switch (action.type) {
     case getType(serversActions.hydrateFromDb.success):
       return action.payload;
-
     default:
       return state;
   }

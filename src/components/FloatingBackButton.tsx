@@ -10,10 +10,7 @@ const FloatingBackButon = styled(IconButton)`
   left: 10px;
 `;
 
-export type Props = {
-  to: string;
-};
-export default ({ to }: Props) => (
+export default ({ to }: { to: string }) => (
   <Link to={to}>
     <FloatingBackButon>
       <BackArrowIcon />

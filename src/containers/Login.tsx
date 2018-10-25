@@ -1,8 +1,3 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link as DOMLink } from 'react-router-dom';
-import styled from 'styled-components';
-
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -12,6 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Lock from '@material-ui/icons/Lock';
 import AccountCircle from '@material-ui/icons/SupervisorAccount';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link as DOMLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import MisRCONLogo from '../components/images/MisRCONLogo';
 import Link from '../components/Link';
@@ -95,7 +94,7 @@ class Login extends React.Component<Props, State> {
             </Link>
           </Row>
           <Button
-            to={'/admin'}
+            to={'/select'}
             // @ts-ignore
             component={DOMLink}
             fullWidth

@@ -1,6 +1,5 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { logRCONError, logRCONResponse } from '../../lib/logger';
 import * as rconActions from './actions';
 import { RCONState } from './index';
 import { default as defaultState } from './state';

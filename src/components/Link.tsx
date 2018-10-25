@@ -1,10 +1,10 @@
 import { History } from 'history';
+import LocationDescriptor = History.LocationDescriptor;
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { theme } from '../styles/theme';
-import LocationDescriptor = History.LocationDescriptor;
 
 const StyledLink = styled(RouterLink)`
   text-decoration: none;

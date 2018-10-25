@@ -20,6 +20,7 @@ const makeRconFunc = (command: string, dispatch: Dispatch) => async (
     );
     const { response } = await dispatch(rconActions.sendRCONAsyncThunk(request));
     return {
+      rcon: true,
       output: OutputFactory.makeTextOutput(response)
     };
   } catch (e) {
@@ -42,14 +43,8 @@ export default (dispatch: Dispatch) =>
     ['wm_forceTime', '-1 Force a current time'],
     ['g_pinglimit', '0 Ping required to join'],
     ['g_pingLimitTimer', '15 How long ping bad before kick'],
-    [
-      'g_idleKickTime',
-      '300 How long idle before kick - Does not Work! Waiting on bug-fix'
-    ],
-    [
-      'g_gameRules_Camera',
-      '0 Server enforced camera rules,0=both, 1=fp only, 2=tp only in vehicle'
-    ],
+    ['g_idleKickTime', '300 How long idle before kick - Does not Work! Waiting on bug-fix'],
+    ['g_gameRules_Camera', '0 Server enforced camera rules,0=both, 1=fp only, 2=tp only in vehicle'],
     ['mis_ban_steamid', '64BITSTEAMID Ban Player'],
     ['mis_ban_status', 'Get Ban List'],
     ['mis_ban_remove', '64BITSTEAMID Remove from ban list'],
@@ -62,10 +57,7 @@ export default (dispatch: Dispatch) =>
     ['sv_motd', 'Set the message of the day for the server'],
     ['sv_url', 'Set the URL for the servers website'],
     ['sv_chat', 'Send a message via the chat window'],
-    [
-      'do_shutdown',
-      'SECONDS Do a restart with announcements in x seconds (default: 60 seconds, min: 45 seconds, max: 600 seconds)'
-    ],
+    ['do_shutdown', 'SECONDS Do a restart with announcements in x seconds (default: 60 seconds, min: 45 seconds, max: 600 seconds)'],
     ['default', 'Send an RCON Command']
   ].reduce((acc, helpString) => {
     acc[helpString[0]] = makeCommand(helpString[0], helpString[1], dispatch);
