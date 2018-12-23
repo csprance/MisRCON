@@ -45,7 +45,7 @@ class CommandInput extends React.Component<Props, State> {
               onChange(e);
             }}
             value={value}
-            innerRef={inputRef => (this.input = inputRef)}
+            ref={(inputRef: any) => (this.input = inputRef)}
           />
         </StyledForm>
       </div>

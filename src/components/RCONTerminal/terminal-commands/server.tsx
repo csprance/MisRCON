@@ -1,6 +1,8 @@
 import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
 import * as getOpts from 'get-options';
 import * as React from 'react';
+
+import logger from "../../../lib/logger";
 import { Dispatch } from '../../../redux/redux-types';
 import { IServer, serversActions } from '../../../redux/servers';
 import TerminalServerList from '../react-terminal-component/output/TerminalServerList';
@@ -88,8 +90,7 @@ export default (dispatch: Dispatch) => ({
 
       return output("That doesn't seem to be a server command");
     } catch (e) {
-      console.log(e);
-
+      logger.error(e);
       return {
         output: OutputFactory.makeErrorOutput(e)
       };

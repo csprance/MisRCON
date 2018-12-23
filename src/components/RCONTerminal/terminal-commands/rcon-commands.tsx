@@ -5,7 +5,7 @@ import { makeRCONRequestObject } from '../../../redux/rcon/utils';
 import { Dispatch } from '../../../redux/redux-types';
 
 const makeRconFunc = (command: string, dispatch: Dispatch) => async (
-  _: EmulatorState,
+  _emulatorState: EmulatorState,
   opts: string[]
 ) => {
   try {

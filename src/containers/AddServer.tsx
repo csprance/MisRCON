@@ -1,5 +1,6 @@
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { History } from 'history';
@@ -12,6 +13,7 @@ import MisRCONLogo from '../components/images/MisRCONLogo';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { IServer, ServersState } from '../redux/servers';
 import { addToDbThunk } from '../redux/servers/actions';
+import { MyPaper } from '../styles/MyStyledComponents';
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,13 +23,13 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const InnerWrapper = styled(Paper)`
+const InnerWrapper = styled(MyPaper)`
   display: flex;
   padding: 20px;
   flex-direction: column;
   width: 400px;
-  height: 500px;
-  max-height: 500px;
+  height: 600px;
+  max-height: 600px;
   align-items: center;
   justify-content: flex-start;
 `;
@@ -43,17 +45,28 @@ const defaultState = {
   ip: '',
   port: '',
   hash: '',
-  active: false
+  active: false,
+  selfHosted: false,
+  serverRoot: ''
 };
 type Props = {
   addServer: (server: IServer) => void;
   history: History;
   servers: ServersState;
 };
-type State = {};
+type State = {
+  id: string;
+  name: string;
+  ip: string;
+  port: string;
+  hash: string;
+  active: boolean;
+  selfHosted: boolean;
+  serverRoot: string;
+};
 class AddServer extends React.Component<Props, State> {
   public static defaultProps = {};
-  public state = { ...defaultState };
+  public state: State = { ...defaultState };
 
   public handleClick = () => {
     this.props.addServer({
@@ -68,10 +81,10 @@ class AddServer extends React.Component<Props, State> {
     this.props.history.push('/');
   };
 
-  public handleChange = (key: string, value: string) => {
+  public handleChange = (key: string, value: string | boolean) => {
     this.setState({
       [key]: value
-    });
+    } as any);
   };
 
   public render() {
@@ -119,6 +132,32 @@ class AddServer extends React.Component<Props, State> {
               label={'Password'}
               type={'password'}
             />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.selfHosted}
+                  onChange={() =>
+                    this.handleChange('selfHosted', !this.state.selfHosted)
+                  }
+                  color="secondary"
+                />
+              }
+              label="Self Hosted Server?"
+            />
+            {this.state.selfHosted ? (
+              <TextField
+                value={this.state.serverRoot}
+                onChange={e => {
+                  this.handleChange('serverRoot', e.target.value);
+                }}
+                fullWidth
+                name={'serverRoot'}
+                label={'Server Root'}
+                type={'serverRoot'}
+              />
+            ) : (
+              ''
+            )}
           </CenterSection>
           <Button
             style={{ marginTop: 25 }}
@@ -141,4 +180,7 @@ export const mapStateToProps = (state: RootState) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   addServer: (server: IServer) => dispatch(addToDbThunk(server))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(AddServer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddServer);

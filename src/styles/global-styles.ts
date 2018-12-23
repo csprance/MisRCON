@@ -1,9 +1,8 @@
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import { darkDarkBlack } from './colors';
 // import { theme } from './theme';
 
-export const injectGlobalStyles = () => {
-  // noinspection TsLint
-  injectGlobal`
+export const GlobalStyles = createGlobalStyle`
   *::-webkit-scrollbar {
     width: 5px;
   }
@@ -16,11 +15,13 @@ export const injectGlobalStyles = () => {
   }
   #App {
   flex-grow: 1;
+  width: 100%;
+  height: 100%;
   }
   body, html {
+    background-color: ${darkDarkBlack};
     display: flex;
     flex-grow: 1; 
     height: 100%;
   }
   `;
-};

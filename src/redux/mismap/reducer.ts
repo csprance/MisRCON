@@ -12,8 +12,8 @@ export default (
   switch (action.type) {
     case getType(misMapActions.hydrateFromDb.success):
       return { ...action.payload };
-    case getType(misMapActions.addMarker):
-      return { ...state, markers: [...state.markers, action.payload] };
+    case getType(misMapActions.addMarker.success):
+      return { ...action.payload };
     default:
       return state;
   }

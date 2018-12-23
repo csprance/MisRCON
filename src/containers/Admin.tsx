@@ -6,7 +6,7 @@ import { Dispatch, RootState } from '../redux/redux-types';
 import { IServer } from '../redux/servers';
 import { getActiveServer } from '../redux/servers/selectors';
 
-const Admin: React.SFC<{
+const Admin: React.FunctionComponent<{
   dispatch: Dispatch;
   activeServer: IServer;
 }> = props => <RCONTerminal {...props} />;

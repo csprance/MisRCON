@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
@@ -10,6 +9,7 @@ import styled from 'styled-components';
 import FloatingBackButton from '../components/FloatingBackButton';
 import MisRCONLogo from '../components/images/MisRCONLogo';
 import { RootState } from '../redux/redux-types';
+import { MyPaper } from '../styles/MyStyledComponents';
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const InnerWrapper = styled(Paper)`
+const InnerWrapper = styled(MyPaper)`
   display: flex;
   padding: 20px;
   flex-direction: column;
@@ -48,8 +48,8 @@ class CreateAccount extends React.Component<Props, State> {
           <MisRCONLogo />
           <Typography variant={'h4'}>Create Account</Typography>
           <Typography variant={'body2'} align={'center'}>
-            An account will help keep all of your servers
-            data secure under one common username and password
+            An account will help keep all of your servers data secure under one
+            common username and password
           </Typography>
           <CenterSection>
             <TextField fullWidth name={'email'} label={'Email'} />

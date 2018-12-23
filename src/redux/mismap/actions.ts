@@ -1,5 +1,5 @@
 import { getConnection } from 'typeorm';
-import { createAction, createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction } from 'typesafe-actions';
 
 import Marker from '../../db/entities/Marker';
 import { AsyncThunkResult } from '../redux-types';
@@ -31,7 +31,30 @@ export const hydrateFromDbThunk = (): AsyncThunkResult<void> => async (
   }
 };
 
-export const addMarker = createAction(
-  'mismap/ADD_MARKER',
-  resolve => (marker: Marker) => resolve(marker)
-);
+export const addMarker = createAsyncAction(
+  'mismap/ADD_MARKER_REQUEST',
+  'mismap/ADD_MARKER_SUCCESS',
+  'mismap/ADD_MARKER_FAILED'
+)<void, MisMapState, string>();
+export const addMarkerThunk = (
+  markerToAdd: any
+): AsyncThunkResult<void> => async (dispatch, getState) => {
+  try {
+    dispatch(addMarker.request());
+    const markerRepo = await getConnection().getRepository(Marker);
+    const marker = new Marker();
+    marker.posX = markerToAdd.posX;
+    marker.posY = markerToAdd.posY;
+    marker.content = markerToAdd.content;
+    marker.layer = 'test';
+    const mismapState = getState().misMap;
+    dispatch(
+      addMarker.success({
+        ...mismapState,
+        markers: [...mismapState.markers, await markerRepo.save(marker)]
+      })
+    );
+  } catch (e) {
+    dispatch(addMarker.failure(e.toString()));
+  }
+};

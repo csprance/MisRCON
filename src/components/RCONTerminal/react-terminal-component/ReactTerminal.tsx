@@ -82,8 +82,6 @@ class Terminal extends React.Component<Props, State> {
         commandStr,
         this.plugins
       );
-      console.log(newState);
-
 
       this.setState(({ emulatorState, ...rest }) => ({
         ...rest,

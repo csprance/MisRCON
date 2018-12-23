@@ -4,12 +4,14 @@ import {
   FeatureGroup,
   LayersControl,
   Map as LeafletMap,
+  MapComponent,
   Marker,
   Popup,
   TileLayer
 } from 'react-leaflet';
 import { connect } from 'react-redux';
 
+import LeafletContextMenu from '../components/LeafletContextMenu';
 import { MAP_BOUNDS } from '../constants/map-constants';
 import {
   misMapActions,
@@ -19,15 +21,46 @@ import {
 } from '../redux/mismap';
 import { Dispatch, RootState } from '../redux/redux-types';
 
-type Props = {
+interface Props {
   dispatch: Dispatch;
   layers: MisMapTypes.MisMapMarkersByLayer;
   addMarker: (marker: any) => void;
   showing?: boolean;
-};
-class Map extends React.Component<Props> {
-  mapRef: any;
-  public state = {
+}
+interface State {
+  map: {
+    tileLayer: {
+      url: {
+        islands_sat: string;
+      };
+      crs: any;
+      noWrap: boolean;
+      bounds: L.LatLngBoundsLiteral;
+      tms: boolean;
+      attributionControl: boolean;
+      trackResize: boolean;
+      renderer: any;
+      center: { lat: number; lng: number };
+    };
+    options: {
+      center: { lat: number; lng: number };
+      zoom: number;
+      minZoom: number;
+      maxZoom: number;
+      maxBounds: L.LatLngBoundsLiteral;
+    };
+  };
+  e: any; // event data from the left click sent to context menu
+  contextMenuOpen: boolean;
+  contextMenuAnchor: {
+    x: number;
+    y: number;
+  };
+}
+class Map extends React.Component<Props, State> {
+  mapRef!: MapComponent<any, any>;
+  anchorDiv: any;
+  public state: State = {
     map: {
       tileLayer: {
         url: {
@@ -50,7 +83,7 @@ class Map extends React.Component<Props> {
         maxBounds: MAP_BOUNDS
       }
     },
-    e: {}, // event data from the left click sent to context menu
+    e: null, // event data from the left click sent to context menu
     contextMenuOpen: false,
     contextMenuAnchor: {
       x: 900,
@@ -62,22 +95,47 @@ class Map extends React.Component<Props> {
     super(props);
   }
 
-  componentWillReceiveProps() {
-    this.mapRef.leafletElement.invalidateSize();
+  componentDidUpdate(nextProps: Props) {
+    if (nextProps.showing !== this.props.showing) {
+      this.mapRef.leafletElement.invalidateSize();
+    }
   }
 
-  onClick = (e: L.LeafletMouseEvent) => {
+  addMarker = () => {
     const { x, y } = misMapUtils.convertLatLngToVec2(
-      e.latlng.lat,
-      e.latlng.lng,
+      this.state.e.latlng.lat,
+      this.state.e.latlng.lng,
       this.mapRef.leafletElement
     );
     this.props.addMarker({
       id: Math.random(),
       layer: 'Click Layer',
-      posX: e.latlng.lat,
-      posY: e.latlng.lng,
+      posX: this.state.e.latlng.lat,
+      posY: this.state.e.latlng.lng,
       content: `X:${x} Y:${y} `
+    });
+    this.closeContextMenu();
+  };
+
+  closeContextMenu = () => {
+    this.setState({
+      contextMenuOpen: false
+    });
+  };
+
+  contextMenuClick = async (e: L.LeafletMouseEvent) => {
+    this.mapRef.leafletElement.closePopup();
+
+    // Set the anchor first and then open the context menu, otherwise the map jumps around
+    await this.setState({
+      contextMenuAnchor: {
+        x: e.originalEvent.x,
+        y: e.originalEvent.y
+      }
+    });
+    await this.setState({
+      e: { ...e },
+      contextMenuOpen: true
     });
   };
 
@@ -85,8 +143,8 @@ class Map extends React.Component<Props> {
     const { layers } = this.props;
     return (
       <LeafletMap
+        oncontextmenu={this.contextMenuClick}
         ref={(ref: any) => (this.mapRef = ref)}
-        onClick={this.onClick}
         {...this.state.map.options}
         style={{ height: '100%', width: '100%', background: 'transparent' }}
       >
@@ -107,6 +165,20 @@ class Map extends React.Component<Props> {
             </LayersControl.Overlay>
           ))}
         </LayersControl>
+        <div
+          ref={(ref: any) => (this.anchorDiv = ref)}
+          style={{
+            position: 'absolute',
+            left: this.state.contextMenuAnchor.x - 50,
+            top: this.state.contextMenuAnchor.y - 10
+          }}
+        />
+        <LeafletContextMenu
+          addMarker={this.addMarker}
+          anchorEl={this.anchorDiv}
+          closeContextMenu={this.closeContextMenu}
+          open={this.state.contextMenuOpen}
+        />
       </LeafletMap>
     );
   }
@@ -116,6 +188,9 @@ export const mapStateToProps = (state: RootState) => ({
   layers: misMapSelectors.markersByLayerNameSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMarker: (marker: any) => dispatch(misMapActions.addMarker(marker))
+  addMarker: (marker: any) => dispatch(misMapActions.addMarkerThunk(marker))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Map);

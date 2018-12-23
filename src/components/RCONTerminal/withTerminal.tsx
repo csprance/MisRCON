@@ -31,7 +31,7 @@ export default <TOriginalProps extends {}>(
   type ResultProps = TOriginalProps & ExternalProps;
   return class extends React.Component<ResultProps> {
     public state = {
-      show: false
+      show: true
     };
     constructor(props: ResultProps) {
       super(props);

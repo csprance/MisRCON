@@ -16,6 +16,7 @@ export const createRunningJobFromDb = (
 ): ITask => {
   const cronString: string | Date = '* * * * * *';
   // create our onTick function by evaling the jobString and then executing it with dispatch as a function
+  // tslint:disable-next-line
   const onTick = eval(task.jobString)(dispatch);
   const onComplete = () => {
     return;
@@ -71,6 +72,7 @@ export const createRunningRCONTask = (
 };
 
 const makeSendRCON = (_: string, dispatch: Dispatch) => () => {
+  // TODO: WTF is going on here? Fix this function
   console.log(dispatch(getTasksThunk()));
   console.log(`Sending RCON Command`);
 };

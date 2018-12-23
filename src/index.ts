@@ -8,6 +8,7 @@ import installExtension, {
 import * as path from 'path';
 import 'reflect-metadata';
 import logger from './lib/logger';
+import { darkDarkBlack } from './styles/colors';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,28 +23,26 @@ if (isDevMode) {
 const createWindow = async () => {
   logger.info('MisRCON Starting');
 
-  const windowOptions = {
+  const windowOptions: Electron.BrowserWindowConstructorOptions = {
     width: 1024,
     height: 768,
-    backgroundColor: '#333333',
+    minHeight: 642,
+    minWidth: 444,
+    backgroundColor: darkDarkBlack,
     show: false,
-    icon: path.join(__dirname, 'resources/images/64x64.png')
+    icon: path.join(__dirname, 'resources/images/64x64.png'),
+    frame: false
   };
   // configure the splashscreen
   mainWindow = Splashscreen.initSplashScreen({
     windowOpts: windowOptions,
     templateUrl: path.join(__dirname, 'resources', 'images', 'icon.png'),
-    delay: 0, // force show immediately since example will load fast
-    minVisible: 1500, // show for 1.5s so example is obvious
     splashScreenOpts: {
       width: 400,
       height: 400,
       transparent: true
     }
   });
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
   if (isDevMode) {
@@ -52,18 +51,24 @@ const createWindow = async () => {
     mainWindow.webContents.openDevTools();
   }
 
+  // and load the index.html of the app.
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
+
   mainWindow.on('closed', () => {
     mainWindow = null;
+    logger.info('closed');
     app.quit();
   });
 
   mainWindow.on('unresponsive', () => {
     mainWindow = null;
+    logger.info('unresponsive');
     app.quit();
   });
 
   mainWindow.webContents.on('crashed', () => {
     mainWindow = null;
+    logger.info('crashed');
     app.quit();
   });
 };
@@ -75,6 +80,8 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  mainWindow = null;
+  logger.info('window-all-closed');
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   app.quit();
@@ -92,13 +99,12 @@ app.on('activate', () => {
 });
 
 process.on('uncaughtException', err => {
-  logger.error('uncaughtException', err);
-  mainWindow = null;
+  logger.info('uncaughtException', err);
   app.quit();
 });
 
 process.on('unhandledRejection', err => {
-  logger.error('unhandledRejection', err);
+  logger.info('unhandledRejection', err);
 });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

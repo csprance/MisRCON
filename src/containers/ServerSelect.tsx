@@ -5,7 +5,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,6 +18,7 @@ import styled from 'styled-components';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { ServersState } from '../redux/servers';
 import { markActiveThunk, removeFromDbThunk } from '../redux/servers/actions';
+import { MyPaper } from '../styles/MyStyledComponents';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const InnerWrapper = styled(Paper)`
+const InnerWrapper = styled(MyPaper)`
   display: flex;
   padding: 20px;
   flex-direction: column;
@@ -129,4 +129,7 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   markServerActive: (id: string) => dispatch(markActiveThunk(id)),
   deleteServer: (id: string) => dispatch(removeFromDbThunk({ id }))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ServerSelect);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ServerSelect);
