@@ -7,7 +7,9 @@ export const defaultServer: IServer = {
   ip: 'loading',
   port: -1,
   hash: 'THisIsCool324HashMan',
-  active: true
+  active: true,
+  selfHosted: false,
+  rootPath: ''
 };
 
 export default [] as ServersState;

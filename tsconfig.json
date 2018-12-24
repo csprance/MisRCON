@@ -15,13 +15,13 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "strict": true,
-    "lib": ["es5", "es2015.promise", "dom", "es2015"],
+    "lib": ["es5", "es2015.promise", "dom", "es2017"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "pretty": true,
-    "target": "es2015",
+    "target": "es2017",
     "jsx": "react"
   },
   "formatCodeOptions": {

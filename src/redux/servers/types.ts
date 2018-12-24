@@ -13,6 +13,10 @@ export interface IServer {
   hash: string;
   // Is this server active
   active: boolean;
+  // Is this a self hosted server?
+  selfHosted: boolean;
+  // Where is the self hosted server root path at
+  rootPath: string;
 }
 
 

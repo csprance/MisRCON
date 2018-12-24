@@ -9,4 +9,6 @@ export default class Server {
   @Column('integer') public port!: number;
   @Column('varchar') public hash!: string;
   @Column('boolean') public active!: boolean;
+  @Column('boolean') public selfHosted!: boolean;
+  @Column('varchar') public rootPath!: string;
 }

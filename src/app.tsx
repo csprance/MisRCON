@@ -45,10 +45,11 @@ class WrappedApp extends React.Component<Props, State> {
 
   public render() {
     return (
-      <Wrapper>
-        <TitleBar />
-        <Router>
+      <Router>
+        <Wrapper>
+          <TitleBar />
           <Switch>
+            {/*<Route exact path={'/'} component={AddServer} />*/}
             <Route exact path={'/'} component={ServerSelect} />
             <Route path={'/create'} component={CreateAccount} />
             <Route path={'/forgot'} component={ForgotPassword} />
@@ -56,8 +57,8 @@ class WrappedApp extends React.Component<Props, State> {
             <Route path={'/add'} component={AddServer} />
             <Route path={'/map'} component={withTerminal(Map)} />
           </Switch>
-        </Router>
-      </Wrapper>
+        </Wrapper>
+      </Router>
     );
   }
 }

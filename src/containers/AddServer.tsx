@@ -1,8 +1,10 @@
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { remote } from 'electron';
 import { History } from 'history';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -10,6 +12,7 @@ import styled from 'styled-components';
 
 import FloatingBackButton from '../components/FloatingBackButton';
 import MisRCONLogo from '../components/images/MisRCONLogo';
+import NoHoverIconButton from '../components/NoHoverIconButton';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { IServer, ServersState } from '../redux/servers';
 import { addToDbThunk } from '../redux/servers/actions';
@@ -47,7 +50,7 @@ const defaultState = {
   hash: '',
   active: false,
   selfHosted: false,
-  serverRoot: ''
+  rootPath: ''
 };
 type Props = {
   addServer: (server: IServer) => void;
@@ -62,7 +65,7 @@ type State = {
   hash: string;
   active: boolean;
   selfHosted: boolean;
-  serverRoot: string;
+  rootPath: string;
 };
 class AddServer extends React.Component<Props, State> {
   public static defaultProps = {};
@@ -85,6 +88,15 @@ class AddServer extends React.Component<Props, State> {
     this.setState({
       [key]: value
     } as any);
+  };
+
+  public openDialog = () => {
+    const rootPath = remote.dialog.showOpenDialog({
+      properties: ['openDirectory']
+    })[0];
+    console.log(rootPath);
+
+    this.setState({ rootPath });
   };
 
   public render() {
@@ -146,14 +158,15 @@ class AddServer extends React.Component<Props, State> {
             />
             {this.state.selfHosted ? (
               <TextField
-                value={this.state.serverRoot}
-                onChange={e => {
-                  this.handleChange('serverRoot', e.target.value);
+                label="Server Root"
+                value={this.state.rootPath}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <NoHoverIconButton onClick={this.openDialog} />
+                    </InputAdornment>
+                  )
                 }}
-                fullWidth
-                name={'serverRoot'}
-                label={'Server Root'}
-                type={'serverRoot'}
               />
             ) : (
               ''

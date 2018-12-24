@@ -4,14 +4,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 import { remote } from 'electron';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
   -webkit-app-region: no-drag;
 `;
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+`;
 
-type Props = {};
+type Props = {
+  history: any; // Router
+  location: any; // Router
+  match: any;
+};
 type State = {
   readonly anchorEl: null | any;
 };
@@ -55,7 +63,7 @@ class TitleBarMenu extends React.Component<Props, State> {
           onClose={this.handleClose}
         >
           <MenuItem onClick={() => this.props.history.push('/')}>
-            <Link to={'/'}>Switch Server</Link>
+            <Link href={'#'}>Switch Server</Link>
           </MenuItem>
           <MenuItem onClick={() => this.props.history.push('/add')}>
             Add Server
@@ -67,4 +75,4 @@ class TitleBarMenu extends React.Component<Props, State> {
   }
 }
 
-export default TitleBarMenu;
+export default withRouter(TitleBarMenu);
