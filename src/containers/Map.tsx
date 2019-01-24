@@ -1,4 +1,7 @@
+import IconButton from '@material-ui/core/IconButton';
+import TrashIcon from '@material-ui/icons/Delete';
 import * as L from 'leaflet';
+import 'leaflet-mouse-position';
 import * as React from 'react';
 import {
   FeatureGroup,
@@ -95,6 +98,10 @@ class Map extends React.Component<Props, State> {
     super(props);
   }
 
+  componentDidMount() {
+    this.addMousePositionControlToMap();
+  }
+
   componentDidUpdate(nextProps: Props) {
     if (nextProps.showing !== this.props.showing) {
       this.mapRef.leafletElement.invalidateSize();
@@ -115,6 +122,28 @@ class Map extends React.Component<Props, State> {
       content: `X:${x} Y:${y} `
     });
     this.closeContextMenu();
+  };
+
+  addMousePositionControlToMap = () => {
+    (L.control as any)
+      .mousePosition({
+        position: 'bottomright',
+        separator: ' : ',
+        emptyString: 'Unavailable',
+        lngFirst: true,
+        numDigits: 5,
+        lngFormatter: (x: number) =>
+          `X: ${this.mapRef.leafletElement
+            .project({ lat: 0, lng: x }, 5)
+            .x.toFixed(0)}`,
+        latFormatter: (y: number) =>
+          `Y: ${8192 -
+            this.mapRef.leafletElement
+              .project({ lat: y, lng: 0 }, 5)
+              .y.toFixed(0)}`,
+        prefix: ''
+      })
+      .addTo(this.mapRef.leafletElement);
   };
 
   closeContextMenu = () => {
@@ -158,7 +187,12 @@ class Map extends React.Component<Props, State> {
               <FeatureGroup>
                 {markers.map(({ id, posX, posY, content }) => (
                   <Marker key={id} position={[posX, posY]}>
-                    <Popup>{content}</Popup>
+                    <Popup>
+                      {content}
+                      <IconButton onClick={() => console.log('Delete')}>
+                        <TrashIcon color={'secondary'} fill={'#000000'} />
+                      </IconButton>
+                    </Popup>
                   </Marker>
                 ))}
               </FeatureGroup>

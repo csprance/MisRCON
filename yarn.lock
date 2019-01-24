@@ -5551,6 +5551,11 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
+leaflet-mouse-position@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/leaflet-mouse-position/-/leaflet-mouse-position-1.0.4.tgz#02a82b2381b3c7acb97623166970cbb7320e4b3c"
+  integrity sha512-kdGqe+T2OBG5eBvwgbL9CW/OnHrsxQMIV9jQ+iHkh8EnrdVyWQaqIBc20/wqlolUlnMoELIVw6jXy9CSKTaszQ==
+
 leaflet@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.4.tgz#7f006ea5832603b53d7269ef5c595fd773060a40"

@@ -11,14 +11,14 @@ import * as MAP_CONSTANTS from '../../constants/map-constants';
 export function splitXYZToLatLng(str: string, L: Map) {
   if (str !== null) {
     const { x, y } = splitToVec3(str);
-    const lat = L.unproject(
+    const { lat } = L.unproject(
       [x, -y + MAP_CONSTANTS.MAP_PROJECTION_SIZE],
       MAP_CONSTANTS.MAP_PROJECTION_ZOOM
-    ).lat;
-    const lng = L.unproject(
+    );
+    const { lng } = L.unproject(
       [x, -y + MAP_CONSTANTS.MAP_PROJECTION_SIZE],
       MAP_CONSTANTS.MAP_PROJECTION_ZOOM
-    ).lng;
+    );
     return { lat, lng };
   }
   return { lat: -40, lng: 40 };
@@ -94,13 +94,13 @@ export const convertVec2ToLatLng = (
   y: number,
   L: Map
 ): { lat: number; lng: number } => {
-  const lat = L.unproject(
+  const { lat } = L.unproject(
     [x, -y + MAP_CONSTANTS.MAP_PROJECTION_SIZE],
     MAP_CONSTANTS.MAP_PROJECTION_ZOOM
-  ).lat;
-  const lng = L.unproject(
+  );
+  const { lng } = L.unproject(
     [x, -y + MAP_CONSTANTS.MAP_PROJECTION_SIZE],
     MAP_CONSTANTS.MAP_PROJECTION_ZOOM
-  ).lng;
+  );
   return { lat, lng };
 };
