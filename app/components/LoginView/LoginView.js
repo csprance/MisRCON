@@ -78,9 +78,9 @@ class LoginView extends Component {
 
 const Container = styled.div`
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   display: flex;
-  flex-grow:1;
+  flex-grow: 1;
   flex-direction: row;
 `;
 
@@ -94,12 +94,12 @@ const LoginBox = styled(Paper)`
 
 const LoginBoxHeader = styled.div`
   position: relative;
-  padding-top:15px;  
-  padding-bottom:15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background: ${darkGrey};
   color: white;
   width: 100%;
-  text-align:center;
+  text-align: center;
 `;
 
 const Content = styled.div`

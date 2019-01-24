@@ -101,9 +101,11 @@ export default class PlayersView extends Component {
             onTouchTap={this.getPlayersAndAddToState}
             secondary
           >
-            {this.props.server.loading === true
-              ? <AnimatedRefresh />
-              : <RefreshIcon />}
+            {this.props.server.loading === true ? (
+              <AnimatedRefresh />
+            ) : (
+              <RefreshIcon />
+            )}
           </FloatingActionButton>
 
           <Spacer />
@@ -133,7 +135,6 @@ export default class PlayersView extends Component {
         />
 
         <ProgressIndicator loading={this.props.server.loading} />
-
       </Container>
     );
   }
@@ -155,7 +156,7 @@ const AnimatedRefresh = styled(RefreshIcon)`
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 `;
 
 const SearchBar = styled(TextField)`
@@ -166,14 +167,14 @@ const Actions = styled.div`
   height: 100px;
   min-height: 100px;
   width: 100%;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 25px;
   flex-shrink: 1;
 `;
 
-const PlayerList = styled.div`  
+const PlayerList = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row wrap;

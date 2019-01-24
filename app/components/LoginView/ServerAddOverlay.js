@@ -157,28 +157,28 @@ const Container = styled.div`
   display: flex;
   left: ${props => (props.show ? 0 : '900px')};
   background: ${lightGray};
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   z-index: 10;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  min-width:100%;
+  min-width: 100%;
   align-items: center;
-  justify-content:flex-start;
+  justify-content: flex-start;
   flex-align: start;
-  flex-grow:1;
+  flex-grow: 1;
   flex-direction: column;
 `;
 
 const LoginBoxHeader = styled.div`
   position: relative;
-  padding-top:15px;  
-  padding-bottom:15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background: ${darkGrey};
   color: white;
   width: 100%;
-  text-align:center;
+  text-align: center;
 `;
 
 const ActionButtons = styled.div`

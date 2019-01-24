@@ -89,9 +89,8 @@ class ConsoleView extends Component {
       else if (this.askingForHelp(text))
         // help [subject] // specific help docs
         this.getHelpOn(text.split(' ')[1]);
-      else
-        // send command to server
-        this.sendCommand(text);
+      // send command to server
+      else this.sendCommand(text);
     } catch (e) {
       log('error', e);
       this.console.log(String(e));

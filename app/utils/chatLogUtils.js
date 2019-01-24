@@ -31,7 +31,10 @@ export function eventizeChatLog(str) {
       steam: event[1].replace('[SteamID', '').trim(),
       name: event[2].replace('[Name', '').trim(),
       ip: event[3].replace('[IP', '').trim(),
-      msg: event.slice(4).join(' ').trim()
+      msg: event
+        .slice(4)
+        .join(' ')
+        .trim()
     };
   });
 }

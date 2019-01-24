@@ -25,6 +25,8 @@ export default function server(state = initialState, action) {
   switch (action.type) {
     case actionType.FETCHING_SERVER_BANLIST:
       return { ...state, loading: true };
+    case actionType.FETCHING_FAIL:
+      return { ...state, loading: false };
     case actionType.FETCHING_SERVER_WHITELIST:
       return { ...state, loading: true };
     case actionType.FETCHING_ALL_SERVER_DATA:

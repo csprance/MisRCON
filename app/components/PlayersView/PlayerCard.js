@@ -23,9 +23,10 @@ class PlayersCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: store.get(this.props.steam) !== undefined
-        ? store.get(this.props.steam).notes
-        : ''
+      notes:
+        store.get(this.props.steam) !== undefined
+          ? store.get(this.props.steam).notes
+          : ''
     };
   }
 
@@ -70,43 +71,48 @@ class PlayersCard extends Component {
           <CardActions style={{ display: 'flex' }}>
             <Spacer />
 
-            {this.props.removePlayerFromBanList !== undefined &&
+            {this.props.removePlayerFromBanList !== undefined && (
               <FlatButton
                 label="UNBan"
                 onTouchTap={() =>
                   this.props.dispatch(
                     serverActions.unBanPlayer(this.props.steam)
-                  )}
-              />}
+                  )
+                }
+              />
+            )}
 
-            {this.props.removePlayerFromWhitelist !== undefined &&
+            {this.props.removePlayerFromWhitelist !== undefined && (
               <FlatButton
                 label="Remove"
                 onTouchTap={() =>
                   this.props.dispatch(
                     serverActions.unWhitelistPlayer(this.props.steam)
-                  )}
-              />}
+                  )
+                }
+              />
+            )}
 
-            {this.props.kick !== undefined &&
+            {this.props.kick !== undefined && (
               <FlatButton
                 label="Kick"
                 onTouchTap={() =>
                   this.props.dispatch(
                     serverActions.kickPlayer(this.props.steam)
-                  )}
-              />}
+                  )
+                }
+              />
+            )}
 
-            {this.props.ban !== undefined &&
+            {this.props.ban !== undefined && (
               <FlatButton
                 secondary
                 label="Ban"
                 onTouchTap={() =>
-                  this.props.dispatch(
-                    serverActions.banPlayer(this.props.steam)
-                  )}
-              />}
-
+                  this.props.dispatch(serverActions.banPlayer(this.props.steam))
+                }
+              />
+            )}
           </CardActions>
         </Card>
       </PCard>

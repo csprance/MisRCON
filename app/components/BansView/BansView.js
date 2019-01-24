@@ -99,9 +99,11 @@ export default class BansView extends Component {
           />
           <Spacer />
           <FloatingActionButton onTouchTap={this.getBanList} secondary>
-            {this.props.server.loading === true
-              ? <AnimatedRefresh />
-              : <RefreshIcon />}
+            {this.props.server.loading === true ? (
+              <AnimatedRefresh />
+            ) : (
+              <RefreshIcon />
+            )}
           </FloatingActionButton>
           <Spacer />
         </Actions>
@@ -145,7 +147,7 @@ const AnimatedRefresh = styled(RefreshIcon)`
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 `;
 
 const SearchBar = styled(TextField)`
@@ -156,14 +158,14 @@ const Actions = styled.div`
   height: 100px;
   width: 100%;
   min-height: 100px;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 25px;
   flex-shrink: 1;
 `;
 
-const PlayerList = styled.div`  
+const PlayerList = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row wrap;

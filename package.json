@@ -1,7 +1,7 @@
 {
   "name": "MisRCON",
   "productName": "MisRCON",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "versionName": "Shaboygan",
   "description": "RCON Tool for Miscreated game.",
   "main": "main.js",
@@ -165,7 +165,7 @@
     "material-ui": "^0.18.0",
     "md5": "^2.2.1",
     "moment": "^2.17.1",
-    "node-misrcon": "^0.3.11",
+    "node-misrcon": "^1.2.0",
     "node-schedule": "^1.2.0",
     "prettycron": "^0.10.0",
     "prop-types": "^15.5.8",

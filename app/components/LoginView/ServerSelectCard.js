@@ -28,7 +28,9 @@ const ServerSelectCard = props => {
     <Container className="server-select">
       <ServerDetails>
         <ServerName>{props.name}</ServerName>
-        <ServerIp>{props.ip}:{props.port}</ServerIp>
+        <ServerIp>
+          {props.ip}:{props.port}
+        </ServerIp>
       </ServerDetails>
 
       <IconButton onTouchTap={removeCredentials} touch tooltip={'Delete'}>
@@ -38,7 +40,6 @@ const ServerSelectCard = props => {
       <IconButton onTouchTap={useCredentials} touch tooltip={'Connect'}>
         <PlayArrowIcon />
       </IconButton>
-
     </Container>
   );
 };

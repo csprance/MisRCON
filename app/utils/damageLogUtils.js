@@ -30,10 +30,19 @@ export function eventizeDamageLog(str) {
     return {
       type: 'damage',
       time: convertTimeStrToDate(
-        event[0].split(']')[0].replace('[', '').trim()
+        event[0]
+          .split(']')[0]
+          .replace('[', '')
+          .trim()
       ),
-      steam: event[0].split(']')[1].replace('shooterSteamID:', '').trim(),
-      name: event[1].replace('shooterName:', '').replace('"', '').trim(),
+      steam: event[0]
+        .split(']')[1]
+        .replace('shooterSteamID:', '')
+        .trim(),
+      name: event[1]
+        .replace('shooterName:', '')
+        .replace('"', '')
+        .trim(),
       targetSteam: event[2].replace('targetSteamID:', '').trim(),
       targetName: event[3].replace('targetName:', '').trim(),
       weapon: event[4].replace('weapon:', '').trim(),
