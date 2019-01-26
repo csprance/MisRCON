@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { MemoryRouter as Router, Route, Switch } from 'react-router';
-import { Store } from 'redux';
 import styled from 'styled-components';
 
 import withTerminal from './components/RCONTerminal/withTerminal';
@@ -10,7 +9,9 @@ import AddServer from './containers/AddServer';
 import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
 import Map from './containers/Map';
+import Players from './containers/Players';
 import ServerSelect from './containers/ServerSelect';
+// import Terminal from "./containers/Terminal";
 import createConnection from './db';
 import { misMapActions } from './redux/mismap';
 import { Dispatch } from './redux/redux-types';
@@ -25,7 +26,6 @@ export const Wrapper = styled.div`
 `;
 type Props = {
   dispatch: Dispatch;
-  store: Store;
 };
 type State = {};
 class WrappedApp extends React.Component<Props, State> {
@@ -34,12 +34,13 @@ class WrappedApp extends React.Component<Props, State> {
     await this.hydrateAllFromDatabase();
     // remote.getCurrentWindow().webContents.isDevToolsOpened();
   }
+
   hydrateAllFromDatabase = async () => {
     const { dispatch } = this.props;
     await Promise.all([
-      dispatch(serversActions.hydrateFromDbThunk()),
-      dispatch(tasksActions.hydrateFromDbThunk()),
-      dispatch(misMapActions.hydrateFromDbThunk())
+      dispatch(serversActions.hydrateServersFromDbThunk()),
+      dispatch(tasksActions.hydrateTasksFromDbThunk()),
+      dispatch(misMapActions.hydrateMapFromDbThunk())
     ]);
   };
 
@@ -53,7 +54,7 @@ class WrappedApp extends React.Component<Props, State> {
             <Route exact path={'/'} component={ServerSelect} />
             <Route path={'/create'} component={CreateAccount} />
             <Route path={'/forgot'} component={ForgotPassword} />
-            <Route path={'/admin'} component={withTerminal(Map)} />
+            <Route path={'/admin'} component={Players} />
             <Route path={'/add'} component={AddServer} />
             <Route path={'/map'} component={withTerminal(Map)} />
           </Switch>

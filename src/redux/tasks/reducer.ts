@@ -10,7 +10,7 @@ export default (
   action: TasksActions
 ): TasksState => {
   switch (action.type) {
-    case getType(tasksActions.hydrateFromDb.success):
+    case getType(tasksActions.hydrateTasksFromDb.success):
       return action.payload;
 
     case getType(tasksActions.addTask.success):

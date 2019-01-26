@@ -88,25 +88,25 @@ Gets the stored tasks from the database and hydrates the store.
 This function creates cron jobs and starts them so it should only be run once or all other jobs should be
 canceled first
  */
-export const hydrateFromDb = createAsyncAction(
+export const hydrateTasksFromDb = createAsyncAction(
   'tasks/HYDRATE_REQUEST',
   'tasks/HYDRATE_SUCCESS',
   'tasks/HYDRATE_FAILED'
 )<void, TasksState, string>();
-export const hydrateFromDbThunk = (): AsyncThunkResult<
+export const hydrateTasksFromDbThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {
   try {
-    dispatch(hydrateFromDb.request());
+    dispatch(hydrateTasksFromDb.request());
     const tasks = await getConnection()
       .getRepository(Task)
       .find({});
     dispatch(
-      hydrateFromDb.success(
+      hydrateTasksFromDb.success(
         tasks.map(t => ({ ...createRunningJobFromDb(t, dispatch) }))
       )
     );
   } catch (e) {
-    dispatch(hydrateFromDb.failure(e.toString()));
+    dispatch(hydrateTasksFromDb.failure(e.toString()));
   }
 };

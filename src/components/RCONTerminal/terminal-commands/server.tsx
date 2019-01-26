@@ -39,7 +39,9 @@ export default (dispatch: Dispatch) => ({
           port,
           hash,
           name,
-          active: false
+          active: false,
+          selfHosted: false,
+          rootPath: ''
         };
         dispatch(serversActions.addToDbThunk(server));
         return output(`Added server ${server.name}`);

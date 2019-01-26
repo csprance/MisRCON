@@ -2,7 +2,7 @@ import { IRCONRequest } from './types';
 
 export const makeRCONRequestObject = (
   ip: string,
-  port: string,
+  port: number,
   password: string,
   command: string
 ): IRCONRequest => ({

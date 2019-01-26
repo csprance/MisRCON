@@ -7,4 +7,5 @@ export default class Marker {
   @Column('float') public posY!: number;
   @Column('varchar') public content!: string;
   @Column('varchar') public layer!: string;
+  @Column('integer') public serverID!: number;
 }

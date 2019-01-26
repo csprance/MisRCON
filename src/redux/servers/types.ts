@@ -1,7 +1,7 @@
 // All the types associated with the state from the db
 export interface IServer {
   // The ID of the Server
-  id: string;
+  id: number;
   // The Friendly Name of the Server
   name: string;
   // The Ip Address of the Game Server

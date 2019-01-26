@@ -10,7 +10,7 @@ export default (
   action: ServersActions
 ): ServersState => {
   switch (action.type) {
-    case getType(serversActions.hydrateFromDb.success):
+    case getType(serversActions.hydrateServersFromDb.success):
       return action.payload;
     default:
       return state;

@@ -10,10 +10,15 @@ export default (
   action: MisMapActions
 ): MisMapState => {
   switch (action.type) {
-    case getType(misMapActions.hydrateFromDb.success):
+    case getType(misMapActions.hydrateMapFromDb.success):
       return { ...action.payload };
-    case getType(misMapActions.addMarker.success):
+    case getType(misMapActions.addCustomMapMarker.success):
       return { ...action.payload };
+    case getType(misMapActions.deleteCustomMapMarker.success):
+      return {
+        ...state,
+        markers: state.markers.filter(marker => marker.id !== action.payload)
+      };
     default:
       return state;
   }

@@ -16,22 +16,22 @@ export const getServersThunk = (): ThunkResult<ServersState> => (
 Gets the state from the database and adds it to the store
  */
 // Async Actions
-export const hydrateFromDb = createAsyncAction(
+export const hydrateServersFromDb = createAsyncAction(
   'servers/HYDRATE_REQUEST',
   'servers/HYDRATE_SUCCESS',
   'servers/HYDRATE_FAILED'
 )<void, Server[], string>();
 // Thunk
-export const hydrateFromDbThunk = (): AsyncThunkResult<
+export const hydrateServersFromDbThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {
   try {
-    dispatch(hydrateFromDb.request());
+    dispatch(hydrateServersFromDb.request());
     const serverRepo = await getConnection().getRepository(Server);
     const servers = await serverRepo.find({});
-    dispatch(hydrateFromDb.success(servers));
+    dispatch(hydrateServersFromDb.success(servers));
   } catch (e) {
-    dispatch(hydrateFromDb.failure(e.toString()));
+    dispatch(hydrateServersFromDb.failure(e.toString()));
   }
 };
 
@@ -58,7 +58,7 @@ export const addToDbThunk = (
       .values([{ ...server }])
       .execute();
     dispatch(addToDb.success());
-    dispatch(hydrateFromDbThunk());
+    await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
     dispatch(addToDb.failure(e.toString()));
   }
@@ -87,7 +87,7 @@ export const removeFromDbThunk = (
       .where({ ...partial })
       .execute();
     dispatch(removeFromDb.success());
-    dispatch(hydrateFromDbThunk());
+    await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
     dispatch(removeFromDb.failure(e.toString()));
   }
@@ -100,7 +100,7 @@ export const markActive = createAsyncAction(
 )<void, void, string>();
 // Thunk
 export const markActiveThunk = (
-  id: string
+  id: number
 ): AsyncThunkResult<void> => async dispatch => {
   try {
     const serverRepo = await getConnection().getRepository(Server);
@@ -113,7 +113,7 @@ export const markActiveThunk = (
       })
     );
     dispatch(markActive.success());
-    dispatch(hydrateFromDbThunk());
+    await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
     dispatch(markActive.failure(e.toString()));
   }

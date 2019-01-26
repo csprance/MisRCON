@@ -2,7 +2,7 @@
 // This is the actual request object in a normalized form for our app
 export interface IRCONRequest {
   ip: string;
-  port: string;
+  port: number;
   password: string;
   // The command to send to the server
   command: string;

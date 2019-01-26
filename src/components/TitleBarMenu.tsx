@@ -42,6 +42,11 @@ class TitleBarMenu extends React.Component<Props, State> {
     focusedWindow.close();
   };
 
+  handleMenuItemClick = (route: string) => {
+    this.handleClose();
+    this.props.history.push(route);
+  };
+
   public render() {
     const { anchorEl } = this.state;
     return (
@@ -62,10 +67,10 @@ class TitleBarMenu extends React.Component<Props, State> {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={() => this.props.history.push('/')}>
+          <MenuItem onClick={() => this.handleMenuItemClick('/')}>
             <Link href={'#'}>Switch Server</Link>
           </MenuItem>
-          <MenuItem onClick={() => this.props.history.push('/add')}>
+          <MenuItem onClick={() => this.handleMenuItemClick('/add')}>
             Add Server
           </MenuItem>
           <MenuItem onClick={this.exitApp}>Exit</MenuItem>

@@ -2,7 +2,7 @@ import * as mousetrap from 'mousetrap';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Admin from '../../containers/Admin';
+import Admin from '../../containers/Terminal';
 
 const Wrapper = styled.div`
   display: flex;

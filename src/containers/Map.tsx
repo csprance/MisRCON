@@ -22,12 +22,17 @@ import {
   MisMapTypes,
   misMapUtils
 } from '../redux/mismap';
+import { ICustomMapMarker } from '../redux/mismap/types';
 import { Dispatch, RootState } from '../redux/redux-types';
+import { IServer } from '../redux/servers';
+import { activeServerSelector } from '../redux/servers/selectors';
 
 interface Props {
   dispatch: Dispatch;
   layers: MisMapTypes.MisMapMarkersByLayer;
-  addMarker: (marker: any) => void;
+  activeServer: IServer;
+  addMarker: (marker: ICustomMapMarker) => void;
+  deleteMarker: (id: number) => void;
   showing?: boolean;
 }
 interface State {
@@ -109,16 +114,18 @@ class Map extends React.Component<Props, State> {
   }
 
   addMarker = () => {
+    const { lat, lng } = this.state.e.latlng;
     const { x, y } = misMapUtils.convertLatLngToVec2(
-      this.state.e.latlng.lat,
-      this.state.e.latlng.lng,
+      lat,
+      lng,
       this.mapRef.leafletElement
     );
     this.props.addMarker({
-      id: Math.random(),
+      id: -1,
+      serverID: this.props.activeServer.id,
       layer: 'Click Layer',
-      posX: this.state.e.latlng.lat,
-      posY: this.state.e.latlng.lng,
+      posX: lat,
+      posY: lng,
       content: `X:${x} Y:${y} `
     });
     this.closeContextMenu();
@@ -168,6 +175,10 @@ class Map extends React.Component<Props, State> {
     });
   };
 
+  deleteMarker = (id: number) => {
+    this.props.deleteMarker(id);
+  };
+
   public render() {
     const { layers } = this.props;
     return (
@@ -189,8 +200,8 @@ class Map extends React.Component<Props, State> {
                   <Marker key={id} position={[posX, posY]}>
                     <Popup>
                       {content}
-                      <IconButton onClick={() => console.log('Delete')}>
-                        <TrashIcon color={'secondary'} fill={'#000000'} />
+                      <IconButton onClick={() => this.deleteMarker(id)}>
+                        <TrashIcon color={'primary'} />
                       </IconButton>
                     </Popup>
                   </Marker>
@@ -218,11 +229,14 @@ class Map extends React.Component<Props, State> {
   }
 }
 
-export const mapStateToProps = (state: RootState) => ({
-  layers: misMapSelectors.markersByLayerNameSelector(state)
+export const mapStateToProps = (state: RootState, ownProps: any) => ({
+  layers: misMapSelectors.markersByLayerNameAndActiveServer(state, ownProps),
+  activeServer: activeServerSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMarker: (marker: any) => dispatch(misMapActions.addMarkerThunk(marker))
+  addMarker: (marker: ICustomMapMarker) =>
+    dispatch(misMapActions.addMarkerThunk(marker)),
+  deleteMarker: (id: number) => dispatch(misMapActions.deleteMarkerThunk(id))
 });
 export default connect(
   mapStateToProps,

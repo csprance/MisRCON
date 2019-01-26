@@ -1,43 +1,26 @@
 import { createSelector } from 'reselect';
-import Marker from '../../db/entities/Marker';
 import { RootState } from '../redux-types';
+import { activeServerSelector } from '../servers/selectors';
+import { getMarkersByName } from './utils';
 
-export const misMapSelector = (state: RootState) => state.misMap;
+export const misMapSelector = createSelector(
+  (state: RootState, _: any) => state.misMap,
+  state => state
+);
+
 export const misMapMarkersSelector = createSelector(
   misMapSelector,
   misMap => misMap.markers
 );
-export const markersByLayerNameSelector = createSelector(
+
+// organizes markers into an array of [[layerName, Marker]]
+export const markersByLayerNameAndActiveServer = createSelector(
   misMapMarkersSelector,
-  markers => {
-    const byLayer = markers.reduce((acc, val) => {
-      if (acc[val.layer]) {
-        acc[val.layer].push(val);
-      } else {
-        acc[val.layer] = [val];
-      }
-      return acc;
-    }, {});
-    const keys = Object.keys(byLayer);
-    return keys.map(name => {
-      return [name, byLayer[name]];
-    }) as Array<[string, Marker[]]>;
+  activeServerSelector,
+  (markers, activeServer) => {
+    const activeServerMarkers = markers.filter(
+      marker => marker.serverID === activeServer.id
+    );
+    return getMarkersByName(activeServerMarkers);
   }
 );
-
-export const markersByLayerName = (
-  markers: Marker[]
-): Array<[string, Marker[]]> => {
-  const byLayer = markers.reduce((acc, val) => {
-    if (acc[val.layer]) {
-      acc[val.layer].push(val);
-    } else {
-      acc[val.layer] = [val];
-    }
-    return acc;
-  }, {});
-  const keys = Object.keys(byLayer);
-  return keys.map(name => {
-    return [name, byLayer[name]];
-  }) as Array<[string, Marker[]]>;
-};

@@ -41,8 +41,8 @@ const InnerWrapper = styled(MyPaper)`
 
 type Props = {
   servers: ServersState;
-  markServerActive: (id: string) => void;
-  deleteServer: (id: string) => void;
+  markServerActive: (id: number) => void;
+  deleteServer: (id: number) => void;
   history: MemoryHistory;
 };
 type State = {
@@ -54,12 +54,12 @@ class ServerSelect extends React.Component<Props, State> {
     open: true
   };
 
-  public handleClick = (id: string) => {
+  public handleClick = (id: number) => {
     this.props.markServerActive(id);
     this.props.history.push('/admin');
   };
 
-  public handleMenuClick = (id: string) => {
+  public handleMenuClick = (id: number) => {
     this.props.deleteServer(id);
   };
 
@@ -126,8 +126,8 @@ export const mapStateToProps = (state: RootState) => ({
   servers: state.servers
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  markServerActive: (id: string) => dispatch(markActiveThunk(id)),
-  deleteServer: (id: string) => dispatch(removeFromDbThunk({ id }))
+  markServerActive: (id: number) => dispatch(markActiveThunk(id)),
+  deleteServer: (id: number) => dispatch(removeFromDbThunk({ id }))
 });
 export default connect(
   mapStateToProps,
