@@ -1,5 +1,14 @@
-import * as playerActions from './actions';
-import playersReducer, { PlayersActions } from './reducer';
-import { IPlayer, PlayersState } from './types';
+import * as playersActions from './actions';
+import reducer, { PlayersActions } from './reducer';
+import * as playersSelectors from './selectors';
+import defaultPlayerState from './state';
+import { PlayersState } from './types';
 
-export { playerActions, playersReducer, PlayersState, PlayersActions, IPlayer };
+export default reducer;
+export {
+  defaultPlayerState,
+  playersActions,
+  playersSelectors,
+  PlayersState,
+  PlayersActions
+};

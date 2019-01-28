@@ -1,11 +1,6 @@
 import * as serversActions from './actions';
-import serversReducer, { ServersActions } from './reducer';
-import { IServer, ServersState } from './types';
+import serversReducer from './reducer';
+import { ServersActions, ServersState } from './types';
 
-export {
-  serversActions,
-  serversReducer,
-  ServersState,
-  ServersActions,
-  IServer
-};
+export default serversReducer;
+export { serversActions, ServersState, ServersActions };

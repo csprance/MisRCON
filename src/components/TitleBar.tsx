@@ -9,10 +9,13 @@ export const Wrapper = styled.div`
   margin-top: 5px;
   display: flex;
   height: 30px;
+  min-height: 30px;
+  max-height: 30px;
   -webkit-app-region: drag;
   align-items: center;
   justify-content: center;
   border-bottom: ${lighterMidGray} solid 1px;
+  z-index: 1500;
 `;
 export const LeftSpacer = styled.div`
   width: 5px;

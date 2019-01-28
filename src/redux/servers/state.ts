@@ -1,12 +1,12 @@
-// The Default state for the db
-import { IServer, ServersState } from './types';
+import Server from '../../db/entities/Server';
+import { ServersState } from './types';
 
-export const defaultServer: IServer = {
+export const defaultServer: Server = {
   id: 0,
   name: 'loading',
   ip: 'loading',
   port: 0,
-  hash: 'THisIsCool324HashMan',
+  password: 'THisIsCool324HashMan',
   active: true,
   selfHosted: false,
   rootPath: ''

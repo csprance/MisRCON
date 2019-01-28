@@ -26,7 +26,7 @@ export interface ExternalProps {
 export default <TOriginalProps extends {}>(
   Component:
     | React.ComponentClass<TOriginalProps & InjectedProps>
-    | React.StatelessComponent<TOriginalProps & InjectedProps>
+    | React.FunctionComponent<TOriginalProps & InjectedProps>
 ) => {
   type ResultProps = TOriginalProps & ExternalProps;
   return class extends React.Component<ResultProps> {
@@ -46,13 +46,18 @@ export default <TOriginalProps extends {}>(
       });
     }
 
+    componentWillUnmount(): void {
+      mousetrap.unbind('`');
+    }
+
     render() {
       const { show } = this.state;
+      const { ...restProps } = this.props as {};
       return (
         <Wrapper>
           <Component {...this.props} showing={show} />
           <Hider show={show}>
-            <Admin {...this.props} />
+            <Admin {...restProps} />
           </Hider>
         </Wrapper>
       );

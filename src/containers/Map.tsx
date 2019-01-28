@@ -229,8 +229,8 @@ class Map extends React.Component<Props, State> {
   }
 }
 
-export const mapStateToProps = (state: RootState, ownProps: any) => ({
-  layers: misMapSelectors.markersByLayerNameAndActiveServer(state, ownProps),
+export const mapStateToProps = (state: RootState) => ({
+  layers: misMapSelectors.markersByLayerNameAndActiveServer(state),
   activeServer: activeServerSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

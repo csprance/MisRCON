@@ -1,17 +1,18 @@
 // The Default state for the db
-import { IPlayer, PlayersState } from './types';
+import Player from '../../db/entities/Player';
+import { PlayersState } from './types';
 
-export const defaultPlayer: IPlayer = {
-  _id: 0,
-  id: 0,
+export const defaultPlayer: Player = {
+  id: -1,
   active: true,
-  serverID: 0,
+  color: '#fff',
+  serverID: -1,
   avatarUrl: 'http://placehold.it/42x42',
-  notes: '',
+  notes: 'This is cSprance he is pretty cool',
   banned: [],
   whitelisted: [],
-  steam: 0,
-  name: '',
+  steam: 76561198034520139,
+  name: 'csprance',
   entID: 0,
   ip: '',
   ping: 0,

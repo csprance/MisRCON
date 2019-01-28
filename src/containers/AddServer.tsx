@@ -13,16 +13,18 @@ import styled from 'styled-components';
 import FloatingBackButton from '../components/FloatingBackButton';
 import MisRCONLogo from '../components/images/MisRCONLogo';
 import NoHoverIconButton from '../components/NoHoverIconButton';
+import Server from '../db/entities/Server';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { IServer, ServersState } from '../redux/servers';
+import { ServersState } from '../redux/servers';
 import { addToDbThunk } from '../redux/servers/actions';
+import { serversSelector } from '../redux/servers/selectors';
 import { MyPaper } from '../styles/MyStyledComponents';
 
 const Wrapper = styled.div`
   display: flex;
   flex-grow: 1;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
 `;
@@ -47,13 +49,13 @@ const defaultState = {
   name: '',
   ip: '',
   port: '',
-  hash: '',
+  password: '',
   active: false,
   selfHosted: false,
   rootPath: ''
 };
 type Props = {
-  addServer: (server: IServer) => void;
+  addServer: (server: Server) => void;
   history: History;
   servers: ServersState;
 };
@@ -62,7 +64,7 @@ type State = {
   name: string;
   ip: string;
   port: string;
-  hash: string;
+  password: string;
   active: boolean;
   selfHosted: boolean;
   rootPath: string;
@@ -76,7 +78,7 @@ class AddServer extends React.Component<Props, State> {
       ...this.state,
       port: parseInt(this.state.port, 10),
       active: false,
-      id: `${Date.now()}`
+      id: -1
     });
     this.setState({
       ...defaultState
@@ -94,8 +96,6 @@ class AddServer extends React.Component<Props, State> {
     const rootPath = remote.dialog.showOpenDialog({
       properties: ['openDirectory']
     })[0];
-    console.log(rootPath);
-
     this.setState({ rootPath });
   };
 
@@ -135,9 +135,9 @@ class AddServer extends React.Component<Props, State> {
               label={'Port'}
             />
             <TextField
-              value={this.state.hash}
+              value={this.state.password}
               onChange={e => {
-                this.handleChange('hash', e.target.value);
+                this.handleChange('password', e.target.value);
               }}
               fullWidth
               name={'password'}
@@ -188,10 +188,10 @@ class AddServer extends React.Component<Props, State> {
 }
 
 export const mapStateToProps = (state: RootState) => ({
-  servers: state.servers
+  servers: serversSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addServer: (server: IServer) => dispatch(addToDbThunk(server))
+  addServer: (server: Server) => dispatch(addToDbThunk(server))
 });
 export default connect(
   mapStateToProps,

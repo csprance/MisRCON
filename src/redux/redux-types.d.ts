@@ -2,6 +2,7 @@ import { AnyAction, Dispatch as ReduxDispatch, Store } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { StateType } from 'typesafe-actions';
 
+import { AppActions } from './app';
 import { rootReducer } from './index';
 import { MisMapActions } from './mismap';
 import { PlayersActions } from './players';
@@ -12,11 +13,12 @@ import { TasksActions } from './tasks';
 export interface RootState extends StateType<typeof rootReducer> {}
 
 export type RootAction =
+  | MisMapActions
   | PlayersActions
-  | TasksActions
   | RCONActions
   | ServersActions
-  | MisMapActions;
+  | AppActions
+  | TasksActions;
 
 export type AsyncThunkResult<R> = ThunkAction<
   Promise<R>,
@@ -31,3 +33,5 @@ export type Dispatch = ThunkDispatch<RootState, any, RootAction> &
 
 // Dispatch is not Thunk-Compatible here
 export type AppStore = Store<RootState, RootAction>;
+
+export type GetStateFunc = () => RootState;

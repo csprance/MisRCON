@@ -17,27 +17,13 @@ export default (
       return [...state, action.payload];
 
     case getType(tasksActions.removeTask.success):
-      return state.filter(task => {
-        if (task.id === action.payload) {
-          task.job.stop();
-          return false;
-        }
-        return true;
-      });
+      return state.filter(task => task.id !== action.payload);
 
-    case getType(tasksActions.toggleTaskEnabled.success):
-      return state.map(task => {
-        if (task.id === action.payload) {
-          task.active = !task.active;
-          if (!task.active) {
-            task.job.stop();
-          }
-          if (task.active) {
-            task.job.start();
-          }
-        }
-        return task;
-      });
+    case getType(tasksActions.toggleTask.success):
+      return state.map(task =>
+        task.id === action.payload ? { ...task, active: !task.active } : task
+      );
+
     default:
       return state;
   }

@@ -3,10 +3,7 @@ import { RootState } from '../redux-types';
 import { activeServerSelector } from '../servers/selectors';
 import { getMarkersByName } from './utils';
 
-export const misMapSelector = createSelector(
-  (state: RootState, _: any) => state.misMap,
-  state => state
-);
+export const misMapSelector = (state: RootState, _props?: any) => state.misMap;
 
 export const misMapMarkersSelector = createSelector(
   misMapSelector,

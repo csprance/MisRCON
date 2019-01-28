@@ -18,13 +18,14 @@ import styled from 'styled-components';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { ServersState } from '../redux/servers';
 import { markActiveThunk, removeFromDbThunk } from '../redux/servers/actions';
+import { serversSelector } from '../redux/servers/selectors';
 import { MyPaper } from '../styles/MyStyledComponents';
 
 const Wrapper = styled.div`
   display: flex;
   flex-grow: 1;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
 `;
@@ -123,7 +124,7 @@ class ServerSelect extends React.Component<Props, State> {
 }
 
 export const mapStateToProps = (state: RootState) => ({
-  servers: state.servers
+  servers: serversSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   markServerActive: (id: number) => dispatch(markActiveThunk(id)),

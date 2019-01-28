@@ -3,7 +3,8 @@ import { createAsyncAction } from 'typesafe-actions';
 
 import Task from '../../db/entities/Task';
 import { AsyncThunkResult, ThunkResult } from '../redux-types';
-import { ITask, TasksState } from './types';
+import { makeTaskByIDSelector } from './selectors';
+import { TasksState } from './types';
 import {
   addTaskToDatabase,
   createRunningJobFromDb,
@@ -14,68 +15,77 @@ import {
 export const getTasksThunk = (): ThunkResult<TasksState> => (_, getState) =>
   getState().tasks;
 
-export const toggleTaskEnabled = createAsyncAction(
+/*
+Toggle a task
+Stops/Starts the running CronJob and marks active true/false
+ */
+export const toggleTask = createAsyncAction(
   'tasks/TOGGLE_REQUEST',
   'tasks/TOGGLE_SUCCESS',
   'tasks/TOGGLE_FAILURE'
 )<void, number, string>();
-export const toggleTaskThunk = (
-  id: number
-): AsyncThunkResult<boolean> => async dispatch => {
+export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
+  dispatch,
+  getState
+) => {
   try {
-    dispatch(toggleTaskEnabled.request());
+    dispatch(toggleTask.request());
+    const task = makeTaskByIDSelector(id)(getState());
+    if (task && task.job) {
+      task.job.stop();
+    }
     await toggleTaskInDatabase(id);
-    dispatch(toggleTaskEnabled.success(id));
-    return true;
+    // Updated the task in state
+    dispatch(toggleTask.success(id));
   } catch (e) {
-    dispatch(toggleTaskEnabled.failure(e.toString()));
-    return false;
+    dispatch(toggleTask.failure(e.toString()));
   }
 };
 
 /*
-Adds a task to the database and to state and the reducers starts the tasks
+ * Adds a task to the database
+ * start the CronJob
+ * add task to state
  */
 export const addTask = createAsyncAction(
   'tasks/ADD_REQUEST',
   'tasks/ADD_SUCCESS',
   'tasks/ADD_FAILURE'
-)<void, ITask, void>();
+)<void, Task, void>();
 export const addTaskThunk = (
-  newTask: ITask
+  task: Task
 ): AsyncThunkResult<void> => async dispatch => {
   try {
     dispatch(addTask.request());
-    await addTaskToDatabase(newTask);
-    dispatch(addTask.success(newTask));
+    dispatch(addTask.success(await addTaskToDatabase(task)));
   } catch (e) {
     dispatch(addTask.failure());
   }
 };
 
 /*
-Removes a task from the database and sends the removed task id to the reducer to have it be stopped and removed from
-local state
+ * Removes a task from the database
+ * Stops the CronJob
+ * Remove from state by ID
  */
 export const removeTask = createAsyncAction(
   'tasks/REMOVE_REQUEST',
   'tasks/REMOVE_SUCCESS',
   'tasks/REMOVE_FAILURE'
 )<void, number, string>();
-export const removeTaskThunk = (
-  partial: Partial<ITask>
-): AsyncThunkResult<void> => async dispatch => {
+export const removeTaskThunk = (id: number): AsyncThunkResult<void> => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch(removeTask.request());
-    const tasks = await dispatch((_, gs) => gs()).tasks;
-    const key = Object.keys(partial)[0];
-    const val = partial[key];
-    const task = tasks.find(t => t[key] === val);
-
+    const task = makeTaskByIDSelector(id)(getState());
     if (task) {
+      if (task.job) {
+        task.job.stop();
+      }
       await removeTaskFromDatabase(task.id);
       dispatch(removeTask.success(task.id));
-      return;
     }
     dispatch(removeTask.failure('No Task Found'));
   } catch (e) {
@@ -84,28 +94,28 @@ export const removeTaskThunk = (
 };
 
 /*
-Gets the stored tasks from the database and hydrates the store.
-This function creates cron jobs and starts them so it should only be run once or all other jobs should be
-canceled first
+ * Gets task from Database
+ * Starts all CronJobs that need to be started
+ * Adds All Tasks to State
  */
 export const hydrateTasksFromDb = createAsyncAction(
   'tasks/HYDRATE_REQUEST',
   'tasks/HYDRATE_SUCCESS',
   'tasks/HYDRATE_FAILED'
 )<void, TasksState, string>();
-export const hydrateTasksFromDbThunk = (): AsyncThunkResult<
-  void
-> => async dispatch => {
+export const hydrateTasksFromDbThunk = (): AsyncThunkResult<void> => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch(hydrateTasksFromDb.request());
     const tasks = await getConnection()
       .getRepository(Task)
       .find({});
-    dispatch(
-      hydrateTasksFromDb.success(
-        tasks.map(t => ({ ...createRunningJobFromDb(t, dispatch) }))
-      )
+    const tasksWithCronJobs = tasks.map(task =>
+      createRunningJobFromDb(task, dispatch, getState)
     );
+    dispatch(hydrateTasksFromDb.success(tasksWithCronJobs));
   } catch (e) {
     dispatch(hydrateTasksFromDb.failure(e.toString()));
   }

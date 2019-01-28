@@ -1,9 +1,14 @@
 import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
 import * as getOpts from 'get-options';
 import * as React from 'react';
-import { Dispatch } from '../../../redux/redux-types';
-import { ITask, tasksActions } from '../../../redux/tasks';
-import { createRunningRCONTask } from '../../../redux/tasks/utils';
+
+import { Dispatch, GetStateFunc } from '../../../redux/redux-types';
+import { tasksActions } from '../../../redux/tasks';
+import {
+  makeTaskByIDSelector,
+  tasksSelector
+} from '../../../redux/tasks/selectors';
+import { defaultRecurringTask } from '../../../redux/tasks/state';
 import TerminalTaskList from '../react-terminal-component/output/TerminalTaskList';
 
 const optDef = {
@@ -20,7 +25,7 @@ const optDef = {
 };
 const help = 'Add a task to the state from the terminal';
 /// task add --name test --cron * * 8 * 4 * --send sv_say "Hello!" --id 1
-export default (dispatch: Dispatch) => ({
+export default (dispatch: Dispatch, getState: GetStateFunc) => ({
   function: async (_: EmulatorState, opts: string[]) => {
     try {
       const { options } = getOpts(opts, optDef);
@@ -29,19 +34,16 @@ export default (dispatch: Dispatch) => ({
       const name = options.name ? options.name.join(' ') : 'Task From CLI';
       const id = options.id ? parseInt(options.id, 10) : -1;
 
-
       // Add an rcon task
       if (options.add) {
         // Initialize the task obj
-        const task: ITask = createRunningRCONTask(
-          {
-            cronString,
-            command,
-            id,
-            name
-          },
-          dispatch
-        );
+        const task = {
+          ...defaultRecurringTask,
+          cronString,
+          command,
+          id,
+          name
+        };
         // store the task in state
         dispatch(tasksActions.addTaskThunk(task));
         return output(`Added task ${task.name}`);
@@ -50,7 +52,7 @@ export default (dispatch: Dispatch) => ({
       // Remove a task
       if (options.rm) {
         if (options.id) {
-          dispatch(tasksActions.removeTaskThunk({ id }));
+          dispatch(tasksActions.removeTaskThunk(id));
           return output(`Removed task by id ${id}`);
         }
         if (options.name) {
@@ -64,14 +66,14 @@ export default (dispatch: Dispatch) => ({
       }
       // List all tasks
       if (options.ls) {
-        const results = dispatch(tasksActions.getTasksThunk());
-
-        return output(<TerminalTaskList tasks={results} />);
+        return output(<TerminalTaskList tasks={tasksSelector(getState())} />);
       }
 
       // Toggle a task on or off
       if (options.toggle) {
-        if (options.id && (await dispatch(tasksActions.toggleTaskThunk(id)))) {
+        const task = makeTaskByIDSelector(options.id)(getState());
+        if (task) {
+          await dispatch(tasksActions.toggleTaskThunk(id));
           return output(`Toggled task with id ${id}`);
         }
         return output('No task with that id');

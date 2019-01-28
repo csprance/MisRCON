@@ -1,1 +1,1 @@
-export const DEV = process.env.NODE_ENV !== 'production';
+export const salt = process.env.COMPUTERNAME as string;

@@ -2,9 +2,10 @@ import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
 import * as getOpts from 'get-options';
 import * as React from 'react';
 
-import logger from "../../../lib/logger";
-import { Dispatch } from '../../../redux/redux-types';
-import { IServer, serversActions } from '../../../redux/servers';
+import Server from '../../../db/entities/Server';
+import logger from '../../../lib/logger';
+import { Dispatch, GetStateFunc } from '../../../redux/redux-types';
+import { serversActions } from '../../../redux/servers';
 import TerminalServerList from '../react-terminal-component/output/TerminalServerList';
 
 const optDef = {
@@ -21,23 +22,23 @@ const optDef = {
 };
 const help = 'Add a task to the state from the terminal';
 /// server --add --name test --id 567 --ip 192.168.1.1 --port 64099 --hash testhash
-export default (dispatch: Dispatch) => ({
+export default (dispatch: Dispatch, getState: GetStateFunc) => ({
   function: async (_: EmulatorState, opts: string[]) => {
     try {
       const { options } = getOpts(opts, optDef);
       const ip = options.ip ? options.ip : 'localhost';
       const port = options.port ? parseInt(options.port, 10) : -1;
       const name = options.name ? options.name.join(' ') : 'No Name';
-      const id = options.id ? options.id : Date.now().toString();
-      const hash = options.password ? options.password : '';
+      const id = options.id ? Number(options.id) : Date.now();
+      const password = options.password ? options.password : '';
 
       // Add a task
       if (options.add) {
-        const server: IServer = {
+        const server: Server = {
           id,
           ip,
           port,
-          hash,
+          password,
           name,
           active: false,
           selfHosted: false,
@@ -61,7 +62,7 @@ export default (dispatch: Dispatch) => ({
 
       // List all tasks
       if (options.ls) {
-        const servers = dispatch(serversActions.getServersThunk());
+        const { servers } = getState();
         return output(<TerminalServerList servers={servers} />);
       }
 
@@ -69,8 +70,8 @@ export default (dispatch: Dispatch) => ({
       if (options.switch) {
         // Switch by ID
         if (options.id) {
-          const serversList = await dispatch(serversActions.getServersThunk());
-          const server = serversList.find(s => s.id === id);
+          const { servers } = getState();
+          const server = servers.find(s => s.id === id);
           if (server) {
             dispatch(serversActions.markActiveThunk(id));
             return output(`Switched to server ${server.name}`);
@@ -80,8 +81,8 @@ export default (dispatch: Dispatch) => ({
 
         // Switch by Name
         if (options.name) {
-          const serversList = await dispatch(serversActions.getServersThunk());
-          const server = serversList.find(s => s.name === name);
+          const { servers } = getState();
+          const server = servers.find(s => s.name === name);
           if (server) {
             dispatch(serversActions.markActiveThunk(server.id));
             return output(`Switched to server ${server.name}`);

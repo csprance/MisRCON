@@ -65,6 +65,7 @@ class TitleBarMenu extends React.Component<Props, State> {
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
+          style={{zIndex: 1600}}
           onClose={this.handleClose}
         >
           <MenuItem onClick={() => this.handleMenuItemClick('/')}>

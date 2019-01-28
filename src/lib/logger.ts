@@ -28,7 +28,7 @@ export const logger = winston.createLogger({
       level: 'error'
     }),
     new winston.transports.File({
-      filename: './logs/app.log',
+      filename: './logs/appState.log',
       level: 'info'
     })
   ]

@@ -1,16 +1,7 @@
 import { getConnection } from 'typeorm';
 import { createAsyncAction } from 'typesafe-actions';
 import Server from '../../db/entities/Server';
-import { AsyncThunkResult, ThunkResult } from '../redux-types';
-import { IServer, ServersState } from './types';
-
-// //////////////
-// Thunks
-// //////////////
-export const getServersThunk = (): ThunkResult<ServersState> => (
-  _d,
-  getState
-) => getState().servers;
+import { AsyncThunkResult } from '../redux-types';
 
 /*
 Gets the state from the database and adds it to the store
@@ -46,7 +37,7 @@ export const addToDb = createAsyncAction(
 )<void, void, string>();
 // Thunk
 export const addToDbThunk = (
-  server: IServer
+  server: Server
 ): AsyncThunkResult<void> => async dispatch => {
   try {
     dispatch(addToDb.request());
@@ -75,7 +66,7 @@ export const removeFromDb = createAsyncAction(
 )<void, void, string>();
 // Thunk
 export const removeFromDbThunk = (
-  partial: Partial<IServer>
+  partial: Partial<Server>
 ): AsyncThunkResult<void> => async dispatch => {
   try {
     const connection = await getConnection();

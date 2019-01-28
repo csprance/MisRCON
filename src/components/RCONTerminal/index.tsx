@@ -9,15 +9,15 @@ import {
 import * as React from 'react';
 
 import * as npmPackage from '../../../package.json';
+import Server from '../../db/entities/Server';
 import ReactTerminal from './react-terminal-component';
 import makeTerminalCommands from './terminal-commands';
 
 import { Dispatch } from '../../redux/redux-types';
-import { IServer } from '../../redux/servers';
 
 type Props = {
   dispatch: Dispatch;
-  activeServer: IServer;
+  activeServer: Server;
 };
 type State = {
   emulator: Emulator;
@@ -28,9 +28,13 @@ class RCONTerminal extends React.Component<Props, State> {
   public state = {
     emulator: new Emulator(),
     terminalState: EmulatorState.create({
-      history: History.create(['server --ls', 'server --add --name test', 'task --ls']),
+      history: History.create([
+        'server --ls',
+        'server --add --name test',
+        'task --ls'
+      ]),
       environmentVariables: EnvironmentVariables.create({
-        password: this.props.activeServer.hash,
+        password: this.props.activeServer.password,
         ip: this.props.activeServer.ip,
         port: this.props.activeServer.port
       }),
@@ -44,7 +48,10 @@ class RCONTerminal extends React.Component<Props, State> {
         ),
         OutputFactory.makeTextOutput('-----')
       ]),
-      commandMapping: makeTerminalCommands(this.props.dispatch)
+      commandMapping: makeTerminalCommands(
+        this.props.dispatch,
+        this.props.dispatch((_, gs) => gs)
+      )
     })
   };
 

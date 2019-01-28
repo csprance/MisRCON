@@ -51,7 +51,7 @@ const createWindow = async () => {
     mainWindow.webContents.openDevTools();
   }
 
-  // and load the index.html of the app.
+  // and load the index.html of the appState.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   mainWindow.on('closed', () => {
@@ -91,7 +91,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
+  // On OS X it's common to re-create a window in the appState when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
@@ -106,5 +106,5 @@ process.on('uncaughtException', err => {
 process.on('unhandledRejection', err => {
   logger.info('unhandledRejection', err);
 });
-// In this file you can include the rest of your app's specific main process
+// In this file you can include the rest of your appState's specific main process
 // code. You can also put them in separate files and import them here.

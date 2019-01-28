@@ -1,5 +1,5 @@
 
-// This is the actual request object in a normalized form for our app
+// This is the actual request object in a normalized form for our appState
 export interface IRCONRequest {
   ip: string;
   port: number;

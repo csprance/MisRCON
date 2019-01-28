@@ -4,7 +4,6 @@ import { getConnection } from 'typeorm';
 
 import { steamAPIKey } from '../../constants/secrets';
 import Player from '../../db/entities/Player';
-import { IPlayer } from './types';
 
 const defaultAvatarUrl = 'http://placehold.it/32x32';
 /*
@@ -13,12 +12,13 @@ Synchronize gets the data from the database if any or creates a new Player entry
 export const synchronizePlayer = async (
   player: RCONPlayer,
   activeServerId: number
-): Promise<IPlayer> => {
+): Promise<Player> => {
   const playerRepo = await getConnection().getRepository(Player);
   const dbPlayer = await playerRepo.findOne({ steam: player.steam });
 
   // if the Player exists update all the rcon values and return the updated Player
   if (dbPlayer) {
+    dbPlayer.active = true;
     dbPlayer.steam = player.steam;
     dbPlayer.name = player.name;
     dbPlayer.id = player.id;
@@ -36,6 +36,7 @@ export const synchronizePlayer = async (
   }
   // Player does not exist so create a new Player and return it
   const newDbPlayer = new Player();
+  newDbPlayer.active = true;
   newDbPlayer.serverID = activeServerId;
   newDbPlayer.avatarUrl = await getSteamAvatar(player.steam);
   newDbPlayer.steam = player.steam;
@@ -60,7 +61,18 @@ export const getSteamAvatar = async (steam: number): Promise<string> => {
     }
   );
   if (data.response.players[0]) {
-    return data.response.players[0].avatar;
+    return data.response.players[0].avatarfull;
   }
   return defaultAvatarUrl;
 };
+
+export const markAllPlayerNotActiveAndReturn = async () => {
+  const playerRepo = await getConnection().getRepository(Player);
+  const allPlayers = await playerRepo.find({});
+  const deactivatedPlayers = allPlayers.map(player => {
+    player.active = false;
+    return player;
+  });
+  return playerRepo.save(deactivatedPlayers);
+};
+

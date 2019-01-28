@@ -9,20 +9,25 @@ import AddServer from './containers/AddServer';
 import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
 import Map from './containers/Map';
-import Players from './containers/Players';
-import ServerSelect from './containers/ServerSelect';
-// import Terminal from "./containers/Terminal";
-import createConnection from './db';
-import { misMapActions } from './redux/mismap';
+import PlayersList from './containers/PlayersList';
+import ServerSelect from "./containers/ServerSelect";
+
+import { bootstrapApplicationThunk } from './redux/bootstrap';
 import { Dispatch } from './redux/redux-types';
-import { serversActions } from './redux/servers';
-import { tasksActions } from './redux/tasks';
+
 
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+`;
+const Content = styled.div`
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
 `;
 type Props = {
   dispatch: Dispatch;
@@ -30,34 +35,24 @@ type Props = {
 type State = {};
 class WrappedApp extends React.Component<Props, State> {
   public async componentDidMount() {
-    await createConnection();
-    await this.hydrateAllFromDatabase();
-    // remote.getCurrentWindow().webContents.isDevToolsOpened();
+    this.props.dispatch(bootstrapApplicationThunk());
   }
-
-  hydrateAllFromDatabase = async () => {
-    const { dispatch } = this.props;
-    await Promise.all([
-      dispatch(serversActions.hydrateServersFromDbThunk()),
-      dispatch(tasksActions.hydrateTasksFromDbThunk()),
-      dispatch(misMapActions.hydrateMapFromDbThunk())
-    ]);
-  };
 
   public render() {
     return (
       <Router>
         <Wrapper>
           <TitleBar />
-          <Switch>
-            {/*<Route exact path={'/'} component={AddServer} />*/}
-            <Route exact path={'/'} component={ServerSelect} />
-            <Route path={'/create'} component={CreateAccount} />
-            <Route path={'/forgot'} component={ForgotPassword} />
-            <Route path={'/admin'} component={Players} />
-            <Route path={'/add'} component={AddServer} />
-            <Route path={'/map'} component={withTerminal(Map)} />
-          </Switch>
+          <Content>
+            <Switch>
+              <Route exact path={'/'} component={ServerSelect} />
+              <Route path={'/create'} component={CreateAccount} />
+              <Route path={'/forgot'} component={ForgotPassword} />
+              <Route path={'/admin'} component={withTerminal(Map)} />
+              <Route path={'/add'} component={AddServer} />
+              <Route path={'/map'} component={withTerminal(Map)} />
+            </Switch>
+          </Content>
         </Wrapper>
       </Router>
     );

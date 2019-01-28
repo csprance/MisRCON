@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
 
-import { misMapReducer as misMap } from './mismap';
-import { playersReducer as players } from './players';
+import app from './app';
+import misMap from './mismap';
+import players from './players';
 import rcon from './rcon';
-import { selfHostedReducer as selfHosted } from './selfHosted';
-import { serversReducer as servers } from './servers';
-import { tasksReducer as tasks } from './tasks';
+import selfHosted from './selfHosted';
+import servers from './servers';
+import tasks from './tasks';
 
 export const rootReducer = combineReducers({
+  app,
   players,
   rcon,
   servers,

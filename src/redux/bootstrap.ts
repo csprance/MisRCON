@@ -1,35 +1,36 @@
 /*
 Refreshes all the applications state from one place.
 Called on bootstrap and when refreshes are requested
-to keep all app state up to date from an incoming network request
+to keep all appState state up to date from an incoming network request
  */
 import { createAsyncAction } from 'typesafe-actions';
 
-import { AsyncThunkResult } from './redux-types';
-
+import createConnection from '../db';
 import { hydrateMapFromDbThunk } from './mismap/actions';
-import { hydratePlayersThunk } from './players/actions';
+import { AsyncThunkResult } from './redux-types';
+// import { hydratePlayersThunk } from './players/actions';
 import { hydrateServersFromDbThunk } from './servers/actions';
 import { hydrateTasksFromDbThunk } from './tasks/actions';
 
-export const hydrateApplication = createAsyncAction(
-  'app/HYDRATE_REQUEST',
-  'mismap/HYDRATE_SUCCESS',
-  'mismap/HYDRATE_FAILED'
+export const bootstrapApplication = createAsyncAction(
+  'app/BOOTSTRAP_REQUEST',
+  'app/BOOTSTRAP_SUCCESS',
+  'app/BOOTSTRAP_FAILED'
 )<void, void, string>();
-export const hydrateApplicationThunk = (): AsyncThunkResult<
+export const bootstrapApplicationThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {
   try {
-    dispatch(hydrateApplication.request());
+    dispatch(bootstrapApplication.request());
+    await createConnection();
+
     await Promise.all([
       dispatch(hydrateMapFromDbThunk()),
       dispatch(hydrateTasksFromDbThunk()),
-      dispatch(hydrateServersFromDbThunk()),
-      dispatch(hydratePlayersThunk())
+      dispatch(hydrateServersFromDbThunk())
     ]);
-    dispatch(hydrateApplication.success());
+    dispatch(bootstrapApplication.success());
   } catch (e) {
-    dispatch(hydrateApplication.failure(e.toString()));
+    dispatch(bootstrapApplication.failure(e.toString()));
   }
 };

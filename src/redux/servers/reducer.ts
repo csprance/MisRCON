@@ -1,9 +1,7 @@
-import { ActionType, getType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 import * as serversActions from './actions';
 import { default as defaultState } from './state';
-import { ServersState } from './types';
-
-export type ServersActions = ActionType<typeof serversActions>;
+import { ServersActions, ServersState } from './types';
 
 export default (
   state: ServersState = defaultState,

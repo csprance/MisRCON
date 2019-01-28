@@ -2,7 +2,7 @@ import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
 
 import { rconActions } from '../../../redux/rcon';
 import { makeRCONRequestObject } from '../../../redux/rcon/utils';
-import { Dispatch } from '../../../redux/redux-types';
+import {Dispatch, GetStateFunc} from '../../../redux/redux-types';
 
 const makeRconFunc = (command: string, dispatch: Dispatch) => async (
   _emulatorState: EmulatorState,
@@ -14,8 +14,8 @@ const makeRconFunc = (command: string, dispatch: Dispatch) => async (
 
     const request = makeRCONRequestObject(
       activeServer.ip,
-      activeServer.port.toString(),
-      activeServer.hash,
+      activeServer.port,
+      activeServer.password,
       [command === 'default' ? null : command, ...opts].join(' ').trim()
     );
     const { response } = await dispatch(rconActions.sendRCONAsyncThunk(request));
@@ -36,7 +36,7 @@ const makeCommand = (command: string, help: string, dispatch: Dispatch) => ({
   help
 });
 
-export default (dispatch: Dispatch) =>
+export default (dispatch: Dispatch, _getState: GetStateFunc) =>
   [
     ['sv_servername', 'Name of server in quotes'],
     ['wm_timeScale', '3 How Fast time moves'],

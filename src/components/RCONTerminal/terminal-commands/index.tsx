@@ -10,13 +10,13 @@ import makeRconCommands from './rcon-commands';
 import makeServerCommand from './server';
 import makeTaskCommand from './task';
 
-import { Dispatch } from '../../../redux/redux-types';
+import { Dispatch, RootState } from '../../../redux/redux-types';
 
-export default (dispatch: Dispatch) =>
+export default (dispatch: Dispatch, getState: () => RootState) =>
   CommandMapping.create({
-    task: makeTaskCommand(dispatch),
-    server: makeServerCommand(dispatch),
-    ...makeRconCommands(dispatch),
+    task: makeTaskCommand(dispatch, getState),
+    server: makeServerCommand(dispatch, getState),
+    ...makeRconCommands(dispatch, getState),
     clear: defaultCommandMapping.clear,
     history: defaultCommandMapping.history,
     echo: defaultCommandMapping.echo,
