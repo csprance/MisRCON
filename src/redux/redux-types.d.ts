@@ -31,7 +31,4 @@ export type ThunkResult<R> = ThunkAction<R, RootState, undefined, AnyAction>;
 export type Dispatch = ThunkDispatch<RootState, any, RootAction> &
   ReduxDispatch<RootAction>;
 
-// Dispatch is not Thunk-Compatible here
-export type AppStore = Store<RootState, RootAction>;
-
 export type GetStateFunc = () => RootState;

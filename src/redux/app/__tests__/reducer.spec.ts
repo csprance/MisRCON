@@ -5,7 +5,7 @@ describe('UI Reducer', () => {
   it('Should Show player profile', () => {
     expect(reducer(defaultState, actions.togglePlayerProfileDialog())).toEqual({
       ...defaultState,
-      playerProfile: true
+      playerProfileDialog: true
     });
   });
 });

@@ -39,6 +39,8 @@
         ]
       },
       "electronPackagerConfig": {
+        "prune": true,
+        "asar": true,
         "packageManager": "yarn",
         "icon": "src/resources/icon"
       },

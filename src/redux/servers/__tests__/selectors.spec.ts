@@ -11,7 +11,7 @@ describe('Test Server Selectors', () => {
   it('Should Select the active servers credentials', () => {
     expect(
       serversSelectors.activeServerCredentialsSelector.resultFunc(
-        serversSelectors.activeServerSelector(allServers)
+        serversSelectors.activeServerSelector.resultFunc(allServers)
       )
     ).toEqual({
       ip: 'loading',

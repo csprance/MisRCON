@@ -24,9 +24,9 @@
     },
     "production": {
       "text/typescript": {
-        "removeComments": false,
+        "removeComments": true,
         "preserveConstEnums": true,
-        "declaration": true,
+        "declaration": false,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "suppressImplicitAnyIndexErrors": true,
