@@ -4,6 +4,7 @@ import { darkDarkBlack, darkishBlue } from './colors';
 
 export const theme = createMuiTheme({
   typography: {
+    fontFamily: 'Raleway',
     useNextVariants: true
   },
   palette: {

@@ -42,7 +42,7 @@ export default class Player {
   // RCON Values - These all come from the servers status result
   // ///////////////
   // The players Steam ID
-  @PrimaryColumn({ type: 'integer' }) public steam!: number;
+  @PrimaryColumn({ type: 'text' }) public steam!: string;
   // The players name on the server
   @Column('text') public name!: string;
   // A value from the rcon response that is the id of the player on the server

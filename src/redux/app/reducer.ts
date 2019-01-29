@@ -9,7 +9,9 @@ export default (
 ): AppState => {
   switch (action.type) {
     case getType(actions.togglePlayerProfileDialog):
-      return {...state, playerProfile: true};
+      return {...state, playerProfileDialog: !state.playerProfileDialog};
+    case getType(actions.setPlayerActiveInPlayerProfile):
+      return {...state, selectedPlayerID: action.payload};
     default:
       return state;
   }

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { lighterMidGray } from '../styles/colors';
 import TitleBarButton from './TitleBarButton';
 import TitleBarMenu from './TitleBarMenu';
+import { Dispatch } from '../redux/redux-types';
 
 export const Wrapper = styled.div`
   margin-top: 5px;
@@ -36,11 +37,11 @@ export const Title = styled.div`
   padding-left: 5px;
 `;
 
-const TitleBar = () => {
+const TitleBar = ({ dispatch }: { dispatch: Dispatch }) => {
   return (
     <Wrapper>
       <LeftSpacer />
-      <TitleBarMenu />
+      <TitleBarMenu dispatch={dispatch} />
       <Title>MisRCON</Title>
       <Spacer />
       <TitleBarButton type={'minimize'} />

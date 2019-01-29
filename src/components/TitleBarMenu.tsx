@@ -7,6 +7,9 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
+import { hydratePlayersThunk } from '../redux/players/actions';
+import { Dispatch } from '../redux/redux-types';
+
 const Wrapper = styled.div`
   -webkit-app-region: no-drag;
 `;
@@ -16,6 +19,7 @@ const Link = styled.a`
 `;
 
 type Props = {
+  dispatch: Dispatch;
   history: any; // Router
   location: any; // Router
   match: any;
@@ -47,6 +51,11 @@ class TitleBarMenu extends React.Component<Props, State> {
     this.props.history.push(route);
   };
 
+  handleRefreshClick = () => {
+    this.handleClose();
+    this.props.dispatch(hydratePlayersThunk());
+  };
+
   public render() {
     const { anchorEl } = this.state;
     return (
@@ -65,14 +74,17 @@ class TitleBarMenu extends React.Component<Props, State> {
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          style={{zIndex: 1600}}
+          style={{ zIndex: 1600 }}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={() => this.handleMenuItemClick('/')}>
-            <Link href={'#'}>Switch Server</Link>
+          <MenuItem onClick={this.handleRefreshClick}>
+            Refresh Server Data
           </MenuItem>
           <MenuItem onClick={() => this.handleMenuItemClick('/add')}>
             Add Server
+          </MenuItem>
+          <MenuItem onClick={() => this.handleMenuItemClick('/')}>
+            <Link href={'#'}>Switch Server</Link>
           </MenuItem>
           <MenuItem onClick={this.exitApp}>Exit</MenuItem>
         </Menu>

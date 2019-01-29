@@ -6,6 +6,7 @@ import { Dispatch, GetStateFunc } from '../../../redux/redux-types';
 import { tasksActions } from '../../../redux/tasks';
 import {
   makeTaskByIDSelector,
+  makeTaskByPartialSelector,
   tasksSelector
 } from '../../../redux/tasks/selectors';
 import { defaultRecurringTask } from '../../../redux/tasks/state';
@@ -51,19 +52,31 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
 
       // Remove a task
       if (options.rm) {
+        // Remove by ID
         if (options.id) {
           dispatch(tasksActions.removeTaskThunk(id));
           return output(`Removed task by id ${id}`);
         }
+        // Remove by Name
         if (options.name) {
-          dispatch(tasksActions.removeTaskThunk({ name }));
-          return output(`Removed task by name: ${name}`);
+          const task = makeTaskByPartialSelector({ name })(getState());
+          if (task) {
+            dispatch(tasksActions.removeTaskThunk(task.id));
+            return output(`Removed task by name: ${name}`);
+          }
+          return output(`No task by name: ${name}`);
         }
+        // Remove by Cron String
         if (options.cron) {
-          dispatch(tasksActions.removeTaskThunk({ cronString }));
-          return output(`Removed task by cron string ${cronString}`);
+          const task = makeTaskByPartialSelector({ cronString })(getState());
+          if (task) {
+            dispatch(tasksActions.removeTaskThunk(task.id));
+            return output(`Removed task by cron string ${cronString}`);
+          }
+          return output(`No task by CronString: ${cronString}`);
         }
       }
+
       // List all tasks
       if (options.ls) {
         return output(<TerminalTaskList tasks={tasksSelector(getState())} />);

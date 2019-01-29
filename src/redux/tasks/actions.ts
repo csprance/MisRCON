@@ -51,7 +51,7 @@ export const addTask = createAsyncAction(
   'tasks/ADD_REQUEST',
   'tasks/ADD_SUCCESS',
   'tasks/ADD_FAILURE'
-)<void, Task, void>();
+)<void, Task, string>();
 export const addTaskThunk = (
   task: Task
 ): AsyncThunkResult<void> => async dispatch => {
@@ -59,7 +59,7 @@ export const addTaskThunk = (
     dispatch(addTask.request());
     dispatch(addTask.success(await addTaskToDatabase(task)));
   } catch (e) {
-    dispatch(addTask.failure());
+    dispatch(addTask.failure(e.toString()));
   }
 };
 

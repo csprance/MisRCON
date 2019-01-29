@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import Task from '../../db/entities/Task';
 import { RootState } from '../redux-types';
 import { activeServerSelector } from '../servers/selectors';
 
@@ -33,3 +34,16 @@ export const inActiveTasksForActiveServer = createSelector(
   (inActiveTasks, activeServer) =>
     inActiveTasks.filter(task => task.serverId === activeServer.id)
 );
+
+/*
+Finds a Task by a partial
+ */
+export const makeTaskByPartialSelector = (partial: Partial<Task>) =>
+  createSelector(
+    tasksSelector,
+    players => {
+      const [key] = Object.keys(partial);
+      const value = partial[key];
+      return players.find(player => player[key] === value);
+    }
+  );

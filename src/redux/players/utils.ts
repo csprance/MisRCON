@@ -50,7 +50,7 @@ export const synchronizePlayer = async (
   return playerRepo.save(newDbPlayer);
 };
 
-export const getSteamAvatar = async (steam: number): Promise<string> => {
+export const getSteamAvatar = async (steam: string): Promise<string> => {
   const { data } = await axios.get(
     'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/',
     {

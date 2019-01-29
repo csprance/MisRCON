@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { NodeMisrcon } from 'node-misrcon';
 import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
@@ -17,16 +18,17 @@ export const hydratePlayers = createAsyncAction(
   'players/HYDRATE_REQUEST',
   'players/HYDRATE_SUCCESS',
   'players/HYDRATE_FAILED'
-)<void, Player[], string>();
+)<void, Player[], Player[]>();
 export const hydratePlayersThunk = (): AsyncThunkResult<any> => async (
   dispatch,
   getState
 ) => {
+  dispatch(hydratePlayers.request());
+  const players = await markAllPlayerNotActiveAndReturn();
   try {
-    dispatch(hydratePlayers.request());
     const activeServerId = activeServerSelector(getState()).id;
     const activeServerCredentials = activeServerCredentialsSelector(getState());
-    const players = await markAllPlayerNotActiveAndReturn();
+
 
     const { playersArray } = await new NodeMisrcon({
       ...activeServerCredentials
@@ -38,9 +40,9 @@ export const hydratePlayersThunk = (): AsyncThunkResult<any> => async (
       ...players
     ]);
 
-    dispatch(hydratePlayers.success(synchronizedPlayers));
+    dispatch(hydratePlayers.success(_.uniqBy([...synchronizedPlayers], 'steam')));
   } catch (err) {
-    dispatch(hydratePlayers.failure(err));
+    dispatch(hydratePlayers.failure(players));
   }
 };
 

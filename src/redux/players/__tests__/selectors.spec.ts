@@ -1,7 +1,8 @@
 import { activeServer0 } from '../../servers/__tests__/state-mocks';
 import { playersSelectors } from '../index';
 import {
-  activePlayer,
+  activePlayer1,
+  activePlayer2,
   activePlayerOnDifferentServer,
   inActivePlayer,
   inActivePlayerOnDifferentServer,
@@ -14,7 +15,7 @@ describe('Players Selectors', () => {
       playersSelectors.activePlayersSelector.resultFunc(
         listOfPlayersOnSameServer
       )
-    ).toEqual([activePlayer, activePlayer, activePlayerOnDifferentServer]);
+    ).toEqual([activePlayer1, activePlayer2, activePlayerOnDifferentServer]);
   });
 
   it('should select all inActive players', () => {
@@ -32,7 +33,9 @@ describe('Players Selectors', () => {
   it('Should selective inactive players on active server', () => {
     expect(
       playersSelectors.inactivePlayersOnActiveServerSelector.resultFunc(
-        playersSelectors.inActivePlayersSelector(listOfPlayersOnSameServer),
+        playersSelectors.inActivePlayersSelector.resultFunc(
+          listOfPlayersOnSameServer
+        ),
         activeServer0
       )
     ).toEqual([inActivePlayer, inActivePlayer]);
@@ -41,9 +44,22 @@ describe('Players Selectors', () => {
   it('Should selective active players on active server', () => {
     expect(
       playersSelectors.activePlayersOnActiveServerSelector.resultFunc(
-        playersSelectors.activePlayersSelector(listOfPlayersOnSameServer),
+        playersSelectors.activePlayersSelector.resultFunc(
+          listOfPlayersOnSameServer
+        ),
         activeServer0
       )
-    ).toEqual([activePlayer, activePlayer]);
+    ).toEqual([activePlayer1, activePlayer2]);
+  });
+
+  it('should select a player by ID', () => {
+    const player1 = playersSelectors
+      .makePlayerByPartialSelector({ id: activePlayer1.id })
+      .resultFunc(listOfPlayersOnSameServer);
+    const player2 = playersSelectors
+      .makePlayerByPartialSelector({ id: activePlayer2.id })
+      .resultFunc(listOfPlayersOnSameServer);
+    expect(player1).toEqual(activePlayer1);
+    expect(player2).toEqual(activePlayer2);
   });
 });

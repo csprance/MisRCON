@@ -12,8 +12,9 @@ export default (
   switch (action.type) {
     case getType(playersActions.hydratePlayers.success):
       return [...action.payload];
+
     case getType(playersActions.hydratePlayers.failure):
-      return [];
+      return [...action.payload];
     default:
       return state;
   }

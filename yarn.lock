@@ -344,6 +344,11 @@
   dependencies:
     "@types/geojson" "*"
 
+"@types/lodash@^4.14.120":
+  version "4.14.120"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
+  integrity sha512-jQ21kQ120mo+IrDs1nFNVm/AsdFxIx2+vZ347DbogHJPd/JzKNMOqU6HCYin1W6v8l5R9XSO2/e9cxmn7HAnVw==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -6336,10 +6341,10 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-misrcon@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/node-misrcon/-/node-misrcon-2.0.0.tgz#4b658ece6d42c0bfcfabebdfa5bc1850923c382c"
-  integrity sha512-K9YdDhlJym28+mi2rRYcdymcVhNpYkb9QqtFMEbAmwcAfOat4X+6bOx6Gk4Sek/CjUedZ2S8Ts7eFjxXj4s1Ww==
+node-misrcon@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/node-misrcon/-/node-misrcon-2.1.0.tgz#20f86bc4ce7418665e99cb06152f91e5aa97c2ed"
+  integrity sha512-oPPBZ0De7Mf1dhYYupN3Q+JQG8l8Y0gr5N9jcKMutBxWdbBpQ/U/5Sj1SruAV7DUJYQ966Dnq2gYE9gL8LzZpQ==
   dependencies:
     axios "^0.18.0"
     camelcase "^5.0.0"

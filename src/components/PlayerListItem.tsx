@@ -6,16 +6,11 @@ import Player from '../db/entities/Player';
 import Ping from './Ping';
 import PlayerAvatar from './PlayerAvatar';
 
-const PlayerListItem: React.FunctionComponent<Player> = ({
-  avatarUrl,
-  steam,
-  name,
-  ping,
-  color,
-  active
-}) => {
+const PlayerListItem: React.FunctionComponent<
+  Player & { onClick: () => void }
+> = ({ avatarUrl, steam, name, ping, color, active, onClick }) => {
   const handleClick = () => {
-    return false;
+    onClick();
   };
   const handleContextClick = () => {
     return false;

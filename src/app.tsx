@@ -10,11 +10,10 @@ import CreateAccount from './containers/CreateAccount';
 import ForgotPassword from './containers/ForgotPassword';
 import Map from './containers/Map';
 import PlayersList from './containers/PlayersList';
-import ServerSelect from "./containers/ServerSelect";
+import ServerSelect from './containers/ServerSelect';
 
 import { bootstrapApplicationThunk } from './redux/bootstrap';
 import { Dispatch } from './redux/redux-types';
-
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +41,7 @@ class WrappedApp extends React.Component<Props, State> {
     return (
       <Router>
         <Wrapper>
-          <TitleBar />
+          <TitleBar dispatch={this.props.dispatch} />
           <Content>
             <Switch>
               <Route exact path={'/'} component={ServerSelect} />
