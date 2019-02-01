@@ -8,21 +8,39 @@ export default class Player {
   // /////////////////////
   // Application Values - These are internal values from the application to use
   // ///////////////
+
   // What server the player is currently on or was last on or null if they are not on a server
-  @Column({ type: 'boolean', default: true }) public active!: boolean;
+  @Column({
+    type: 'boolean',
+    default: true
+  })
+  public active!: boolean;
+
   // The current or last server the player was on
-  @Column('integer') public serverID!: number;
+  @Column('integer')
+  public serverID!: number;
+
   // A url to steam of the players avatar
   @Column({
     type: 'text',
     default: 'https://placehold.it/32x32'
   })
   public avatarUrl!: string;
+
   // The color of the players name
-  @Column({ type: 'text', default: theme.palette.text.primary })
+  @Column({
+    type: 'text',
+    default: theme.palette.text.primary
+  })
   public color!: string;
+
   // Any custom notes about the player
-  @Column({ type: 'text', default: '' }) public notes!: string;
+  @Column({
+    type: 'text',
+    default: ''
+  })
+  public notes!: string;
+
   // An array of ServerIDS the player is banned on
   @Column({
     type: 'text',
@@ -30,6 +48,7 @@ export default class Player {
     default: '"[]"'
   })
   public banned!: number[];
+
   // A list of the servers a player is whitelisted on
   @Column({
     type: 'text',
@@ -37,6 +56,14 @@ export default class Player {
     default: '"[]"'
   })
   public whitelisted!: number[];
+
+  // A list of the servers a player has been on
+  @Column({
+    type: 'text',
+    transformer: jsonTransformer,
+    default: '"[]"'
+  })
+  public seenOn!: number[];
 
   // /////////////////////
   // RCON Values - These all come from the servers status result

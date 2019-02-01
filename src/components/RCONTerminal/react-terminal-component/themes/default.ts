@@ -1,5 +1,7 @@
+import { bg3 } from '../../../../styles/colors';
+
 const defaultColors = {
-  background: '#141313',
+  background: bg3,
   promptSymbolColor: '#6effe6',
   commandColor: '#fcfcfc',
   outputColor: '#fcfcfc',

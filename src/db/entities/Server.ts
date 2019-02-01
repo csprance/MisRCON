@@ -19,4 +19,7 @@ export default class Server {
   @Column('boolean') public selfHosted!: boolean;
   // The root path for the self hosted server
   @Column({ type: 'text', nullable: true }) public rootPath!: string;
+  // The location of the avatar for the server
+  @Column({ type: 'text', default: 'http://placehold.it/50x50' })
+  public avatar!: string;
 }

@@ -1,4 +1,4 @@
-// The Default state for the db
+import * as AgGrid from 'ag-grid-community';
 import Player from '../../db/entities/Player';
 import { PlayersState } from './types';
 
@@ -9,9 +9,10 @@ export const defaultPlayer: Player = {
   serverID: -1,
   avatarUrl: 'http://placehold.it/186x186',
   notes: 'This is cSprance he is pretty cool',
-  banned: [],
-  whitelisted: [],
+  banned: [3],
+  whitelisted: [2],
   steam: '76561198034520139',
+  seenOn: [],
   name: 'csprance',
   entID: 0,
   ip: '',
@@ -20,4 +21,56 @@ export const defaultPlayer: Player = {
   profile: 0
 };
 
+export const playersColumnDefs: AgGrid.ColDef[] = [
+  {
+    cellRenderer: 'booleanRenderer',
+    field: 'active',
+    headerName: 'Active',
+    width: 100,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+
+  {
+    field: 'steam',
+    headerName: 'Steam ID',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    field: 'notes',
+    headerName: 'Notes',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    field: 'whitelisted',
+    headerName: 'Whitelisted On',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    field: 'banned',
+    headerName: 'Banned On',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  }
+];
 export default [defaultPlayer] as PlayersState;

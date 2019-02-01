@@ -11,8 +11,8 @@ type StatusCirclrProps = {
 };
 const ConnectionStatusCircle = styled.div`
   border-radius: 50%;
-  margin-left: ${({ mini }: StatusCirclrProps) => (mini ? ' -23%' : '-10px')};
-  margin-top: ${({ mini }: StatusCirclrProps) => (mini ? '75%' : '24px')};
+  margin-left: ${({ mini }: StatusCirclrProps) => (!mini ? ' -23%' : '-10px')};
+  margin-top: ${({ mini }: StatusCirclrProps) => (!mini ? '75%' : '24px')};
   height: 15px;
   width: 15px;
   border-color: transparent;
@@ -25,15 +25,15 @@ type Props = {
   src: string;
   alt: string;
   active: boolean;
-  mini: boolean;
+  mini?: boolean;
 };
 const PlayerAvatar: React.FunctionComponent<Props> = ({
   src,
   active,
   alt,
-  mini
+  mini = true
 }) => {
-  const size = mini ? { width: 125, height: 125 } : { width: 42, height: 42 };
+  const size = mini ? { width: 42, height: 42 } : { width: 125, height: 125 };
   return (
     <Wrapper>
       <Avatar style={size} src={src} alt={alt} />

@@ -2,6 +2,7 @@ import { getConnection } from 'typeorm';
 import { createAsyncAction } from 'typesafe-actions';
 import Server from '../../db/entities/Server';
 import { AsyncThunkResult } from '../redux-types';
+import { markServerActiveOthersInactive } from './utils';
 
 /*
 Gets the state from the database and adds it to the store
@@ -30,17 +31,17 @@ export const hydrateServersFromDbThunk = (): AsyncThunkResult<
 Adds a server to the database and to the redux store
  */
 // Async Actions
-export const addToDb = createAsyncAction(
+export const addServerToDb = createAsyncAction(
   'servers/ADD_DB_REQUEST',
   'servers/ADD_DB_SUCCESS',
   'servers/ADD_DB_FAILED'
 )<void, void, string>();
 // Thunk
-export const addToDbThunk = (
+export const addServerToDbThunk = (
   server: Server
 ): AsyncThunkResult<void> => async dispatch => {
   try {
-    dispatch(addToDb.request());
+    dispatch(addServerToDb.request());
     const connection = await getConnection();
     await connection
       .createQueryBuilder()
@@ -48,10 +49,10 @@ export const addToDbThunk = (
       .into(Server)
       .values([{ ...server }])
       .execute();
-    dispatch(addToDb.success());
+    dispatch(addServerToDb.success());
     await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
-    dispatch(addToDb.failure(e.toString()));
+    dispatch(addServerToDb.failure(e.toString()));
   }
 };
 
@@ -59,53 +60,55 @@ export const addToDbThunk = (
 Adds a server to the database and to the redux store
  */
 // Async Actions
-export const removeFromDb = createAsyncAction(
+export const removeServerFromDb = createAsyncAction(
   'servers/RM_DB_REQUEST',
   'servers/RM_DB_SUCCESS',
   'servers/RM_DB_FAILED'
 )<void, void, string>();
 // Thunk
-export const removeFromDbThunk = (
+export const removeServerFromDbThunk = (
   partial: Partial<Server>
 ): AsyncThunkResult<void> => async dispatch => {
+  dispatch(removeServerFromDb.request());
   try {
     const connection = await getConnection();
-    dispatch(removeFromDb.request());
     await connection
       .createQueryBuilder()
       .delete()
       .from(Server)
       .where({ ...partial })
       .execute();
-    dispatch(removeFromDb.success());
+    // Choose the first server as the active server
+    await markServerActiveOthersInactive();
+    dispatch(removeServerFromDb.success());
     await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
-    dispatch(removeFromDb.failure(e.toString()));
+    dispatch(removeServerFromDb.failure(e.toString()));
   }
 };
 
-export const markActive = createAsyncAction(
+export const markServerActive = createAsyncAction(
   'servers/MARK_ACTIVE_REQUEST',
   'servers/MARK_ACTIVE_SUCCESS',
   'servers/MARK_ACTIVE_FAILED'
 )<void, void, string>();
 // Thunk
-export const markActiveThunk = (
+export const markServerActiveThunk = (
   id: number
 ): AsyncThunkResult<void> => async dispatch => {
   try {
     const serverRepo = await getConnection().getRepository(Server);
     const allServers = await serverRepo.find({});
-    dispatch(markActive.request());
+    dispatch(markServerActive.request());
     await Promise.all(
       allServers.map(async server => {
         server.active = server.id === id;
         await serverRepo.save(server);
       })
     );
-    dispatch(markActive.success());
+    dispatch(markServerActive.success());
     await dispatch(hydrateServersFromDbThunk());
   } catch (e) {
-    dispatch(markActive.failure(e.toString()));
+    dispatch(markServerActive.failure(e.toString()));
   }
 };

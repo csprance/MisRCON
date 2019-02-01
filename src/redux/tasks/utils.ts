@@ -9,16 +9,7 @@ import { Dispatch, RootState } from '../redux-types';
   */
 export const addTaskToDatabase = async (taskToAdd: Task): Promise<Task> => {
   const taskRepo = await getConnection().getRepository(Task);
-  const task = new Task();
-  task.active = taskToAdd.active;
-  task.cronString = taskToAdd.cronString;
-  task.date = taskToAdd.date;
-  task.job = null;
-  task.id = taskToAdd.id;
-  task.name = taskToAdd.name;
-  task.onTick = taskToAdd.onTick;
-  task.timeZone = taskToAdd.timeZone;
-  return { ...taskRepo.save(task), job: taskToAdd.job };
+  return { ...taskRepo.save({ ...taskToAdd }), job: taskToAdd.job };
 };
 
 /*

@@ -2,7 +2,8 @@ import { createSelector } from 'reselect';
 import { RootState } from '../redux-types';
 import { defaultServer } from './state';
 
-export const serversSelector = (state: RootState, _props?: any) => state.servers;
+export const serversSelector = (state: RootState, _props?: any) =>
+  state.servers;
 
 export const activeServerSelector = createSelector(
   serversSelector,
@@ -12,7 +13,12 @@ export const activeServerSelector = createSelector(
   }
 );
 
+export const activeServerIDSelector = createSelector(
+  activeServerSelector,
+  activeServer => activeServer.id
+);
+
 export const activeServerCredentialsSelector = createSelector(
   activeServerSelector,
-  ({ ip, port, password }) => ({ ip, port, password})
+  ({ ip, port, password }) => ({ ip, port, password })
 );

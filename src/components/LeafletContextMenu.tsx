@@ -20,6 +20,9 @@ class AtlasMapContextMenu extends React.Component<Props, State> {
     return (
       <Menu anchorEl={anchorEl} open={open} onClose={closeContextMenu}>
         <MenuItem onClick={addMarker}>Add Marker</MenuItem>
+        <MenuItem disabled onClick={addMarker}>
+          Add Faction Spawn Point
+        </MenuItem>
       </Menu>
     );
   }

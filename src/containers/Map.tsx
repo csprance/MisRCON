@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import LeafletContextMenu from '../components/LeafletContextMenu';
 import { MAP_BOUNDS } from '../constants/map-constants';
+import Server from '../db/entities/Server';
 import {
   misMapActions,
   misMapSelectors,
@@ -24,13 +25,12 @@ import {
 } from '../redux/mismap';
 import { ICustomMapMarker } from '../redux/mismap/types';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { IServer } from '../redux/servers';
 import { activeServerSelector } from '../redux/servers/selectors';
 
 interface Props {
   dispatch: Dispatch;
   layers: MisMapTypes.MisMapMarkersByLayer;
-  activeServer: IServer;
+  activeServer: Server;
   addMarker: (marker: ICustomMapMarker) => void;
   deleteMarker: (id: number) => void;
   showing?: boolean;
@@ -165,7 +165,7 @@ class Map extends React.Component<Props, State> {
     // Set the anchor first and then open the context menu, otherwise the map jumps around
     await this.setState({
       contextMenuAnchor: {
-        x: e.originalEvent.x,
+        x: e.originalEvent.x - 250,
         y: e.originalEvent.y
       }
     });
@@ -215,7 +215,7 @@ class Map extends React.Component<Props, State> {
           style={{
             position: 'absolute',
             left: this.state.contextMenuAnchor.x - 50,
-            top: this.state.contextMenuAnchor.y - 10
+            top: this.state.contextMenuAnchor.y - 30
           }}
         />
         <LeafletContextMenu

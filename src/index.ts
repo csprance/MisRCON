@@ -10,6 +10,12 @@ import 'reflect-metadata';
 import logger from './lib/logger';
 import { darkDarkBlack } from './styles/colors';
 
+// tslint:disable-next-line:no-var-requires
+if (require('electron-squirrel-startup')) {
+  // Handle creating/removing shortcuts on Windows when installing/uninstalling.
+  app.quit();
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow | null = null;
@@ -24,24 +30,27 @@ const createWindow = async () => {
   logger.info('MisRCON Starting');
 
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
-    width: 1024,
-    height: 768,
-    minHeight: 642,
-    minWidth: 444,
     backgroundColor: darkDarkBlack,
-    show: false,
+    frame: false,
+    height: 768,
     icon: path.join(__dirname, 'resources/images/64x64.png'),
-    frame: false
+    minHeight: 500,
+    minWidth: 940,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true
+    },
+    width: 1024
   };
   // configure the splashscreen
   mainWindow = Splashscreen.initSplashScreen({
-    windowOpts: windowOptions,
-    templateUrl: path.join(__dirname, 'resources', 'images', 'icon.png'),
     splashScreenOpts: {
-      width: 400,
       height: 400,
-      transparent: true
-    }
+      transparent: true,
+      width: 400
+    },
+    templateUrl: path.join(__dirname, 'resources', 'images', 'icon.png'),
+    windowOpts: windowOptions
   });
 
   // Open the DevTools.

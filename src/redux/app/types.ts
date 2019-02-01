@@ -8,5 +8,9 @@ export type AppState = {
   playerProfileDialog: boolean;
   // What player By ID should be displayed in the PlayerProfile Dialog
   selectedPlayerID: SteamID;
+  playerListOpen: boolean;
+  addServerDialogOpen: boolean;
+  // The Help markdown from github
+  serverHelpMarkdown: string;
 };
 export type AppActions = ActionType<typeof actions>;

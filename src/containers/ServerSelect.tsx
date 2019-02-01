@@ -17,7 +17,7 @@ import styled from 'styled-components';
 // import FloatingBackButton from '../components/FloatingBackButton';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { ServersState } from '../redux/servers';
-import { markActiveThunk, removeFromDbThunk } from '../redux/servers/actions';
+import { markServerActiveThunk, removeServerFromDbThunk } from '../redux/servers/actions';
 import { serversSelector } from '../redux/servers/selectors';
 import { MyPaper } from '../styles/MyStyledComponents';
 
@@ -127,8 +127,8 @@ export const mapStateToProps = (state: RootState) => ({
   servers: serversSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  markServerActive: (id: number) => dispatch(markActiveThunk(id)),
-  deleteServer: (id: number) => dispatch(removeFromDbThunk({ id }))
+  markServerActive: (id: number) => dispatch(markServerActiveThunk(id)),
+  deleteServer: (id: number) => dispatch(removeServerFromDbThunk({ id }))
 });
 export default connect(
   mapStateToProps,

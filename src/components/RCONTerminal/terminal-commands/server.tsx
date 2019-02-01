@@ -40,22 +40,23 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           port,
           password,
           name,
+          avatar: 'https://placehold.it/64x64',
           active: false,
           selfHosted: false,
           rootPath: ''
         };
-        dispatch(serversActions.addToDbThunk(server));
+        dispatch(serversActions.addServerToDbThunk(server));
         return output(`Added server ${server.name}`);
       }
 
       // Remove a task
       if (options.rm) {
         if (options.id) {
-          dispatch(serversActions.removeFromDbThunk({ id }));
+          dispatch(serversActions.removeServerFromDbThunk({ id }));
           return output(`Removed task by id ${id}`);
         }
         if (options.name) {
-          dispatch(serversActions.removeFromDbThunk({ name }));
+          dispatch(serversActions.removeServerFromDbThunk({ name }));
           return output(`Removed task by name: ${name}`);
         }
       }
@@ -73,7 +74,7 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           const { servers } = getState();
           const server = servers.find(s => s.id === id);
           if (server) {
-            dispatch(serversActions.markActiveThunk(id));
+            dispatch(serversActions.markServerActiveThunk(id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server Not Found!`);
@@ -84,7 +85,7 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           const { servers } = getState();
           const server = servers.find(s => s.name === name);
           if (server) {
-            dispatch(serversActions.markActiveThunk(server.id));
+            dispatch(serversActions.markServerActiveThunk(server.id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server not found`);

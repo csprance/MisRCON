@@ -9,8 +9,8 @@ import styled from 'styled-components';
 export const ButtonBase = styled.button`
   color: #e3e3e3;
   outline: none;
-  width: 45px;
-  height: 31px;
+  width: 30px;
+  height: 25px;
   border: none;
   background-color: ${(props: { bg: string }) => props.bg};
   cursor: pointer;

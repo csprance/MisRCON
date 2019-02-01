@@ -1,16 +1,24 @@
-import { purple } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { darkDarkBlack, darkishBlue } from './colors';
+import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { bg0, bg4, darkDarkBlack, text } from './colors';
 
-export const theme = createMuiTheme({
+export const theme: Theme = createMuiTheme({
   typography: {
     fontFamily: 'Raleway',
     useNextVariants: true
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: { backgroundColor: darkDarkBlack, fontSize: 15 }
+    },
+    MuiListItemText: {
+      primary: { color: text.secondary }
+    }
+  },
   palette: {
+    text: { primary: '#ffffff', secondary: '#7e8186' },
     type: 'dark',
-    background: { default: darkDarkBlack, paper: '#202225' },
-    primary: { main: darkishBlue }, // Purple and green play nicely together.
-    secondary: { main: purple[500] } // This is just green.A700 as hex.
+    background: { default: bg0, paper: bg0 },
+    primary: { main: '#7e8186' }, // Purple and green play nicely together.
+    secondary: { main: bg4 } // This is just green.A700 as hex.
   }
 });

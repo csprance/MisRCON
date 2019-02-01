@@ -1,21 +1,20 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { lighterMidGray } from '../styles/colors';
+import { bg0, lighterMidGray, text } from '../styles/colors';
 import TitleBarButton from './TitleBarButton';
-import TitleBarMenu from './TitleBarMenu';
-import { Dispatch } from '../redux/redux-types';
 
 export const Wrapper = styled.div`
   margin-top: 5px;
   display: flex;
-  height: 30px;
-  min-height: 30px;
-  max-height: 30px;
+  height: 22px;
+  min-height: 22px;
+  max-height: 22px;
   -webkit-app-region: drag;
   align-items: center;
   justify-content: center;
-  border-bottom: ${lighterMidGray} solid 1px;
+  background:${bg0};
+  //border-bottom: ${lighterMidGray} solid 1px;
   z-index: 1500;
 `;
 export const LeftSpacer = styled.div`
@@ -28,7 +27,7 @@ export const Spacer = styled.div`
 `;
 export const Title = styled.div`
   position: relative;
-  color: white;
+  color: ${text.secondary};
   font-size: 14px;
   top: -3px;
   align-items: center;
@@ -37,11 +36,10 @@ export const Title = styled.div`
   padding-left: 5px;
 `;
 
-const TitleBar = ({ dispatch }: { dispatch: Dispatch }) => {
+const TitleBar: React.FunctionComponent<{}> = () => {
   return (
     <Wrapper>
       <LeftSpacer />
-      <TitleBarMenu dispatch={dispatch} />
       <Title>MisRCON</Title>
       <Spacer />
       <TitleBarButton type={'minimize'} />

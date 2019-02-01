@@ -12,6 +12,7 @@ import {
   setPlayerActiveInPlayerProfile,
   togglePlayerProfileDialog
 } from '../redux/app/actions';
+import { playerListShowingSelector } from '../redux/app/selectors';
 import { PlayersState } from '../redux/players';
 import { hydratePlayersThunk } from '../redux/players/actions';
 import {
@@ -19,9 +20,15 @@ import {
   inactivePlayersOnActiveServerSelector
 } from '../redux/players/selectors';
 import { Dispatch, RootState } from '../redux/redux-types';
+import { bg1 } from '../styles/colors';
+const getWidth = ({ showing }: { showing: boolean }) =>
+  showing ? '250px' : '0';
 
 const Wrapper = styled.div`
-  width: 100%;
+  background: ${bg1};
+  width: ${getWidth};
+  min-width: ${getWidth};
+  max-width: ${getWidth};
   height: 100%;
   display: flex;
   flex-grow: 1;
@@ -29,13 +36,14 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
+  showing: boolean;
   hydratePlayers: () => void;
   viewPlayerProfile: (steam: string) => void;
   activePlayers: PlayersState;
   inactivePlayers: PlayersState;
 };
 type State = {};
-class PlayersContainer extends React.Component<Props, State> {
+class PlayersSidebar extends React.Component<Props, State> {
   public static defaultProps = {};
   public state = {};
 
@@ -44,9 +52,9 @@ class PlayersContainer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { activePlayers, inactivePlayers } = this.props;
+    const { activePlayers, inactivePlayers, showing } = this.props;
     return (
-      <Wrapper>
+      <Wrapper showing={showing}>
         <List
           style={{
             overflow: 'hidden',
@@ -56,10 +64,10 @@ class PlayersContainer extends React.Component<Props, State> {
           component={'nav'}
         >
           <ListItemText
-            style={{paddingLeft: 10}}
+            style={{ paddingLeft: 10 }}
             primaryTypographyProps={{
-              variant: 'subheading',
-              color: 'textSecondary'
+              color: 'textSecondary',
+              variant: 'subtitle1'
             }}
             primary={`ONLINE - ${activePlayers.length}`}
           />
@@ -81,10 +89,10 @@ class PlayersContainer extends React.Component<Props, State> {
           component={'nav'}
         >
           <ListItemText
-            style={{paddingLeft: 10}}
+            style={{ paddingLeft: 10 }}
             primaryTypographyProps={{
-              variant: 'subheading',
-              color: 'textSecondary'
+              color: 'textSecondary',
+              variant: 'subtitle1'
             }}
             primary={`OFFLINE - ${inactivePlayers.length}`}
           />
@@ -103,7 +111,8 @@ class PlayersContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
   activePlayers: activePlayersOnActiveServerSelector(state),
-  inactivePlayers: inactivePlayersOnActiveServerSelector(state)
+  inactivePlayers: inactivePlayersOnActiveServerSelector(state),
+  showing: playerListShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   hydratePlayers: () => dispatch(hydratePlayersThunk()),
@@ -115,4 +124,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PlayersContainer);
+)(PlayersSidebar);

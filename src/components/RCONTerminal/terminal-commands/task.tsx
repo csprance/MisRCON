@@ -18,13 +18,24 @@ const optDef = {
   '-d, --date': '<date...>',
   '-e, --enabled': '',
   '-i, --id': '<id>',
+  '-l, --ls': '',
   '-n, --name': '<name...>',
   '-r, --rm': '',
-  '-l, --ls': '',
   '-s, --send': '<command...>',
   '-t, --toggle': ''
 };
-const help = 'Add a task to the state from the terminal';
+const help = `Add a task to the state from the terminal
+Options: 
+---
+${Object.keys(optDef).map(opt  => opt).join('\n')}
+---
+Add Task:
+  task --add --id 1 --name Task Name --enabled --cron * * * * * * --send RCON Command
+Remove Task By (ID, Name, CronString):
+  task --rm --id 1 --name Task Name --cron * * * * *
+Toggle Task By (ID):
+  task --toggle --id 1
+`;
 /// task add --name test --cron * * 8 * 4 * --send sv_say "Hello!" --id 1
 export default (dispatch: Dispatch, getState: GetStateFunc) => ({
   function: async (_: EmulatorState, opts: string[]) => {
@@ -33,15 +44,15 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
       const cronString = options.cron ? options.cron.join(' ') : '';
       const command = options.send ? options.send.join(' ') : '';
       const name = options.name ? options.name.join(' ') : 'Task From CLI';
-      const id = options.id ? parseInt(options.id, 10) : -1;
+      const id = options.id ? Number(options.id) : -1;
 
       // Add an rcon task
       if (options.add) {
         // Initialize the task obj
         const task = {
           ...defaultRecurringTask,
-          cronString,
           command,
+          cronString,
           id,
           name
         };

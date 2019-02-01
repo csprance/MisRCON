@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { darkDarkBlack } from './colors';
+import { bg0, darkDarkBlack } from './colors';
 // import { theme } from './theme';
 
 export const GlobalStyles = createGlobalStyle`
@@ -21,6 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     flex-grow: 1;
     width: 100%;
     height: 100%;
+    background: ${bg0};
   }
   body, html {
     background-color: ${darkDarkBlack};

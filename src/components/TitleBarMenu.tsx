@@ -64,7 +64,7 @@ class TitleBarMenu extends React.Component<Props, State> {
           onClick={this.handleClick}
           style={{
             margin: 0,
-            padding: 5,
+            padding: 2,
             marginBottom: 5
           }}
         >

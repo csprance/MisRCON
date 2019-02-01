@@ -2,7 +2,10 @@ import { createSelector } from 'reselect';
 
 import Player from '../../db/entities/Player';
 import { RootState } from '../redux-types';
-import { activeServerSelector } from '../servers/selectors';
+import {
+  activeServerIDSelector,
+  activeServerSelector
+} from '../servers/selectors';
 
 export const playersSelector = (state: RootState, _props?: any) =>
   state.players;
@@ -10,6 +13,16 @@ export const playersSelector = (state: RootState, _props?: any) =>
 export const activePlayersSelector = createSelector(
   playersSelector,
   players => players.filter(player => player.active)
+);
+
+export const whitelistedPlayersSelector = createSelector(
+  playersSelector,
+  players => players.filter(player => player.whitelisted.length)
+);
+
+export const bannedPlayersSelector = createSelector(
+  playersSelector,
+  players => players.filter(player => player.banned.length)
 );
 
 export const inActivePlayersSelector = createSelector(
@@ -31,6 +44,26 @@ export const inactivePlayersOnActiveServerSelector = createSelector(
     inactivePlayers
       .filter(player => player.serverID === activeServer.id)
       .filter(player => player.steam !== '0')
+);
+
+export const allPlayersOnActiveServerSelector = createSelector(
+  activePlayersOnActiveServerSelector,
+  inactivePlayersOnActiveServerSelector,
+  (active, inactive) => [...active, ...inactive]
+);
+
+export const bannedPlayersOnActiveServer = createSelector(
+  bannedPlayersSelector,
+  activeServerIDSelector,
+  (players, activeServerID) =>
+    players.filter(player => player.banned.includes(activeServerID))
+);
+
+export const whitelistedPlayersOnActiveServer = createSelector(
+  whitelistedPlayersSelector,
+  activeServerIDSelector,
+  (players, activeServerID) =>
+    players.filter(player => player.whitelisted.includes(activeServerID))
 );
 
 /*
