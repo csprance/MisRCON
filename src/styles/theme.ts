@@ -12,7 +12,7 @@ export const theme: Theme = createMuiTheme({
     },
     MuiListItemText: {
       primary: { color: text.secondary }
-    }
+    },
   },
   palette: {
     text: { primary: '#ffffff', secondary: '#7e8186' },

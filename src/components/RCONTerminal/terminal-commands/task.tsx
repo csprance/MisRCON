@@ -95,7 +95,7 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
 
       // Toggle a task on or off
       if (options.toggle) {
-        const task = makeTaskByIDSelector(options.id)(getState());
+        const task = makeTaskByIDSelector()(getState(), {id: options.id});
         if (task) {
           await dispatch(tasksActions.toggleTaskThunk(id));
           return output(`Toggled task with id ${id}`);

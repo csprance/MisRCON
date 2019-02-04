@@ -1,14 +1,13 @@
 import Placeholder from './components/Placeholder';
-import BansGrid from './containers/BansGrid';
+import BansGrid from './containers/Grids/BansGrid';
 import Map from './containers/Map';
-import PlayersGrid from './containers/PlayersGrid';
+import PlayersGrid from './containers/Grids/PlayersGrid';
 import ServerHelp from './containers/ServerHelp';
-import TasksGrid from './containers/TasksGrid';
+import TasksGrid from './containers/Grids/TasksGrid';
 import Terminal from './containers/Terminal';
-import WhitelistGrid from './containers/WhitelistGrid';
+import WhitelistGrid from './containers/Grids/WhitelistGrid';
 
 export default [
-  { path: '/', component: WhitelistGrid },
   { path: '/console', component: Terminal },
   { path: '/logs', component: Placeholder },
   { path: '/chat', component: Placeholder },

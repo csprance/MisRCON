@@ -14,7 +14,7 @@ export default (
       return [...action.payload];
 
     case getType(playersActions.hydratePlayers.failure):
-      return [...action.payload];
+      return [...state];
     default:
       return state;
   }

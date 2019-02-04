@@ -5,22 +5,28 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 import { connect } from 'react-redux';
-
 import styled from 'styled-components';
+
 import PlayerListItem from '../components/PlayerListItem';
+import Player from '../db/entities/Player';
 import {
   setPlayerActiveInPlayerProfile,
   togglePlayerProfileDialog
 } from '../redux/app/actions';
 import { playerListShowingSelector } from '../redux/app/selectors';
 import { PlayersState } from '../redux/players';
-import { hydratePlayersThunk } from '../redux/players/actions';
+import {
+  banPlayerThunk,
+  hydratePlayersThunk,
+  kickPlayerThunk
+} from '../redux/players/actions';
 import {
   activePlayersOnActiveServerSelector,
   inactivePlayersOnActiveServerSelector
 } from '../redux/players/selectors';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { bg1 } from '../styles/colors';
+
 const getWidth = ({ showing }: { showing: boolean }) =>
   showing ? '250px' : '0';
 
@@ -39,6 +45,8 @@ type Props = {
   showing: boolean;
   hydratePlayers: () => void;
   viewPlayerProfile: (steam: string) => void;
+  kickPlayer: (player: Player) => void;
+  banPlayer: (player: Player) => void;
   activePlayers: PlayersState;
   inactivePlayers: PlayersState;
 };
@@ -73,7 +81,11 @@ class PlayersSidebar extends React.Component<Props, State> {
           />
           {activePlayers.map(player => (
             <PlayerListItem
-              onClick={() => this.props.viewPlayerProfile(player.steam)}
+              kickPlayer={() => this.props.kickPlayer(player)}
+              banPlayer={() => this.props.banPlayer(player)}
+              viewPlayerProfile={() =>
+                this.props.viewPlayerProfile(player.steam)
+              }
               key={player.steam}
               {...player}
             />
@@ -98,7 +110,11 @@ class PlayersSidebar extends React.Component<Props, State> {
           />
           {inactivePlayers.map(player => (
             <PlayerListItem
-              onClick={() => this.props.viewPlayerProfile(player.steam)}
+              kickPlayer={() => this.props.kickPlayer(player)}
+              banPlayer={() => this.props.banPlayer(player)}
+              viewPlayerProfile={() =>
+                this.props.viewPlayerProfile(player.steam)
+              }
               key={player.steam}
               {...player}
             />
@@ -117,8 +133,14 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   hydratePlayers: () => dispatch(hydratePlayersThunk()),
   viewPlayerProfile: (steam: string) => {
-    dispatch(togglePlayerProfileDialog());
     dispatch(setPlayerActiveInPlayerProfile(steam));
+    dispatch(togglePlayerProfileDialog());
+  },
+  kickPlayer: (player: Player) => {
+    dispatch(kickPlayerThunk(player));
+  },
+  banPlayer: (player: Player) => {
+    dispatch(banPlayerThunk(player));
   }
 });
 export default connect(

@@ -11,7 +11,10 @@
     />
     <link rel="stylesheet" href="resources/vendor/leaflet/leaflet.css" />
     <link rel="stylesheet" href="resources/vendor/ag-grid/ag-grid.css" />
-    <link rel="stylesheet" href="resources/vendor/ag-grid/ag-theme-misrcon.css" />
+    <link
+      rel="stylesheet"
+      href="resources/vendor/ag-grid/ag-theme-misrcon.css"
+    />
     <link rel="stylesheet" href="resources/vendor/markdown/markdown.css" />
   </head>
   <body>
@@ -31,8 +34,9 @@
     import { configureStore } from "./redux/store";
     import { theme } from "./styles/theme";
     import { GlobalStyles } from './styles/global-styles'
+    import ScrollbarStyles from './styles/scrollbar-styles'
 
-    const store = configureStore();
+    const store= configureStore();
     let render = async () => {
       const { App } = require('./app');
       ReactDOM.render(
@@ -41,6 +45,7 @@
             <MuiThemeProvider theme={theme}>
               <CssBaseline />
               <GlobalStyles />
+              <ScrollbarStyles />
               <App/>
             </MuiThemeProvider>
           </Provider>

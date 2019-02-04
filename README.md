@@ -29,6 +29,22 @@ Depending on the system it will install into a different default installation di
 | Linux            | /usr/local/bin/MisRCON                                |
 | Mac              | ?                                                     |
 
+## Tasks
+
+Tasks are just some javascript that runs and has access to dispatch, getState, and the task all passed into it
+
+```typescript
+const func = (dispatch: Dispatch, getState: GetStateFunc) => {
+  // Do any initialization here
+  console.log('Initializing');
+  const date = Date.now();
+  return () => {
+    // Anything that should run each task
+    console.log('task 1');
+  };
+};
+```
+
 ## Developer Install
 
 - Clone the repository and cd into `https://github.com/csprance/misrcon.git && cd misrcon`

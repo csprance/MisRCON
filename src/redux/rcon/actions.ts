@@ -19,8 +19,6 @@ export const sendRCONAsyncThunk = ({
 }: IRCONRequest): AsyncThunkResult<IRCONRequest> => async dispatch => {
   dispatch(sendRCON.request());
   // Initialize our request object and rcon api
-  console.log(password);
-
   const rcon = new NodeMisrcon({ ip, port, password });
   const request: IRCONRequest = {
     response: '',

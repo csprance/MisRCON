@@ -9,6 +9,7 @@ import {
 
 export const playersSelector = (state: RootState, _props?: any) =>
   state.players;
+export const idSelect = (_: RootState, id: number) => id;
 
 export const activePlayersSelector = createSelector(
   playersSelector,
@@ -64,6 +65,12 @@ export const whitelistedPlayersOnActiveServer = createSelector(
   activeServerIDSelector,
   (players, activeServerID) =>
     players.filter(player => player.whitelisted.includes(activeServerID))
+);
+
+export const playerByIDSelector = createSelector(
+  playersSelector,
+  (_: RootState, id: number) => id,
+  (players, id) => players.filter(player => player.id === id)
 );
 
 /*

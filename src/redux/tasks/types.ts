@@ -5,6 +5,7 @@ export type VoidPromise = () => Promise<void>;
 
 export type OnTickFunctionFactory = (
   dispatch: any,
-  getState: any
+  getState: any,
+  task: Task
 ) => VoidPromise;
 export type TasksState = Task[];

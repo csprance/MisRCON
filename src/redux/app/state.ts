@@ -1,11 +1,12 @@
 import { AppState } from './types';
 
 export const defaultState: AppState = {
-  playerProfileDialog: false,
+  settingsDialogOpen: false,
+  playerProfileDialogOpen: false,
   selectedPlayerID: '',
-  playerListOpen: false,
+  playerSideBarOpen: true,
   addServerDialogOpen: false,
-  serverHelpMarkdown: 'string',
+  serverHelpMarkdown: 'string'
 };
 
 export default defaultState;

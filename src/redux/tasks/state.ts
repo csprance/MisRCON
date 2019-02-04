@@ -34,7 +34,7 @@ export const defaultDateTask: Task = {
 
 export const tasksColumnDefs: AgGrid.ColDef[] = [
   {
-    cellRenderer: 'booleanRenderer',
+    cellRenderer: 'taskControlsRenderer',
     field: 'active',
     headerName: 'Active',
     width: 100,

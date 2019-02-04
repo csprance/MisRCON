@@ -10,14 +10,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import MisRCONLogo from '../components/images/MisRCONLogo';
-import NoHoverIconButton from '../components/NoHoverIconButton';
-import Server from '../db/entities/Server';
-import { toggleAddServerDialog } from '../redux/app/actions';
-import { addServerDialogShowingSelector } from '../redux/app/selectors';
-import { Dispatch, RootState } from '../redux/redux-types';
-import { addServerToDbThunk } from '../redux/servers/actions';
-import { serversSelector } from '../redux/servers/selectors';
+import MisRCONLogo from '../../components/images/MisRCONLogo';
+import NoHoverIconButton from '../../components/NoHoverIconButton';
+import Server from '../../db/entities/Server';
+import { toggleAddServerDialog } from '../../redux/app/actions';
+import { addServerDialogShowingSelector } from '../../redux/app/selectors';
+import { Dispatch, RootState } from '../../redux/redux-types';
+import { addServerToDbThunk } from '../../redux/servers/actions';
+import { serversSelector } from '../../redux/servers/selectors';
 
 const Wrapper = styled.div`
   display: flex;

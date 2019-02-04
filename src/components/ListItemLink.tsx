@@ -1,27 +1,27 @@
 import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 type Props = {
+  // Primary Text
   primary: string;
+  // Link to
   to: string;
+  // What the current path is
+  currentPath: string;
 };
-class ListItemLink extends React.Component<Props & RouteComponentProps> {
-
-  renderLink = (itemProps: any) => (
-    <Link to={this.props.to} {...itemProps} data-next="true" />
+const ListItemLink: React.FunctionComponent<Props> = ({
+  primary,
+  to,
+  currentPath
+}) => {
+  const renderLink = (itemProps: any) => <Link to={to} {...itemProps} />;
+  return (
+    <ListItem selected={currentPath === to} button component={renderLink}>
+      <ListItemText primary={primary} />
+    </ListItem>
   );
+};
 
-  render() {
-    const { primary } = this.props;
-    return (
-        <ListItem button component={this.renderLink}>
-          <ListItemText primary={primary} />
-        </ListItem>
-    );
-  }
-}
-
-export default withRouter(ListItemLink);
+export default ListItemLink;

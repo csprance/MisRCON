@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import Server from '../db/entities/Server';
 import { bg0 } from '../styles/colors';
-import ServerPropertiesMenu from './ServerPropertiesMenu';
+import ServerPropertiesMenu from './Menus/ServerPropertiesMenu';
 
 const Wrapper = styled.div`
   -webkit-app-region: no-drag;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 type Props = {
   activeServer: Server;
-  deleteServer: ()=> void;
+  deleteServer: () => void;
 } & RouteComponentProps;
 type State = {
   readonly anchorEl: null | any;

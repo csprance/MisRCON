@@ -14,7 +14,7 @@ import {
 } from 'react-leaflet';
 import { connect } from 'react-redux';
 
-import LeafletContextMenu from '../components/LeafletContextMenu';
+import LeafletContextMenu from '../components/Menus/LeafletContextMenu';
 import { MAP_BOUNDS } from '../constants/map-constants';
 import Server from '../db/entities/Server';
 import {

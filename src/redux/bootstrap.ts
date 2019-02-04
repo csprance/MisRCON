@@ -5,11 +5,11 @@ to keep all appState state up to date from an incoming network request
  */
 import { createAsyncAction } from 'typesafe-actions';
 
+import { registerHotkeys } from '../constants/hotkeys';
 import createConnection from '../db';
 import { fetchServerHelpMarkdownThunk } from './app/actions';
 import { hydrateMapFromDbThunk } from './mismap/actions';
 import { AsyncThunkResult } from './redux-types';
-// import { hydratePlayersThunk } from './players/actions';
 import { hydrateServersFromDbThunk } from './servers/actions';
 import { hydrateTasksFromDbThunk } from './tasks/actions';
 
@@ -25,6 +25,7 @@ export const bootstrapApplicationThunk = (): AsyncThunkResult<
     dispatch(bootstrapApplication.request());
     await createConnection();
 
+    registerHotkeys();
     await Promise.all([
       dispatch(hydrateMapFromDbThunk()),
       dispatch(hydrateTasksFromDbThunk()),

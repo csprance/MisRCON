@@ -1,8 +1,10 @@
 import { CronJob } from 'cron';
+import { NodeMisrcon } from 'node-misrcon';
 import { getConnection } from 'typeorm';
 
 import Task from '../../db/entities/Task';
-import { Dispatch, RootState } from '../redux-types';
+import { Dispatch, GetStateFunc, RootState } from '../redux-types';
+import { serverCredentialsById } from '../servers/selectors';
 
 /*
  Adds a task to the database and returns the added task making sure to keep the job
@@ -60,7 +62,7 @@ export const createRunningJobFromDb = (
 ): Task => {
   const job = new CronJob(
     getCronStringOrDate(task),
-    task.onTick(dispatch, getState),
+    task.onTick(dispatch, getState, task),
     () => null,
     task.active,
     task.timeZone
@@ -68,5 +70,18 @@ export const createRunningJobFromDb = (
   return {
     ...task,
     job
+  };
+};
+
+export const defaultRCONCommand = (
+  dispatch: Dispatch,
+  getState: GetStateFunc,
+  task: Task
+) => {
+  // Initialize RCON
+  const credentials = serverCredentialsById(getState(), task.serverId);
+  const rcon = new NodeMisrcon(credentials);
+  return async () => {
+    console.log(credentials, rcon, dispatch);
   };
 };

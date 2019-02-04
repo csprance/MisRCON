@@ -1,15 +1,23 @@
 import { createSelector } from 'reselect';
 import Task from '../../db/entities/Task';
 import { RootState } from '../redux-types';
-import { activeServerSelector } from '../servers/selectors';
+import {
+  activeServerIDSelector,
+  activeServerSelector
+} from '../servers/selectors';
 
 export const tasksSelector = (state: RootState, _props?: any) => state.tasks;
 
-export const makeTaskByIDSelector = (id: number) =>
-  createSelector(
-    tasksSelector,
-    tasks => tasks.find(task => task.id === id)
-  );
+export const propsIdSelector = (_state: RootState, props: { id: number }) =>
+  props.id;
+
+export const taskByIdSelector = createSelector(
+  tasksSelector,
+  propsIdSelector,
+  (tasks, id) => tasks.find(task => task.id === id)
+);
+
+export const makeTaskByIDSelector = () => taskByIdSelector;
 
 export const activeTasksSelector = createSelector(
   tasksSelector,
@@ -35,9 +43,9 @@ export const inActiveTasksForActiveServer = createSelector(
 );
 
 export const allTasksOnActiveServer = createSelector(
-  activeTasksForActiveServer,
-  inActiveTasksForActiveServer,
-  (active, inactive) => [...active, ...inactive]
+  tasksSelector,
+  activeServerIDSelector,
+  (tasks, id) => tasks.filter(task => task.serverId === id)
 );
 
 /*

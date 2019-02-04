@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { bg0, lighterMidGray, text } from '../styles/colors';
+import {bg0, lighterMidGray, text} from '../styles/colors';
 import TitleBarButton from './TitleBarButton';
 
 export const Wrapper = styled.div`
@@ -28,11 +28,12 @@ export const Spacer = styled.div`
 export const Title = styled.div`
   position: relative;
   color: ${text.secondary};
-  font-size: 14px;
+  font-size: 13px;
   top: -3px;
+  font-weight: 700;
   align-items: center;
   justify-content: center;
-  font-family: 'Segoe UI', serif;
+  //font-family: 'Segoe UI', serif;
   padding-left: 5px;
 `;
 

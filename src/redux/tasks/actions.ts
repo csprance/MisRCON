@@ -2,7 +2,7 @@ import { getConnection } from 'typeorm';
 import { createAsyncAction } from 'typesafe-actions';
 
 import Task from '../../db/entities/Task';
-import { AsyncThunkResult, ThunkResult } from '../redux-types';
+import { AsyncThunkResult } from '../redux-types';
 import { makeTaskByIDSelector } from './selectors';
 import { TasksState } from './types';
 import {
@@ -11,9 +11,6 @@ import {
   removeTaskFromDatabase,
   toggleTaskInDatabase
 } from './utils';
-
-export const getTasksThunk = (): ThunkResult<TasksState> => (_, getState) =>
-  getState().tasks;
 
 /*
 Toggle a task
@@ -30,9 +27,13 @@ export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
 ) => {
   try {
     dispatch(toggleTask.request());
-    const task = makeTaskByIDSelector(id)(getState());
+    const task = makeTaskByIDSelector()(getState(), { id });
     if (task && task.job) {
-      task.job.stop();
+      if (!task.active) {
+        task.job.start();
+      } else {
+        task.job.stop();
+      }
     }
     await toggleTaskInDatabase(id);
     // Updated the task in state
@@ -79,7 +80,7 @@ export const removeTaskThunk = (id: number): AsyncThunkResult<void> => async (
 ) => {
   try {
     dispatch(removeTask.request());
-    const task = makeTaskByIDSelector(id)(getState());
+    const task = makeTaskByIDSelector()(getState(), { id });
     if (task) {
       if (task.job) {
         task.job.stop();

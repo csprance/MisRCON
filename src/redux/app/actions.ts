@@ -26,6 +26,11 @@ export const togglePlayerProfileDialog = createAction(
   'app/TOGGLE_PLAYER_PROFILE'
 );
 
+// Hide the player profile dialog
+export const hidePlayerProfileDialog = createAction(
+  'app/HIDE_PLAYER_PROFILE'
+);
+
 export const setPlayerActiveInPlayerProfile = createAction(
   'app/SET_PLAYER',
   resolve => (steam: string) => resolve(steam)

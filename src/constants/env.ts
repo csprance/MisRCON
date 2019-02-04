@@ -1,1 +1,1 @@
-export const salt = process.env.COMPUTERNAME as string;
+export const salt: string = process.env.COMPUTERNAME as string;

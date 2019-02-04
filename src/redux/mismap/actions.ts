@@ -3,7 +3,7 @@ import { createAsyncAction } from 'typesafe-actions';
 
 import Marker from '../../db/entities/Marker';
 import { AsyncThunkResult } from '../redux-types';
-import {ICustomMapMarker, MisMapState} from './types';
+import { ICustomMapMarker, MisMapState } from './types';
 
 /*
 Gets the stored tasks from the database and hydrates the store.

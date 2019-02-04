@@ -1,6 +1,7 @@
 import List from '@material-ui/core/List';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import ListItemLink from '../components/ListItemLink';
@@ -28,14 +29,14 @@ const Wrapper = styled.div`
 type Props = {
   activeServer: Server;
   deleteServer: (id: number) => void;
-};
+} & RouteComponentProps<{}>;
 type State = {};
 class NavigationBar extends React.Component<Props, State> {
   public static defaultProps = {};
   public state = {};
 
   public render() {
-    const { activeServer, deleteServer } = this.props;
+    const { activeServer, deleteServer, location } = this.props;
 
     return (
       <Wrapper>
@@ -43,7 +44,7 @@ class NavigationBar extends React.Component<Props, State> {
           style={{
             paddingTop: 0,
             width: '100%',
-            overflowY: 'scroll'
+            overflowY: 'auto'
           }}
           component="nav"
         >
@@ -51,16 +52,56 @@ class NavigationBar extends React.Component<Props, State> {
             deleteServer={() => deleteServer(activeServer.id)}
             activeServer={activeServer}
           />
-          <ListItemLink to={'/console'} primary={'# Console'} />
-          <ListItemLink to={'/map'} primary={'# Map'} />
-          <ListItemLink to={'/players'} primary={'# Players'} />
-          <ListItemLink to={'/banlist'} primary={'# Banlist'} />
-          <ListItemLink to={'/whitelist'} primary={'# Whitelist'} />
-          <ListItemLink to={'/tasks'} primary={'# Tasks'} />
-          <ListItemLink to={'/hosting'} primary={'# Hosting'} />
-          <ListItemLink to={'/logs'} primary={'# Logs'} />
-          <ListItemLink to={'/chat'} primary={'# Chat'} />
-          <ListItemLink to={'/help'} primary={'# Help'} />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/console'}
+            primary={'# Console'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/map'}
+            primary={'# Map'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/players'}
+            primary={'# Players'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/banlist'}
+            primary={'# Banlist'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/whitelist'}
+            primary={'# Whitelist'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/tasks'}
+            primary={'# Tasks'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/hosting'}
+            primary={'# Hosting'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/logs'}
+            primary={'# Logs'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/chat'}
+            primary={'# Chat'}
+          />
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/help'}
+            primary={'# Help'}
+          />
         </List>
       </Wrapper>
     );
@@ -73,7 +114,9 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   deleteServer: (id: number) => dispatch(removeServerFromDbThunk({ id }))
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavigationBar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(NavigationBar)
+);

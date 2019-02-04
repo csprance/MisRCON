@@ -20,14 +20,15 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   return (
     <Menu
       id="server-properties-menu"
+      disableAutoFocusItem
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       style={{ marginLeft: 50, marginTop: 50, zIndex: 1600 }}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose}>Edit Server</MenuItem>
-      <MenuItem onClick={handleDeleteClick}>Delete Server</MenuItem>
-      <MenuItem onClick={handleClose}>Refresh Server Data</MenuItem>
+      <MenuItem dense onClick={handleClose}>Edit Server</MenuItem>
+      <MenuItem dense onClick={handleDeleteClick}>Delete Server</MenuItem>
+      <MenuItem dense onClick={handleClose}>Refresh Server Data</MenuItem>
     </Menu>
   );
 };

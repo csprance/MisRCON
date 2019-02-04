@@ -9,15 +9,31 @@ export default (
 ): AppState => {
   switch (action.type) {
     case getType(actions.togglePlayerList):
-      return { ...state, playerListOpen: !state.playerListOpen };
+      return { ...state, playerSideBarOpen: !state.playerSideBarOpen };
+
     case getType(actions.toggleAddServerDialog):
       return { ...state, addServerDialogOpen: !state.addServerDialogOpen };
+
+    case getType(actions.toggleSettingsDialog):
+      return {
+        ...state,
+        settingsDialogOpen: !state.settingsDialogOpen
+      };
+
     case getType(actions.togglePlayerProfileDialog):
-      return { ...state, playerProfileDialog: !state.playerProfileDialog };
+      return {
+        ...state,
+        playerProfileDialogOpen: !state.playerProfileDialogOpen
+      };
+
     case getType(actions.setPlayerActiveInPlayerProfile):
       return { ...state, selectedPlayerID: action.payload };
-      case getType(actions.fetchServerHelpMarkdown.success):
+
+    case getType(actions.fetchServerHelpMarkdown.success):
       return { ...state, serverHelpMarkdown: action.payload };
+
+    case getType(actions.hidePlayerProfileDialog):
+      return { ...state, playerProfileDialogOpen: false };
     default:
       return state;
   }

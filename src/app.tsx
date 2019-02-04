@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { MemoryRouter as Router, Route, Switch } from 'react-router';
+import { MemoryRouter, Redirect, Route, Switch } from 'react-router';
 import Layout from './components/Layout';
 
 import { bootstrapApplicationThunk } from './redux/bootstrap';
@@ -18,20 +18,16 @@ class WrappedApp extends React.Component<Props, State> {
 
   public render() {
     return (
-      <Router>
+      <MemoryRouter>
         <Layout>
           <Switch>
+            <Route exact path="/" render={() => <Redirect to="/tasks" />} />
             {routes.map((route, idx) => (
-              <Route
-                key={idx}
-                exact={idx === 0}
-                path={route.path}
-                component={route.component}
-              />
+              <Route key={idx} path={route.path} component={route.component} />
             ))}
           </Switch>
         </Layout>
-      </Router>
+      </MemoryRouter>
     );
   }
 }

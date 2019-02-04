@@ -1,31 +1,38 @@
 import * as AgGrid from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { gridOptions } from '../constants/grid-constants';
-import Player from '../db/entities/Player';
-import { debounce } from '../lib/debounce';
-import { bannedPlayersOnActiveServer } from '../redux/players/selectors';
-import { playersColumnDefs } from '../redux/players/state';
-import { RootState } from '../redux/redux-types';
+import FilterGridSection from '../../components/FilterGridSection';
+import MyGrid from '../../components/MyGrid';
+import Player from '../../db/entities/Player';
+import { debounce } from '../../lib/debounce';
+import { bannedPlayersOnActiveServer } from '../../redux/players/selectors';
+import { playersColumnDefs } from '../../redux/players/state';
+import { RootState } from '../../redux/redux-types';
+import { bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   overflow: hidden;
   flex-grow: 1;
+  flex-direction: column;
+  background: ${bg3};
 `;
 
 type Props = {
   players: Player[];
 };
-type State = {};
+type State = {
+  filterValue: string;
+};
 class BansGrid extends React.Component<Props, State> {
   public api!: AgGrid.GridApi;
   public columnApi!: AgGrid.ColumnApi;
-
+  state: State = {
+    filterValue: ''
+  };
   componentDidMount() {
     window.addEventListener(
       'resize',
@@ -51,17 +58,24 @@ class BansGrid extends React.Component<Props, State> {
     this.api.sizeColumnsToFit();
   };
 
+  setFilterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      filterValue: e.target.value
+    });
+  };
+
   render() {
     return (
-      <Wrapper className="ag-theme-misrcon">
-        <div style={{ overflow: 'hidden', flexGrow: 1 }}>
-          <AgGridReact
-            {...gridOptions}
-            onGridReady={this.onGridReady}
-            columnDefs={playersColumnDefs}
-            rowData={this.props.players}
-          />
-        </div>
+      <Wrapper>
+        <FilterGridSection
+          filterValue={this.state.filterValue}
+          setFilterValue={this.setFilterValue}
+        />
+        <MyGrid
+          onGridReady={this.onGridReady}
+          columnDefs={playersColumnDefs}
+          rowData={this.props.players}
+        />
       </Wrapper>
     );
   }

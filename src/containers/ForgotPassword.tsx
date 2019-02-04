@@ -47,28 +47,30 @@ class ForgotPassword extends React.Component<Props, State> {
       <Wrapper>
         <FloatingBackButton to={'/'} />
         <InnerWrapper>
-          <MisRCONLogo />
-          <Typography variant={'h4'}>Forgot Password</Typography>
-          <CenterSection>
-            <TextField fullWidth name={'email'} label={'Email'} />
-            <TextField fullWidth name={'username'} label={'Username'} />
-            <TextField
+          <React.Fragment>
+            <MisRCONLogo />
+            <Typography variant={'h4'}>Forgot Password</Typography>
+            <CenterSection>
+              <TextField fullWidth name={'email'} label={'Email'} />
+              <TextField fullWidth name={'username'} label={'Username'} />
+              <TextField
+                fullWidth
+                name={'password'}
+                label={'Password'}
+                type={'password'}
+              />
+            </CenterSection>
+            <Button
+              to={'/'}
+              // @ts-ignore
+              component={DOMLink}
+              variant={'contained'}
+              color={'primary'}
               fullWidth
-              name={'password'}
-              label={'Password'}
-              type={'password'}
-            />
-          </CenterSection>
-          <Button
-            to={'/'}
-            // @ts-ignore
-            component={DOMLink}
-            variant={'contained'}
-            color={'primary'}
-            fullWidth
-          >
-            Request Reset
-          </Button>
+            >
+              Request Reset
+            </Button>
+          </React.Fragment>
         </InnerWrapper>
       </Wrapper>
     );
