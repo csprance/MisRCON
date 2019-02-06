@@ -7,7 +7,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import { hydratePlayersThunk } from '../../redux/players/actions';
+import { getPlayersViaRCONThunk } from '../../redux/players/actions';
 import { Dispatch } from '../../redux/redux-types';
 
 const Wrapper = styled.div`
@@ -53,7 +53,7 @@ class TitleBarMenu extends React.Component<Props, State> {
 
   handleRefreshClick = () => {
     this.handleClose();
-    this.props.dispatch(hydratePlayersThunk());
+    this.props.dispatch(getPlayersViaRCONThunk());
   };
 
   public render() {

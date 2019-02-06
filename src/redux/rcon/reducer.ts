@@ -13,18 +13,21 @@ export default (
   switch (action.type) {
     case getType(rconActions.sendRCON.request):
       return { ...state, sending: true };
+
     case getType(rconActions.sendRCON.success):
       return {
         ...state,
         sending: false,
         requests: [...state.requests, action.payload]
       };
+
     case getType(rconActions.sendRCON.failure):
       return {
         ...state,
         sending: false,
         requests: [...state.requests, action.payload]
       };
+
     default:
       return state;
   }

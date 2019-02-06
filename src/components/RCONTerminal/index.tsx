@@ -9,11 +9,11 @@ import {
 import * as React from 'react';
 
 import * as npmPackage from '../../../package.json';
-import Server from '../../db/entities/Server';
 import ReactTerminal from './react-terminal-component';
 import makeTerminalCommands from './terminal-commands';
 
 import { Dispatch } from '../../redux/redux-types';
+import { Server } from '../../redux/servers';
 
 type Props = {
   dispatch: Dispatch;

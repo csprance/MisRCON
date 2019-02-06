@@ -1,11 +1,11 @@
 import Placeholder from './components/Placeholder';
 import BansGrid from './containers/Grids/BansGrid';
-import Map from './containers/Map';
 import PlayersGrid from './containers/Grids/PlayersGrid';
-import ServerHelp from './containers/ServerHelp';
 import TasksGrid from './containers/Grids/TasksGrid';
-import Terminal from './containers/Terminal';
 import WhitelistGrid from './containers/Grids/WhitelistGrid';
+import Map from './containers/Map';
+import ServerHelp from './containers/ServerHelp';
+import Terminal from './containers/Terminal';
 
 export default [
   { path: '/console', component: Terminal },

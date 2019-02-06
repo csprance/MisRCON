@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
+import { toggleAddTaskDialog } from '../../redux/app/actions';
+import { playerSidebarOpenSelector } from '../../redux/app/selectors';
 import { RootState } from '../../redux/redux-types';
 import { TasksState } from '../../redux/tasks';
 import { allTasksOnActiveServer } from '../../redux/tasks/selectors';
@@ -22,7 +24,9 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
+  sideBarShowing: boolean;
   tasks: TasksState;
+  showAddTaskDialog: () => void;
 };
 type State = {
   filterValue: string;
@@ -33,6 +37,12 @@ class TasksGrid extends React.Component<Props, State> {
   state: State = {
     filterValue: ''
   };
+
+  componentDidUpdate(nextProps: Props) {
+    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
+      this.api.sizeColumnsToFit();
+    }
+  }
 
   componentDidMount() {
     window.addEventListener(
@@ -56,6 +66,7 @@ class TasksGrid extends React.Component<Props, State> {
     // in onGridReady, store the api for later use
     this.api = params.api;
     this.columnApi = params.columnApi;
+    (window as any).tasksGridApi = this.api;
     this.api.sizeColumnsToFit();
   };
 
@@ -65,23 +76,42 @@ class TasksGrid extends React.Component<Props, State> {
     });
   };
 
+  handleAddTaskClicked = () => {
+    this.props.showAddTaskDialog();
+  };
+
+  handleRefreshTasksClicked = () => {
+    console.log('Refresh Task');
+  };
+
   render() {
+    const { tasks } = this.props;
     return (
       <Wrapper>
         <FilterGridSection
+          refreshTooltipTitle={'Refresh Tasks'}
+          onClickRefresh={this.handleRefreshTasksClicked}
+          addTooltipTitle={'Add Task'}
+          onClickAdd={this.handleAddTaskClicked}
           filterValue={this.state.filterValue}
           setFilterValue={this.setFilterValue}
         />
         <MyGrid
           onGridReady={this.onGridReady}
           columnDefs={tasksColumnDefs}
-          rowData={this.props.tasks}
+          rowData={tasks}
         />
       </Wrapper>
     );
   }
 }
 
-export default connect((state: RootState) => ({
-  tasks: allTasksOnActiveServer(state)
-}))(TasksGrid);
+export default connect(
+  (state: RootState) => ({
+    sideBarShowing: playerSidebarOpenSelector(state),
+    tasks: allTasksOnActiveServer(state)
+  }),
+  dispatch => ({
+    showAddTaskDialog: () => dispatch(toggleAddTaskDialog())
+  })
+)(TasksGrid);

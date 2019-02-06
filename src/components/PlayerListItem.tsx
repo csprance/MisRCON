@@ -2,7 +2,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
-import Player from '../db/entities/Player';
+
+import { Player } from '../redux/players/types';
 import PlayerMenu from './Menus/PlayerMenu';
 import Ping from './Ping';
 import PlayerAvatar from './PlayerAvatar';

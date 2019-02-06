@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
-import Task from '../../db/entities/Task';
 import { RootState } from '../redux-types';
 import {
   activeServerIDSelector,
   activeServerSelector
 } from '../servers/selectors';
+import { Task } from './types';
 
 export const tasksSelector = (state: RootState, _props?: any) => state.tasks;
 

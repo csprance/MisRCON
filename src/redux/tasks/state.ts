@@ -1,8 +1,7 @@
 import * as AgGrid from 'ag-grid-community';
 
-import Task from '../../db/entities/Task';
 import { Dispatch, GetStateFunc } from '../redux-types';
-import { OnTickFunctionFactory, TasksState } from './types';
+import { OnTickFunctionFactory, Task, TasksState } from './types';
 
 /*
 This is a function factory that takes dispatch, getState
@@ -10,9 +9,10 @@ returns a Function to run on each tick
  */
 export const defaultOnTick: OnTickFunctionFactory = (
   dispatch: Dispatch,
-  getState: GetStateFunc
+  getState: GetStateFunc,
+  task: Task
 ) => async () => {
-  console.log('Default Tick', dispatch, getState);
+  console.log('Default Tick', dispatch, getState, task);
 };
 
 export const defaultRecurringTask: Task = {
@@ -24,7 +24,8 @@ export const defaultRecurringTask: Task = {
   name: 'Default cron',
   onTick: defaultOnTick,
   serverId: 0,
-  timeZone: 'America/New_York'
+  timeZone: 'America/New_York',
+  timesRun: 0
 };
 export const defaultDateTask: Task = {
   ...defaultRecurringTask,
@@ -34,13 +35,19 @@ export const defaultDateTask: Task = {
 
 export const tasksColumnDefs: AgGrid.ColDef[] = [
   {
-    cellRenderer: 'taskControlsRenderer',
+    cellRenderer: 'TaskControlsRenderer',
     field: 'active',
     headerName: 'Active',
     width: 100,
     sortable: true,
     filter: true,
     resizable: true
+  },
+  {
+    cellRenderer: 'TaskDeleteRenderer',
+    field: 'job',
+    headerName: 'Delete',
+    width: 100
   },
   {
     field: 'cronString',
@@ -69,6 +76,14 @@ export const tasksColumnDefs: AgGrid.ColDef[] = [
   {
     field: 'id',
     headerName: 'ID',
+    width: 250,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    field: 'timesRun',
+    headerName: 'Times Run',
     width: 250,
     sortable: true,
     filter: true,

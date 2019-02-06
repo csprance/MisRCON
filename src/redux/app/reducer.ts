@@ -14,6 +14,9 @@ export default (
     case getType(actions.toggleAddServerDialog):
       return { ...state, addServerDialogOpen: !state.addServerDialogOpen };
 
+    case getType(actions.toggleAddTaskDialog):
+      return { ...state, addTaskDialogOpen: !state.addTaskDialogOpen };
+
     case getType(actions.toggleSettingsDialog):
       return {
         ...state,

@@ -30,24 +30,27 @@
     import { MuiThemeProvider } from '@material-ui/core/styles';
     import CssBaseline from '@material-ui/core/CssBaseline';
     import { Provider } from 'react-redux';
+    import { PersistGate } from 'redux-persist/integration/react'
     import { AppContainer } from 'react-hot-loader';
     import { configureStore } from "./redux/store";
     import { theme } from "./styles/theme";
     import { GlobalStyles } from './styles/global-styles'
     import ScrollbarStyles from './styles/scrollbar-styles'
 
-    const store= configureStore();
+    const { store, persistor } = configureStore();
     let render = async () => {
       const { App } = require('./app');
       ReactDOM.render(
         <AppContainer>
           <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
             <MuiThemeProvider theme={theme}>
               <CssBaseline />
               <GlobalStyles />
               <ScrollbarStyles />
               <App/>
             </MuiThemeProvider>
+            </PersistGate>
           </Provider>
         </AppContainer>,
         document.getElementById('App')

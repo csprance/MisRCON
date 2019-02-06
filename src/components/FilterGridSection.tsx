@@ -20,17 +20,25 @@ const Spacer = styled.div`
 
 interface Props {
   filterValue: string;
+  refreshTooltipTitle: string;
+  addTooltipTitle?: string;
+  onClickAdd?: ()=> void;
+  onClickRefresh: ()=> void;
   setFilterValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const FilterGridSection: React.FunctionComponent<Props> = ({
   filterValue,
-  setFilterValue
+  refreshTooltipTitle,
+  addTooltipTitle = '',
+  setFilterValue,
+  onClickAdd = ()=> {return},
+  onClickRefresh
 }) => {
   return (
     <Wrapper>
       <Spacer />
-      <Tooltip title={'Refresh Tasks'}>
-        <IconButton>
+      <Tooltip title={refreshTooltipTitle}>
+        <IconButton onClick={onClickRefresh}>
           <RefreshIcon />
         </IconButton>
       </Tooltip>
@@ -42,8 +50,8 @@ const FilterGridSection: React.FunctionComponent<Props> = ({
         fullWidth
       />
       <Spacer />
-      <Tooltip title={'Add new  Task'}>
-        <IconButton>
+      <Tooltip title={addTooltipTitle}>
+        <IconButton disabled={addTooltipTitle === ''} onClick={onClickAdd}>
           <AddIcon />
         </IconButton>
       </Tooltip>

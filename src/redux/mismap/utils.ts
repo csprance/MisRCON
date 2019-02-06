@@ -1,6 +1,6 @@
 import { Map } from 'leaflet';
 import * as MAP_CONSTANTS from '../../constants/map-constants';
-import { ICustomMapMarker, MisMapMarkersByLayer } from './types';
+import { Marker, MisMapMarkersByLayer } from './types';
 
 /**
  * Splits an x,y,z string '45,34,2' to a {lat, lng} to use in a leaflet map
@@ -108,9 +108,9 @@ export const convertVec2ToLatLng = (
 
 // Reduces a Markers array down to an array of [[LayerName, Marker], [LayerName, Marker]]
 export const getMarkersByName = (
-  markers: ICustomMapMarker[]
+  markers: Marker[]
 ): MisMapMarkersByLayer => {
-  const byLayer = markers.reduce((acc, val: ICustomMapMarker) => {
+  const byLayer = markers.reduce((acc, val: Marker) => {
     if (acc[val.layer]) {
       acc[val.layer].push(val);
     } else {

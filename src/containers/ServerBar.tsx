@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 import AddServerButton from '../components/AddServerButton';
 import ServerAvatar from '../components/ServerAvatar';
-import Server from '../db/entities/Server';
 import { toggleAddServerDialog } from '../redux/app/actions';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { ServersState } from '../redux/servers';
-import { markServerActiveThunk } from '../redux/servers/actions';
+import { markServerActive } from '../redux/servers/actions';
 import {
   activeServerSelector,
   serversSelector
 } from '../redux/servers/selectors';
+import { Server } from '../redux/servers/types';
 import { bg0 } from '../styles/colors';
 
 const Wrapper = styled.div`
@@ -62,7 +62,7 @@ const mapStateToProps = (state: RootState) => ({
   activeServer: activeServerSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectServer: (id: number) => dispatch(markServerActiveThunk(id)),
+  selectServer: (id: number) => dispatch(markServerActive(id)),
   showAddServerDialog: () => dispatch(toggleAddServerDialog())
 });
 export default connect(

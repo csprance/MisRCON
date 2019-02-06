@@ -2,6 +2,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import * as React from 'react';
 import styled from 'styled-components';
+import { bg5 } from '../styles/colors';
 
 const Wrapper = styled.div`
   width: 50px;
@@ -21,12 +22,13 @@ const ActiveIndicatorWrapper = styled.div`
   margin-left: -5px;
 `;
 const ActiveIndicator = styled.div`
-  background: #fff;
+  background: ${({ active }: { active: boolean }) => (!active ? bg5 : '#fff')};
   transition-duration: 0.3s;
   width: 10px;
   border-radius: 2pt;
   margin-left: -33px;
-  margin-top: ${({ active }: { active: boolean }) => (active ? '15px' : '29px')};
+  margin-top: ${({ active }: { active: boolean }) =>
+    active ? '15px' : '29px'};
   height: ${({ active }: { active: boolean }) => (active ? '35px' : '8px')};
 `;
 type Props = {

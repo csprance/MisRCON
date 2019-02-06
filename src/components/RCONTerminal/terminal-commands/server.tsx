@@ -2,10 +2,9 @@ import { EmulatorState, OutputFactory } from 'async-javascript-terminal';
 import * as getOpts from 'get-options';
 import * as React from 'react';
 
-import Server from '../../../db/entities/Server';
 import logger from '../../../lib/logger';
 import { Dispatch, GetStateFunc } from '../../../redux/redux-types';
-import { serversActions } from '../../../redux/servers';
+import {Server, serversActions} from '../../../redux/servers';
 import TerminalServerList from '../react-terminal-component/output/TerminalServerList';
 
 const optDef = {
@@ -45,18 +44,18 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           selfHosted: false,
           rootPath: ''
         };
-        dispatch(serversActions.addServerToDbThunk(server));
+        dispatch(serversActions.addServer(server));
         return output(`Added server ${server.name}`);
       }
 
       // Remove a task
       if (options.rm) {
         if (options.id) {
-          dispatch(serversActions.removeServerFromDbThunk({ id }));
+          dispatch(serversActions.removeServer(id));
           return output(`Removed task by id ${id}`);
         }
         if (options.name) {
-          dispatch(serversActions.removeServerFromDbThunk({ name }));
+          dispatch(serversActions.removeServer(id));
           return output(`Removed task by name: ${name}`);
         }
       }
@@ -74,7 +73,7 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           const { servers } = getState();
           const server = servers.find(s => s.id === id);
           if (server) {
-            dispatch(serversActions.markServerActiveThunk(id));
+            dispatch(serversActions.markServerActive(id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server Not Found!`);
@@ -85,7 +84,7 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           const { servers } = getState();
           const server = servers.find(s => s.name === name);
           if (server) {
-            dispatch(serversActions.markServerActiveThunk(server.id));
+            dispatch(serversActions.markServerActive(server.id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server not found`);

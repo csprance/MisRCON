@@ -15,11 +15,7 @@ import {
 } from '../redux/app/actions';
 import { playerListShowingSelector } from '../redux/app/selectors';
 import { PlayersState } from '../redux/players';
-import {
-  banPlayerThunk,
-  hydratePlayersThunk,
-  kickPlayerThunk
-} from '../redux/players/actions';
+import { banPlayerThunk, kickPlayerThunk } from '../redux/players/actions';
 import {
   activePlayersOnActiveServerSelector,
   inactivePlayersOnActiveServerSelector
@@ -43,7 +39,6 @@ const Wrapper = styled.div`
 
 type Props = {
   showing: boolean;
-  hydratePlayers: () => void;
   viewPlayerProfile: (steam: string) => void;
   kickPlayer: (player: Player) => void;
   banPlayer: (player: Player) => void;
@@ -54,10 +49,6 @@ type State = {};
 class PlayersSidebar extends React.Component<Props, State> {
   public static defaultProps = {};
   public state = {};
-
-  componentDidMount() {
-    this.props.hydratePlayers();
-  }
 
   public render() {
     const { activePlayers, inactivePlayers, showing } = this.props;
@@ -131,7 +122,6 @@ const mapStateToProps = (state: RootState) => ({
   showing: playerListShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  hydratePlayers: () => dispatch(hydratePlayersThunk()),
   viewPlayerProfile: (steam: string) => {
     dispatch(setPlayerActiveInPlayerProfile(steam));
     dispatch(togglePlayerProfileDialog());

@@ -1,4 +1,4 @@
-import { NodeMisrcon } from 'node-misrcon';
+import { NodeMisrcon, parseResponse } from 'node-misrcon';
 import { createAsyncAction } from 'typesafe-actions';
 
 import { logRCONError, logRCONResponse } from '../../lib/logger';
@@ -26,13 +26,15 @@ export const sendRCONAsyncThunk = ({
     date: Date.now(),
     ip,
     port,
-    password,
-    completed: true
+    password: '[redacted]',
+    completed: true,
+    parsedResponse: false
   };
   try {
     // Try to do the rcon request
     request.response = await rcon.send(command);
     request.date = Date.now();
+    request.parsedResponse = parseResponse(request.response);
     // Dispatch our success
     dispatch(sendRCON.success(request));
     logRCONResponse(request);

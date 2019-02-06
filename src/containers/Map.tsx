@@ -16,22 +16,24 @@ import { connect } from 'react-redux';
 
 import LeafletContextMenu from '../components/Menus/LeafletContextMenu';
 import { MAP_BOUNDS } from '../constants/map-constants';
-import Server from '../db/entities/Server';
+import { playerSidebarOpenSelector } from '../redux/app/selectors';
 import {
   misMapActions,
   misMapSelectors,
   MisMapTypes,
   misMapUtils
 } from '../redux/mismap';
-import { ICustomMapMarker } from '../redux/mismap/types';
+import { Marker as CustomMarker } from '../redux/mismap/types';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { activeServerSelector } from '../redux/servers/selectors';
+import { Server } from '../redux/servers/types';
 
 interface Props {
   dispatch: Dispatch;
+  sideBarShowing: boolean;
   layers: MisMapTypes.MisMapMarkersByLayer;
   activeServer: Server;
-  addMarker: (marker: ICustomMapMarker) => void;
+  addMarker: (marker: CustomMarker) => void;
   deleteMarker: (id: number) => void;
   showing?: boolean;
 }
@@ -109,6 +111,9 @@ class Map extends React.Component<Props, State> {
 
   componentDidUpdate(nextProps: Props) {
     if (nextProps.showing !== this.props.showing) {
+      this.mapRef.leafletElement.invalidateSize();
+    }
+    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
       this.mapRef.leafletElement.invalidateSize();
     }
   }
@@ -230,13 +235,13 @@ class Map extends React.Component<Props, State> {
 }
 
 export const mapStateToProps = (state: RootState) => ({
+  sideBarShowing: playerSidebarOpenSelector(state),
   layers: misMapSelectors.markersByLayerNameAndActiveServer(state),
   activeServer: activeServerSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMarker: (marker: ICustomMapMarker) =>
-    dispatch(misMapActions.addMarkerThunk(marker)),
-  deleteMarker: (id: number) => dispatch(misMapActions.deleteMarkerThunk(id))
+  addMarker: (marker: CustomMarker) => dispatch(misMapActions.addMapMarker(marker)),
+  deleteMarker: (id: number) => dispatch(misMapActions.deleteMapMarker(id))
 });
 export default connect(
   mapStateToProps,

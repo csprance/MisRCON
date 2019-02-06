@@ -2,12 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import AddServerDialog from '../containers/Dialogs/AddServerDialog';
+import AddTaskDialog from '../containers/Dialogs/AddTaskDialog';
+import PlayerProfileDialog from '../containers/Dialogs/PlayerProfileDialog';
+import SettingsDialog from '../containers/Dialogs/SettingsDialog';
 import HeaderBar from '../containers/HeaderBar';
 import NavigationBar from '../containers/NavigationBar';
-import PlayerProfileDialog from '../containers/Dialogs/PlayerProfileDialog';
 import PlayersList from '../containers/PlayersSidebar';
 import ServerBar from '../containers/ServerBar';
-import SettingsDialog from '../containers/Dialogs/SettingsDialog';
 import TitleBar from './TitleBar';
 
 export const Wrapper = styled.div`
@@ -46,6 +47,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
       </Content>
       <PlayerProfileDialog />
       <AddServerDialog />
+      <AddTaskDialog />
       <SettingsDialog />
     </Wrapper>
   );

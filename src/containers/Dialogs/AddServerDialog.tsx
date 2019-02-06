@@ -10,14 +10,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { Omit } from '../../@types/global';
 import MisRCONLogo from '../../components/images/MisRCONLogo';
 import NoHoverIconButton from '../../components/NoHoverIconButton';
-import Server from '../../db/entities/Server';
 import { toggleAddServerDialog } from '../../redux/app/actions';
 import { addServerDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
-import { addServerToDbThunk } from '../../redux/servers/actions';
-import { serversSelector } from '../../redux/servers/selectors';
+import { Server, serversActions, serversSelectors } from '../../redux/servers';
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,160 +42,150 @@ const CenterSection = styled.div`
   flex-grow: 1;
   width: 100%;
 `;
-const defaultState = {
-  id: '',
-  avatar: '',
-  name: '',
-  ip: '',
-  port: '',
-  password: '',
-  active: false,
-  selfHosted: false,
-  rootPath: ''
-};
-type Props = {
+
+interface Props {
   closeDialog: () => void;
   addServer: (server: Server) => void;
   showing: boolean;
-};
-type State = {
+}
+interface State extends Omit<Server, 'id' | 'port'> {
   id: string;
-  name: string;
-  ip: string;
   port: string;
-  password: string;
-  active: boolean;
-  selfHosted: boolean;
-  rootPath: string;
-  avatar: string;
-};
-class AddServerDialog extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state: State = { ...defaultState };
+}
+const AddServerDialog: React.FunctionComponent<Props> = ({
+  addServer,
+  closeDialog,
+  showing
+}) => {
+  const defaultState: State = {
+    id: '',
+    avatar: '',
+    name: '',
+    ip: '',
+    port: '',
+    password: '',
+    active: false,
+    selfHosted: false,
+    rootPath: ''
+  };
+  const [state, setState] = React.useState<State>({ ...defaultState });
 
-  public handleClick = () => {
-    this.props.addServer({
-      ...this.state,
-      port: parseInt(this.state.port, 10),
+  const handleClick = () => {
+    addServer({
+      ...state,
+      port: parseInt(state.port, 10),
       active: false,
-      id: -1
+      id: Date.now()
     });
-    this.setState({
+    setState({
       ...defaultState
     });
-    this.props.closeDialog();
+    closeDialog();
   };
 
-  public handleChange = (key: string, value: string | boolean) => {
-    this.setState({
+  const handleChange = (key: string, value: string | boolean) => {
+    setState({
+      ...state,
       [key]: value
     } as any);
   };
 
-  public openDialog = () => {
+  const openDialog = () => {
     const rootPath = remote.dialog.showOpenDialog({
       properties: ['openDirectory']
     })[0];
-    this.setState({ rootPath });
+    setState({ ...state, rootPath });
   };
 
-  public render() {
-    return (
-      <Dialog
-        fullWidth
-        onClose={() => this.props.closeDialog()}
-        open={this.props.showing}
-      >
-        <Wrapper>
-          <InnerWrapper>
-            <MisRCONLogo />
-            <Typography variant={'h4'}>Add Server</Typography>
-            <CenterSection>
-              <TextField
-                value={this.state.name}
-                onChange={e => {
-                  this.handleChange('name', e.target.value);
-                }}
-                fullWidth
-                name={'name'}
-                label={'Server Name'}
-              />
-              <TextField
-                value={this.state.ip}
-                onChange={e => {
-                  this.handleChange('ip', e.target.value);
-                }}
-                fullWidth
-                name={'ip'}
-                label={'IP'}
-              />
-              <TextField
-                value={this.state.port}
-                onChange={e => {
-                  this.handleChange('port', e.target.value);
-                }}
-                fullWidth
-                name={'port'}
-                label={'Port'}
-              />
-              <TextField
-                value={this.state.password}
-                onChange={e => {
-                  this.handleChange('password', e.target.value);
-                }}
-                fullWidth
-                name={'password'}
-                label={'Password'}
-                type={'password'}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.selfHosted}
-                    onChange={() =>
-                      this.handleChange('selfHosted', !this.state.selfHosted)
-                    }
-                    color="secondary"
-                  />
-                }
-                label="Self Hosted Server?"
-              />
-              {this.state.selfHosted && (
-                <TextField
-                  label="Server Root"
-                  value={this.state.rootPath}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <NoHoverIconButton onClick={this.openDialog} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              )}
-            </CenterSection>
-            <Button
-              style={{ marginTop: 25 }}
-              onClick={this.handleClick}
-              variant={'contained'}
-              color={'primary'}
+  return (
+    <Dialog fullWidth onClose={() => closeDialog()} open={showing}>
+      <Wrapper>
+        <InnerWrapper>
+          <MisRCONLogo />
+          <Typography variant={'h4'}>Add Server</Typography>
+          <CenterSection>
+            <TextField
+              value={state.name}
+              onChange={e => {
+                handleChange('name', e.target.value);
+              }}
               fullWidth
-            >
-              Add Server
-            </Button>
-          </InnerWrapper>
-        </Wrapper>
-      </Dialog>
-    );
-  }
-}
+              name={'name'}
+              label={'Server Name'}
+            />
+            <TextField
+              value={state.ip}
+              onChange={e => {
+                handleChange('ip', e.target.value);
+              }}
+              fullWidth
+              name={'ip'}
+              label={'IP'}
+            />
+            <TextField
+              value={state.port}
+              onChange={e => {
+                handleChange('port', e.target.value);
+              }}
+              fullWidth
+              name={'port'}
+              label={'Port'}
+            />
+            <TextField
+              value={state.password}
+              onChange={e => {
+                handleChange('password', e.target.value);
+              }}
+              fullWidth
+              name={'password'}
+              label={'Password'}
+              type={'password'}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={state.selfHosted}
+                  onChange={() => handleChange('selfHosted', !state.selfHosted)}
+                  color="secondary"
+                />
+              }
+              label="Self Hosted Server?"
+            />
+            {state.selfHosted && (
+              <TextField
+                label="Server Root"
+                value={state.rootPath}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <NoHoverIconButton onClick={openDialog} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            )}
+          </CenterSection>
+          <Button
+            style={{ marginTop: 25 }}
+            onClick={handleClick}
+            variant={'contained'}
+            color={'primary'}
+            fullWidth
+          >
+            Add Server
+          </Button>
+        </InnerWrapper>
+      </Wrapper>
+    </Dialog>
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
-  servers: serversSelector(state),
+  servers: serversSelectors.serversSelector(state),
   showing: addServerDialogShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addServer: (server: Server) => dispatch(addServerToDbThunk(server)),
+  addServer: (server: Server) => dispatch(serversActions.addServer(server)),
   closeDialog: () => dispatch(toggleAddServerDialog())
 });
 export default connect(

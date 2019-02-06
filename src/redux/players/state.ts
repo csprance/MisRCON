@@ -1,12 +1,11 @@
 import * as AgGrid from 'ag-grid-community';
-import Player from '../../db/entities/Player';
-import { PlayersState } from './types';
+import { Player, PlayersState } from './types';
 
 export const defaultPlayer: Player = {
   id: -1,
   active: true,
   color: '#2bff1d',
-  serverID: 3,
+  serverID: 1549434338846,
   avatarUrl: 'http://placehold.it/186x186',
   notes: 'This is the Default Player',
   banned: [3],

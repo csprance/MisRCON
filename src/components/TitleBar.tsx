@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import {bg0, lighterMidGray, text} from '../styles/colors';
+import { bg0, lighterMidGray, text } from '../styles/colors';
 import TitleBarButton from './TitleBarButton';
 
 export const Wrapper = styled.div`

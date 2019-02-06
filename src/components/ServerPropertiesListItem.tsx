@@ -6,7 +6,7 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import Server from '../db/entities/Server';
+import { Server } from '../redux/servers';
 import { bg0 } from '../styles/colors';
 import ServerPropertiesMenu from './Menus/ServerPropertiesMenu';
 
@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
+  refreshServerData: () => void;
   activeServer: Server;
   deleteServer: () => void;
 } & RouteComponentProps;
@@ -36,7 +37,7 @@ class ServerPropertiesListItem extends React.Component<Props, State> {
   };
 
   public render() {
-    const { activeServer, deleteServer } = this.props;
+    const { activeServer, deleteServer, refreshServerData } = this.props;
     const { anchorEl } = this.state;
     return (
       <Wrapper>
@@ -55,6 +56,7 @@ class ServerPropertiesListItem extends React.Component<Props, State> {
           </ListItemIcon>
         </ListItem>
         <ServerPropertiesMenu
+          refreshServerData={refreshServerData}
           anchorEl={anchorEl}
           deleteServer={deleteServer}
           handleClose={this.handleClose}

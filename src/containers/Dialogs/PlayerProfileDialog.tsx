@@ -12,12 +12,11 @@ import styled from 'styled-components';
 
 import PlayerAvatar from '../../components/PlayerAvatar';
 import SubHeader from '../../components/SubHeader';
-import Player from '../../db/entities/Player';
-import { debounce } from '../../lib/debounce';
 import { hidePlayerProfileDialog } from '../../redux/app/actions';
-import { setPlayerNoteThunk } from '../../redux/players/actions';
+import { setPlayerNote } from '../../redux/players/actions';
 import { makePlayerByPartialSelector } from '../../redux/players/selectors';
 import { defaultPlayer } from '../../redux/players/state';
+import { Player } from '../../redux/players/types';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { bg1, bg3, text } from '../../styles/colors';
 
@@ -63,7 +62,6 @@ type ReduxProps = {
   closeDialog: () => void;
   updatePlayerNote: (note: string, steam: string) => void;
 };
-1;
 const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
   player,
   open,
@@ -72,19 +70,13 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
 }) => {
   const [navIndex, setNavIndex] = React.useState(0);
   const [notes, setNotes] = React.useState(player.notes);
-
   const handleChange = (_: any, newValue: number) => {
     setNavIndex(newValue);
   };
 
   const handleNotesChange = (e: any) => {
-    console.log('Updating textfield');
     setNotes(e.target.value);
-    debounce(() => {
-      console.log('Updating Database');
-      console.log(notes);
-      updatePlayerNote(notes, player.steam);
-    }, 1500)();
+    updatePlayerNote(e.target.value, player.steam);
   };
 
   return (
@@ -155,15 +147,11 @@ const mapStateToProps = (state: RootState) => {
     player: player ? player : defaultPlayer
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, props: any) => {
-  console.log(props);
-
-  return {
-    closeDialog: () => dispatch(hidePlayerProfileDialog()),
-    updatePlayerNote: (newNote: string, steam: string) =>
-      dispatch(setPlayerNoteThunk(newNote, steam))
-  };
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  closeDialog: () => dispatch(hidePlayerProfileDialog()),
+  updatePlayerNote: (notes: string, steam: string) =>
+    dispatch(setPlayerNote(steam, notes))
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps

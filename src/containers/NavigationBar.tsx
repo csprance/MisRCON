@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 import ListItemLink from '../components/ListItemLink';
 import ServerPropertiesListItem from '../components/ServerPropertiesListItem';
-import Server from '../db/entities/Server';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { removeServerFromDbThunk } from '../redux/servers/actions';
+import { Server } from '../redux/servers';
+import { removeServer } from '../redux/servers/actions';
 import { activeServerSelector } from '../redux/servers/selectors';
 import { bg1 } from '../styles/colors';
 
@@ -26,17 +26,27 @@ const Wrapper = styled.div`
   border-radius: 7px 0 0 0;
 `;
 
-type Props = {
+type OwnProps = {};
+type ReduxProps = {
   activeServer: Server;
   deleteServer: (id: number) => void;
-} & RouteComponentProps<{}>;
+  refreshServerData: () => void;
+};
 type State = {};
-class NavigationBar extends React.Component<Props, State> {
+class NavigationBar extends React.Component<
+  OwnProps & ReduxProps & RouteComponentProps<{}>,
+  State
+> {
   public static defaultProps = {};
   public state = {};
 
   public render() {
-    const { activeServer, deleteServer, location } = this.props;
+    const {
+      activeServer,
+      deleteServer,
+      location,
+      refreshServerData
+    } = this.props;
 
     return (
       <Wrapper>
@@ -49,6 +59,7 @@ class NavigationBar extends React.Component<Props, State> {
           component="nav"
         >
           <ServerPropertiesListItem
+            refreshServerData={() => refreshServerData()}
             deleteServer={() => deleteServer(activeServer.id)}
             activeServer={activeServer}
           />
@@ -108,11 +119,11 @@ class NavigationBar extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState, _ownProps: OwnProps) => ({
   activeServer: activeServerSelector(state)
 });
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  deleteServer: (id: number) => dispatch(removeServerFromDbThunk({ id }))
+const mapDispatchToProps = (dispatch: Dispatch, _ownProps: OwnProps) => ({
+  deleteServer: (id: number) => dispatch(removeServer(id))
 });
 export default withRouter(
   connect(

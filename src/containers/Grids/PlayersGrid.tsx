@@ -5,10 +5,11 @@ import styled from 'styled-components';
 
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
-import Player from '../../db/entities/Player';
 import { debounce } from '../../lib/debounce';
+import { playerSidebarOpenSelector } from '../../redux/app/selectors';
 import { allPlayersOnActiveServerSelector } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
+import { Player } from '../../redux/players/types';
 import { RootState } from '../../redux/redux-types';
 import { bg3 } from '../../styles/colors';
 
@@ -22,6 +23,7 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
+  sideBarShowing: boolean;
   players: Player[];
 };
 type State = {
@@ -33,6 +35,13 @@ class PlayersGrid extends React.Component<Props, State> {
   state: State = {
     filterValue: ''
   };
+
+  componentDidUpdate(nextProps: Props) {
+    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
+      this.api.sizeColumnsToFit();
+    }
+  }
+
   componentDidMount() {
     window.addEventListener(
       'resize',
@@ -55,6 +64,7 @@ class PlayersGrid extends React.Component<Props, State> {
     // in onGridReady, store the api for later use
     this.api = params.api;
     this.columnApi = params.columnApi;
+    (window as any).playersGridApi = this.api;
     this.api.sizeColumnsToFit();
   };
 
@@ -64,10 +74,15 @@ class PlayersGrid extends React.Component<Props, State> {
     });
   };
 
+  handleRefreshClicked = () => {
+    console.log('Refresh Task');
+  };
   render() {
     return (
       <Wrapper>
         <FilterGridSection
+          refreshTooltipTitle={'Refresh Players'}
+          onClickRefresh={this.handleRefreshClicked}
           filterValue={this.state.filterValue}
           setFilterValue={this.setFilterValue}
         />
@@ -82,5 +97,6 @@ class PlayersGrid extends React.Component<Props, State> {
 }
 
 export default connect((state: RootState) => ({
+  sideBarShowing: playerSidebarOpenSelector(state),
   players: allPlayersOnActiveServerSelector(state)
 }))(PlayersGrid);

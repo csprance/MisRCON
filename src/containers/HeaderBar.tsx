@@ -1,13 +1,14 @@
+import { StatusResponse } from 'node-misrcon';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import TogglePlayerListButton from '../components/TogglePlayerListButton';
 import ToggleSettingsButton from '../components/ToggleSettingsButton';
-import { AppState } from '../redux/app';
 import { togglePlayerList, toggleSettingsDialog } from '../redux/app/actions';
-import { appStateSelector } from '../redux/app/selectors';
+import { latestRCONStatusByServerIpPortSelector } from '../redux/rcon/selectors';
 import { Dispatch, RootState } from '../redux/redux-types';
+import { activeServerSelector } from '../redux/servers/selectors';
 import { bg0, bg1, bg3, text } from '../styles/colors';
 
 const Wrapper = styled.div`
@@ -43,34 +44,38 @@ const Spacer = styled.div`
   width: 100%;
   height: 100%;
 `;
-type Props = {
-  app: AppState;
+interface Props {}
+interface ReduxProps {
+  status: StatusResponse | null;
   togglePlayerList: () => void;
   toggleSettingsDialog: () => void;
-};
-type State = {};
-class HeaderBar extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state: State = {};
-
-  public render() {
-    return (
-      <Wrapper>
-        <HeaderBarText>@Official Miscreated - US 75 #2008</HeaderBarText>
-        <Divider> | </Divider>
-        <PlayerCount>101145</PlayerCount>
-        <Divider> | </Divider>
-        <PlayerCount>Islands</PlayerCount>
-        <Spacer />
-        <TogglePlayerListButton onClick={this.props.togglePlayerList} />
-        <ToggleSettingsButton onClick={this.props.toggleSettingsDialog} />
-      </Wrapper>
-    );
-  }
 }
+const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
+  const name = props.status ? props.status.name : '...';
+  const version = props.status ? props.status.version : '...';
+  const map = props.status ? props.status.level : '...';
+  const weather = props.status ? props.status.weather : '...';
+  return (
+    <Wrapper>
+      <HeaderBarText>{name}</HeaderBarText>
+      <Divider> | </Divider>
+      <PlayerCount>{version}</PlayerCount>
+      <Divider> | </Divider>
+      <PlayerCount>{map}</PlayerCount>
+      <Divider> | </Divider>
+      <PlayerCount>{weather}</PlayerCount>
+      <Spacer />
+      <TogglePlayerListButton onClick={props.togglePlayerList} />
+      <ToggleSettingsButton onClick={props.toggleSettingsDialog} />
+    </Wrapper>
+  );
+};
 
 export const mapStateToProps = (state: RootState) => ({
-  app: appStateSelector(state)
+  status: latestRCONStatusByServerIpPortSelector(
+    state,
+    activeServerSelector(state)
+  )
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   togglePlayerList: () => dispatch(togglePlayerList()),

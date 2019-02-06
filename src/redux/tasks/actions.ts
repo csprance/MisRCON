@@ -1,16 +1,10 @@
-import { getConnection } from 'typeorm';
-import { createAsyncAction } from 'typesafe-actions';
+import { CronJob } from 'cron';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 
-import Task from '../../db/entities/Task';
 import { AsyncThunkResult } from '../redux-types';
 import { makeTaskByIDSelector } from './selectors';
-import { TasksState } from './types';
-import {
-  addTaskToDatabase,
-  createRunningJobFromDb,
-  removeTaskFromDatabase,
-  toggleTaskInDatabase
-} from './utils';
+import { Task } from './types';
+import { getCronStringOrDate } from './utils';
 
 /*
 Toggle a task
@@ -25,8 +19,8 @@ export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
   dispatch,
   getState
 ) => {
+  dispatch(toggleTask.request());
   try {
-    dispatch(toggleTask.request());
     const task = makeTaskByIDSelector()(getState(), { id });
     if (task && task.job) {
       if (!task.active) {
@@ -35,8 +29,6 @@ export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
         task.job.stop();
       }
     }
-    await toggleTaskInDatabase(id);
-    // Updated the task in state
     dispatch(toggleTask.success(id));
   } catch (e) {
     dispatch(toggleTask.failure(e.toString()));
@@ -44,7 +36,6 @@ export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
 };
 
 /*
- * Adds a task to the database
  * start the CronJob
  * add task to state
  */
@@ -53,19 +44,29 @@ export const addTask = createAsyncAction(
   'tasks/ADD_SUCCESS',
   'tasks/ADD_FAILURE'
 )<void, Task, string>();
-export const addTaskThunk = (
-  task: Task
-): AsyncThunkResult<void> => async dispatch => {
+export const addTaskThunk = (task: Task): AsyncThunkResult<void> => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch(addTask.request());
-    dispatch(addTask.success(await addTaskToDatabase(task)));
+    task.job = new CronJob(
+      getCronStringOrDate(task),
+      task.onTick(dispatch, getState, task),
+      () => null,
+      task.active,
+      task.timeZone
+    );
+    if (task.active) {
+      task.job.start();
+    }
+    dispatch(addTask.success(task));
   } catch (e) {
     dispatch(addTask.failure(e.toString()));
   }
 };
 
 /*
- * Removes a task from the database
  * Stops the CronJob
  * Remove from state by ID
  */
@@ -85,8 +86,8 @@ export const removeTaskThunk = (id: number): AsyncThunkResult<void> => async (
       if (task.job) {
         task.job.stop();
       }
-      await removeTaskFromDatabase(task.id);
       dispatch(removeTask.success(task.id));
+      return;
     }
     dispatch(removeTask.failure('No Task Found'));
   } catch (e) {
@@ -94,30 +95,7 @@ export const removeTaskThunk = (id: number): AsyncThunkResult<void> => async (
   }
 };
 
-/*
- * Gets task from Database
- * Starts all CronJobs that need to be started
- * Adds All Tasks to State
- */
-export const hydrateTasksFromDb = createAsyncAction(
-  'tasks/HYDRATE_REQUEST',
-  'tasks/HYDRATE_SUCCESS',
-  'tasks/HYDRATE_FAILED'
-)<void, TasksState, string>();
-export const hydrateTasksFromDbThunk = (): AsyncThunkResult<void> => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch(hydrateTasksFromDb.request());
-    const tasks = await getConnection()
-      .getRepository(Task)
-      .find({});
-    const tasksWithCronJobs = tasks.map(task =>
-      createRunningJobFromDb(task, dispatch, getState)
-    );
-    dispatch(hydrateTasksFromDb.success(tasksWithCronJobs));
-  } catch (e) {
-    dispatch(hydrateTasksFromDb.failure(e.toString()));
-  }
-};
+export const incrementTask = createAction(
+  'task/INCREMENT_TASK',
+  resolve => (id: number) => resolve(id)
+);

@@ -8,11 +8,9 @@ export type AppState = {
   // Dialogs
   // /////////////
 
-  // Is the PlayerProfile Dialog open
   playerProfileDialogOpen: boolean;
-  // Is the Server Settings Dialog open
+  addTaskDialogOpen: boolean;
   settingsDialogOpen: boolean;
-  // Add Server Dialog Showing
   addServerDialogOpen: boolean;
 
   // /////////////
@@ -23,7 +21,6 @@ export type AppState = {
   serverHelpMarkdown: string;
   // What player By ID should be displayed in the PlayerProfile Dialog
   selectedPlayerID: SteamID;
-  // The player sidebar
   playerSideBarOpen: boolean;
 };
 export type AppActions = ActionType<typeof actions>;

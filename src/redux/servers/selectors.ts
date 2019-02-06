@@ -1,11 +1,24 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../redux-types';
+import { idPropsSelector, ipPortPropsSelector } from '../selectors';
 import { defaultServer } from './state';
-
-export const propsSelector = (_: RootState, props: any) => props;
 
 export const serversSelector = (state: RootState, _props?: any) =>
   state.servers;
+
+export const serverByIpPortSelector = createSelector(
+  serversSelector,
+  ipPortPropsSelector,
+  (servers, { ip, port }) => {
+    const matchedServer = servers.find(
+      server => server.ip === ip && server.port === port
+    );
+    if (!matchedServer) {
+      throw Error('No Server by that IpPort');
+    }
+    return matchedServer;
+  }
+);
 
 export const activeServerSelector = createSelector(
   serversSelector,
@@ -16,8 +29,8 @@ export const activeServerSelector = createSelector(
 );
 export const serverByIdSelector = createSelector(
   serversSelector,
-  propsSelector,
-  (servers, props) => servers.find(server => server.id === props.id)
+  idPropsSelector,
+  (servers, id) => servers.find(server => server.id === id)
 );
 
 export const activeServerIDSelector = createSelector(

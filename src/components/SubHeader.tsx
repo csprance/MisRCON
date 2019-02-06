@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import {text} from "../styles/colors";
+import { text } from '../styles/colors';
 
 const Wrapper = styled.div`
   display: flex;

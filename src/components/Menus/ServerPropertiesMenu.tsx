@@ -6,15 +6,21 @@ type Props = {
   anchorEl: any;
   handleClose: () => void;
   deleteServer: () => void;
+  refreshServerData: () => void;
 };
 const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   handleClose,
+  refreshServerData,
   deleteServer
 }) => {
   const handleDeleteClick = () => {
     deleteServer();
     handleClose();
+  };
+
+  const handleRefreshServerData = ()=> {
+    refreshServerData()
   };
 
   return (
@@ -28,7 +34,7 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
     >
       <MenuItem dense onClick={handleClose}>Edit Server</MenuItem>
       <MenuItem dense onClick={handleDeleteClick}>Delete Server</MenuItem>
-      <MenuItem dense onClick={handleClose}>Refresh Server Data</MenuItem>
+      <MenuItem dense onClick={handleRefreshServerData}>Refresh Server Data</MenuItem>
     </Menu>
   );
 };

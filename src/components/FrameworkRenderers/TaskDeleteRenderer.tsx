@@ -1,13 +1,12 @@
 import Tooltip from '@material-ui/core/Tooltip';
-import PausedIcon from '@material-ui/icons/PauseRounded';
-import PlayIcon from '@material-ui/icons/PlayArrowRounded';
+import TrashIcon from '@material-ui/icons/Delete';
 import { ICellRendererParams } from 'ag-grid-community';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { Dispatch } from '../../redux/redux-types';
-import { toggleTaskThunk } from '../../redux/tasks/actions';
+import { removeTaskThunk } from '../../redux/tasks/actions';
 
 const Wrapper = styled.div`
   cursor: pointer;
@@ -21,18 +20,18 @@ const Wrapper = styled.div`
 type ReduxProps = {
   dispatch: Dispatch;
 };
-const TaskControlsRenderer: React.FunctionComponent<
+const TaskDeleteRenderer: React.FunctionComponent<
   ICellRendererParams & ReduxProps
-> = ({ value, dispatch, data }) => {
+> = ({ dispatch, data }) => {
   const handleClick = () => {
-    dispatch(toggleTaskThunk(data.id));
+    dispatch(removeTaskThunk(data.id));
   };
   return (
     <Wrapper onClick={handleClick}>
-      <Tooltip placement={'left'} title={value ? 'Pause Task' : 'Start Task'}>
-        {!value ? <PlayIcon /> : <PausedIcon />}
+      <Tooltip placement={'left'} title={'Delete Task'}>
+        {<TrashIcon />}
       </Tooltip>
     </Wrapper>
   );
 };
-export default connect()(TaskControlsRenderer);
+export default connect()(TaskDeleteRenderer);
