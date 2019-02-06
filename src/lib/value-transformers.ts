@@ -1,10 +1,10 @@
 import { createTransform } from 'redux-persist';
 
 import { ServersState } from '../redux/servers';
-import { TasksState } from '../redux/tasks';
+import { OnTickFunctionFactory, TasksState } from '../redux/tasks';
 import { decryptPassword, encryptPassword } from './crypto';
 
-// Null out our cronjob and stringify <-> functionify or onTick
+// Null out our cronjob and stringify <-> functionify onTick
 export const functionTransform = createTransform<TasksState, any[]>(
   // Called before state is persisted
   (inboundState: TasksState) => {
@@ -16,12 +16,10 @@ export const functionTransform = createTransform<TasksState, any[]>(
   },
   // Called before state is rehydrated
   outboundState => {
-    // TODO: How can I pass Dispatch and GetState and the Task to my onTick?
-    // TODO: I need to probably handle this by dispatching a hydrate tasks thunk that can do this?
     return outboundState.map((task: any) => ({
       ...task,
       job: null,
-      onTick: eval(task.onTick)
+      onTick: eval(task.onTick) as OnTickFunctionFactory // tslint:disable-line
     }));
   },
   // What reducer to run this transform on

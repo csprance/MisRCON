@@ -9,7 +9,8 @@ import {
   passwordTransform
 } from '../lib/value-transformers';
 import { rootReducer } from './index';
-import { RootAction, RootState } from './redux-types';
+import { Dispatch, RootAction, RootState } from './redux-types';
+import { hydrateTaskThunk } from './tasks/actions';
 
 export const configureStore = () => {
   // redux-persist config
@@ -43,7 +44,9 @@ export const configureStore = () => {
     )
   );
 
-  const persistor = persistStore(store);
+  const persistor = persistStore(store, {}, () => {
+    (store.dispatch as Dispatch)(hydrateTaskThunk());
+  });
 
   return { store, persistor };
 };

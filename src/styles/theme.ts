@@ -12,13 +12,13 @@ export const theme: Theme = createMuiTheme({
     },
     MuiListItemText: {
       primary: { color: text.secondary }
-    },
+    }
   },
   palette: {
-    text: { primary: '#ffffff', secondary: '#7e8186' },
+    text: { primary: text.primary, secondary: text.secondary },
     type: 'dark',
     background: { default: bg0, paper: bg0 },
-    primary: { main: '#7e8186' }, // Purple and green play nicely together.
-    secondary: { main: bg4 } // This is just green.A700 as hex.
+    primary: { main: '#7e8186' },
+    secondary: { main: bg4 }
   }
 });

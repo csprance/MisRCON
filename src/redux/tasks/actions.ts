@@ -2,9 +2,48 @@ import { CronJob } from 'cron';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { AsyncThunkResult } from '../redux-types';
-import { makeTaskByIDSelector } from './selectors';
+import { makeTaskByIDSelector, tasksSelector } from './selectors';
 import { Task } from './types';
 import { getCronStringOrDate } from './utils';
+
+/*
+ * Hydrate Tasks.
+ * Creates CronJobs for each task and
+ * adds the Dispatch, getState, and Task to the onTick Function
+ */
+export const hydrateTasks = createAsyncAction(
+  'tasks/HYDRATE_REQUEST',
+  'tasks/HYDRATE_SUCCESS',
+  'tasks/HYDRATE_FAILURE'
+)<void, Task[], string>();
+export const hydrateTaskThunk = (): AsyncThunkResult<void> => async (
+  dispatch,
+  getState
+) => {
+  dispatch(hydrateTasks.request());
+  try {
+    const tasks = tasksSelector(getState());
+    const tasksWithJobs = tasks.map(task => ({
+      ...task,
+      job: new CronJob(
+        getCronStringOrDate(task),
+        task.onTick(dispatch, getState, task),
+        () => null,
+        task.active,
+        task.timeZone
+      )
+    }));
+    // Start each task if we need to
+    tasksWithJobs.forEach(task => {
+      if (task.active) {
+        task.job.start();
+      }
+    });
+    dispatch(hydrateTasks.success(tasksWithJobs));
+  } catch (e) {
+    dispatch(hydrateTasks.failure(e.toString()));
+  }
+};
 
 /*
 Toggle a task
