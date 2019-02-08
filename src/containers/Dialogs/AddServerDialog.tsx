@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { Omit } from '../../@types/global';
-import MisRCONLogo from '../../components/images/MisRCONLogo';
 import NoHoverIconButton from '../../components/NoHoverIconButton';
 import { toggleAddServerDialog } from '../../redux/app/actions';
 import { addServerDialogShowingSelector } from '../../redux/app/selectors';
@@ -58,17 +57,19 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
   showing
 }) => {
   const defaultState: State = {
-    id: '',
-    avatar: '',
-    name: '',
-    ip: '',
-    port: '',
-    password: '',
+    id: `${Date.now()}`,
+    avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
+    name: 'Dev',
+    ip: 'localhost',
+    port: '64094',
+    password: 'password',
     active: false,
     selfHosted: false,
     rootPath: ''
   };
-  const [state, setState] = React.useState<State>({ ...defaultState });
+  const [state, setState] = React.useState<State>({
+    ...defaultState
+  });
 
   const handleClick = () => {
     addServer({
@@ -101,7 +102,11 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
     <Dialog fullWidth onClose={() => closeDialog()} open={showing}>
       <Wrapper>
         <InnerWrapper>
-          <MisRCONLogo />
+          <img
+            style={{ borderRadius: '50%', width: 200, height: 200 }}
+            src={state.avatar}
+            alt=""
+          />
           <Typography variant={'h4'}>Add Server</Typography>
           <CenterSection>
             <TextField
@@ -185,7 +190,8 @@ const mapStateToProps = (state: RootState) => ({
   showing: addServerDialogShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addServer: (server: Server) => dispatch(serversActions.addServer(server)),
+  addServer: (server: Server) =>
+    dispatch(serversActions.addServerThunk(server)),
   closeDialog: () => dispatch(toggleAddServerDialog())
 });
 export default connect(

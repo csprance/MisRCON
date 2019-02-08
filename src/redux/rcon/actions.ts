@@ -2,6 +2,7 @@ import { NodeMisrcon, parseResponse } from 'node-misrcon';
 import { createAsyncAction } from 'typesafe-actions';
 
 import { logRCONError, logRCONResponse } from '../../lib/logger';
+import { addPlayerThunk, markAllPlayersInactive } from '../players/actions';
 import { AsyncThunkResult } from '../redux-types';
 import { IRCONRequest } from './types';
 
@@ -10,13 +11,15 @@ export const sendRCON = createAsyncAction(
   'rcon/SUCCESS',
   'rcon/FAILED'
 )<void, IRCONRequest, IRCONRequest>();
-
 export const sendRCONAsyncThunk = ({
   ip,
   port,
   password,
   command
-}: IRCONRequest): AsyncThunkResult<IRCONRequest> => async dispatch => {
+}: Pick<
+  IRCONRequest,
+  'ip' | 'port' | 'password' | 'command'
+>): AsyncThunkResult<IRCONRequest> => async dispatch => {
   dispatch(sendRCON.request());
   // Initialize our request object and rcon api
   const rcon = new NodeMisrcon({ ip, port, password });
@@ -35,6 +38,13 @@ export const sendRCONAsyncThunk = ({
     request.response = await rcon.send(command);
     request.date = Date.now();
     request.parsedResponse = parseResponse(request.response);
+    // If we have any players run the add player thunk
+    if (request.parsedResponse && request.parsedResponse.type === 'status') {
+      request.parsedResponse.data.playersArray.forEach(async player => {
+        await dispatch(markAllPlayersInactive());
+        await dispatch(addPlayerThunk(player));
+      });
+    }
     // Dispatch our success
     dispatch(sendRCON.success(request));
     logRCONResponse(request);

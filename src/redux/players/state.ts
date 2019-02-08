@@ -22,7 +22,7 @@ export const defaultPlayer: Player = {
 
 export const playersColumnDefs: AgGrid.ColDef[] = [
   {
-    cellRenderer: 'booleanRenderer',
+    cellRenderer: 'BooleanRenderer',
     field: 'active',
     headerName: 'Active',
     width: 100,
@@ -31,6 +31,7 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     resizable: true
   },
   {
+    cellRenderer: 'NameRenderer',
     field: 'name',
     headerName: 'Name',
     width: 250,

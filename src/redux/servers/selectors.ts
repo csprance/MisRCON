@@ -2,9 +2,15 @@ import { createSelector } from 'reselect';
 import { RootState } from '../redux-types';
 import { idPropsSelector, ipPortPropsSelector } from '../selectors';
 import { defaultServer } from './state';
+import { ServersState } from './types';
 
-export const serversSelector = (state: RootState, _props?: any) =>
+export const serversSelector = (state: RootState, _props?: any): ServersState =>
   state.servers;
+
+export const serverIDsSelector = createSelector(
+  serversSelector,
+  (servers): number[] => servers.map(server => server.id)
+);
 
 export const serverByIpPortSelector = createSelector(
   serversSelector,

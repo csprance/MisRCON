@@ -6,13 +6,12 @@ import AddServerButton from '../components/AddServerButton';
 import ServerAvatar from '../components/ServerAvatar';
 import { toggleAddServerDialog } from '../redux/app/actions';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { ServersState } from '../redux/servers';
+import { Server, ServersState  } from '../redux/servers';
 import { markServerActive } from '../redux/servers/actions';
 import {
   activeServerSelector,
   serversSelector
 } from '../redux/servers/selectors';
-import { Server } from '../redux/servers/types';
 import { bg0 } from '../styles/colors';
 
 const Wrapper = styled.div`

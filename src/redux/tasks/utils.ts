@@ -1,3 +1,4 @@
+import logger from '../../lib/logger';
 import { Dispatch, GetStateFunc } from '../redux-types';
 import { Task } from './types';
 /*
@@ -12,14 +13,43 @@ export const getCronStringOrDate = (task: Task) => {
   }
   throw new Error('Task is missing Cron String or Date');
 };
+export const makeDefaultRCONCommand = (command: string) => {
+  return (dispatch: Dispatch, getState: GetStateFunc, task: Task) => {
+    // Initialize RCON
+    return async () => {
+      const { NodeMisrcon } = require('node-misrcon');
+
+      const { ip, port, password } = getState().servers.find(
+        server => server.id === task.serverId
+      )!;
+
+      const rcon = new NodeMisrcon({ ip, port, password });
+      try {
+        await rcon.send(command);
+        dispatch({ type: 'task/INCREMENT_TASK', payload: task.id });
+      } catch (e) {
+        logger.log('error', 'TASK ERROR - ', e);
+      }
+    };
+  };
+};
 
 export const defaultRCONCommand = (
   dispatch: Dispatch,
-  _getState: GetStateFunc,
+  getState: GetStateFunc,
   task: Task
 ) => {
   // Initialize RCON
   return async () => {
+    const { NodeMisrcon } = require('node-misrcon');
+
+    const { ip, port, password } = getState().servers.find(
+      server => server.id === task.serverId
+    )!;
+
+    const rcon = new NodeMisrcon({ ip, port, password });
+    console.log(rcon);
+
     dispatch({ type: 'task/INCREMENT_TASK', payload: task.id });
   };
 };

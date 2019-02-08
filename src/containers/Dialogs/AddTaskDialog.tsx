@@ -6,8 +6,10 @@ import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import * as moment from 'moment';
+import { highlight, languages } from 'prismjs';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
 import { Omit } from '../../@types/global';
@@ -15,10 +17,13 @@ import { toggleAddTaskDialog } from '../../redux/app/actions';
 import { addTaskDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { activeServerIDSelector } from '../../redux/servers/selectors';
+import { Task } from '../../redux/tasks';
 import { addTaskThunk } from '../../redux/tasks/actions';
-import { Task } from '../../redux/tasks/types';
-import { defaultRCONCommand } from '../../redux/tasks/utils';
-import { bg1, bg3 } from '../../styles/colors';
+import {defaultRCONCommand, makeDefaultRCONCommand} from '../../redux/tasks/utils';
+import { bg1, bg3, text } from '../../styles/colors';
+
+import 'prismjs/components/prism-clike.js';
+import 'prismjs/components/prism-javascript.js';
 
 const TabWrapper = styled.div`
   width: 100%;
@@ -47,6 +52,13 @@ const CenterSection = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
+`;
+const EditorWrapper = styled.div`
+  max-height: 200px;
+  overflow-y: scroll;
+  & textarea {
+    outline: none;
+  }
 `;
 const defaultState: State = {
   id: 0,
@@ -91,7 +103,7 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
       active: false,
       cronString: type === 'recurring' ? state.cronString : null,
       date: type === 'date' ? moment(state.date).toDate() : null,
-      onTick: eval(state.code),
+      onTick: makeDefaultRCONCommand(command),
       serverId: activeServerId
     });
     setState({
@@ -158,6 +170,22 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   name={'command'}
                   label={'RCON Command'}
                 />
+                <EditorWrapper>
+                  <Editor
+                    value={state.code}
+                    onValueChange={newCode => setState({...state, code: newCode})}
+                    highlight={newCode => highlight(newCode, languages.js)}
+                    padding={10}
+                    style={{
+                      marginTop: 25,
+                      overflowY: 'scroll',
+                      backgroundColor: bg1,
+                      color: text.primary,
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      fontSize: 12
+                    }}
+                  />
+                </EditorWrapper>
               </CenterSection>
               <Button
                 style={{ marginTop: 25 }}
@@ -200,6 +228,22 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   name={'command'}
                   label={'RCON Command'}
                 />
+                <EditorWrapper>
+                  <Editor
+                    value={state.code}
+                    onValueChange={newCode => setState({...state, code: newCode})}
+                    highlight={newCode => highlight(newCode, languages.js)}
+                    padding={10}
+                    style={{
+                      marginTop: 25,
+                      overflowY: 'scroll',
+                      backgroundColor: bg1,
+                      color: text.primary,
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      fontSize: 12
+                    }}
+                  />
+                </EditorWrapper>
               </CenterSection>
               <Button
                 style={{ marginTop: 25 }}

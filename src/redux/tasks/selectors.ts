@@ -17,6 +17,12 @@ export const taskByIdSelector = createSelector(
   (tasks, id) => tasks.find(task => task.id === id)
 );
 
+export const tasksByServerIdSelector = createSelector(
+  tasksSelector,
+  propsIdSelector,
+  (tasks, id) => tasks.filter(task => task.serverId === id)
+);
+
 export const makeTaskByIDSelector = () => taskByIdSelector;
 
 export const activeTasksSelector = createSelector(

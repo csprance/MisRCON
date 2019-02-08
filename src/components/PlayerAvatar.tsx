@@ -33,10 +33,15 @@ const PlayerAvatar: React.FunctionComponent<Props> = ({
   alt,
   mini = true
 }) => {
-  const size = mini ? { width: 42, height: 42 } : { width: 125, height: 125 };
+  const ds = {
+    filter: !active ? 'grayscale(100%) brightness(30%)' : ''
+  };
+  const style = mini
+    ? { ...ds, width: 42, height: 42 }
+    : { width: 125, height: 125 };
   return (
     <Wrapper>
-      <Avatar style={size} src={src} alt={alt} />
+      <Avatar style={style} src={src} alt={alt} />
       <ConnectionStatusCircle mini={mini} active={active} />
     </Wrapper>
   );

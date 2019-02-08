@@ -1,4 +1,4 @@
-import { NodeMisrcon } from 'node-misrcon';
+import { IPlayer, NodeMisrcon } from 'node-misrcon';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { AsyncThunkResult } from '../redux-types';
@@ -19,50 +19,62 @@ export const getPlayersViaRCON = createAsyncAction(
   'players/GET_VIA_RCON_REQUEST',
   'players/GET_VIA_RCON_SUCCESS',
   'players/GET_VIA_RCON_FAILED'
-)<void, Player[], string>();
+)<void, void, string>();
 export const getPlayersViaRCONThunk = (): AsyncThunkResult<any> => async (
   dispatch,
   getState
 ) => {
-  // Mark all players inactive
   dispatch(getPlayersViaRCON.request());
   try {
-    const activeServerID = activeServerSelector(getState()).id;
+    await dispatch(markAllPlayersInactive());
     const activeServerCredentials = activeServerCredentialsSelector(getState());
     const { playersArray } = await new NodeMisrcon({
       ...activeServerCredentials
     }).getStatus();
-    // If the player has an avatar in store grab that
-    const storePlayers: Player[] = playersSelector(getState());
-    const syncedPlayers: Player[] = await Promise.all([
-      ...playersArray.map(async newPlayer => {
-        const storedPlayer = storePlayers.find(
-          pl => pl.steam === newPlayer.steam
-        );
-        // If the player is stored update it's data
-        if (storedPlayer) {
-          const pl: Player = { ...storedPlayer, ...newPlayer };
-          return pl;
-        }
-        // If the player is not stored create new data
-        const player: Player = {
-          ...newPlayer,
-          avatarUrl: await getSteamAvatar(newPlayer.steam),
-          active: true,
-          serverID: activeServerID,
-          color: '#fff',
-          notes: '',
-          banned: [],
-          whitelisted: [],
-          seenOn: []
-        };
-        return player;
-      })
-    ]);
-
-    dispatch(getPlayersViaRCON.success(syncedPlayers));
+    playersArray.forEach(async player => {
+      await dispatch(addPlayerThunk(player));
+    });
+    dispatch(getPlayersViaRCON.success());
   } catch (err) {
     dispatch(getPlayersViaRCON.failure(err.toString()));
+  }
+};
+
+export const addPlayer = createAsyncAction(
+  'players/ADD_PLAYER_REQUEST',
+  'players/ADD_PLAYER_SUCCESS',
+  'players/ADD_PLAYER_FAILED'
+)<void, Player, string>();
+export const addPlayerThunk = (
+  player: IPlayer
+): AsyncThunkResult<void> => async (dispatch, getState) => {
+  dispatch(addPlayer.request());
+  try {
+    const storePlayers: Player[] = playersSelector(getState());
+    const activeServerID = activeServerSelector(getState()).id;
+    const storedPlayer = storePlayers.find(pl => pl.steam === player.steam);
+    // If the player is stored update it's data
+    if (storedPlayer) {
+      const pl: Player = { ...storedPlayer, ...player, active: true };
+      dispatch(addPlayer.success(pl));
+      return;
+    }
+    // If the player is not stored create new data
+    const syncedPlayer: Player = await {
+      ...player,
+      avatarUrl: await getSteamAvatar(player.steam),
+      active: true,
+      serverID: activeServerID,
+      color: '#fff',
+      notes: '',
+      banned: [],
+      whitelisted: [],
+      seenOn: []
+    };
+    dispatch(addPlayer.success(syncedPlayer));
+    return;
+  } catch (err) {
+    dispatch(addPlayer.failure(err.toString()));
   }
 };
 
@@ -77,7 +89,7 @@ export const banPlayer = createAsyncAction(
 export const banPlayerThunk = (
   player: Player
 ): AsyncThunkResult<any> => async dispatch => {
-  // Tell Redux were requesting data from the db
+  // Tell Redux we're requesting data from the db
   dispatch(banPlayer.request());
   try {
     dispatch(banPlayer.success(player));
@@ -107,6 +119,15 @@ export const kickPlayerThunk = (
 };
 
 export const setPlayerNote = createAction(
-  'player/SET_NOTE',
+  'players/SET_NOTE',
   resolve => (steam: string, notes: string) => resolve({ steam, notes })
+);
+
+export const setPlayerColor = createAction(
+  'players/SET_COLOR',
+  resolve => (steam: string, color: string) => resolve({ steam, color })
+);
+
+export const markAllPlayersInactive = createAction(
+  'players/MARK_ALL_PLAYERS_INACTIVE'
 );

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
+import { toggleAddWhitelistDialog } from '../../redux/app/actions';
 import { playerSidebarOpenSelector } from '../../redux/app/selectors';
 import { whitelistedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
@@ -25,6 +26,7 @@ const Wrapper = styled.div`
 type Props = {
   sideBarShowing: boolean;
   whitelistedPlayers: Player[];
+  toggleAddWhitelistDialog: () => void;
 };
 type State = {
   filterValue: string;
@@ -72,10 +74,11 @@ class WhitelistGrid extends React.Component<Props, State> {
     this.setState({
       filterValue: e.target.value
     });
+    this.api.setQuickFilter(e.target.value);
   };
 
   handleAddClicked = () => {
-    console.log('Add');
+    this.props.toggleAddWhitelistDialog();
   };
 
   handleRefreshClicked = () => {
@@ -104,7 +107,12 @@ class WhitelistGrid extends React.Component<Props, State> {
   }
 }
 
-export default connect((state: RootState) => ({
-  sideBarShowing: playerSidebarOpenSelector(state),
-  whitelistedPlayers: whitelistedPlayersOnActiveServer(state)
-}))(WhitelistGrid);
+export default connect(
+  (state: RootState) => ({
+    sideBarShowing: playerSidebarOpenSelector(state),
+    whitelistedPlayers: whitelistedPlayersOnActiveServer(state)
+  }),
+  dispatch => ({
+    showAddWhitelistDialog: dispatch(toggleAddWhitelistDialog())
+  })
+)(WhitelistGrid);

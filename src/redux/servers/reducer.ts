@@ -8,12 +8,8 @@ export default (
   action: ServersActions
 ): ServersState => {
   switch (action.type) {
-    case getType(serversActions.addServer):
-      return [
-        // Mark all the other servers
-        ...state.map(server => ({ ...server, active: false })),
-        {...action.payload, active: true}
-      ];
+    case getType(serversActions.addServer.success):
+      return [...state, action.payload];
 
     case getType(serversActions.markServerActive):
       return state.map(server => ({
@@ -21,7 +17,7 @@ export default (
         active: server.id === action.payload
       }));
 
-    case getType(serversActions.removeServer):
+    case getType(serversActions.removeServer.success):
       return state.filter(server => server.id !== action.payload);
 
     default:

@@ -14,9 +14,9 @@ describe('Test Server Selectors', () => {
         serversSelectors.activeServerSelector.resultFunc(allServers)
       )
     ).toEqual({
-      ip: 'loading',
+      ip: '',
       port: 0,
-      password: 'THisIsCool324HashMan'
+      password: ''
     });
   });
 });

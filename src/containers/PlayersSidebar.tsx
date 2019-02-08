@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import PlayerListItem from '../components/PlayerListItem';
-import Player from '../db/entities/Player';
 import {
   setPlayerActiveInPlayerProfile,
   togglePlayerProfileDialog
@@ -20,6 +19,7 @@ import {
   activePlayersOnActiveServerSelector,
   inactivePlayersOnActiveServerSelector
 } from '../redux/players/selectors';
+import { Player } from '../redux/players/types';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { bg1 } from '../styles/colors';
 
@@ -35,6 +35,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
 type Props = {
@@ -56,8 +57,6 @@ class PlayersSidebar extends React.Component<Props, State> {
       <Wrapper showing={showing}>
         <List
           style={{
-            overflow: 'hidden',
-            overflowY: 'auto',
             width: '100%'
           }}
           component={'nav'}
@@ -85,8 +84,6 @@ class PlayersSidebar extends React.Component<Props, State> {
 
         <List
           style={{
-            overflow: 'hidden',
-            overflowY: 'auto',
             width: '100%'
           }}
           component={'nav'}

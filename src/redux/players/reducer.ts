@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { ActionType, getType } from 'typesafe-actions';
 import * as playersActions from './actions';
 import { default as defaultState } from './state';
@@ -12,12 +11,14 @@ export default (
 ): PlayersState => {
   switch (action.type) {
     // Set all player to not active
-    case getType(playersActions.getPlayersViaRCON.request):
+    case getType(playersActions.markAllPlayersInactive):
       return state.map(player => ({ ...player, active: false }));
 
-    // Update all the players with new data
-    case getType(playersActions.getPlayersViaRCON.success):
-      return _.uniqBy([...action.payload, ...state], 'steam');
+    case getType(playersActions.addPlayer.success):
+      return [
+        ...state.filter(player => player.steam !== action.payload.steam),
+        action.payload
+      ];
 
     case getType(playersActions.banPlayer.success):
       return state;
@@ -26,10 +27,21 @@ export default (
       return state;
 
     case getType(playersActions.setPlayerNote):
-      const { steam, notes } = action.payload;
       return state.map(player => ({
         ...player,
-        notes: player.steam === steam ? notes : player.notes
+        notes:
+          player.steam === action.payload.steam
+            ? action.payload.notes
+            : player.notes
+      }));
+
+    case getType(playersActions.setPlayerColor):
+      return state.map(player => ({
+        ...player,
+        color:
+          player.steam === action.payload.steam
+            ? action.payload.color
+            : player.color
       }));
 
     default:

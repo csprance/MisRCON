@@ -1,5 +1,4 @@
-import Server from '../../db/entities/Server';
-import { ServersState } from './types';
+import { Server, ServersState } from './types';
 
 export const defaultServer: Server = {
   id: 0,

@@ -24,23 +24,27 @@ const Wrapper = styled.div`
   align-items: center;
   padding-right: 10px;
 `;
-const HeaderBarText = styled.div`
+const ServerName = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${text.primary};
   font-size: 0.9em;
-  flex-grow: 1;
+  flex-grow: 5;
 `;
 const Divider = styled.div`
   font-size: 2em;
   color: ${bg1};
   margin-left: 10px;
 `;
-const PlayerCount = styled(HeaderBarText)`
+const PlayerCount = styled.div`
+  font-size: 0.9em;
+  flex-grow: 1;
   display: flex;
   margin-left: 10px;
   color: ${text.secondary};
 `;
 const Spacer = styled.div`
-  flex-grow: 1;
   width: 100%;
   height: 100%;
 `;
@@ -51,19 +55,22 @@ interface ReduxProps {
   toggleSettingsDialog: () => void;
 }
 const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
-  const name = props.status ? props.status.name : '...';
-  const version = props.status ? props.status.version : '...';
-  const map = props.status ? props.status.level : '...';
-  const weather = props.status ? props.status.weather : '...';
+  const name = props.status ? props.status.name : '';
+  const version = props.status ? props.status.version : '';
+  const map = props.status ? props.status.level : '';
+  const weather = props.status ? props.status.weather : '';
+  const time = props.status ? props.status.time : '';
   return (
     <Wrapper>
-      <HeaderBarText>{name}</HeaderBarText>
+      <ServerName>{name}</ServerName>
       <Divider> | </Divider>
       <PlayerCount>{version}</PlayerCount>
       <Divider> | </Divider>
       <PlayerCount>{map}</PlayerCount>
       <Divider> | </Divider>
       <PlayerCount>{weather}</PlayerCount>
+      <Divider> | </Divider>
+      <PlayerCount>{time}</PlayerCount>
       <Spacer />
       <TogglePlayerListButton onClick={props.togglePlayerList} />
       <ToggleSettingsButton onClick={props.toggleSettingsDialog} />

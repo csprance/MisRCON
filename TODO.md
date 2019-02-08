@@ -1,16 +1,12 @@
 # TODO List
-* Edit task framework renderers for ag-grid
-    * Server name
-    * Cron String
-    * Date
-* Add Server dialog Tweaks
-    * Server Avatars
+* Task Add Dialog - Hook up using standard rcon command or custom code
 * Edit Server Window
-* Player Profile Kick/Ban/Menu wiring
-* Logs
-* Chat
-* Default RCON Command
-* Hosting
 * Plot Players on Map from self Hosted server
-* Player Profile Color
+* Logs
+* Hosting
+* Chat
 * Auto updater
+* Purge Memory in App-Settings
+* Change Salt in App-Settings
+* Error notification
+* React-ace for hosting.cfg

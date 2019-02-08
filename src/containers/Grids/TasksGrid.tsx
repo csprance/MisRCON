@@ -74,6 +74,7 @@ class TasksGrid extends React.Component<Props, State> {
     this.setState({
       filterValue: e.target.value
     });
+    this.api.setQuickFilter(e.target.value);
   };
 
   handleAddTaskClicked = () => {

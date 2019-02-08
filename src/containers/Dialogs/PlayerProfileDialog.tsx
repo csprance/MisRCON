@@ -10,15 +10,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import ColorPicker from '../../components/ColorPicker';
+import PlayerMenu from '../../components/Menus/PlayerMenu';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import SubHeader from '../../components/SubHeader';
 import { hidePlayerProfileDialog } from '../../redux/app/actions';
-import { setPlayerNote } from '../../redux/players/actions';
+import {
+  banPlayerThunk,
+  kickPlayerThunk,
+  setPlayerColor,
+  setPlayerNote
+} from '../../redux/players/actions';
 import { makePlayerByPartialSelector } from '../../redux/players/selectors';
 import { defaultPlayer } from '../../redux/players/state';
 import { Player } from '../../redux/players/types';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { bg1, bg3, text } from '../../styles/colors';
+import { openExternally } from '../../lib/utils';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,6 +50,7 @@ const NoteSection = styled.div`
   background: ${bg3};
   min-height: 200px;
 `;
+const TabWrapper = styled.div``;
 const ColoredText = styled.div`
   color: ${({ color }) => color};
 `;
@@ -54,29 +63,51 @@ const Spacer = styled.div`
   flex-grow: 1;
   height: 10px;
 `;
-const TabWrapper = styled.div``;
 interface Props {}
 type ReduxProps = {
   player: Player;
   open: boolean;
   closeDialog: () => void;
-  updatePlayerNote: (note: string, steam: string) => void;
+  updatePlayerColor: (steam: string, color: string) => void;
+  updatePlayerNote: (steam: string, note: string) => void;
+  kickPlayer: (player: Player) => void;
+  banPlayer: (player: Player) => void;
 };
 const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
   player,
   open,
   updatePlayerNote,
-  closeDialog
+  updatePlayerColor,
+  closeDialog,
+  kickPlayer,
+  banPlayer
 }) => {
-  const [navIndex, setNavIndex] = React.useState(0);
-  const [notes, setNotes] = React.useState(player.notes);
+  const [navIndex, setNavIndex] = React.useState<number>(1);
+  const [anchorEl, setAnchor] = React.useState<HTMLElement | null>(null);
+
   const handleChange = (_: any, newValue: number) => {
     setNavIndex(newValue);
   };
 
   const handleNotesChange = (e: any) => {
-    setNotes(e.target.value);
-    updatePlayerNote(e.target.value, player.steam);
+    updatePlayerNote(player.steam, e.target.value);
+  };
+
+  const handleColorButtonClick = (color: string) => {
+    updatePlayerColor(player.steam, color);
+  };
+
+  const handleKickPlayerClicked = () => {
+    kickPlayer(player);
+  };
+
+  const handleBanPlayerClicked = () => {
+    banPlayer(player);
+  };
+
+  const handleMoreVertClicked = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchor(e.currentTarget);
+    kickPlayer(player);
   };
 
   return (
@@ -96,13 +127,34 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
             <SteamText>{player.steam}</SteamText>
           </RightSide>
           <Spacer />
-          <Button variant={'contained'}>Kick</Button>
+          <Button variant={'contained'} onClick={handleKickPlayerClicked}>
+            Kick
+          </Button>
           <div style={{ width: 5 }} />
-          <Button variant={'contained'}>Ban</Button>
+          <Button variant={'contained'} onClick={handleBanPlayerClicked}>
+            Ban
+          </Button>
           <div style={{ width: 5 }} />
-          <IconButton>
+          <IconButton onClick={handleMoreVertClicked}>
             <VertIcon />
           </IconButton>
+          <PlayerMenu
+            openSteamCommunity={() =>
+              openExternally(
+                'https://steamcommunity.com/profiles/' + player.steam
+              )
+            }
+            openSteamRep={() =>
+              openExternally('https://steamrep.com/search?q=' + player.steam)
+            }
+            viewPlayerProfile={() => {
+              return;
+            }}
+            anchorEl={anchorEl}
+            banPlayer={() => banPlayer(player)}
+            closePlayerMenu={() => setAnchor(null)}
+            kickPlayer={() => kickPlayer(player)}
+          />
         </InfoSection>
         <TabWrapper>
           <AppBar style={{ backgroundColor: bg1 }} position="static">
@@ -115,13 +167,13 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
           {navIndex === 0 && (
             <NoteSection>
               <SubHeader>Notes:</SubHeader>
-              <TextField onChange={handleNotesChange} value={notes} />
+              <TextField onChange={handleNotesChange} value={player.notes} />
             </NoteSection>
           )}
           {navIndex === 1 && (
             <NoteSection>
               <SubHeader>Color:</SubHeader>
-              Change Color Here
+              <ColorPicker onClick={handleColorButtonClick} />
             </NoteSection>
           )}
           {navIndex === 2 && (
@@ -149,7 +201,11 @@ const mapStateToProps = (state: RootState) => {
 };
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeDialog: () => dispatch(hidePlayerProfileDialog()),
-  updatePlayerNote: (notes: string, steam: string) =>
+  kickPlayer: (player: Player) => dispatch(kickPlayerThunk(player)),
+  banPlayer: (player: Player) => dispatch(banPlayerThunk(player)),
+  updatePlayerColor: (steam: string, color: string) =>
+    dispatch(setPlayerColor(steam, color)),
+  updatePlayerNote: (steam: string, notes: string) =>
     dispatch(setPlayerNote(steam, notes))
 });
 export default connect(

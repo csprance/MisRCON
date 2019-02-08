@@ -25,8 +25,8 @@ import {
 } from '../redux/mismap';
 import { Marker as CustomMarker } from '../redux/mismap/types';
 import { Dispatch, RootState } from '../redux/redux-types';
+import { Server } from '../redux/servers';
 import { activeServerSelector } from '../redux/servers/selectors';
-import { Server } from '../redux/servers/types';
 
 interface Props {
   dispatch: Dispatch;

@@ -3,10 +3,12 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 
+import { openExternally } from '../lib/utils';
 import { Player } from '../redux/players/types';
 import PlayerMenu from './Menus/PlayerMenu';
 import Ping from './Ping';
 import PlayerAvatar from './PlayerAvatar';
+import PlayerName from './PlayerName';
 
 interface Props extends Player {
   viewPlayerProfile: () => void;
@@ -44,7 +46,11 @@ const PlayerListItem: React.FunctionComponent<Props> = ({
         <PlayerAvatar alt={name} src={avatarUrl} active={active} />
         <ListItemText
           inset
-          primary={<span style={{ color }}>{name}</span>}
+          primary={
+            <PlayerName active={active} color={color}>
+              {name}
+            </PlayerName>
+          }
           secondary={steam}
         />
         <ListItemSecondaryAction>
@@ -52,6 +58,12 @@ const PlayerListItem: React.FunctionComponent<Props> = ({
         </ListItemSecondaryAction>
       </ListItem>
       <PlayerMenu
+        openSteamCommunity={() =>
+          openExternally('https://steamcommunity.com/profiles/' + steam)
+        }
+        openSteamRep={() =>
+          openExternally('https://steamrep.com/search?q=' + steam)
+        }
         banPlayer={banPlayer}
         kickPlayer={kickPlayer}
         anchorEl={anchorEl}

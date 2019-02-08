@@ -18,14 +18,14 @@ export default (
       return {
         ...state,
         sending: false,
-        requests: [...state.requests, action.payload]
+        requests: [action.payload, ...state.requests.slice(0, 50)]
       };
 
     case getType(rconActions.sendRCON.failure):
       return {
         ...state,
         sending: false,
-        requests: [...state.requests, action.payload]
+        requests: [action.payload, ...state.requests.slice(0, 50)]
       };
 
     default:

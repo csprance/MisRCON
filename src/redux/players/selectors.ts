@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
-import Player from '../../db/entities/Player';
 import { RootState } from '../redux-types';
 import {
   activeServerIDSelector,
   activeServerSelector
 } from '../servers/selectors';
+import { Player, PlayersState } from './types';
 
-export const playersSelector = (state: RootState, _props?: any) =>
+export const playersSelector = (state: RootState, _props?: any): PlayersState =>
   state.players;
 export const idSelect = (_: RootState, id: number) => id;
 

@@ -8,7 +8,10 @@ import ListItemLink from '../components/ListItemLink';
 import ServerPropertiesListItem from '../components/ServerPropertiesListItem';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { Server } from '../redux/servers';
-import { removeServer } from '../redux/servers/actions';
+import {
+  getServerDataThunk,
+  removeServerThunk
+} from '../redux/servers/actions';
 import { activeServerSelector } from '../redux/servers/selectors';
 import { bg1 } from '../styles/colors';
 
@@ -30,7 +33,7 @@ type OwnProps = {};
 type ReduxProps = {
   activeServer: Server;
   deleteServer: (id: number) => void;
-  refreshServerData: () => void;
+  refreshServer: (server: Server) => void;
 };
 type State = {};
 class NavigationBar extends React.Component<
@@ -41,12 +44,7 @@ class NavigationBar extends React.Component<
   public state = {};
 
   public render() {
-    const {
-      activeServer,
-      deleteServer,
-      location,
-      refreshServerData
-    } = this.props;
+    const { activeServer, deleteServer, location, refreshServer } = this.props;
 
     return (
       <Wrapper>
@@ -59,7 +57,7 @@ class NavigationBar extends React.Component<
           component="nav"
         >
           <ServerPropertiesListItem
-            refreshServerData={() => refreshServerData()}
+            refreshServerData={() => refreshServer(activeServer)}
             deleteServer={() => deleteServer(activeServer.id)}
             activeServer={activeServer}
           />
@@ -123,7 +121,8 @@ const mapStateToProps = (state: RootState, _ownProps: OwnProps) => ({
   activeServer: activeServerSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch, _ownProps: OwnProps) => ({
-  deleteServer: (id: number) => dispatch(removeServer(id))
+  deleteServer: (id: number) => dispatch(removeServerThunk(id)),
+  refreshServer: (server: Server) => dispatch(getServerDataThunk(server))
 });
 export default withRouter(
   connect(

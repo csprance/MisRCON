@@ -9,13 +9,17 @@ type Props = {
   closePlayerMenu: () => void;
   kickPlayer: () => void;
   viewPlayerProfile: () => void;
+  openSteamCommunity: () => void;
+  openSteamRep: () => void;
 };
 const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   closePlayerMenu,
   viewPlayerProfile,
   banPlayer,
-  kickPlayer
+  kickPlayer,
+  openSteamCommunity,
+  openSteamRep
 }) => {
   const handleViewProfileClicked = () => {
     viewPlayerProfile();
@@ -27,6 +31,14 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   };
   const handleKickPlayerClicked = () => {
     kickPlayer();
+    closePlayerMenu();
+  };
+  const handleSteamRepClicked = () => {
+    openSteamRep();
+    closePlayerMenu();
+  };
+  const handleSteamCommunityClicked = () => {
+    openSteamCommunity();
     closePlayerMenu();
   };
   return (
@@ -47,8 +59,14 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
       <MenuItem dense onClick={handleBanPlayerClicked}>
         Ban Player
       </MenuItem>
+      <MenuItem dense onClick={handleSteamCommunityClicked}>
+        Steam Community
+      </MenuItem>
+      <MenuItem dense onClick={handleSteamRepClicked}>
+        Steam Rep
+      </MenuItem>
       <MenuItem disabled dense onClick={closePlayerMenu}>
-        Add Player to Faction
+        Add to Faction
       </MenuItem>
     </Menu>
   );

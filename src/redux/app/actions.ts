@@ -45,3 +45,6 @@ export const toggleAddServerDialog = createAction(
 export const toggleSettingsDialog = createAction('app/TOGGLE_SETTING_DIALOG');
 
 export const toggleAddTaskDialog = createAction('app/TOGGLE_ADD_TASK_DIALOG');
+
+
+export const toggleAddWhitelistDialog = createAction('app/TOGGLE_ADD_WHITELIST_DIALOG');

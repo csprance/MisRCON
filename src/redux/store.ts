@@ -13,6 +13,12 @@ import { Dispatch, RootAction, RootState } from './redux-types';
 import { hydrateTaskThunk } from './tasks/actions';
 
 export const configureStore = () => {
+  // FIXME: This is a hack tof ix redux dev tools not working with redux 4 in electron
+  const reduxModule = require('redux'); // tslint:disable:no-var-requires
+  reduxModule.__DO_NOT_USE__ActionTypes.INIT = '@@redux/INIT';
+  reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/REPLACE';
+  // End Hack
+
   // redux-persist config
   const persistConfig = {
     key: 'root',
@@ -20,13 +26,6 @@ export const configureStore = () => {
     transforms: [functionTransform, passwordTransform]
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-  // FIXME: This is a hack tof ix redux dev tools not working with redux 4
-  // tslint:disable:no-var-requires
-  const reduxModule = require('redux');
-  reduxModule.__DO_NOT_USE__ActionTypes.INIT = '@@redux/INIT';
-  reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/REPLACE';
-  // End Hack
 
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -45,6 +44,7 @@ export const configureStore = () => {
   );
 
   const persistor = persistStore(store, {}, () => {
+    // We send this thunk to start all the node-cron Cronjobs so they have dispatch,getState,Task
     (store.dispatch as Dispatch)(hydrateTaskThunk());
   });
 

@@ -21,6 +21,7 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
 
   const handleRefreshServerData = ()=> {
     refreshServerData()
+    handleClose();
   };
 
   return (
@@ -32,7 +33,7 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
       style={{ marginLeft: 50, marginTop: 50, zIndex: 1600 }}
       onClose={handleClose}
     >
-      <MenuItem dense onClick={handleClose}>Edit Server</MenuItem>
+      <MenuItem disabled dense onClick={handleClose}>Edit Server</MenuItem>
       <MenuItem dense onClick={handleDeleteClick}>Delete Server</MenuItem>
       <MenuItem dense onClick={handleRefreshServerData}>Refresh Server Data</MenuItem>
     </Menu>

@@ -33,7 +33,7 @@ class PlayersGrid extends React.Component<Props, State> {
   public api!: AgGrid.GridApi;
   public columnApi!: AgGrid.ColumnApi;
   state: State = {
-    filterValue: ''
+    filterValue: '',
   };
 
   componentDidUpdate(nextProps: Props) {
@@ -72,11 +72,13 @@ class PlayersGrid extends React.Component<Props, State> {
     this.setState({
       filterValue: e.target.value
     });
+    this.api.setQuickFilter(e.target.value);
   };
 
   handleRefreshClicked = () => {
-    console.log('Refresh Task');
+    console.log('Refresh Players');
   };
+
   render() {
     return (
       <Wrapper>

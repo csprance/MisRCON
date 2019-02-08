@@ -16,6 +16,7 @@
       href="resources/vendor/ag-grid/ag-theme-misrcon.css"
     />
     <link rel="stylesheet" href="resources/vendor/markdown/markdown.css" />
+    <link rel="stylesheet" href="resources/vendor/primsjs/prims.css" />
   </head>
   <body>
     <div id="App"></div>
@@ -24,6 +25,7 @@
     window.exports = module.exports;
   </script>
   <script type="text/tsx">
+    import { NodeMisrcon } from 'node-misrcon';
     import 'reflect-metadata';
     import * as React from 'react';
     import * as ReactDOM from 'react-dom';
@@ -37,6 +39,7 @@
     import { GlobalStyles } from './styles/global-styles'
     import ScrollbarStyles from './styles/scrollbar-styles'
 
+    window.NodeMisrcon = NodeMisrcon;
     const { store, persistor } = configureStore();
     let render = async () => {
       const { App } = require('./app');
