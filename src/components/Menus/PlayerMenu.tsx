@@ -4,7 +4,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import * as React from 'react';
 
 type Props = {
-  anchorEl: any;
+  active: boolean;
+  anchorEl: HTMLElement | null;
   banPlayer: () => void;
   closePlayerMenu: () => void;
   kickPlayer: () => void;
@@ -12,7 +13,7 @@ type Props = {
   openSteamCommunity: () => void;
   openSteamRep: () => void;
 };
-const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
+const PlayerMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   closePlayerMenu,
   viewPlayerProfile,
@@ -72,4 +73,4 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   );
 };
 
-export default ServerPropertiesMenu;
+export default PlayerMenu;

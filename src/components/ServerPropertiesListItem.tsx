@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `;
 
 type Props = {
+  toggleEditServerDialog: () => void;
   refreshServerData: () => void;
   activeServer: Server;
   deleteServer: () => void;
@@ -37,7 +38,7 @@ class ServerPropertiesListItem extends React.Component<Props, State> {
   };
 
   public render() {
-    const { activeServer, deleteServer, refreshServerData } = this.props;
+    const { activeServer, deleteServer, refreshServerData, toggleEditServerDialog } = this.props;
     const { anchorEl } = this.state;
     return (
       <Wrapper>
@@ -56,6 +57,7 @@ class ServerPropertiesListItem extends React.Component<Props, State> {
           </ListItemIcon>
         </ListItem>
         <ServerPropertiesMenu
+          toggleEditServerDialog={toggleEditServerDialog}
           refreshServerData={refreshServerData}
           anchorEl={anchorEl}
           deleteServer={deleteServer}

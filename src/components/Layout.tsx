@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import AddServerDialog from '../containers/Dialogs/AddServerDialog';
 import AddTaskDialog from '../containers/Dialogs/AddTaskDialog';
+import EditServerDialog from '../containers/Dialogs/EditServerDialog';
 import PlayerProfileDialog from '../containers/Dialogs/PlayerProfileDialog';
 import SettingsDialog from '../containers/Dialogs/SettingsDialog';
 import HeaderBar from '../containers/HeaderBar';
@@ -47,6 +48,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
       </Content>
       <PlayerProfileDialog />
       <AddServerDialog />
+      <EditServerDialog />
       <AddTaskDialog />
       <SettingsDialog />
     </Wrapper>

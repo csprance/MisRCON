@@ -12,6 +12,7 @@ export type AppState = {
   addTaskDialogOpen: boolean;
   settingsDialogOpen: boolean;
   addServerDialogOpen: boolean;
+  updateServerDialogOpen: boolean;
 
   // /////////////
   // Others

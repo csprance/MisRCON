@@ -11,32 +11,34 @@ const OutputList = ({
   outputRenderers,
   outputs,
   ...outputRendererProps
-}: Props) => (
-  <div className={'terminalOutput'}>
-    {outputs.map((output: any) => {
+}: Props) => {
+  return (
+    <div className={'terminalOutput'}>
+      {outputs.map((output: any) => {
+        const type = output.get('type');
+        const content = output.get('content');
+        const date = output.get('date');
+        // console.log(type, content, date);
 
-      const type = output.get('type');
-      const content = output.get('content');
-      const date = output.get('date');
+        if (!outputRenderers.hasOwnProperty(type)) {
+          throw new Error(
+            `No output renderer set for ${type} in outputRenderers`
+          );
+        }
 
-      if (!outputRenderers.hasOwnProperty(type)) {
-        throw new Error(
-          `No output renderer set for ${type} in outputRenderers`
+        const OutputComponent = outputRenderers[type];
+
+        return (
+          <OutputComponent
+            key={uniqueKey++}
+            {...outputRendererProps}
+            content={content}
+            date={date}
+          />
         );
-      }
-
-      const OutputComponent = outputRenderers[type];
-
-      return (
-        <OutputComponent
-          key={uniqueKey++}
-          {...outputRendererProps}
-          content={content}
-          date={date}
-        />
-      );
-    })}
-  </div>
-);
+      })}
+    </div>
+  );
+};
 
 export default OutputList;

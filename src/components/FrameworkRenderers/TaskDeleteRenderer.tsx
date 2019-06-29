@@ -34,4 +34,5 @@ const TaskDeleteRenderer: React.FunctionComponent<
     </Wrapper>
   );
 };
+
 export default connect()(TaskDeleteRenderer);

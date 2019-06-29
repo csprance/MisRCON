@@ -6,11 +6,12 @@ import thunk, { ThunkMiddleware } from 'redux-thunk';
 
 import {
   functionTransform,
+  outputTransformers,
   passwordTransform
 } from '../lib/value-transformers';
+import bootstrap from './bootstrap';
 import { rootReducer } from './index';
-import { Dispatch, RootAction, RootState } from './redux-types';
-import { hydrateTaskThunk } from './tasks/actions';
+import { RootAction, RootState } from './redux-types';
 
 export const configureStore = () => {
   // FIXME: This is a hack tof ix redux dev tools not working with redux 4 in electron
@@ -23,7 +24,7 @@ export const configureStore = () => {
   const persistConfig = {
     key: 'root',
     storage,
-    transforms: [functionTransform, passwordTransform]
+    transforms: [functionTransform, outputTransformers, passwordTransform]
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -43,10 +44,7 @@ export const configureStore = () => {
     )
   );
 
-  const persistor = persistStore(store, {}, () => {
-    // We send this thunk to start all the node-cron Cronjobs so they have dispatch,getState,Task
-    (store.dispatch as Dispatch)(hydrateTaskThunk());
-  });
+  const persistor = persistStore(store, {}, bootstrap(store));
 
   return { store, persistor };
 };

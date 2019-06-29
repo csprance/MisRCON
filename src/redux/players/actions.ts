@@ -1,9 +1,10 @@
 import { IPlayer, NodeMisrcon } from 'node-misrcon';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
+import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
 import {
-  activeServerCredentialsSelector,
+  activeServerCredentialsSelector, activeServerIDSelector,
   activeServerSelector
 } from '../servers/selectors';
 import { playersSelector } from './selectors';
@@ -12,8 +13,7 @@ import { getSteamAvatar } from './utils';
 
 /*
  * Gets the players using rcon
- * Gets the steam avatar if needed
- * Adds the new players to the state
+ * Sends the IPlayer to SyncPlayer thunk to be synced and added to state
  */
 export const getPlayersViaRCON = createAsyncAction(
   'players/GET_VIA_RCON_REQUEST',
@@ -32,7 +32,7 @@ export const getPlayersViaRCONThunk = (): AsyncThunkResult<any> => async (
       ...activeServerCredentials
     }).getStatus();
     playersArray.forEach(async player => {
-      await dispatch(addPlayerThunk(player));
+      await dispatch(syncPlayerThunk(player));
     });
     dispatch(getPlayersViaRCON.success());
   } catch (err) {
@@ -40,23 +40,32 @@ export const getPlayersViaRCONThunk = (): AsyncThunkResult<any> => async (
   }
 };
 
-export const addPlayer = createAsyncAction(
-  'players/ADD_PLAYER_REQUEST',
-  'players/ADD_PLAYER_SUCCESS',
-  'players/ADD_PLAYER_FAILED'
+export const syncPlayer = createAsyncAction(
+  'players/SYNC_PLAYER_REQUEST',
+  'players/SYNC_PLAYER_SUCCESS',
+  'players/SYNC_PLAYER_FAILED'
 )<void, Player, string>();
-export const addPlayerThunk = (
+export const syncPlayerThunk = (
   player: IPlayer
 ): AsyncThunkResult<void> => async (dispatch, getState) => {
-  dispatch(addPlayer.request());
+  dispatch(syncPlayer.request());
   try {
     const storePlayers: Player[] = playersSelector(getState());
     const activeServerID = activeServerSelector(getState()).id;
     const storedPlayer = storePlayers.find(pl => pl.steam === player.steam);
     // If the player is stored update it's data
     if (storedPlayer) {
-      const pl: Player = { ...storedPlayer, ...player, active: true };
-      dispatch(addPlayer.success(pl));
+      dispatch(
+        syncPlayer.success({
+          ...storedPlayer,
+          ...player,
+          active: true,
+          seenOn: [
+            ...storedPlayer.seenOn.filter(id => id !== activeServerID),
+            activeServerID
+          ]
+        })
+      );
       return;
     }
     // If the player is not stored create new data
@@ -69,12 +78,12 @@ export const addPlayerThunk = (
       notes: '',
       banned: [],
       whitelisted: [],
-      seenOn: []
+      seenOn: [activeServerID]
     };
-    dispatch(addPlayer.success(syncedPlayer));
+    dispatch(syncPlayer.success(syncedPlayer));
     return;
   } catch (err) {
-    dispatch(addPlayer.failure(err.toString()));
+    dispatch(syncPlayer.failure(err.toString()));
   }
 };
 
@@ -85,14 +94,19 @@ export const banPlayer = createAsyncAction(
   'players/BAN_REQUEST',
   'players/BAN_SUCCESS',
   'players/BAN_FAILED'
-)<void, Player, string>();
-export const banPlayerThunk = (
-  player: Player
-): AsyncThunkResult<any> => async dispatch => {
-  // Tell Redux we're requesting data from the db
+)<void, number, string>();
+export const banPlayerThunk = (player: Player): AsyncThunkResult<any> => async (
+  dispatch,
+  getState
+) => {
   dispatch(banPlayer.request());
   try {
-    dispatch(banPlayer.success(player));
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: 'mis_ban_steamid ' + player.steam
+    };
+    await dispatch(sendRCONAsyncThunk(request));
+    dispatch(banPlayer.success(activeServerIDSelector(getState())));
   } catch (err) {
     dispatch(banPlayer.failure(err.toString()));
   }
@@ -108,10 +122,14 @@ export const kickPlayer = createAsyncAction(
 )<void, Player, string>();
 export const kickPlayerThunk = (
   player: Player
-): AsyncThunkResult<any> => async dispatch => {
-  // Tell Redux were requesting data from the db
+): AsyncThunkResult<any> => async (dispatch, getState) => {
   dispatch(kickPlayer.request());
   try {
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: 'mis_kick ' + player.steam
+    };
+    await dispatch(sendRCONAsyncThunk(request));
     dispatch(kickPlayer.success(player));
   } catch (err) {
     dispatch(kickPlayer.failure(err.toString()));

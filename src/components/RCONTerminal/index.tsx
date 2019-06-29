@@ -2,68 +2,49 @@ import {
   Emulator,
   EmulatorState,
   EnvironmentVariables,
-  History,
-  OutputFactory,
-  Outputs
+  History
 } from 'async-javascript-terminal';
+import { List } from 'immutable';
 import * as React from 'react';
-
-import * as npmPackage from '../../../package.json';
-import ReactTerminal from './react-terminal-component';
-import makeTerminalCommands from './terminal-commands';
 
 import { Dispatch } from '../../redux/redux-types';
 import { Server } from '../../redux/servers';
+import { Terminal } from '../../redux/terminal/types';
+import ReactTerminal from './react-terminal-component';
+import makeTerminalCommands from './terminal-commands';
 
 type Props = {
-  dispatch: Dispatch;
+  activeTerminal: Terminal;
   activeServer: Server;
+  dispatch: Dispatch;
+  rconHistory: () => string[];
 };
-type State = {
-  emulator: Emulator;
-  terminalState: EmulatorState;
+const RCONTerminal: React.FunctionComponent<Props> = ({
+  activeTerminal,
+  activeServer,
+  dispatch,
+  rconHistory
+}) => {
+  return (
+    <ReactTerminal
+      key={activeServer.id}
+      activeServer={activeServer}
+      inputStr={activeTerminal ? activeTerminal.input : ''}
+      dispatch={dispatch}
+      emulator={new Emulator()}
+      emulatorState={EmulatorState.create({
+        history: History.create(rconHistory()),
+        environmentVariables: EnvironmentVariables.create({
+          serverId: activeServer.id,
+          password: activeServer.password,
+          ip: activeServer.ip,
+          port: activeServer.port
+        }),
+        outputs: activeTerminal ? activeTerminal.outputs : List(),
+        commandMapping: makeTerminalCommands(dispatch, dispatch((_, gs) => gs))
+      })}
+    />
+  );
 };
-class RCONTerminal extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state = {
-    emulator: new Emulator(),
-    terminalState: EmulatorState.create({
-      history: History.create([
-        'server --ls',
-        'server --add --name test',
-        'task --ls'
-      ]),
-      environmentVariables: EnvironmentVariables.create({
-        password: this.props.activeServer.password,
-        ip: this.props.activeServer.ip,
-        port: this.props.activeServer.port
-      }),
-      outputs: Outputs.create([
-        OutputFactory.makeTextOutput(`MisRCON - V${npmPackage.version}`),
-        OutputFactory.makeTextOutput(
-          <span>
-            Type any rcon command or{' '}
-            <span style={{ color: 'orange' }}>help</span> for more options
-          </span>
-        ),
-        OutputFactory.makeTextOutput('-----')
-      ]),
-      commandMapping: makeTerminalCommands(
-        this.props.dispatch,
-        this.props.dispatch((_, gs) => gs)
-      )
-    })
-  };
-
-  public render() {
-    const { terminalState } = this.state;
-    return (
-      <ReactTerminal
-        emulator={this.state.emulator}
-        emulatorState={terminalState}
-      />
-    );
-  }
-}
 
 export default RCONTerminal;

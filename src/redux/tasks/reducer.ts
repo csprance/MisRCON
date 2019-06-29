@@ -1,9 +1,8 @@
-import { ActionType, getType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 import * as tasksActions from './actions';
+import { TasksActions } from './index';
 import { default as defaultState } from './state';
 import { TasksState } from './types';
-
-export type TasksActions = ActionType<typeof tasksActions>;
 
 export default (
   state: TasksState = defaultState,

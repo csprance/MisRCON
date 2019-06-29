@@ -10,10 +10,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { Omit } from '../../@types/global';
 import NoHoverIconButton from '../../components/NoHoverIconButton';
-import { toggleAddServerDialog } from '../../redux/app/actions';
-import { addServerDialogShowingSelector } from '../../redux/app/selectors';
+import { toggleUpdateServerDialog } from '../../redux/app/actions';
+import { updateServerDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { Server, serversActions, serversSelectors } from '../../redux/servers';
 
@@ -43,44 +42,22 @@ const CenterSection = styled.div`
 `;
 
 interface Props {
+  updateServer: (server: Server) => void;
   closeDialog: () => void;
-  addServer: (server: Server) => void;
+  server: Server;
   showing: boolean;
 }
-interface State extends Omit<Server, 'id' | 'port'> {
-  id: string;
-  port: string;
-}
-const AddServerDialog: React.FunctionComponent<Props> = ({
-  addServer,
+interface State extends Server {}
+const EditServerDialog: React.FunctionComponent<Props> = ({
+  server,
   closeDialog,
-  showing
+  showing,
+  updateServer
 }) => {
-  const defaultState: State = {
-    id: `${Date.now()}`,
-    avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
-    name: 'Dev',
-    ip: 'localhost',
-    port: '64094',
-    password: 'password',
-    active: false,
-    selfHosted: false,
-    rootPath: ''
-  };
-  const [state, setState] = React.useState<State>({
-    ...defaultState
-  });
+  const [state, setState] = React.useState<State>({ ...server });
 
-  const handleClick = async () => {
-    addServer({
-      ...state,
-      port: parseInt(state.port, 10),
-      active: false,
-      id: Date.now()
-    });
-    setState({
-      ...defaultState
-    });
+  const handleUpdateServerClicked = () => {
+    updateServer(state);
     closeDialog();
   };
 
@@ -99,7 +76,12 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
   };
 
   return (
-    <Dialog fullWidth onClose={() => closeDialog()} open={showing}>
+    <Dialog
+      fullWidth
+      onClose={() => closeDialog()}
+      onEnter={() => setState(server)}
+      open={showing}
+    >
       <Wrapper>
         <InnerWrapper>
           <img
@@ -107,7 +89,7 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
             src={state.avatar}
             alt=""
           />
-          <Typography variant={'h4'}>Add Server</Typography>
+          <Typography variant={'h4'}>Edit Server</Typography>
           <CenterSection>
             <TextField
               value={state.name}
@@ -172,12 +154,12 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
           </CenterSection>
           <Button
             style={{ marginTop: 25 }}
-            onClick={handleClick}
+            onClick={handleUpdateServerClicked}
             variant={'contained'}
             color={'primary'}
             fullWidth
           >
-            Add Server
+            Update Server Data
           </Button>
         </InnerWrapper>
       </Wrapper>
@@ -186,12 +168,12 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: RootState) => ({
-  servers: serversSelectors.serversSelector(state),
-  showing: addServerDialogShowingSelector(state)
+  server: serversSelectors.activeServerSelector(state),
+  showing: updateServerDialogShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addServer: (server: Server) =>
-    dispatch(serversActions.addServerThunk(server)),
-  closeDialog: () => dispatch(toggleAddServerDialog())
+  updateServer: (server: Server) =>
+    dispatch(serversActions.updateServerThunk(server)),
+  closeDialog: () => dispatch(toggleUpdateServerDialog())
 });
-export default connect(mapStateToProps, mapDispatchToProps)(AddServerDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(EditServerDialog);

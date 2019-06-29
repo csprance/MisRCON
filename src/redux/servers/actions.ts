@@ -5,8 +5,28 @@ import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
 import { removeTaskThunk } from '../tasks/actions';
 import { tasksByServerIdSelector } from '../tasks/selectors';
+import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
+
+export const updateServer = createAsyncAction(
+  'server/UPDATE_REQUEST',
+  'server/UPDATE_SUCCESS',
+  'server/UPDATE_FAILED'
+)<void, Server, string>();
+export const updateServerThunk = (
+  server: Server
+): AsyncThunkResult<void> => async dispatch => {
+  dispatch(updateServer.request());
+  try {
+    await dispatch(updateServer.success(server));
+    await dispatch(markServerActive(server.id));
+    await dispatch(getPlayersViaRCONThunk());
+    // await dispatch(getServerDataThunk(server));
+  } catch (e) {
+    dispatch(updateServer.failure(e.toString()));
+  }
+};
 
 export const addServer = createAsyncAction(
   'server/ADD_REQUEST',
@@ -19,6 +39,7 @@ export const addServerThunk = (
   dispatch(addServer.request());
   try {
     await dispatch(addServer.success(server));
+    await dispatch(scanForTerminalsThunk());
     await dispatch(markServerActive(server.id));
     await dispatch(getPlayersViaRCONThunk());
     // await dispatch(getServerDataThunk(server));

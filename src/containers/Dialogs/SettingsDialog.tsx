@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -12,6 +13,10 @@ import FloatingCloseButton from '../../components/FloatingCloseButton';
 import { toggleSettingsDialog } from '../../redux/app/actions';
 import { settingsDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
+import {
+  deleteAllTerminals,
+  scanForTerminalsThunk
+} from '../../redux/terminal/actions';
 import { bg1, bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
@@ -46,10 +51,12 @@ const Spacer = styled.div`
 interface ReduxProps {
   closeDialog: () => void;
   showing: boolean;
+  _deleteAllTerminals: () => void;
 }
 interface Props {}
 const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
   closeDialog,
+  _deleteAllTerminals,
   showing
 }) => {
   const [selected, setSelected] = React.useState('');
@@ -105,7 +112,9 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
             </ListItem>
           </List>
         </LeftSide>
-        <RightSide>Settings Page</RightSide>
+        <RightSide>
+          <Button onClick={() => _deleteAllTerminals()}>Delete</Button>
+        </RightSide>
       </Wrapper>
     </Dialog>
   );
@@ -115,11 +124,12 @@ const mapStateToProps = (state: RootState) => ({
   showing: settingsDialogShowingSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  _deleteAllTerminals: () => {
+    dispatch(deleteAllTerminals());
+    dispatch(scanForTerminalsThunk());
+  },
   closeDialog: () => {
     dispatch(toggleSettingsDialog());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsDialog);

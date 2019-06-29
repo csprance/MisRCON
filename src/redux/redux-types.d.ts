@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch as ReduxDispatch, Store } from 'redux';
+import { AnyAction, Dispatch as ReduxDispatch } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { StateType } from 'typesafe-actions';
 
@@ -9,6 +9,8 @@ import { PlayersActions } from './players';
 import { RCONActions } from './rcon';
 import { ServersActions } from './servers';
 import { TasksActions } from './tasks';
+import { TerminalActions } from './terminal/types';
+
 
 export interface RootState extends StateType<typeof rootReducer> {}
 
@@ -18,6 +20,7 @@ export type RootAction =
   | RCONActions
   | ServersActions
   | AppActions
+  | TerminalActions
   | TasksActions;
 
 export type AsyncThunkResult<R> = ThunkAction<

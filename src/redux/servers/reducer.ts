@@ -8,6 +8,13 @@ export default (
   action: ServersActions
 ): ServersState => {
   switch (action.type) {
+    case getType(serversActions.updateServer.success):
+      // Filter the old server id out and add the new one in
+      return [
+        ...state.filter(server => server.id !== action.payload.id),
+        action.payload
+      ];
+
     case getType(serversActions.addServer.success):
       return [...state, action.payload];
 

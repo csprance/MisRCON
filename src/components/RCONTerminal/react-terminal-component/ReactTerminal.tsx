@@ -7,6 +7,9 @@ import {
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 
+import { Dispatch } from '../../../redux/redux-types';
+import { Server } from '../../../redux/servers';
+import { addInput, addOutput } from '../../../redux/terminal/actions';
 import CommandInput from './input/CommandInput';
 import HeaderOutput from './output/HeaderOutput';
 import TextErrorOutput from './output/TextErrorOutput';
@@ -21,6 +24,8 @@ type State = {
   disabled: boolean;
 };
 type Props = {
+  activeServer: Server;
+  dispatch: Dispatch;
   emulator: Emulator;
 } & Partial<DefaultProps>;
 type DefaultProps = Readonly<typeof defaultProps>;
@@ -41,6 +46,7 @@ class Terminal extends React.Component<Props, State> {
   emulator: Emulator;
   historyKeyboardPlugin: HistoryKeyboardPlugin;
   plugins: any[];
+  serverId: number;
   inputRef: any;
 
   constructor(props: Props) {
@@ -55,6 +61,7 @@ class Terminal extends React.Component<Props, State> {
       emulatorState: this.props.emulatorState!, // Non-null assertion
       inputStr: this.props.inputStr! // Non-null assertion
     };
+    this.serverId = this.state.emulatorState.getEnvVariables().get('serverId');
 
     this.onInputChange = this.onInputChange.bind(this);
     this.onInputSubmit = this.onInputSubmit.bind(this);
@@ -83,6 +90,9 @@ class Terminal extends React.Component<Props, State> {
         this.plugins
       );
 
+      this.props.dispatch(addOutput(newState.getOutputs(), this.serverId));
+      this.props.dispatch(addInput('', this.serverId));
+
       this.setState(({ emulatorState, ...rest }) => ({
         ...rest,
         inputStr: '',
@@ -96,6 +106,7 @@ class Terminal extends React.Component<Props, State> {
   }
 
   onInputChange(e: any) {
+    this.props.dispatch(addInput(e.target.value, this.serverId));
     this.setState(({ inputStr, ...rest }) => ({
       ...rest,
       inputStr: e.target.value

@@ -1,5 +1,7 @@
 // All the types associated with the state from the db
 import { CronJob } from 'cron';
+import { ActionType } from 'typesafe-actions';
+import * as tasksActions from './actions';
 
 export interface Task {
   id: number;
@@ -22,3 +24,5 @@ export type OnTickFunctionFactory = (
   task: Task
 ) => VoidPromise;
 export type TasksState = Task[];
+
+export type TasksActions = ActionType<typeof tasksActions>;

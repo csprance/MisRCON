@@ -14,14 +14,17 @@ export default (
     case getType(playersActions.markAllPlayersInactive):
       return state.map(player => ({ ...player, active: false }));
 
-    case getType(playersActions.addPlayer.success):
+    case getType(playersActions.syncPlayer.success):
       return [
         ...state.filter(player => player.steam !== action.payload.steam),
         action.payload
       ];
 
     case getType(playersActions.banPlayer.success):
-      return state;
+      return state.map(player => ({
+        ...player,
+        banned: [...player.banned, action.payload]
+      }));
 
     case getType(playersActions.kickPlayer.success):
       return state;

@@ -7,6 +7,7 @@ export const defaultState: AppState = {
   playerSideBarOpen: true,
   addServerDialogOpen: false,
   addTaskDialogOpen: false,
+  updateServerDialogOpen: false,
   serverHelpMarkdown: 'string'
 };
 

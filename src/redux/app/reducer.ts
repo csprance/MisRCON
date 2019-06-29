@@ -11,6 +11,9 @@ export default (
     case getType(actions.togglePlayerList):
       return { ...state, playerSideBarOpen: !state.playerSideBarOpen };
 
+    case getType(actions.toggleUpdateServerDialog):
+      return { ...state, updateServerDialogOpen: !state.updateServerDialogOpen };
+
     case getType(actions.toggleAddServerDialog):
       return { ...state, addServerDialogOpen: !state.addServerDialogOpen };
 

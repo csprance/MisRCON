@@ -35,7 +35,7 @@ const createWindow = async () => {
     height: 768,
     icon: path.join(__dirname, 'resources/images/64x64.png'),
     minHeight: 500,
-    minWidth: 940,
+    minWidth: 1024,
     show: false,
     webPreferences: {
       nodeIntegration: true

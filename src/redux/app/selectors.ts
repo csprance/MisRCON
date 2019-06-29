@@ -27,6 +27,11 @@ export const addTaskDialogShowingSelector = createSelector(
   app => app.addTaskDialogOpen
 );
 
+export const updateServerDialogShowingSelector = createSelector(
+  appStateSelector,
+  app => app.updateServerDialogOpen
+);
+
 export const serverHelpMarkdownSelector = createSelector(
   appStateSelector,
   app => app.serverHelpMarkdown

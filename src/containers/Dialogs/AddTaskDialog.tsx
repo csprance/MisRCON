@@ -1,6 +1,8 @@
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
@@ -19,7 +21,10 @@ import { Dispatch, RootState } from '../../redux/redux-types';
 import { activeServerIDSelector } from '../../redux/servers/selectors';
 import { Task } from '../../redux/tasks';
 import { addTaskThunk } from '../../redux/tasks/actions';
-import {defaultRCONCommand, makeDefaultRCONCommand} from '../../redux/tasks/utils';
+import {
+  defaultRCONCommand,
+  makeDefaultRCONCommand
+} from '../../redux/tasks/utils';
 import { bg1, bg3, text } from '../../styles/colors';
 
 import 'prismjs/components/prism-clike.js';
@@ -54,6 +59,8 @@ const CenterSection = styled.div`
   width: 100%;
 `;
 const EditorWrapper = styled.div`
+  display: ${({ showing }: { showing: boolean }) =>
+    showing ? 'block' : 'none'};
   max-height: 200px;
   overflow-y: scroll;
   & textarea {
@@ -61,7 +68,7 @@ const EditorWrapper = styled.div`
   }
 `;
 const defaultState: State = {
-  id: 0,
+  id: Date.now(),
   timeZone: 'America/New_York',
   command: 'status',
   code: defaultRCONCommand.toString(),
@@ -93,6 +100,7 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
   showing,
   activeServerId
 }) => {
+  const [customCommand, setCustomCommand] = React.useState<boolean>(false);
   const [state, setState] = React.useState<State>({ ...defaultState });
   const [navIndex, setNavIndex] = React.useState(1);
 
@@ -100,10 +108,11 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
     const { command, code, ...restOfState } = state;
     addTask({
       ...restOfState,
+      id: Date.now(),
       active: false,
       cronString: type === 'recurring' ? state.cronString : null,
       date: type === 'date' ? moment(state.date).toDate() : null,
-      onTick: makeDefaultRCONCommand(command),
+      onTick: !customCommand ? makeDefaultRCONCommand(command) : eval(code),
       serverId: activeServerId
     });
     setState({
@@ -162,6 +171,7 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   }}
                 />
                 <TextField
+                  style={{ display: customCommand ? 'none' : 'initial' }}
                   value={state.command}
                   onChange={e => {
                     handleChange('command', e.target.value);
@@ -170,10 +180,22 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   name={'command'}
                   label={'RCON Command'}
                 />
-                <EditorWrapper>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={customCommand}
+                      onChange={() => setCustomCommand(!customCommand)}
+                      color="primary"
+                    />
+                  }
+                  label="Custom Command?"
+                />
+                <EditorWrapper showing={customCommand}>
                   <Editor
                     value={state.code}
-                    onValueChange={newCode => setState({...state, code: newCode})}
+                    onValueChange={newCode =>
+                      setState({ ...state, code: newCode })
+                    }
                     highlight={newCode => highlight(newCode, languages.js)}
                     padding={10}
                     style={{
@@ -220,6 +242,7 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   label={'Cron String'}
                 />
                 <TextField
+                  style={{ display: customCommand ? 'none' : 'initial' }}
                   value={state.command}
                   onChange={e => {
                     handleChange('command', e.target.value);
@@ -228,10 +251,22 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                   name={'command'}
                   label={'RCON Command'}
                 />
-                <EditorWrapper>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={customCommand}
+                      onChange={() => setCustomCommand(!customCommand)}
+                      color="secondary"
+                    />
+                  }
+                  label="Custom Command?"
+                />
+                <EditorWrapper showing={customCommand}>
                   <Editor
                     value={state.code}
-                    onValueChange={newCode => setState({...state, code: newCode})}
+                    onValueChange={newCode =>
+                      setState({ ...state, code: newCode })
+                    }
                     highlight={newCode => highlight(newCode, languages.js)}
                     padding={10}
                     style={{

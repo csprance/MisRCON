@@ -9,7 +9,8 @@ import { togglePlayerList, toggleSettingsDialog } from '../redux/app/actions';
 import { latestRCONStatusByServerIpPortSelector } from '../redux/rcon/selectors';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { activeServerSelector } from '../redux/servers/selectors';
-import { bg0, bg1, bg3, text } from '../styles/colors';
+import { bg0, bg3, text } from '../styles/colors';
+import {media} from '../styles/styles';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,30 +24,37 @@ const Wrapper = styled.div`
   padding-left: 15px;
   align-items: center;
   padding-right: 10px;
+  justify-content: flex-start;
 `;
+
 const ServerName = styled.div`
+  min-width: 0;
+  margin-right: 5px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   color: ${text.primary};
   font-size: 0.9em;
-  flex-grow: 5;
+  ${media.small`
+    max-width: 250px;
+  `};
 `;
-const Divider = styled.div`
-  font-size: 2em;
-  color: ${bg1};
-  margin-left: 10px;
-`;
-const PlayerCount = styled.div`
+const HeaderText = styled.div`
+  min-width: 0;
+  flex-basis: 10%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
   font-size: 0.9em;
-  flex-grow: 1;
-  display: flex;
-  margin-left: 10px;
   color: ${text.secondary};
 `;
-const Spacer = styled.div`
-  width: 100%;
+const Controls = styled.div`
+  display: flex;
   height: 100%;
+  align-self: flex-end;
+  flex: 1;
+  justify-content: flex-end;
 `;
 interface Props {}
 interface ReduxProps {
@@ -63,17 +71,19 @@ const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
   return (
     <Wrapper>
       <ServerName>{name}</ServerName>
-      <Divider> | </Divider>
-      <PlayerCount>{version}</PlayerCount>
-      <Divider> | </Divider>
-      <PlayerCount>{map}</PlayerCount>
-      <Divider> | </Divider>
-      <PlayerCount>{weather}</PlayerCount>
-      <Divider> | </Divider>
-      <PlayerCount>{time}</PlayerCount>
-      <Spacer />
-      <TogglePlayerListButton onClick={props.togglePlayerList} />
-      <ToggleSettingsButton onClick={props.toggleSettingsDialog} />
+
+      <HeaderText>{version}</HeaderText>
+
+      <HeaderText>{map}</HeaderText>
+
+      <HeaderText>{weather}</HeaderText>
+
+      <HeaderText>{time}</HeaderText>
+
+      <Controls>
+        <TogglePlayerListButton onClick={props.togglePlayerList} />
+        <ToggleSettingsButton onClick={props.toggleSettingsDialog} />
+      </Controls>
     </Wrapper>
   );
 };

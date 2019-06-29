@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import ListItemLink from '../components/ListItemLink';
 import ServerPropertiesListItem from '../components/ServerPropertiesListItem';
+import { toggleUpdateServerDialog } from '../redux/app/actions';
 import { Dispatch, RootState } from '../redux/redux-types';
 import { Server } from '../redux/servers';
 import {
@@ -31,6 +32,7 @@ const Wrapper = styled.div`
 
 type OwnProps = {};
 type ReduxProps = {
+  toggleUpdateDialog: () => void;
   activeServer: Server;
   deleteServer: (id: number) => void;
   refreshServer: (server: Server) => void;
@@ -44,7 +46,13 @@ class NavigationBar extends React.Component<
   public state = {};
 
   public render() {
-    const { activeServer, deleteServer, location, refreshServer } = this.props;
+    const {
+      activeServer,
+      deleteServer,
+      location,
+      refreshServer,
+      toggleUpdateDialog
+    } = this.props;
 
     return (
       <Wrapper>
@@ -57,6 +65,7 @@ class NavigationBar extends React.Component<
           component="nav"
         >
           <ServerPropertiesListItem
+            toggleEditServerDialog={() => toggleUpdateDialog()}
             refreshServerData={() => refreshServer(activeServer)}
             deleteServer={() => deleteServer(activeServer.id)}
             activeServer={activeServer}
@@ -121,12 +130,10 @@ const mapStateToProps = (state: RootState, _ownProps: OwnProps) => ({
   activeServer: activeServerSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch, _ownProps: OwnProps) => ({
+  toggleUpdateDialog: () => dispatch(toggleUpdateServerDialog()),
   deleteServer: (id: number) => dispatch(removeServerThunk(id)),
   refreshServer: (server: Server) => dispatch(getServerDataThunk(server))
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(NavigationBar)
+  connect(mapStateToProps, mapDispatchToProps)(NavigationBar)
 );

@@ -13,6 +13,12 @@ export const failedRconRequestsSelector = createSelector(
   requests => requests.filter(request => !request.completed)
 );
 
+export const rconHistorySelector = createSelector(
+  rconRequestsSelector,
+  requests =>
+    requests.filter(request => !request.completed).map(req => req.command)
+);
+
 export const completedRconRequestsSelector = createSelector(
   rconRequestsSelector,
   requests => requests.filter(request => request.completed)
@@ -30,8 +36,8 @@ export const latestCompletedRequestByServerIpPortSelector = createSelector(
 export const latestRCONStatusByServerIpPortSelector = createSelector(
   latestCompletedRequestByServerIpPortSelector,
   (requests): StatusResponse | null => {
-    const [statusResponse] = requests.filter(req =>
-      req.parsedResponse ? req.parsedResponse.type === 'status' : false
+    const [statusResponse] = requests.filter(
+      req => (req.parsedResponse ? req.parsedResponse.type === 'status' : false)
     );
     if (!statusResponse) {
       return null;
@@ -39,7 +45,7 @@ export const latestRCONStatusByServerIpPortSelector = createSelector(
     const { parsedResponse } = statusResponse;
     if (parsedResponse) {
       if (parsedResponse.type === 'status') {
-        return parsedResponse.data;
+        return parsedResponse.data as any; // FIXME: Not sure why this happens
       }
     }
     return null;

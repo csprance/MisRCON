@@ -6,11 +6,13 @@ type Props = {
   anchorEl: any;
   handleClose: () => void;
   deleteServer: () => void;
+  toggleEditServerDialog: () => void;
   refreshServerData: () => void;
 };
 const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   handleClose,
+  toggleEditServerDialog,
   refreshServerData,
   deleteServer
 }) => {
@@ -19,8 +21,13 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
     handleClose();
   };
 
-  const handleRefreshServerData = ()=> {
-    refreshServerData()
+  const handleRefreshServerData = () => {
+    refreshServerData();
+    handleClose();
+  };
+
+  const handleEditServerClicked = () => {
+    toggleEditServerDialog();
     handleClose();
   };
 
@@ -33,9 +40,15 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
       style={{ marginLeft: 50, marginTop: 50, zIndex: 1600 }}
       onClose={handleClose}
     >
-      <MenuItem disabled dense onClick={handleClose}>Edit Server</MenuItem>
-      <MenuItem dense onClick={handleDeleteClick}>Delete Server</MenuItem>
-      <MenuItem dense onClick={handleRefreshServerData}>Refresh Server Data</MenuItem>
+      <MenuItem dense onClick={handleEditServerClicked}>
+        Edit Server
+      </MenuItem>
+      <MenuItem dense onClick={handleDeleteClick}>
+        Delete Server
+      </MenuItem>
+      <MenuItem dense onClick={handleRefreshServerData}>
+        Refresh Server Data
+      </MenuItem>
     </Menu>
   );
 };

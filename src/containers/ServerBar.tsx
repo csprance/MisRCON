@@ -6,7 +6,7 @@ import AddServerButton from '../components/AddServerButton';
 import ServerAvatar from '../components/ServerAvatar';
 import { toggleAddServerDialog } from '../redux/app/actions';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { Server, ServersState  } from '../redux/servers';
+import { Server, ServersState } from '../redux/servers';
 import { markServerActive } from '../redux/servers/actions';
 import {
   activeServerSelector,
@@ -61,10 +61,9 @@ const mapStateToProps = (state: RootState) => ({
   activeServer: activeServerSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectServer: (id: number) => dispatch(markServerActive(id)),
+  selectServer: (id: number) => {
+    dispatch(markServerActive(id));
+  },
   showAddServerDialog: () => dispatch(toggleAddServerDialog())
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ServerBar);
+export default connect(mapStateToProps, mapDispatchToProps)(ServerBar);

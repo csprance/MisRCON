@@ -9,7 +9,7 @@ export const fetchServerHelpMarkdown = createAsyncAction(
 )<void, string, string>();
 export const fetchServerHelpMarkdownThunk = (): AsyncThunkResult<
   void
-> => async (dispatch) => {
+> => async dispatch => {
   try {
     dispatch(fetchServerHelpMarkdown.request());
     const { data } = await axios.get(
@@ -27,9 +27,7 @@ export const togglePlayerProfileDialog = createAction(
 );
 
 // Hide the player profile dialog
-export const hidePlayerProfileDialog = createAction(
-  'app/HIDE_PLAYER_PROFILE'
-);
+export const hidePlayerProfileDialog = createAction('app/HIDE_PLAYER_PROFILE');
 
 export const setPlayerActiveInPlayerProfile = createAction(
   'app/SET_PLAYER',
@@ -41,10 +39,14 @@ export const togglePlayerList = createAction('app/TOGGLE_PLAYER_LIST');
 export const toggleAddServerDialog = createAction(
   'app/TOGGLE_ADD_SERVER_DIALOG'
 );
+export const toggleUpdateServerDialog = createAction(
+  'app/TOGGLE_UPDATE_SERVER_DIALOG'
+);
 
 export const toggleSettingsDialog = createAction('app/TOGGLE_SETTING_DIALOG');
 
 export const toggleAddTaskDialog = createAction('app/TOGGLE_ADD_TASK_DIALOG');
 
-
-export const toggleAddWhitelistDialog = createAction('app/TOGGLE_ADD_WHITELIST_DIALOG');
+export const toggleAddWhitelistDialog = createAction(
+  'app/TOGGLE_ADD_WHITELIST_DIALOG'
+);

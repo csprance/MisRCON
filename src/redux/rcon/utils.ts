@@ -12,5 +12,6 @@ export const makeRCONRequestObject = (
   command,
   date: Date.now(),
   completed: false,
-  response: ''
+  response: '',
+  parsedResponse: false
 });
