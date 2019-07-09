@@ -38,80 +38,77 @@ const Wrapper = styled.div`
   overflow-y: scroll;
 `;
 
-type Props = {
+interface Props {}
+interface ReduxProps {
   showing: boolean;
   viewPlayerProfile: (steam: string) => void;
   kickPlayer: (player: Player) => void;
   banPlayer: (player: Player) => void;
   activePlayers: PlayersState;
   inactivePlayers: PlayersState;
-};
-type State = {};
-class PlayersSidebar extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state = {};
-
-  public render() {
-    const { activePlayers, inactivePlayers, showing } = this.props;
-    return (
-      <Wrapper showing={showing}>
-        <List
-          style={{
-            width: '100%'
-          }}
-          component={'nav'}
-        >
-          <ListItemText
-            style={{ paddingLeft: 10 }}
-            primaryTypographyProps={{
-              color: 'textSecondary',
-              variant: 'subtitle1'
-            }}
-            primary={`ONLINE - ${activePlayers.length}`}
-          />
-          {activePlayers.map(player => (
-            <PlayerListItem
-              kickPlayer={() => this.props.kickPlayer(player)}
-              banPlayer={() => this.props.banPlayer(player)}
-              viewPlayerProfile={() =>
-                this.props.viewPlayerProfile(player.steam)
-              }
-              key={player.steam}
-              {...player}
-            />
-          ))}
-        </List>
-
-        <List
-          style={{
-            width: '100%'
-          }}
-          component={'nav'}
-        >
-          <ListItemText
-            style={{ paddingLeft: 10 }}
-            primaryTypographyProps={{
-              color: 'textSecondary',
-              variant: 'subtitle1'
-            }}
-            primary={`OFFLINE - ${inactivePlayers.length}`}
-          />
-          {inactivePlayers.map(player => (
-            <PlayerListItem
-              kickPlayer={() => this.props.kickPlayer(player)}
-              banPlayer={() => this.props.banPlayer(player)}
-              viewPlayerProfile={() =>
-                this.props.viewPlayerProfile(player.steam)
-              }
-              key={player.steam}
-              {...player}
-            />
-          ))}
-        </List>
-      </Wrapper>
-    );
-  }
 }
+const PlayersSidebar: React.FunctionComponent<Props & ReduxProps> = ({
+  activePlayers,
+  inactivePlayers,
+  showing,
+  kickPlayer,
+  banPlayer,
+  viewPlayerProfile
+}) => {
+  return (
+    <Wrapper showing={showing}>
+      <List
+        style={{
+          width: '100%'
+        }}
+        component={'nav'}
+      >
+        <ListItemText
+          style={{ paddingLeft: 10 }}
+          primaryTypographyProps={{
+            color: 'textSecondary',
+            variant: 'subtitle1'
+          }}
+          primary={`ONLINE - ${activePlayers.length}`}
+        />
+        {activePlayers.map(player => (
+          <PlayerListItem
+            kickPlayer={() => kickPlayer(player)}
+            banPlayer={() => banPlayer(player)}
+            viewPlayerProfile={() => viewPlayerProfile(player.steam)}
+            key={player.steam}
+            {...player}
+          />
+        ))}
+      </List>
+
+      <List
+        style={{
+          width: '100%'
+        }}
+        component={'nav'}
+      >
+        <ListItemText
+          style={{ paddingLeft: 10 }}
+          primaryTypographyProps={{
+            color: 'textSecondary',
+            variant: 'subtitle1'
+          }}
+          primary={`OFFLINE - ${inactivePlayers.length}`}
+        />
+        {inactivePlayers.map(player => (
+          <PlayerListItem
+            kickPlayer={() => kickPlayer(player)}
+            banPlayer={() => banPlayer(player)}
+            viewPlayerProfile={() => viewPlayerProfile(player.steam)}
+            key={player.steam}
+            {...player}
+          />
+        ))}
+      </List>
+    </Wrapper>
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
   activePlayers: activePlayersOnActiveServerSelector(state),
@@ -123,14 +120,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(setPlayerActiveInPlayerProfile(steam));
     dispatch(togglePlayerProfileDialog());
   },
-  kickPlayer: (player: Player) => {
-    dispatch(kickPlayerThunk(player));
-  },
-  banPlayer: (player: Player) => {
-    dispatch(banPlayerThunk(player));
-  }
+  kickPlayer: (player: Player) => dispatch(kickPlayerThunk(player)),
+  banPlayer: (player: Player) => dispatch(banPlayerThunk(player))
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PlayersSidebar);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayersSidebar);

@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -9,15 +8,24 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import FloatingCloseButton from '../../components/FloatingCloseButton';
-import { toggleSettingsDialog } from '../../redux/app/actions';
-import { settingsDialogShowingSelector } from '../../redux/app/selectors';
-import { Dispatch, RootState } from '../../redux/redux-types';
+import FloatingCloseButton from '../../../components/FloatingCloseButton';
+import {
+  setTerminalTheme,
+  toggleSettingsDialog
+} from '../../../redux/app/actions';
+import {
+  settingsDialogShowingSelector,
+  terminalThemeSelector
+} from '../../../redux/app/selectors';
+import { Dispatch, RootState } from '../../../redux/redux-types';
 import {
   deleteAllTerminals,
   scanForTerminalsThunk
-} from '../../redux/terminal/actions';
-import { bg1, bg3 } from '../../styles/colors';
+} from '../../../redux/terminal/actions';
+import { bg1, bg3 } from '../../../styles/colors';
+import DatabaseSettingsSection from './DatabaseSettingsSection';
+import TerminalSettingsSection from './TerminalsSettingsSection';
+import CredentialsSettingsSection from './CredentialsSettingsSection';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,6 +42,7 @@ const LeftSide = styled.div`
   background: ${bg1};
   flex-grow: 1;
   height: calc(100% - 9px);
+  max-width: 550px;
 `;
 const RightSide = styled.div`
   display: flex;
@@ -47,9 +56,15 @@ const Spacer = styled.div`
   flex-grow: 1;
   height: 100%;
 `;
+const RightWrapper = styled.div`
+  max-width: 850px;
+  width: 100%;
+`;
 
 interface ReduxProps {
   closeDialog: () => void;
+  themeName: string;
+  handleTerminalThemeChange: (themeName: string) => void;
   showing: boolean;
   _deleteAllTerminals: () => void;
 }
@@ -57,9 +72,11 @@ interface Props {}
 const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
   closeDialog,
   _deleteAllTerminals,
-  showing
+  handleTerminalThemeChange,
+  showing,
+  themeName
 }) => {
-  const [selected, setSelected] = React.useState('');
+  const [selected, setSelected] = React.useState('app/terminal');
   return (
     <Dialog
       style={{ overflow: 'hidden', overflowY: 'hidden' }}
@@ -110,10 +127,31 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
             >
               <ListItemText primary={'Database'} />
             </ListItem>
+            <ListItem
+              selected={selected === 'app/terminal'}
+              onClick={() => setSelected('app/terminal')}
+              button
+            >
+              <ListItemText primary={'Terminal Colors'} />
+            </ListItem>
           </List>
         </LeftSide>
         <RightSide>
-          <Button onClick={() => _deleteAllTerminals()}>Delete</Button>
+          <RightWrapper>
+            {
+              {
+                'app/terminal': (
+                  <TerminalSettingsSection
+                    themeName={themeName}
+                    handleTerminalThemeChange={handleTerminalThemeChange}
+                    deleteAllTerminals={_deleteAllTerminals}
+                  />
+                ),
+                'app/database': <DatabaseSettingsSection />,
+                'user/credentials': <CredentialsSettingsSection />
+              }[selected]
+            }
+          </RightWrapper>
         </RightSide>
       </Wrapper>
     </Dialog>
@@ -121,9 +159,12 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
 };
 
 const mapStateToProps = (state: RootState) => ({
-  showing: settingsDialogShowingSelector(state)
+  showing: settingsDialogShowingSelector(state),
+  themeName: terminalThemeSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  handleTerminalThemeChange: (themeName: string) =>
+    dispatch(setTerminalTheme(themeName)),
   _deleteAllTerminals: () => {
     dispatch(deleteAllTerminals());
     dispatch(scanForTerminalsThunk());

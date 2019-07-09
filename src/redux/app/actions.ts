@@ -21,6 +21,11 @@ export const fetchServerHelpMarkdownThunk = (): AsyncThunkResult<
   }
 };
 
+export const setTerminalTheme = createAction(
+  'app/SET_TERMINAL_THEME',
+  resolve => (themeName: string) => resolve(themeName)
+);
+
 // Show/Hide the player profile dialog
 export const togglePlayerProfileDialog = createAction(
   'app/TOGGLE_PLAYER_PROFILE'
@@ -39,6 +44,7 @@ export const togglePlayerList = createAction('app/TOGGLE_PLAYER_LIST');
 export const toggleAddServerDialog = createAction(
   'app/TOGGLE_ADD_SERVER_DIALOG'
 );
+
 export const toggleUpdateServerDialog = createAction(
   'app/TOGGLE_UPDATE_SERVER_DIALOG'
 );
@@ -50,3 +56,5 @@ export const toggleAddTaskDialog = createAction('app/TOGGLE_ADD_TASK_DIALOG');
 export const toggleAddWhitelistDialog = createAction(
   'app/TOGGLE_ADD_WHITELIST_DIALOG'
 );
+
+export const toggleAddBanDialog = createAction('app/TOGGLE_ADD_BAN_DIALOG');

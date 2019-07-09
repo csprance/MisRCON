@@ -4,7 +4,8 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
 import {
-  activeServerCredentialsSelector, activeServerIDSelector,
+  activeServerCredentialsSelector,
+  activeServerIDSelector,
   activeServerSelector
 } from '../servers/selectors';
 import { playersSelector } from './selectors';
@@ -84,6 +85,58 @@ export const syncPlayerThunk = (
     return;
   } catch (err) {
     dispatch(syncPlayer.failure(err.toString()));
+  }
+};
+
+/*
+Ban a SteamID
+ */
+export const banSteamID = createAsyncAction(
+  'players/BAN_STEAMID_REQUEST',
+  'players/BAN_STEAMID_SUCCESS',
+  'players/BAN_STEAMID_FAILED'
+)<void, void, string>();
+export const banSteamIDThunk = (
+  steamid: string
+): AsyncThunkResult<any> => async (dispatch, getState) => {
+  dispatch(banSteamID.request());
+  try {
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: `mis_ban_steamid ${steamid}`
+    };
+    const response = await dispatch(sendRCONAsyncThunk(request));
+    if (response.completed) {
+      dispatch(banSteamID.success());
+    } else {
+      dispatch(banSteamID.failure('REQUEST FAILED'));
+    }
+  } catch (err) {
+    dispatch(banSteamID.failure(err.toString()));
+  }
+};
+
+/*
+Whitelist a player
+ */
+export const whitelistSteamID = createAsyncAction(
+  'players/WHITELIST_REQUEST',
+  'players/WHITELIST_SUCCESS',
+  'players/WHITELIST_FAILED'
+)<void, number, string>();
+export const whitelistSteamIDThunk = (
+  steamid: string
+): AsyncThunkResult<any> => async (dispatch, getState) => {
+  dispatch(whitelistSteamID.request());
+  try {
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: `mis_whitelist_add ${steamid}`
+    };
+    await dispatch(sendRCONAsyncThunk(request));
+    dispatch(whitelistSteamID.success(activeServerIDSelector(getState())));
+  } catch (err) {
+    dispatch(whitelistSteamID.failure(err.toString()));
   }
 };
 

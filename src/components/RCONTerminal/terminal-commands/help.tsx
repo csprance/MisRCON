@@ -28,7 +28,7 @@ export default {
       };
     } catch (e) {
       return {
-        output: OutputFactory.makeTextOutput(e)
+        output: OutputFactory.makeTextOutput('Command not found')
       };
     }
   },

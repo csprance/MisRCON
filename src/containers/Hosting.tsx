@@ -10,15 +10,14 @@ const Wrapper = styled.div`
 
 interface Props {}
 interface ReduxProps {}
-const HostingContainer: React.FunctionComponent<Props> = ({ children }) => {
+const HostingContainer: React.FunctionComponent<Props & ReduxProps> = ({
+  children
+}) => {
   return <Wrapper>{children}</Wrapper>;
 };
 
-const mapStateToProps = (state: RootState, ownProps: Props) => ({
+const mapStateToProps = (_state: RootState, _ownProps: Props) => ({
   hosting: ''
 });
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HostingContainer);
+const mapDispatchToProps = (_dispatch: Dispatch) => ({});
+export default connect(mapStateToProps, mapDispatchToProps)(HostingContainer);

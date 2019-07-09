@@ -47,12 +47,13 @@
         <AppContainer>
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-            <MuiThemeProvider theme={theme}>
-              <CssBaseline />
-              <GlobalStyles />
-              <ScrollbarStyles />
-              <App/>
-            </MuiThemeProvider>
+              <MuiThemeProvider theme={theme}>
+                <CssBaseline />
+                <GlobalStyles />
+                <ScrollbarStyles />
+                <App/>
+                
+              </MuiThemeProvider>
             </PersistGate>
           </Provider>
         </AppContainer>,

@@ -1,3 +1,4 @@
+// redux-persist value transforms to store and restore non serializable state
 import { createTransform } from 'redux-persist';
 
 import { makeDefaultOutputs } from '../components/RCONTerminal/defaults';
@@ -46,7 +47,7 @@ export const passwordTransform = createTransform<ServersState, any[]>(
   { whitelist: ['servers'] }
 );
 
-// Convert to immutable
+// To store terminal state
 export const outputTransformers = createTransform<any[], Terminal[]>(
   // Called before state is persisted
   inboundState => {

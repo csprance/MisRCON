@@ -8,6 +8,7 @@ export interface Marker {
 }
 
 export type MisMapMarkersByLayer = Array<[LayerName, Marker[]]>;
+
 export type LayerName = string;
 
 export type MisMapState = {

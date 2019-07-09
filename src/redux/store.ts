@@ -24,7 +24,8 @@ export const configureStore = () => {
   const persistConfig = {
     key: 'root',
     storage,
-    transforms: [functionTransform, outputTransformers, passwordTransform]
+    transforms: [functionTransform, outputTransformers, passwordTransform],
+    blacklist: ['notifications']
   };
   const persistedReducer = persistReducer(persistConfig, rootReducer);
 

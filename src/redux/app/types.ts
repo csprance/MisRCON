@@ -3,25 +3,30 @@ import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 
 // These indicate whether or not we are showing or hiding a dialog window
-export type AppState = {
+export interface DialogState {
   // /////////////
   // Dialogs
   // /////////////
-
   playerProfileDialogOpen: boolean;
   addTaskDialogOpen: boolean;
   settingsDialogOpen: boolean;
   addServerDialogOpen: boolean;
   updateServerDialogOpen: boolean;
+  addBanDialogOpen: boolean;
+  addWhitelistDialogOpen: boolean;
+}
 
+export type AppState = {
   // /////////////
   // Others
   // /////////////
-
   // The Help markdown from github
   serverHelpMarkdown: string;
   // What player By ID should be displayed in the PlayerProfile Dialog
   selectedPlayerID: SteamID;
+  // Is the player sidebar open that shows all the players on the current server
   playerSideBarOpen: boolean;
-};
+  // The theme of the terminal
+  terminalTheme: string;
+} & DialogState;
 export type AppActions = ActionType<typeof actions>;

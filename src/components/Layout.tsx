@@ -1,13 +1,16 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import AddBanDialog from '../containers/Dialogs/AddBanDialog';
 import AddServerDialog from '../containers/Dialogs/AddServerDialog';
 import AddTaskDialog from '../containers/Dialogs/AddTaskDialog';
+import AddWhitelistDialog from '../containers/Dialogs/AddWhitelistDialog';
 import EditServerDialog from '../containers/Dialogs/EditServerDialog';
 import PlayerProfileDialog from '../containers/Dialogs/PlayerProfileDialog';
 import SettingsDialog from '../containers/Dialogs/SettingsDialog';
 import HeaderBar from '../containers/HeaderBar';
 import NavigationBar from '../containers/NavigationBar';
+import Notifications from '../containers/Notifications';
 import PlayersList from '../containers/PlayersSidebar';
 import ServerBar from '../containers/ServerBar';
 import TitleBar from './TitleBar';
@@ -51,6 +54,9 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
       <EditServerDialog />
       <AddTaskDialog />
       <SettingsDialog />
+      <AddBanDialog />
+      <AddWhitelistDialog />
+      <Notifications />
     </Wrapper>
   );
 };

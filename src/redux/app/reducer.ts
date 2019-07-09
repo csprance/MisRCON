@@ -1,6 +1,6 @@
 import { getType } from 'typesafe-actions';
 import * as actions from './actions';
-import defaultState from './state';
+import defaultState, { defaultDialogState } from './state';
 import { AppActions, AppState } from './types';
 
 export default (
@@ -8,29 +8,79 @@ export default (
   action: AppActions
 ): AppState => {
   switch (action.type) {
-    case getType(actions.togglePlayerList):
-      return { ...state, playerSideBarOpen: !state.playerSideBarOpen };
+    // //////////////
+    // Dialogs
+    // //////////////
 
-    case getType(actions.toggleUpdateServerDialog):
-      return { ...state, updateServerDialogOpen: !state.updateServerDialogOpen };
-
-    case getType(actions.toggleAddServerDialog):
-      return { ...state, addServerDialogOpen: !state.addServerDialogOpen };
-
-    case getType(actions.toggleAddTaskDialog):
-      return { ...state, addTaskDialogOpen: !state.addTaskDialogOpen };
-
-    case getType(actions.toggleSettingsDialog):
-      return {
-        ...state,
-        settingsDialogOpen: !state.settingsDialogOpen
-      };
-
+    // Player profile Dialog
     case getType(actions.togglePlayerProfileDialog):
       return {
         ...state,
+        ...defaultDialogState,
         playerProfileDialogOpen: !state.playerProfileDialogOpen
       };
+
+    // Add Task Dialog
+    case getType(actions.toggleAddTaskDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        addTaskDialogOpen: !state.addTaskDialogOpen
+      };
+
+    // Settings Dialog
+    case getType(actions.toggleSettingsDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        settingsDialogOpen: !state.settingsDialogOpen
+      };
+
+    // Update Server Dialog
+    case getType(actions.toggleUpdateServerDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        updateServerDialogOpen: !state.updateServerDialogOpen
+      };
+
+    // Add Server Dialog
+    case getType(actions.toggleAddServerDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        addServerDialogOpen: !state.addServerDialogOpen
+      };
+
+    // Player Profile
+    case getType(actions.hidePlayerProfileDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        playerProfileDialogOpen: false
+      };
+
+    // Ban List
+    case getType(actions.toggleAddWhitelistDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        addWhitelistDialogOpen: !state.addWhitelistDialogOpen
+      };
+
+    case getType(actions.toggleAddBanDialog):
+      return {
+        ...state,
+        ...defaultDialogState,
+        addBanDialogOpen: !state.addBanDialogOpen
+      };
+
+    // //////////////
+    // Others
+    // //////////////
+
+    case getType(actions.togglePlayerList):
+      return { ...state, playerSideBarOpen: !state.playerSideBarOpen };
 
     case getType(actions.setPlayerActiveInPlayerProfile):
       return { ...state, selectedPlayerID: action.payload };
@@ -38,8 +88,9 @@ export default (
     case getType(actions.fetchServerHelpMarkdown.success):
       return { ...state, serverHelpMarkdown: action.payload };
 
-    case getType(actions.hidePlayerProfileDialog):
-      return { ...state, playerProfileDialogOpen: false };
+    case getType(actions.setTerminalTheme):
+      return { ...state, terminalTheme: action.payload };
+
     default:
       return state;
   }

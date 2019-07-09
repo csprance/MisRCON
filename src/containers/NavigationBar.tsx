@@ -100,21 +100,33 @@ class NavigationBar extends React.Component<
             to={'/tasks'}
             primary={'# Tasks'}
           />
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/hosting'}
-            primary={'# Hosting'}
-          />
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/logs'}
-            primary={'# Logs'}
-          />
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/chat'}
-            primary={'# Chat'}
-          />
+          {activeServer.selfHosted ? (
+            <ListItemLink
+              currentPath={location.pathname}
+              to={'/hosting'}
+              primary={'# Hosting'}
+            />
+          ) : (
+            ''
+          )}
+          {activeServer.selfHosted ? (
+            <ListItemLink
+              currentPath={location.pathname}
+              to={'/logs'}
+              primary={'# Logs'}
+            />
+          ) : (
+            ''
+          )}
+          {activeServer.selfHosted ? (
+            <ListItemLink
+              currentPath={location.pathname}
+              to={'/chat'}
+              primary={'# Chat'}
+            />
+          ) : (
+            ''
+          )}
           <ListItemLink
             currentPath={location.pathname}
             to={'/help'}

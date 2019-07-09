@@ -5,16 +5,17 @@ import { StateType } from 'typesafe-actions';
 import { AppActions } from './app';
 import { rootReducer } from './index';
 import { MisMapActions } from './mismap';
+import { NotificationsActions } from './notifications';
 import { PlayersActions } from './players';
 import { RCONActions } from './rcon';
 import { ServersActions } from './servers';
 import { TasksActions } from './tasks';
 import { TerminalActions } from './terminal/types';
 
-
 export interface RootState extends StateType<typeof rootReducer> {}
 
 export type RootAction =
+  | NotificationsActions
   | MisMapActions
   | PlayersActions
   | RCONActions

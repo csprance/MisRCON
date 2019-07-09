@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 type Props = {
   sideBarShowing: boolean;
   whitelistedPlayers: Player[];
-  toggleAddWhitelistDialog: () => void;
+  showAddWhitelistDialog: () => void;
 };
 type State = {
   filterValue: string;
@@ -78,7 +78,7 @@ class WhitelistGrid extends React.Component<Props, State> {
   };
 
   handleAddClicked = () => {
-    this.props.toggleAddWhitelistDialog();
+    this.props.showAddWhitelistDialog();
   };
 
   handleRefreshClicked = () => {
@@ -113,6 +113,6 @@ export default connect(
     whitelistedPlayers: whitelistedPlayersOnActiveServer(state)
   }),
   dispatch => ({
-    showAddWhitelistDialog: dispatch(toggleAddWhitelistDialog())
+    showAddWhitelistDialog: () => dispatch(toggleAddWhitelistDialog())
   })
 )(WhitelistGrid);

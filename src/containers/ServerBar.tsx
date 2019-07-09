@@ -27,13 +27,14 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-type Props = {
+interface Props {}
+interface ReduxProps {
   activeServer: Server;
-  selectServer: (id: number) => void;
   servers: ServersState;
+  selectServer: (id: number) => void;
   showAddServerDialog: () => void;
-};
-const ServerBar: React.FunctionComponent<Props> = ({
+}
+const ServerBar: React.FunctionComponent<Props & ReduxProps> = ({
   activeServer,
   selectServer,
   servers,
@@ -61,9 +62,7 @@ const mapStateToProps = (state: RootState) => ({
   activeServer: activeServerSelector(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectServer: (id: number) => {
-    dispatch(markServerActive(id));
-  },
+  selectServer: (id: number) => dispatch(markServerActive(id)),
   showAddServerDialog: () => dispatch(toggleAddServerDialog())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ServerBar);

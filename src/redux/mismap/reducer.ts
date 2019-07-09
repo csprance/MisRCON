@@ -11,7 +11,10 @@ export default (
 ): MisMapState => {
   switch (action.type) {
     case getType(misMapActions.addMapMarker):
-      return { ...state, markers: [...state.markers, {...action.payload, id: Date.now()}] };
+      return {
+        ...state,
+        markers: [...state.markers, { ...action.payload, id: Date.now() }]
+      };
 
     case getType(misMapActions.deleteMapMarker):
       return {

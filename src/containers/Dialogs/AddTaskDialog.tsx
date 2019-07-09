@@ -112,6 +112,7 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
       active: false,
       cronString: type === 'recurring' ? state.cronString : null,
       date: type === 'date' ? moment(state.date).toDate() : null,
+      // tslint:disable-next-line:no-eval
       onTick: !customCommand ? makeDefaultRCONCommand(command) : eval(code),
       serverId: activeServerId
     });
@@ -196,7 +197,9 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                     onValueChange={newCode =>
                       setState({ ...state, code: newCode })
                     }
-                    highlight={newCode => highlight(newCode, languages.js)}
+                    highlight={newCode =>
+                      highlight(newCode, languages.js, 'js')
+                    }
                     padding={10}
                     style={{
                       marginTop: 25,
@@ -267,7 +270,9 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
                     onValueChange={newCode =>
                       setState({ ...state, code: newCode })
                     }
-                    highlight={newCode => highlight(newCode, languages.js)}
+                    highlight={newCode =>
+                      highlight(newCode, languages.js, 'js')
+                    }
                     padding={10}
                     style={{
                       marginTop: 25,
@@ -305,7 +310,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   addTask: (task: Task) => dispatch(addTaskThunk(task)),
   closeDialog: () => dispatch(toggleAddTaskDialog())
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddTaskDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(AddTaskDialog);

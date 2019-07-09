@@ -11,9 +11,11 @@ import { Dispatch } from '../../redux/redux-types';
 import { Server } from '../../redux/servers';
 import { Terminal } from '../../redux/terminal/types';
 import ReactTerminal from './react-terminal-component';
+import themes from './react-terminal-component/themes';
 import makeTerminalCommands from './terminal-commands';
 
 type Props = {
+  themeName: string;
   activeTerminal: Terminal;
   activeServer: Server;
   dispatch: Dispatch;
@@ -23,10 +25,12 @@ const RCONTerminal: React.FunctionComponent<Props> = ({
   activeTerminal,
   activeServer,
   dispatch,
-  rconHistory
+  rconHistory,
+  themeName
 }) => {
   return (
     <ReactTerminal
+      theme={themes[themeName]}
       key={activeServer.id}
       activeServer={activeServer}
       inputStr={activeTerminal ? activeTerminal.input : ''}

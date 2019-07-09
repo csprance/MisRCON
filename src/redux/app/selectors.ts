@@ -46,3 +46,18 @@ export const settingsDialogShowingSelector = createSelector(
   appStateSelector,
   app => app.settingsDialogOpen
 );
+
+export const addBanDialogShowingSelector = createSelector(
+  appStateSelector,
+  app => app.addBanDialogOpen
+);
+
+export const addWhitelistDialogShowingSelector = createSelector(
+  appStateSelector,
+  app => app.addWhitelistDialogOpen
+);
+
+export const terminalThemeSelector = createSelector(
+  appStateSelector,
+  app => app.terminalTheme
+);

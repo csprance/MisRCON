@@ -11,11 +11,13 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { Omit } from '../../@types/global';
+import AvatarPicker from '../../components/AvatarPicker';
 import NoHoverIconButton from '../../components/NoHoverIconButton';
 import { toggleAddServerDialog } from '../../redux/app/actions';
 import { addServerDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { Server, serversActions, serversSelectors } from '../../redux/servers';
+import { testConnectionThunk } from '../../redux/servers/actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,23 +48,28 @@ interface Props {
   closeDialog: () => void;
   addServer: (server: Server) => void;
   showing: boolean;
+  testConnection: (server: Server) => boolean;
 }
 interface State extends Omit<Server, 'id' | 'port'> {
   id: string;
   port: string;
 }
+interface SecondaryState {
+  valid: boolean;
+}
 const AddServerDialog: React.FunctionComponent<Props> = ({
   addServer,
   closeDialog,
-  showing
+  showing,
+  testConnection
 }) => {
   const defaultState: State = {
     id: `${Date.now()}`,
     avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
-    name: 'Dev',
-    ip: 'localhost',
-    port: '64094',
-    password: 'password',
+    name: '',
+    ip: '',
+    port: '',
+    password: '',
     active: false,
     selfHosted: false,
     rootPath: ''
@@ -70,6 +77,18 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
   const [state, setState] = React.useState<State>({
     ...defaultState
   });
+  const [secondState, secondSetState] = React.useState<SecondaryState>({
+    valid: false
+  });
+
+  const handleTestConnectionClick = async () => {
+    const result = await testConnection({
+      ...state,
+      id: Number(state.id),
+      port: Number(state.port)
+    });
+    secondSetState({ valid: result });
+  };
 
   const handleClick = async () => {
     addServer({
@@ -95,17 +114,18 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
     const rootPath = remote.dialog.showOpenDialog({
       properties: ['openDirectory']
     })[0];
-    setState({ ...state, rootPath });
+    if (rootPath) {
+      setState({ ...state, rootPath });
+    }
   };
 
   return (
     <Dialog fullWidth onClose={() => closeDialog()} open={showing}>
       <Wrapper>
         <InnerWrapper>
-          <img
-            style={{ borderRadius: '50%', width: 200, height: 200 }}
-            src={state.avatar}
-            alt=""
+          <AvatarPicker
+            avatar={state.avatar}
+            setAvatar={(avatar: string) => setState({ ...state, avatar })}
           />
           <Typography variant={'h4'}>Add Server</Typography>
           <CenterSection>
@@ -171,6 +191,18 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
             )}
           </CenterSection>
           <Button
+            style={{
+              marginTop: 25,
+              backgroundColor: secondState.valid ? '#007640' : '#832f2b'
+            }}
+            onClick={handleTestConnectionClick}
+            variant={'contained'}
+            color={'secondary'}
+            fullWidth
+          >
+            Test Connection
+          </Button>
+          <Button
             style={{ marginTop: 25 }}
             onClick={handleClick}
             variant={'contained'}
@@ -192,6 +224,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addServer: (server: Server) =>
     dispatch(serversActions.addServerThunk(server)),
-  closeDialog: () => dispatch(toggleAddServerDialog())
+  closeDialog: () => dispatch(toggleAddServerDialog()),
+  testConnection: (server: Server) => dispatch(testConnectionThunk(server))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddServerDialog);

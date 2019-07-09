@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.0-dev-11",
+  "version": "3.0.0-dev-13",
   "description": "RCON Tool and Map for Miscreated game.",
   "main": "src/index.ts",
   "scripts": {
@@ -88,6 +88,7 @@
     "prismjs": "^1.16.0",
     "react": "^16.8.6",
     "react-ace": "^7.0.2",
+    "react-beautiful-dnd": "^11.0.4",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.11.1",
     "react-leaflet": "^2.4.0",
@@ -124,6 +125,7 @@
     "@types/node": "^11.12.0",
     "@types/prismjs": "^1.16.0",
     "@types/react": "^16.8.17",
+    "@types/react-beautiful-dnd": "^11.0.2",
     "@types/react-dom": "^16.8.4",
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-leaflet": "^2.2.1",

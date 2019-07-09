@@ -20,27 +20,20 @@ const Wrapper = styled.div`
   }
   width: 100%;
 `;
-
-type Props = {
+interface Props {}
+interface ReduxProps {
   markdown: string;
-};
-type State = {};
-class ServerHelp extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state = {};
-
-  public render() {
-    return (
-      <Wrapper>
-        <MarkDownStyle />
-        <ReactMarkdown
-          className={'markdown-body'}
-          source={this.props.markdown}
-        />
-      </Wrapper>
-    );
-  }
 }
+const ServerHelp: React.FunctionComponent<Props & ReduxProps> = ({
+  markdown
+}) => {
+  return (
+    <Wrapper>
+      <MarkDownStyle />
+      <ReactMarkdown className={'markdown-body'} source={markdown} />
+    </Wrapper>
+  );
+};
 
 export default connect((state: RootState) => ({
   markdown: serverHelpMarkdownSelector(state)

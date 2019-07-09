@@ -15,6 +15,7 @@ import { toggleUpdateServerDialog } from '../../redux/app/actions';
 import { updateServerDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { Server, serversActions, serversSelectors } from '../../redux/servers';
+import AvatarPicker from '../../components/AvatarPicker';
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,7 +73,9 @@ const EditServerDialog: React.FunctionComponent<Props> = ({
     const rootPath = remote.dialog.showOpenDialog({
       properties: ['openDirectory']
     })[0];
-    setState({ ...state, rootPath });
+    if (rootPath) {
+      setState({ ...state, rootPath });
+    }
   };
 
   return (
@@ -84,10 +87,9 @@ const EditServerDialog: React.FunctionComponent<Props> = ({
     >
       <Wrapper>
         <InnerWrapper>
-          <img
-            style={{ borderRadius: '50%', width: 200, height: 200 }}
-            src={state.avatar}
-            alt=""
+          <AvatarPicker
+            avatar={state.avatar}
+            setAvatar={(avatar: string) => setState({ ...state, avatar })}
           />
           <Typography variant={'h4'}>Edit Server</Typography>
           <CenterSection>

@@ -1,4 +1,4 @@
-import { getMarkersByName } from './utils';
+import { getMarkersByName } from '../utils';
 
 const markers = [
   {

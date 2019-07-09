@@ -1,14 +1,21 @@
-import { AppState } from './types';
+import { AppState, DialogState } from './types';
+
+export const defaultDialogState: DialogState = {
+  playerProfileDialogOpen: false,
+  addTaskDialogOpen: false,
+  settingsDialogOpen: false,
+  addServerDialogOpen: false,
+  updateServerDialogOpen: false,
+  addBanDialogOpen: false,
+  addWhitelistDialogOpen: false
+};
 
 export const defaultState: AppState = {
-  settingsDialogOpen: false,
-  playerProfileDialogOpen: false,
   selectedPlayerID: '',
   playerSideBarOpen: true,
-  addServerDialogOpen: false,
-  addTaskDialogOpen: false,
-  updateServerDialogOpen: false,
-  serverHelpMarkdown: 'string'
+  serverHelpMarkdown: 'string',
+  terminalTheme: 'default',
+  ...defaultDialogState
 };
 
 export default defaultState;

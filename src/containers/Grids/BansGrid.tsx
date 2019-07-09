@@ -6,11 +6,12 @@ import styled from 'styled-components';
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
+import { toggleAddBanDialog } from '../../redux/app/actions';
 import { playerSidebarOpenSelector } from '../../redux/app/selectors';
 import { bannedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
 import { Player } from '../../redux/players/types';
-import { RootState } from '../../redux/redux-types';
+import { Dispatch, RootState } from '../../redux/redux-types';
 import { bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
@@ -24,6 +25,8 @@ const Wrapper = styled.div`
 
 type Props = {
   sideBarShowing: boolean;
+  banSteamID: (steamid: string) => void;
+  showBanAddDialog: () => void;
   players: Player[];
 };
 type State = {
@@ -76,7 +79,7 @@ class BansGrid extends React.Component<Props, State> {
   };
 
   handleAddClicked = () => {
-    console.log('Add');
+    this.props.showBanAddDialog();
   };
 
   handleRefreshClicked = () => {
@@ -104,7 +107,13 @@ class BansGrid extends React.Component<Props, State> {
   }
 }
 
-export default connect((state: RootState) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  showBanAddDialog: () => dispatch(toggleAddBanDialog())
+});
+
+const mapStateToProps = (state: RootState) => ({
   sideBarShowing: playerSidebarOpenSelector(state),
   players: bannedPlayersOnActiveServer(state)
-}))(BansGrid);
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BansGrid);

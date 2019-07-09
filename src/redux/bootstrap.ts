@@ -16,5 +16,5 @@ export default (store: Store) => () => {
   dispatch(fetchServerHelpMarkdownThunk());
   // Scan or any new terminals
   dispatch(scanForTerminalsThunk());
-  registerHotkeys();
+  registerHotkeys(dispatch);
 };

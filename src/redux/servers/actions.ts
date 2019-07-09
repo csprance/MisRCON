@@ -9,6 +9,31 @@ import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
 
+export const testConnection = createAsyncAction(
+  'server/UPDATE_REQUEST',
+  'server/UPDATE_SUCCESS',
+  'server/UPDATE_FAILED'
+)<void, void, string>();
+export const testConnectionThunk = (
+  server: Server
+): AsyncThunkResult<boolean> => async dispatch => {
+  dispatch(testConnection.request());
+  try {
+    const req = await dispatch(
+      sendRCONAsyncThunk({ ...server, command: 'status' })
+    );
+    if (req.completed) {
+      // Check if a status command can make it through
+      await dispatch(testConnection.success());
+      return true;
+    }
+    return false;
+  } catch (e) {
+    dispatch(testConnection.failure(e.toString()));
+    return false;
+  }
+};
+
 export const updateServer = createAsyncAction(
   'server/UPDATE_REQUEST',
   'server/UPDATE_SUCCESS',
