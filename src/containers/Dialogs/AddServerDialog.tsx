@@ -48,7 +48,7 @@ interface Props {
   closeDialog: () => void;
   addServer: (server: Server) => void;
   showing: boolean;
-  testConnection: (server: Server) => boolean;
+  testConnection: (server: Server) => Promise<boolean>;
 }
 interface State extends Omit<Server, 'id' | 'port'> {
   id: string;

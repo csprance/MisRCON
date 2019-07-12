@@ -1,5 +1,6 @@
 export const orange = '#fca311';
 export const greyBlue = '#21252b';
+export const green = '#4caf50';
 export const white = '#b7cdee';
 export const darkDarkBlack = '#131313';
 export const darkishBlue = '#2b343f';

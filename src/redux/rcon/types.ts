@@ -2,8 +2,11 @@
 import { ParseResponse } from 'node-misrcon';
 
 export interface IRCONRequest {
+  //
   ip: string;
+  //
   port: number;
+  //
   password: string;
   // The command sent to the server
   command: string;
@@ -16,6 +19,7 @@ export interface IRCONRequest {
   // the parsed response
   parsedResponse: ParseResponse;
 }
+
 export type RCONState = {
   // Is the rcon sending?
   sending: boolean;

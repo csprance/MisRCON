@@ -88,6 +88,9 @@ export default (
     case getType(actions.fetchServerHelpMarkdown.success):
       return { ...state, serverHelpMarkdown: action.payload };
 
+    case getType(actions.checkForUpdates.success):
+      return { ...state, remoteVersion: action.payload };
+
     case getType(actions.setTerminalTheme):
       return { ...state, terminalTheme: action.payload };
 

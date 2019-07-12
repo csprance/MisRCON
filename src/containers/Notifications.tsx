@@ -4,34 +4,27 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { closeNotification } from '../redux/notifications/actions';
 import { notificationsSelector } from '../redux/notifications/selectors';
 import { NotificationsState } from '../redux/notifications/types';
 import { Dispatch, RootState } from '../redux/redux-types';
-import { darkDarkBlack } from '../styles/colors';
+import { bg5 } from '../styles/colors';
+
 interface Props {}
 interface ReduxProps {
   notifications: NotificationsState;
+  handleCloseNotification: (id: number) => void;
 }
 const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
-  notifications
+  notifications,
+  handleCloseNotification
 }) => {
   const colors = {
     error: '#ff5544',
-    info: darkDarkBlack,
+    info: bg5,
     success: '#31a246'
   };
-  const [open, setOpen] = React.useState(true);
 
-  const handleClose = (
-    _event: React.SyntheticEvent | React.MouseEvent,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
   if (notifications.length === 0) {
     return <></>;
   }
@@ -44,22 +37,25 @@ const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
             vertical: 'bottom',
             horizontal: 'center'
           }}
-          open={open}
-          autoHideDuration={16000}
-          onClose={handleClose}
+          open={notification.open}
+          autoHideDuration={6000}
+          onClose={(_e, reason) => {
+            if (reason === 'clickaway') {
+              return false;
+            }
+            handleCloseNotification(notification.id);
+            return true;
+          }}
           ContentProps={{
             style: { backgroundColor: colors[notification.variant] },
             'aria-describedby': 'message-id'
           }}
           message={<span id="message-id">{notification.content}</span>}
           action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={handleClose}
-            >
-              <CloseIcon />
+            <IconButton key="close" aria-label="Close" color="inherit">
+              <CloseIcon
+                onClick={() => handleCloseNotification(notification.id)}
+              />
             </IconButton>
           ]}
         />
@@ -71,5 +67,7 @@ const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
 const mapStateToProps = (state: RootState) => ({
   notifications: notificationsSelector(state)
 });
-const mapDispatchToProps = (_dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  handleCloseNotification: (id: number) => dispatch(closeNotification(id))
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

@@ -13,6 +13,7 @@ export const getCronStringOrDate = (task: Task) => {
   }
   throw new Error('Task is missing Cron String or Date');
 };
+
 export const makeDefaultRCONCommand = (command: string) => {
   return (dispatch: Dispatch, getState: GetStateFunc, task: Task) => {
     // Initialize RCON

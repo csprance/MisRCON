@@ -16,8 +16,12 @@ const ListItemLink: React.FunctionComponent<Props> = ({
   to,
   currentPath
 }) => {
-  const renderLink = (itemProps: any) => <Link to={to} {...itemProps} />;
+  const renderLink = React.forwardRef((props, _ref) => (
+    <Link to={to} {...props} />
+  ));
+
   return (
+    // @ts-ignore
     <ListItem selected={currentPath === to} button component={renderLink}>
       <ListItemText primary={primary} />
     </ListItem>

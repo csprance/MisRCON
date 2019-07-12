@@ -5,6 +5,11 @@ import { ipPortPropsSelector } from '../selectors';
 
 export const rconSelector = (state: RootState, _props?: any) => state.rcon;
 
+export const sendingSelector = createSelector(
+  rconSelector,
+  rcon => rcon.sending
+);
+
 export const rconRequestsSelector = (state: RootState, _props?: any) =>
   state.rcon.requests;
 

@@ -1,4 +1,6 @@
+import * as npmPackage from '../../../package.json';
 import { AppState, DialogState } from './types';
+
 
 export const defaultDialogState: DialogState = {
   playerProfileDialogOpen: false,
@@ -11,6 +13,8 @@ export const defaultDialogState: DialogState = {
 };
 
 export const defaultState: AppState = {
+  localVersion: npmPackage.version,
+  remoteVersion: npmPackage.version,
   selectedPlayerID: '',
   playerSideBarOpen: true,
   serverHelpMarkdown: 'string',

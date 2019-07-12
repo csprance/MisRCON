@@ -11,7 +11,7 @@ const TogglePlayerListButton: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <Tooltip title={'Player List'}>
-      <IconButton onClick={onClick}>
+      <IconButton href={'#'} onClick={onClick}>
         <PlayersIcon />
       </IconButton>
     </Tooltip>

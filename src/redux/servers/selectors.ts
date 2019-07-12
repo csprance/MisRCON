@@ -33,6 +33,7 @@ export const activeServerSelector = createSelector(
     return activeServer ? activeServer : defaultServer;
   }
 );
+
 export const serverByIdSelector = createSelector(
   serversSelector,
   idPropsSelector,

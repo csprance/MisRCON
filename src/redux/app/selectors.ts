@@ -61,3 +61,8 @@ export const terminalThemeSelector = createSelector(
   appStateSelector,
   app => app.terminalTheme
 );
+
+export const updateNeededSelector = createSelector(
+  appStateSelector,
+  app => app.remoteVersion !== app.localVersion
+);

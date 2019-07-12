@@ -60,6 +60,7 @@ class Terminal extends React.Component<Props, State> {
       disabled: false,
       emulatorState: this.props.emulatorState!, // Non-null assertion
       inputStr: this.props.inputStr! // Non-null assertion
+      // inputStr: this.props.inputStr! // Non-null assertion
     };
     this.serverId = this.state.emulatorState.getEnvVariables().get('serverId');
 

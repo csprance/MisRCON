@@ -20,6 +20,10 @@ export type AppState = {
   // /////////////
   // Others
   // /////////////
+  // Our application version from package.json
+  localVersion: string;
+  // Current remote version
+  remoteVersion: string;
   // The Help markdown from github
   serverHelpMarkdown: string;
   // What player By ID should be displayed in the PlayerProfile Dialog

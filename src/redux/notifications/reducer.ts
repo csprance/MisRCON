@@ -44,6 +44,9 @@ export default (
         }
       ];
 
+    case getType(actions.closeNotification):
+      return state.map(notification => ({ ...notification, open: false }));
+
     default:
       return state;
   }

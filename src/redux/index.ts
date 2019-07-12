@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import app from './app';
+import hosting from './hosting';
 import misMap from './mismap';
 import notifications from './notifications';
 import players from './players';
@@ -12,6 +13,7 @@ import terminal from './terminal';
 
 export const rootReducer = combineReducers({
   app,
+  hosting,
   misMap,
   notifications,
   players,

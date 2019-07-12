@@ -43,6 +43,7 @@ class ServerPropertiesListItem extends React.Component<Props, State> {
     return (
       <Wrapper>
         <ListItem
+          component="a"
           onClick={this.handleClick}
           style={{
             height: 48,

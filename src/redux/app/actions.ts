@@ -21,6 +21,26 @@ export const fetchServerHelpMarkdownThunk = (): AsyncThunkResult<
   }
 };
 
+export const checkForUpdates = createAsyncAction(
+  'app/CHECK_FOR_UPDATE_REQUEST',
+  'app/CHECK_FOR_UPDATE_SUCCESS',
+  'app/CHECK_FOR_UPDATE_FAIL'
+)<void, string, string>();
+export const checkForUpdatesThunk = (): AsyncThunkResult<
+  void
+> => async dispatch => {
+  try {
+    dispatch(checkForUpdates.request());
+    const { data } = await axios.get(
+      'https://api.github.com/repos/csprance/MisRCON/releases/latest'
+    );
+    const remoteVersion = data.tag_name;
+    dispatch(checkForUpdates.success(remoteVersion));
+  } catch (e) {
+    dispatch(checkForUpdates.failure(e.toString()));
+  }
+};
+
 export const setTerminalTheme = createAction(
   'app/SET_TERMINAL_THEME',
   resolve => (themeName: string) => resolve(themeName)

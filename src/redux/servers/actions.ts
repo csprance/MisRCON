@@ -1,5 +1,6 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
+import { addError, addSuccess } from '../notifications/actions';
 import { getPlayersViaRCONThunk } from '../players/actions';
 import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
@@ -25,8 +26,10 @@ export const testConnectionThunk = (
     if (req.completed) {
       // Check if a status command can make it through
       await dispatch(testConnection.success());
+      dispatch(addSuccess('Connection Successful'));
       return true;
     }
+    dispatch(addError('Connection Failed'));
     return false;
   } catch (e) {
     dispatch(testConnection.failure(e.toString()));
@@ -47,7 +50,7 @@ export const updateServerThunk = (
     await dispatch(updateServer.success(server));
     await dispatch(markServerActive(server.id));
     await dispatch(getPlayersViaRCONThunk());
-    // await dispatch(getServerDataThunk(server));
+    await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(updateServer.failure(e.toString()));
   }
@@ -67,7 +70,7 @@ export const addServerThunk = (
     await dispatch(scanForTerminalsThunk());
     await dispatch(markServerActive(server.id));
     await dispatch(getPlayersViaRCONThunk());
-    // await dispatch(getServerDataThunk(server));
+    await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(addServer.failure(e.toString()));
   }

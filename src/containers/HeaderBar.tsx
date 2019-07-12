@@ -10,7 +10,9 @@ import { latestRCONStatusByServerIpPortSelector } from '../redux/rcon/selectors'
 import { Dispatch, RootState } from '../redux/redux-types';
 import { activeServerSelector } from '../redux/servers/selectors';
 import { bg0, bg3, text } from '../styles/colors';
-import {media} from '../styles/styles';
+import { media } from '../styles/styles';
+import UpdateAppButton from '../components/UpdateAppButton';
+import { updateNeededSelector } from '../redux/app/selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +41,7 @@ const ServerName = styled.div`
     max-width: 250px;
   `};
 `;
+
 const HeaderText = styled.div`
   min-width: 0;
   flex-basis: 10%;
@@ -49,6 +52,7 @@ const HeaderText = styled.div`
   font-size: 0.9em;
   color: ${text.secondary};
 `;
+
 const Controls = styled.div`
   display: flex;
   height: 100%;
@@ -56,13 +60,18 @@ const Controls = styled.div`
   flex: 1;
   justify-content: flex-end;
 `;
+
 interface Props {}
 interface ReduxProps {
   status: StatusResponse | null;
   togglePlayerList: () => void;
   toggleSettingsDialog: () => void;
+  updateNeeded: boolean;
 }
 const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
+  const handleUpdateButtonClicked = () => {
+    console.log('Updating Application');
+  };
   const name = props.status ? props.status.name : '';
   const version = props.status ? props.status.version : '';
   const map = props.status ? props.status.level : '';
@@ -81,6 +90,11 @@ const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
       <HeaderText>{time}</HeaderText>
 
       <Controls>
+        {props.updateNeeded ? (
+          <UpdateAppButton onClick={handleUpdateButtonClicked} />
+        ) : (
+          ''
+        )}
         <TogglePlayerListButton onClick={props.togglePlayerList} />
         <ToggleSettingsButton onClick={props.toggleSettingsDialog} />
       </Controls>
@@ -92,13 +106,11 @@ export const mapStateToProps = (state: RootState) => ({
   status: latestRCONStatusByServerIpPortSelector(
     state,
     activeServerSelector(state)
-  )
+  ),
+  updateNeeded: updateNeededSelector(state)
 });
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   togglePlayerList: () => dispatch(togglePlayerList()),
   toggleSettingsDialog: () => dispatch(toggleSettingsDialog())
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HeaderBar);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar);

@@ -1,7 +1,10 @@
 import { Store } from 'redux';
 
 import { registerHotkeys } from '../constants/hotkeys';
-import { fetchServerHelpMarkdownThunk } from './app/actions';
+import {
+  checkForUpdatesThunk,
+  fetchServerHelpMarkdownThunk
+} from './app/actions';
 import { Dispatch } from './redux-types';
 import { hydrateTaskThunk } from './tasks/actions';
 import { scanForTerminalsThunk } from './terminal/actions';
@@ -16,5 +19,8 @@ export default (store: Store) => () => {
   dispatch(fetchServerHelpMarkdownThunk());
   // Scan or any new terminals
   dispatch(scanForTerminalsThunk());
+  // Check for updates
+  dispatch(checkForUpdatesThunk());
+  // Register all the apps hotkeys
   registerHotkeys(dispatch);
 };

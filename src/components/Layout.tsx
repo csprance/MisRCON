@@ -12,6 +12,7 @@ import HeaderBar from '../containers/HeaderBar';
 import NavigationBar from '../containers/NavigationBar';
 import Notifications from '../containers/Notifications';
 import PlayersList from '../containers/PlayersSidebar';
+import ProgressBar from '../containers/ProgressBar';
 import ServerBar from '../containers/ServerBar';
 import TitleBar from './TitleBar';
 
@@ -57,6 +58,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
       <AddBanDialog />
       <AddWhitelistDialog />
       <Notifications />
+      <ProgressBar />
     </Wrapper>
   );
 };

@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { StateType } from 'typesafe-actions';
 
 import { AppActions } from './app';
+import { HostingActions } from './hosting/types';
 import { rootReducer } from './index';
 import { MisMapActions } from './mismap';
 import { NotificationsActions } from './notifications';
@@ -15,6 +16,7 @@ import { TerminalActions } from './terminal/types';
 export interface RootState extends StateType<typeof rootReducer> {}
 
 export type RootAction =
+  | HostingActions
   | NotificationsActions
   | MisMapActions
   | PlayersActions
