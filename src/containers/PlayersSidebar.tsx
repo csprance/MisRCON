@@ -4,7 +4,7 @@
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import PlayerListItem from '../components/PlayerListItem';
@@ -13,14 +13,12 @@ import {
   togglePlayerProfileDialog
 } from '../redux/app/actions';
 import { playerListShowingSelector } from '../redux/app/selectors';
-import { PlayersState } from '../redux/players';
 import { banPlayerThunk, kickPlayerThunk } from '../redux/players/actions';
 import {
   activePlayersOnActiveServerSelector,
   inactivePlayersOnActiveServerSelector
 } from '../redux/players/selectors';
 import { Player } from '../redux/players/types';
-import { Dispatch, RootState } from '../redux/redux-types';
 import { bg1 } from '../styles/colors';
 
 const getWidth = ({ showing }: { showing: boolean }) =>
@@ -39,22 +37,18 @@ const Wrapper = styled.div`
 `;
 
 interface Props {}
-interface ReduxProps {
-  showing: boolean;
-  viewPlayerProfile: (steam: string) => void;
-  kickPlayer: (player: Player) => void;
-  banPlayer: (player: Player) => void;
-  activePlayers: PlayersState;
-  inactivePlayers: PlayersState;
-}
-const PlayersSidebar: React.FunctionComponent<Props & ReduxProps> = ({
-  activePlayers,
-  inactivePlayers,
-  showing,
-  kickPlayer,
-  banPlayer,
-  viewPlayerProfile
-}) => {
+const PlayersSidebar: React.FunctionComponent<Props> = ({}) => {
+  const dispatch = useDispatch();
+  const viewPlayerProfile = (steam: string) => {
+    dispatch(setPlayerActiveInPlayerProfile(steam));
+    dispatch(togglePlayerProfileDialog());
+  };
+  const kickPlayer = (player: Player) => dispatch(kickPlayerThunk(player));
+  const banPlayer = (player: Player) => dispatch(banPlayerThunk(player));
+  const activePlayers = useSelector(activePlayersOnActiveServerSelector);
+  const inactivePlayers = useSelector(inactivePlayersOnActiveServerSelector);
+  const showing = useSelector(playerListShowingSelector);
+
   return (
     <Wrapper showing={showing}>
       <List
@@ -110,18 +104,4 @@ const PlayersSidebar: React.FunctionComponent<Props & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  activePlayers: activePlayersOnActiveServerSelector(state),
-  inactivePlayers: inactivePlayersOnActiveServerSelector(state),
-  showing: playerListShowingSelector(state)
-});
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  viewPlayerProfile: (steam: string) => {
-    dispatch(setPlayerActiveInPlayerProfile(steam));
-    dispatch(togglePlayerProfileDialog());
-  },
-  kickPlayer: (player: Player) => dispatch(kickPlayerThunk(player)),
-  banPlayer: (player: Player) => dispatch(banPlayerThunk(player))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlayersSidebar);
+export default PlayersSidebar;

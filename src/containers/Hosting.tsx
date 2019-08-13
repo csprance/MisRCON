@@ -1,12 +1,10 @@
 import { highlight, languages } from 'prismjs';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
 import { activeServerHosting } from '../redux/hosting/selectors';
-import { Hosting } from '../redux/hosting/types';
-import { Dispatch, RootState } from '../redux/redux-types';
 import { bg1, text } from '../styles/colors';
 
 const EditorWrapper = styled.div`
@@ -18,12 +16,8 @@ const EditorWrapper = styled.div`
 `;
 
 interface Props {}
-interface ReduxProps {
-  hosting: Hosting;
-}
-const HostingContainer: React.FunctionComponent<Props & ReduxProps> = ({
-  hosting
-}) => {
+const HostingContainer: React.FunctionComponent<Props> = ({}) => {
+  const hosting = useSelector(activeServerHosting);
   const [state, setState] = React.useState(hosting.hostingText);
   return (
     <EditorWrapper>
@@ -45,8 +39,4 @@ const HostingContainer: React.FunctionComponent<Props & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = (state: RootState, _ownProps: Props) => ({
-  hosting: activeServerHosting(state)
-});
-const mapDispatchToProps = (_dispatch: Dispatch) => ({});
-export default connect(mapStateToProps, mapDispatchToProps)(HostingContainer);
+export default HostingContainer;

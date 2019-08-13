@@ -1,18 +1,17 @@
-import { StatusResponse } from 'node-misrcon';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import TogglePlayerListButton from '../components/TogglePlayerListButton';
 import ToggleSettingsButton from '../components/ToggleSettingsButton';
+import UpdateAppButton from '../components/UpdateAppButton';
 import { togglePlayerList, toggleSettingsDialog } from '../redux/app/actions';
+import { updateNeededSelector } from '../redux/app/selectors';
 import { latestRCONStatusByServerIpPortSelector } from '../redux/rcon/selectors';
-import { Dispatch, RootState } from '../redux/redux-types';
+import { RootState } from '../redux/redux-types';
 import { activeServerSelector } from '../redux/servers/selectors';
 import { bg0, bg3, text } from '../styles/colors';
 import { media } from '../styles/styles';
-import UpdateAppButton from '../components/UpdateAppButton';
-import { updateNeededSelector } from '../redux/app/selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,21 +61,26 @@ const Controls = styled.div`
 `;
 
 interface Props {}
-interface ReduxProps {
-  status: StatusResponse | null;
-  togglePlayerList: () => void;
-  toggleSettingsDialog: () => void;
-  updateNeeded: boolean;
-}
-const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
+const HeaderBar: React.FunctionComponent<Props> = ({}) => {
+  // Redux State
+  const dispatch = useDispatch();
+  const updateNeeded = useSelector(updateNeededSelector);
+  const status = useSelector((state: RootState) =>
+    latestRCONStatusByServerIpPortSelector(state, activeServerSelector(state))
+  );
+  const name = status ? status.name : '';
+  const version = status ? status.version : '';
+  const map = status ? status.level : '';
+  const weather = status ? status.weather : '';
+  const time = status ? status.time : '';
+
+  // Handles
+  const handleTogglePlayerList = () => dispatch(togglePlayerList());
+  const handleToggleSettingsDialog = () => dispatch(toggleSettingsDialog());
   const handleUpdateButtonClicked = () => {
     console.log('Updating Application');
   };
-  const name = props.status ? props.status.name : '';
-  const version = props.status ? props.status.version : '';
-  const map = props.status ? props.status.level : '';
-  const weather = props.status ? props.status.weather : '';
-  const time = props.status ? props.status.time : '';
+
   return (
     <Wrapper>
       <ServerName>{name}</ServerName>
@@ -90,27 +94,16 @@ const HeaderBar: React.FunctionComponent<Props & ReduxProps> = props => {
       <HeaderText>{time}</HeaderText>
 
       <Controls>
-        {props.updateNeeded ? (
+        {updateNeeded ? (
           <UpdateAppButton onClick={handleUpdateButtonClicked} />
         ) : (
           ''
         )}
-        <TogglePlayerListButton onClick={props.togglePlayerList} />
-        <ToggleSettingsButton onClick={props.toggleSettingsDialog} />
+        <TogglePlayerListButton onClick={handleTogglePlayerList} />
+        <ToggleSettingsButton onClick={handleToggleSettingsDialog} />
       </Controls>
     </Wrapper>
   );
 };
 
-export const mapStateToProps = (state: RootState) => ({
-  status: latestRCONStatusByServerIpPortSelector(
-    state,
-    activeServerSelector(state)
-  ),
-  updateNeeded: updateNeededSelector(state)
-});
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  togglePlayerList: () => dispatch(togglePlayerList()),
-  toggleSettingsDialog: () => dispatch(toggleSettingsDialog())
-});
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar);
+export default HeaderBar;

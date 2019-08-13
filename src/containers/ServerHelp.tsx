@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { bg3, text } from '../styles/colors';
-import { MarkDownStyle } from '../styles/markdown-styles';
 
 import { serverHelpMarkdownSelector } from '../redux/app/selectors';
-import { RootState } from '../redux/redux-types';
+import { bg3, text } from '../styles/colors';
+import { MarkDownStyle } from '../styles/markdown-styles';
 
 const Wrapper = styled.div`
   padding: 10px;
@@ -21,12 +20,10 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 interface Props {}
-interface ReduxProps {
-  markdown: string;
-}
-const ServerHelp: React.FunctionComponent<Props & ReduxProps> = ({
-  markdown
-}) => {
+
+const ServerHelp: React.FunctionComponent<Props> = ({}) => {
+  const markdown = useSelector(serverHelpMarkdownSelector);
+
   return (
     <Wrapper>
       <MarkDownStyle />
@@ -35,6 +32,4 @@ const ServerHelp: React.FunctionComponent<Props & ReduxProps> = ({
   );
 };
 
-export default connect((state: RootState) => ({
-  markdown: serverHelpMarkdownSelector(state)
-}))(ServerHelp);
+export default ServerHelp;

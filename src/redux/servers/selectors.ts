@@ -1,8 +1,8 @@
-import { createSelector } from 'reselect';
-import { RootState } from '../redux-types';
-import { idPropsSelector, ipPortPropsSelector } from '../selectors';
-import { defaultServer } from './state';
-import { ServersState } from './types';
+import {createSelector} from 'reselect';
+import {RootState} from '../redux-types';
+import {idPropsSelector, ipPortPropsSelector} from '../selectors';
+import {defaultServer} from './state';
+import {ServersState} from './types';
 
 export const serversSelector = (state: RootState, _props?: any): ServersState =>
   state.servers;
