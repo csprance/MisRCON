@@ -1,8 +1,3 @@
-/**
- * Name: AtlasMapContextMenu
- * Created by chris on 4/23/2017.
- * Description:
- */
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as React from 'react';
@@ -13,19 +8,20 @@ interface Props {
   addMarker: () => void;
   closeContextMenu: () => void;
 }
-interface State {}
-class AtlasMapContextMenu extends React.Component<Props, State> {
-  render() {
-    const { open, anchorEl, closeContextMenu, addMarker } = this.props;
-    return (
-      <Menu anchorEl={anchorEl} open={open} onClose={closeContextMenu}>
-        <MenuItem onClick={addMarker}>Add Marker</MenuItem>
-        <MenuItem disabled onClick={addMarker}>
-          Add Faction Spawn Point
-        </MenuItem>
-      </Menu>
-    );
-  }
-}
+const LeafletContextMenu: React.FunctionComponent<Props> = ({
+  open,
+  anchorEl,
+  closeContextMenu,
+  addMarker
+}) => {
+  return (
+    <Menu anchorEl={anchorEl} open={open} onClose={closeContextMenu}>
+      <MenuItem onClick={addMarker}>Add Marker</MenuItem>
+      <MenuItem disabled onClick={addMarker}>
+        Add Faction Spawn Point
+      </MenuItem>
+    </Menu>
+  );
+};
 
-export default AtlasMapContextMenu;
+export default LeafletContextMenu;

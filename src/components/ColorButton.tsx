@@ -9,7 +9,7 @@ interface Props {
 const ColorButton: React.FunctionComponent<Props> = ({ color, onClick }) => {
   return (
     <IconButton onClick={onClick}>
-      <SquareIcon fontSize="large" nativeColor={color} />
+      <SquareIcon fontSize="large" htmlColor={color} />
     </IconButton>
   );
 };

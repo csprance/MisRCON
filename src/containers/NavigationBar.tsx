@@ -40,6 +40,7 @@ const NavigationBar: React.FunctionComponent<Props> = ({}) => {
 
   return (
     <Wrapper>
+      {/*TODO: Drag and Drop Would be awesome here */}
       <List
         style={{
           paddingTop: 0,

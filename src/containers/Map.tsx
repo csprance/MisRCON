@@ -7,36 +7,19 @@ import {
   FeatureGroup,
   LayersControl,
   Map as LeafletMap,
-  MapComponent,
   Marker,
   Popup,
   TileLayer
 } from 'react-leaflet';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import LeafletContextMenu from '../components/Menus/LeafletContextMenu';
 import { MAP_BOUNDS } from '../constants/map-constants';
 import { playerSidebarOpenSelector } from '../redux/app/selectors';
-import {
-  misMapActions,
-  misMapSelectors,
-  MisMapTypes,
-  misMapUtils
-} from '../redux/mismap';
-import { Marker as CustomMarker } from '../redux/mismap/types';
-import { Dispatch, RootState } from '../redux/redux-types';
-import { Server } from '../redux/servers';
+import { misMapActions, misMapSelectors, misMapUtils } from '../redux/mismap';
 import { activeServerSelector } from '../redux/servers/selectors';
 
-interface Props {
-  dispatch: Dispatch;
-  sideBarShowing: boolean;
-  layers: MisMapTypes.MisMapMarkersByLayer;
-  activeServer: Server;
-  addMarker: (marker: CustomMarker) => void;
-  deleteMarker: (id: number) => void;
-  showing?: boolean;
-}
+interface Props {}
 interface State {
   map: {
     tileLayer: {
@@ -67,10 +50,24 @@ interface State {
     y: number;
   };
 }
-class Map extends React.Component<Props, State> {
-  mapRef!: MapComponent<any, any>;
-  anchorDiv: any;
-  public state: State = {
+const Map: React.FunctionComponent<Props> = ({}) => {
+  // /////////////
+  // Refs
+  // /////////////
+  const mapRef = React.useRef<any>(null);
+  const anchorDiv = React.useRef<any>(null);
+
+  // /////////////
+  // Redux State
+  // /////////////
+  const sideBarShowing = useSelector(playerSidebarOpenSelector);
+  const layers = useSelector(misMapSelectors.markersByLayerNameAndActiveServer);
+  const activeServer = useSelector(activeServerSelector);
+
+  // /////////////
+  // Component State
+  // /////////////
+  const [state, setState] = React.useState<State>({
     map: {
       tileLayer: {
         url: {
@@ -99,151 +96,134 @@ class Map extends React.Component<Props, State> {
       x: 900,
       y: 900
     }
-  };
-
-  constructor(props: Props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this.addMousePositionControlToMap();
-  }
-
-  componentDidUpdate(nextProps: Props) {
-    if (nextProps.showing !== this.props.showing) {
-      this.mapRef.leafletElement.invalidateSize();
-    }
-    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
-      this.mapRef.leafletElement.invalidateSize();
-    }
-  }
-
-  addMarker = () => {
-    const { lat, lng } = this.state.e.latlng;
-    const { x, y } = misMapUtils.convertLatLngToVec2(
-      lat,
-      lng,
-      this.mapRef.leafletElement
-    );
-    this.props.addMarker({
-      id: -1,
-      serverID: this.props.activeServer.id,
-      layer: 'Click Layer',
-      posX: lat,
-      posY: lng,
-      content: `X:${x} Y:${y} `
-    });
-    this.closeContextMenu();
-  };
-
-  addMousePositionControlToMap = () => {
-    (L.control as any)
-      .mousePosition({
-        position: 'bottomright',
-        separator: ' : ',
-        emptyString: 'Unavailable',
-        lngFirst: true,
-        numDigits: 5,
-        lngFormatter: (x: number) =>
-          `X: ${this.mapRef.leafletElement
-            .project({ lat: 0, lng: x }, 5)
-            .x.toFixed(0)}`,
-        latFormatter: (y: number) =>
-          `Y: ${8192 -
-            this.mapRef.leafletElement
-              .project({ lat: y, lng: 0 }, 5)
-              .y.toFixed(0)}`,
-        prefix: ''
-      })
-      .addTo(this.mapRef.leafletElement);
-  };
-
-  closeContextMenu = () => {
-    this.setState({
+  });
+  const closeContextMenu = () => {
+    setState({
+      ...state,
       contextMenuOpen: false
     });
   };
-
-  contextMenuClick = async (e: L.LeafletMouseEvent) => {
-    this.mapRef.leafletElement.closePopup();
-
-    // Set the anchor first and then open the context menu, otherwise the map jumps around
-    await this.setState({
+  const contextMenuClick = async (e: L.LeafletMouseEvent) => {
+    mapRef.current!.leafletElement.closePopup();
+    setState({
+      ...state,
       contextMenuAnchor: {
         x: e.originalEvent.x - 250,
         y: e.originalEvent.y
-      }
-    });
-    await this.setState({
+      },
       e: { ...e },
       contextMenuOpen: true
     });
   };
 
-  deleteMarker = (id: number) => {
-    this.props.deleteMarker(id);
+  // /////////////
+  // Redux Actions
+  // /////////////
+  const dispatch = useDispatch();
+  const deleteMarker = (id: number) =>
+    dispatch(misMapActions.deleteMapMarker(id));
+  const addMarker = () => {
+    const { lat, lng } = state.e.latlng;
+    const { x, y } = misMapUtils.convertLatLngToVec2(
+      lat,
+      lng,
+      mapRef.current!.leafletElement
+    );
+    dispatch(
+      misMapActions.addMapMarker({
+        id: -1,
+        serverID: activeServer.id,
+        layer: 'Click Layer',
+        posX: lat,
+        posY: lng,
+        content: `X:${x} Y:${y} `
+      })
+    );
+    closeContextMenu();
   };
 
-  public render() {
-    const { layers } = this.props;
-    return (
-      <LeafletMap
-        oncontextmenu={this.contextMenuClick}
-        ref={(ref: any) => (this.mapRef = ref)}
-        {...this.state.map.options}
-        style={{ height: '100%', width: '100%', background: 'transparent' }}
-      >
-        <LayersControl position="bottomleft">
-          <TileLayer
-            {...this.state.map.tileLayer}
-            url={this.state.map.tileLayer.url.islands_sat}
-          />
-          {layers.map(([layerName, markers]) => (
-            <LayersControl.Overlay name={layerName} key={layerName} checked>
-              <FeatureGroup>
-                {markers.map(({ id, posX, posY, content }) => (
-                  <Marker key={id} position={[posX, posY]}>
-                    <Popup>
-                      {content}
-                      <IconButton onClick={() => this.deleteMarker(id)}>
-                        <TrashIcon color={'primary'} />
-                      </IconButton>
-                    </Popup>
-                  </Marker>
-                ))}
-              </FeatureGroup>
-            </LayersControl.Overlay>
-          ))}
-        </LayersControl>
-        <div
-          ref={(ref: any) => (this.anchorDiv = ref)}
-          style={{
-            position: 'absolute',
-            left: this.state.contextMenuAnchor.x - 50,
-            top: this.state.contextMenuAnchor.y - 30
-          }}
-        />
-        <LeafletContextMenu
-          addMarker={this.addMarker}
-          anchorEl={this.anchorDiv}
-          closeContextMenu={this.closeContextMenu}
-          open={this.state.contextMenuOpen}
-        />
-      </LeafletMap>
-    );
-  }
-}
+  // /////////////
+  // Effects
+  // /////////////
+  // componentDidMount
+  React.useEffect(() => {
+    const addMousePositionControlToMap = () => {
+      (L.control as any)
+        .mousePosition({
+          position: 'bottomright',
+          separator: ' : ',
+          emptyString: 'Unavailable',
+          lngFirst: true,
+          numDigits: 5,
+          lngFormatter: (x: number) =>
+            `X: ${mapRef
+              .current!.leafletElement.project({ lat: 0, lng: x }, 5)
+              .x.toFixed(0)}`,
+          latFormatter: (y: number) =>
+            `Y: ${8192 -
+              mapRef
+                .current!.leafletElement.project({ lat: y, lng: 0 }, 5)
+                .y.toFixed(0)}`,
+          prefix: ''
+        })
+        .addTo(mapRef.current!.leafletElement);
+    };
+    addMousePositionControlToMap();
+  }, []);
+  //  componentDidUpdate
+  React.useEffect(
+    () => {
+      mapRef.current!.leafletElement.invalidateSize();
+    },
+    [sideBarShowing]
+  );
 
-export const mapStateToProps = (state: RootState) => ({
-  sideBarShowing: playerSidebarOpenSelector(state),
-  layers: misMapSelectors.markersByLayerNameAndActiveServer(state),
-  activeServer: activeServerSelector(state)
-});
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMarker: (marker: CustomMarker) => dispatch(misMapActions.addMapMarker(marker)),
-  deleteMarker: (id: number) => dispatch(misMapActions.deleteMapMarker(id))
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Map);
+  return (
+    <LeafletMap
+      oncontextmenu={contextMenuClick}
+      ref={mapRef}
+      {...state.map.options}
+      style={{ height: '100%', width: '100%', background: 'transparent' }}
+    >
+      <LayersControl position="bottomleft">
+        <TileLayer
+          {...state.map.tileLayer}
+          url={state.map.tileLayer.url.islands_sat}
+        />
+        {layers.map(([layerName, markers]) => (
+          <LayersControl.Overlay name={layerName} key={layerName} checked>
+            <FeatureGroup>
+              {markers.map(({ id, posX, posY, content }) => (
+                <Marker key={id} position={[posX, posY]}>
+                  <Popup>
+                    {content}
+                    <IconButton onClick={() => deleteMarker(id)}>
+                      <TrashIcon color={'primary'} />
+                    </IconButton>
+                  </Popup>
+                </Marker>
+              ))}
+            </FeatureGroup>
+          </LayersControl.Overlay>
+        ))}
+      </LayersControl>
+      <div
+        className={'menu-anchor'}
+        ref={anchorDiv}
+        style={{
+          position: 'absolute',
+          left: state.contextMenuAnchor.x - 50,
+          top: state.contextMenuAnchor.y - 30
+        }}
+      />
+      <LeafletContextMenu
+        addMarker={addMarker}
+        anchorEl={anchorDiv.current}
+        closeContextMenu={closeContextMenu}
+        open={state.contextMenuOpen}
+      />
+    </LeafletMap>
+  );
+};
+
+export default Map;
