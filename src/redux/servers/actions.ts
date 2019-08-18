@@ -89,10 +89,10 @@ export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
   try {
     // Get the tasks from that server
     const tasks = tasksByServerIdSelector(getState(), { id });
-    tasks.forEach(async task => {
+    for (const task of tasks) {
       // Remove them
       await dispatch(removeTaskThunk(task.id));
-    });
+    }
     // If we can delete all the tasks then send the id to the reducer
     await dispatch(removeServer.success(id));
     // Mark the first server left in the list active
