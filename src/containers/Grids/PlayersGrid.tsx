@@ -1,16 +1,16 @@
 import * as AgGrid from 'ag-grid-community';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
-import { playerSidebarOpenSelector } from '../../redux/app/selectors';
+import { noop } from '../../lib/utils';
 import { allPlayersOnActiveServerSelector } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
-import { Player } from '../../redux/players/types';
-import { RootState } from '../../redux/redux-types';
+import { getServerDataThunk } from '../../redux/servers/actions';
+import { activeServerSelector } from '../../redux/servers/selectors';
 import { bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
@@ -22,83 +22,63 @@ const Wrapper = styled.div`
   background: ${bg3};
 `;
 
-type Props = {
-  sideBarShowing: boolean;
-  players: Player[];
-};
-type State = {
-  filterValue: string;
-};
-class PlayersGrid extends React.Component<Props, State> {
-  public api!: AgGrid.GridApi;
-  public columnApi!: AgGrid.ColumnApi;
-  state: State = {
-    filterValue: '',
+interface Props {}
+const PlayersGrid: React.FunctionComponent<Props> = ({}) => {
+  // Redux State
+  const players = useSelector(allPlayersOnActiveServerSelector);
+  const dispatch = useDispatch();
+  const activeServer = useSelector(activeServerSelector);
+  const handleRefreshClicked = () => dispatch(getServerDataThunk(activeServer));
+
+  // Component State
+  const [filterValue, setFilterValue] = React.useState('');
+  const api = React.useRef<AgGrid.GridApi>();
+  const sizeColumns = () =>
+    api.current ? api.current.sizeColumnsToFit() : noop();
+  const setVal = (e: any) => {
+    setFilterValue(e.target.value);
+    api.current!.setQuickFilter(e.target.value);
+  };
+  const onGridReady = (params: any) => {
+    // in onGridReady, store the api for later use
+    api.current = params.api;
+    sizeColumns();
   };
 
-  componentDidUpdate(nextProps: Props) {
-    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
-      this.api.sizeColumnsToFit();
-    }
-  }
-
-  componentDidMount() {
+  // mount
+  React.useEffect(() => {
     window.addEventListener(
       'resize',
       debounce(() => {
-        this.api.sizeColumnsToFit();
+        sizeColumns();
       }, 250)
     );
-  }
+    // unmount
+    return () => {
+      window.removeEventListener(
+        'resize',
+        debounce(() => {
+          sizeColumns();
+        }, 250)
+      );
+    };
+  }, []);
 
-  componentWillUnmount() {
-    window.removeEventListener(
-      'resize',
-      debounce(() => {
-        this.api.sizeColumnsToFit();
-      }, 250)
-    );
-  }
+  return (
+    <Wrapper>
+      <FilterGridSection
+        refreshTooltipTitle={'Refresh Players'}
+        onClickRefresh={handleRefreshClicked}
+        filterValue={filterValue}
+        setFilterValue={setVal}
+      />
+      <MyGrid
+        onGridReady={onGridReady}
+        columnDefs={playersColumnDefs}
+        rowData={players}
+      />
+    </Wrapper>
+  );
+};
 
-  onGridReady = (params: any) => {
-    // in onGridReady, store the api for later use
-    this.api = params.api;
-    this.columnApi = params.columnApi;
-    (window as any).playersGridApi = this.api;
-    this.api.sizeColumnsToFit();
-  };
-
-  setFilterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      filterValue: e.target.value
-    });
-    this.api.setQuickFilter(e.target.value);
-  };
-
-  handleRefreshClicked = () => {
-    console.log('Refresh Players');
-  };
-
-  render() {
-    return (
-      <Wrapper>
-        <FilterGridSection
-          refreshTooltipTitle={'Refresh Players'}
-          onClickRefresh={this.handleRefreshClicked}
-          filterValue={this.state.filterValue}
-          setFilterValue={this.setFilterValue}
-        />
-        <MyGrid
-          onGridReady={this.onGridReady}
-          columnDefs={playersColumnDefs}
-          rowData={this.props.players}
-        />
-      </Wrapper>
-    );
-  }
-}
-
-export default connect((state: RootState) => ({
-  sideBarShowing: playerSidebarOpenSelector(state),
-  players: allPlayersOnActiveServerSelector(state)
-}))(PlayersGrid);
+export default PlayersGrid;
