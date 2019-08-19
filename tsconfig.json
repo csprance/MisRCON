@@ -1,34 +1,15 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": false,
-    "declaration": false,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "strict": true,
-    "lib": ["dom", "es2017"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
-    "pretty": true,
-    "target": "es2017",
-    "jsx": "react"
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "target": "es5",
+    "resolveJsonModule": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "out"
-  ]
+  "exclude": ["node_modules"]
 }

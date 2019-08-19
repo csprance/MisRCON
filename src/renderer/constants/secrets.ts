@@ -1,0 +1,1 @@
+export const steamAPIKey = 'C4E62F89FF5D569A481850BCD3098D52';

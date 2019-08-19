@@ -1,7 +1,5 @@
 node_modules
 out
-secrets.ts
-.idea
-misrcon.db
-miscreated.db
+.webpack
 logs
+.idea
