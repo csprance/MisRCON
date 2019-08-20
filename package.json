@@ -41,9 +41,7 @@
           }
         }
       ],
-      "electronRebuildConfig": {
-
-      },
+      "electronRebuildConfig": {},
       "packagerConfig": {
         "prune": true,
         "asar": true,
@@ -99,6 +97,7 @@
     "history": "^4.9.0",
     "immutable": "^4.0.0-rc.12",
     "leaflet": "^1.5.1",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-mouse-position": "^1.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -133,13 +132,12 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.39",
-    "@electron-forge/maker-deb": "^6.0.0-beta.39",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.39",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.39",
-    "@electron-forge/maker-zip": "^6.0.0-beta.39",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.39",
-    "@electron-forge/publisher-github": "^6.0.0-beta.39",
+    "@electron-forge/cli": "6.0.0-beta.41",
+    "@electron-forge/maker-deb": "6.0.0-beta.41",
+    "@electron-forge/maker-rpm": "6.0.0-beta.41",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.41",
+    "@electron-forge/maker-zip": "6.0.0-beta.41",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.41",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@types/cron": "^1.7.1",
     "@types/electron-devtools-installer": "^2.2.0",
@@ -168,16 +166,17 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "css-loader": "^3.2.0",
+    "dotenv-webpack": "^1.7.0",
     "electron": "6.0.2",
     "electron-devtools-installer": "^2.2.4",
     "file-loader": "^4.2.0",
     "jest": "^24.9.0",
     "node-loader": "^0.6.0",
     "react-hot-loader": "^4.12.11",
-    "style-loader": "^1.0.0",
-    "tslint": "^5.18.0",
+    "style-loader": "^0.23.1",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
     "typescript": "^3.5.2"
   }
 }

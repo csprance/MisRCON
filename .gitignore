@@ -3,3 +3,4 @@ out
 .webpack
 logs
 .idea
+.env

@@ -1,7 +1,10 @@
 import IconButton from '@material-ui/core/IconButton';
 import TrashIcon from '@material-ui/icons/Delete';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import * as L from 'leaflet';
 import 'leaflet-mouse-position';
+import 'leaflet-defaulticon-compatibility';
 import * as React from 'react';
 import {
   FeatureGroup,
@@ -12,47 +15,15 @@ import {
   TileLayer,
 } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
-import 'leaflet/dist/leaflet.css';
 
 import LeafletContextMenu from '../components/Menus/LeafletContextMenu';
-import { MAP_BOUNDS } from '../constants/map-constants';
+import { map } from '../constants/map-constants';
 import { playerSidebarOpenSelector } from '../redux/app/selectors';
 import { misMapActions, misMapSelectors, misMapUtils } from '../redux/mismap';
 import { activeServerSelector } from '../redux/servers/selectors';
-import * as path from 'path';
+import { LeafletMapState } from '../redux/mismap/types';
 
-interface Props {}
-interface State {
-  map: {
-    tileLayer: {
-      url: {
-        islands_sat: string;
-      };
-      crs: any;
-      noWrap: boolean;
-      bounds: L.LatLngBoundsLiteral;
-      tms: boolean;
-      attributionControl: boolean;
-      trackResize: boolean;
-      renderer: any;
-      center: { lat: number; lng: number };
-    };
-    options: {
-      center: { lat: number; lng: number };
-      zoom: number;
-      minZoom: number;
-      maxZoom: number;
-      maxBounds: L.LatLngBoundsLiteral;
-    };
-  };
-  e: any; // event data from the left click sent to context menu
-  contextMenuOpen: boolean;
-  contextMenuAnchor: {
-    x: number;
-    y: number;
-  };
-}
-const Map: React.FunctionComponent<Props> = ({}) => {
+const Map: React.FunctionComponent = () => {
   // /////////////
   // Refs
   // /////////////
@@ -69,38 +40,16 @@ const Map: React.FunctionComponent<Props> = ({}) => {
   // /////////////
   // Component State
   // /////////////
-  const [state, setState] = React.useState<State>({
-    map: {
-      tileLayer: {
-        url: {
-          islands_sat:
-            process.mainModule!.filename.indexOf('app.asar') === -1
-              ? path.join(
-                  __dirname,
-                  '../../../../../../resources/maps/islands_sat/{z}/{x}/{y}.png',
-                )
-              : path.join(
-                  __dirname,
-                  '../../../../../resources/maps/islands_sat/{z}/{x}/{y}.png',
-                ),
-        },
-        crs: L.CRS.Simple,
-        noWrap: true,
-        bounds: MAP_BOUNDS,
-        tms: true,
-        attributionControl: false,
-        trackResize: true,
-        renderer: L.Canvas,
-        center: { lat: -47, lng: -23 },
-      },
-      options: {
-        center: { lat: -47, lng: -23 },
-        zoom: 3,
-        minZoom: 0,
-        maxZoom: 6,
-        maxBounds: MAP_BOUNDS,
-      },
-    },
+  const [state, setState] = React.useState<{
+    map: LeafletMapState;
+    e: any; // event data from the left click sent to context menu
+    contextMenuOpen: boolean;
+    contextMenuAnchor: {
+      x: number;
+      y: number;
+    };
+  }>({
+    map,
     e: null, // event data from the left click sent to context menu
     contextMenuOpen: false,
     contextMenuAnchor: {

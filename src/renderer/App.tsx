@@ -14,7 +14,6 @@ import ScrollbarStyles from './styles/scrollbar-styles';
 import { theme } from './styles/theme';
 import Layout from './components/Layout';
 
-
 (window as any).NodeMisrcon = NodeMisrcon;
 const { store, persistor } = configureStore();
 

@@ -20,23 +20,16 @@ module.exports = [
   {
     test: /\.tsx?$/,
     exclude: /(node_modules|.webpack)/,
-    loaders: [
-      {
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true,
-        },
-      },
-    ],
+    loaders: [{
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true
+      }
+    }]
   },
   {
     test: /\.(scss|css)$/,
     use: ['style-loader', 'css-loader'],
-  },
-  {
-    test: /\.(png|jpg)$/,
-    loader: 'url-loader',
-    include: [path.join(__dirname, 'public')],
   },
   {
     test: /\.(jpg|png|svg|ico|icns)$/,
