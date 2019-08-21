@@ -15,24 +15,25 @@ if (require('electron-squirrel-startup')) {
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow: null | BrowserWindow;
+let mainWindow: null | BrowserWindow = null;
 
 const createWindow = () => {
+  console.log('Creating Window');
   // Create the browser window.
 
   mainWindow = new BrowserWindow({
     frame: false,
-    width: 1024,
-    height: 1020,
+    height: 768,
+    minHeight: 500,
     minWidth: 1024,
-    minHeight: 1020,
-    show: true,
+    show: false,
     webPreferences: {
       // @ts-ignore
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      // preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       webSecurity: false,
       nodeIntegration: true,
     },
+    width: 1024,
   });
 
   // and load the index.html of the app.
@@ -40,9 +41,16 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools();
-  }
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], true)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err));
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow!.show();
+    if (!app.isPackaged) {
+      mainWindow!.webContents.openDevTools();
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -53,22 +61,11 @@ const createWindow = () => {
   });
 };
 
-function devToolsInstaller() {
-  installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
-    .then((name: any) => console.log(`Added Extension:  ${name}`))
-    .catch((err: any) => console.log('An error occurred: ', err));
-}
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  if (!app.isPackaged) {
-    devToolsInstaller();
-  }
-
   createWindow();
-
 });
 
 // Quit when all windows are closed.
