@@ -40,10 +40,7 @@ const createWindow = () => {
   // @ts-ignore
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], true)
-    .then(name => console.log(`Added Extension:  ${name}`))
-    .catch(err => console.log('An error occurred: ', err));
+
 
   mainWindow.once('ready-to-show', () => {
     mainWindow!.show();
@@ -65,6 +62,12 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  console.log('App Ready');
+  // Open the DevTools.
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err));
+
   createWindow();
 });
 

@@ -32,7 +32,7 @@ type DefaultProps = Readonly<typeof defaultProps>;
 const defaultProps = {
   emulatorState: EmulatorState.createEmpty(),
   theme: defaultTheme,
-  promptSymbol: '🎮',
+  promptSymbol: '>',
   outputRenderers: {
     [OutputType.TEXT_OUTPUT_TYPE]: TextOutput,
     [OutputType.TEXT_ERROR_OUTPUT_TYPE]: TextErrorOutput,
