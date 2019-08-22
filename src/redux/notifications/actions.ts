@@ -15,7 +15,6 @@ export const addSuccess = createAction(
   resolve => (content: string) => resolve(content)
 );
 
-
 export const closeNotification = createAction(
   'notifications/CLOSE',
   resolve => (id: number) => resolve(id)

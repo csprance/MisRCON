@@ -1,1 +1,1 @@
-export const salt: string = process.env.COMPUTERNAME as string;
+export const CRYPTO_SALT: string = process.env.COMPUTERNAME as string;

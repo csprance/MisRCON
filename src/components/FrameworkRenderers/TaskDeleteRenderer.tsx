@@ -2,10 +2,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TrashIcon from '@material-ui/icons/Delete';
 import { ICellRendererParams } from 'ag-grid-community';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
-
-import { Dispatch } from '../../redux/redux-types';
 import { removeTaskThunk } from '../../redux/tasks/actions';
 
 const Wrapper = styled.div`
@@ -17,12 +14,10 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-type ReduxProps = {
-  dispatch: Dispatch;
-};
-const TaskDeleteRenderer: React.FunctionComponent<
-  ICellRendererParams & ReduxProps
-> = ({ dispatch, data }) => {
+const TaskDeleteRenderer: React.FunctionComponent<ICellRendererParams> = ({
+  data
+}) => {
+  const dispatch = (window as any).store.dispatch;
   const handleClick = () => {
     dispatch(removeTaskThunk(data.id));
   };
@@ -35,4 +30,4 @@ const TaskDeleteRenderer: React.FunctionComponent<
   );
 };
 
-export default connect()(TaskDeleteRenderer);
+export default TaskDeleteRenderer;

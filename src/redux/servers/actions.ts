@@ -1,5 +1,6 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
+import { toggleAddServerDialog } from '../app/actions';
 import { addError, addSuccess } from '../notifications/actions';
 import { getPlayersViaRCONThunk } from '../players/actions';
 import { sendRCONAsyncThunk } from '../rcon/actions';
@@ -9,7 +10,6 @@ import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
-import {toggleAddServerDialog} from "../app/actions";
 
 export const testConnection = createAsyncAction(
   'server/TEST_CONN_REQUEST',
@@ -102,7 +102,7 @@ export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
       dispatch(markServerActive(firstServerID));
     } else {
       // If no servers left show server dialog
-      dispatch(toggleAddServerDialog())
+      dispatch(toggleAddServerDialog());
     }
   } catch (e) {
     dispatch(removeServer.failure(e.toString()));

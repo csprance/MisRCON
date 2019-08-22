@@ -75,6 +75,12 @@ export default (
         addBanDialogOpen: !state.addBanDialogOpen
       };
 
+    case getType(actions.closeAllDialogs):
+      return {
+        ...state,
+        ...defaultDialogState
+      };
+
     // //////////////
     // Others
     // //////////////

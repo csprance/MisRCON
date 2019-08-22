@@ -31,10 +31,13 @@ export const serverByIpPortSelector = createSelector(
   }
 );
 
-export const activeServerSelector = createSelector(serversSelector, servers => {
-  const activeServer = servers.find(server => server.active);
-  return activeServer ? activeServer : defaultServer;
-});
+export const activeServerSelector = createSelector(
+  serversSelector,
+  servers => {
+    const activeServer = servers.find(server => server.active);
+    return activeServer ? activeServer : defaultServer;
+  }
+);
 
 export const serverByIdSelector = createSelector(
   serversSelector,

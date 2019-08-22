@@ -3,10 +3,8 @@ import PausedIcon from '@material-ui/icons/PauseRounded';
 import PlayIcon from '@material-ui/icons/PlayArrowRounded';
 import { ICellRendererParams } from 'ag-grid-community';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { Dispatch } from '../../redux/redux-types';
 import { toggleTaskThunk } from '../../redux/tasks/actions';
 
 const Wrapper = styled.div`
@@ -18,12 +16,11 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-type ReduxProps = {
-  dispatch: Dispatch;
-};
-const TaskControlsRenderer: React.FunctionComponent<
-  ICellRendererParams & ReduxProps
-> = ({ value, dispatch, data }) => {
+const TaskControlsRenderer: React.FunctionComponent<ICellRendererParams> = ({
+  value,
+  data
+}) => {
+  const dispatch = (window as any).store.dispatch;
   const handleClick = () => {
     dispatch(toggleTaskThunk(data.id));
   };
@@ -35,4 +32,4 @@ const TaskControlsRenderer: React.FunctionComponent<
     </Wrapper>
   );
 };
-export default connect()(TaskControlsRenderer);
+export default TaskControlsRenderer;

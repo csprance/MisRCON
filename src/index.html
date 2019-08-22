@@ -41,6 +41,7 @@
 
     window.NodeMisrcon = NodeMisrcon;
     const { store, persistor } = configureStore();
+    window.store = store;
     let render = async () => {
       const { App } = require('./app');
       ReactDOM.render(

@@ -39,6 +39,4 @@ export const addInput = createAction(
   resolve => (input: string, serverId: number) => resolve({ input, serverId })
 );
 
-export const deleteAllTerminals = createAction(
-  'terminal/DELETE_TERMINALS'
-);
+export const deleteAllTerminals = createAction('terminal/DELETE_TERMINALS');

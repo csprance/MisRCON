@@ -23,9 +23,9 @@ import {
   scanForTerminalsThunk
 } from '../../../redux/terminal/actions';
 import { bg1, bg3 } from '../../../styles/colors';
+import CredentialsSettingsSection from './CredentialsSettingsSection';
 import DatabaseSettingsSection from './DatabaseSettingsSection';
 import TerminalSettingsSection from './TerminalsSettingsSection';
-import CredentialsSettingsSection from './CredentialsSettingsSection';
 
 const Wrapper = styled.div`
   display: flex;

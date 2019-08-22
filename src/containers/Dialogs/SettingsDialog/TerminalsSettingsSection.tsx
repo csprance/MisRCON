@@ -61,7 +61,7 @@ const TerminalSettingsSection: React.FunctionComponent<Props> = ({
           <Select
             value={themeName}
             fullWidth
-            onChange={val => handleTerminalThemeChange(val.target.value)}
+            onChange={val => handleTerminalThemeChange(val.target.value as string)}
           >
             <MenuItem value={'default'}>Default</MenuItem>
             <MenuItem value={'dye'}>Dye</MenuItem>

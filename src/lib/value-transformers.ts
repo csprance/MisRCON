@@ -11,11 +11,13 @@ import { decryptPassword, encryptPassword } from './crypto';
 export const functionTransform = createTransform<TasksState, any[]>(
   // Called before state is persisted
   (inboundState: TasksState) => {
-    return inboundState.map(task => ({
-      ...task,
-      job: null,
-      onTick: task.onTick.toString()
-    }));
+    return inboundState.map(task => {
+      return {
+        ...task,
+        job: null,
+        onTick: String(task.onTick)
+      };
+    });
   },
   // Called before state is rehydrated
   outboundState => {

@@ -5,6 +5,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer';
+import * as isDev from 'electron-is-dev';
 import * as path from 'path';
 import 'reflect-metadata';
 import logger from './lib/logger';
@@ -20,9 +21,7 @@ if (require('electron-squirrel-startup')) {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow | null = null;
 
-const isDevMode = process.execPath.match(/[\\/]electron/);
-
-if (isDevMode) {
+if (isDev) {
   enableLiveReload({ strategy: 'react-hmr' });
 }
 
@@ -54,7 +53,7 @@ const createWindow = async () => {
   });
 
   // Open the DevTools.
-  if (isDevMode) {
+  if (isDev) {
     await installExtension(REDUX_DEVTOOLS);
     await installExtension(REACT_DEVELOPER_TOOLS);
     mainWindow.webContents.openDevTools();

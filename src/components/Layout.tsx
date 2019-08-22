@@ -2,10 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import AddBanDialog from '../containers/Dialogs/AddBanDialog';
-import AddServerDialog from '../containers/Dialogs/AddServerDialog';
+import AddEditServerDialog from '../containers/Dialogs/AddEditServerDialog';
 import AddTaskDialog from '../containers/Dialogs/AddTaskDialog';
 import AddWhitelistDialog from '../containers/Dialogs/AddWhitelistDialog';
-import EditServerDialog from '../containers/Dialogs/EditServerDialog';
 import PlayerProfileDialog from '../containers/Dialogs/PlayerProfileDialog';
 import SettingsDialog from '../containers/Dialogs/SettingsDialog';
 import HeaderBar from '../containers/HeaderBar';
@@ -51,8 +50,8 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
         </ContentColumn>
       </Content>
       <PlayerProfileDialog />
-      <AddServerDialog />
-      <EditServerDialog />
+      <AddEditServerDialog variant={'add'} />
+      <AddEditServerDialog variant={'edit'}/>
       <AddTaskDialog />
       <SettingsDialog />
       <AddBanDialog />

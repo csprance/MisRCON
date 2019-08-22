@@ -32,5 +32,7 @@ export type AppState = {
   playerSideBarOpen: boolean;
   // The theme of the terminal
   terminalTheme: string;
+  // The salt value used in storing the passwords
+  cryptoSalt: string;
 } & DialogState;
 export type AppActions = ActionType<typeof actions>;

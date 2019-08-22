@@ -17,6 +17,7 @@ export const defaultOnTick: OnTickFunctionFactory = (
 
 export const defaultRecurringTask: Task = {
   active: true,
+  command: '',
   cronString: '9 9 * * * *',
   date: null,
   id: 0,

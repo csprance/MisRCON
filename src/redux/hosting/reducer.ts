@@ -7,7 +7,6 @@ export default (
   action: Types.HostingActions
 ): Types.State => {
   switch (action.type) {
-
     case getType(actions.updateHosting.request):
       return state;
 

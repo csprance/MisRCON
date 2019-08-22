@@ -110,10 +110,11 @@ const AddTaskDialog: React.FunctionComponent<ReduxProps> = ({
       ...restOfState,
       id: Date.now(),
       active: false,
+      command,
       cronString: type === 'recurring' ? state.cronString : null,
       date: type === 'date' ? moment(state.date).toDate() : null,
       // tslint:disable-next-line:no-eval
-      onTick: !customCommand ? makeDefaultRCONCommand(command) : eval(code),
+      onTick: !customCommand ? makeDefaultRCONCommand() : eval(code),
       serverId: activeServerId
     });
     setState({

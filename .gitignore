@@ -5,3 +5,4 @@ secrets.ts
 misrcon.db
 miscreated.db
 logs
+.env

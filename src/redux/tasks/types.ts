@@ -14,6 +14,7 @@ export interface Task {
   job: CronJob | null;
   onTick: OnTickFunctionFactory;
   timesRun: number;
+  command: string;
 }
 
 export type VoidPromise = () => Promise<void>;

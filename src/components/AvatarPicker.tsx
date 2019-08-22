@@ -1,7 +1,7 @@
 import Tooltip from '@material-ui/core/Tooltip';
+import { remote } from 'electron';
 import * as React from 'react';
 import styled from 'styled-components';
-import { remote } from 'electron';
 
 const Wrapper = styled.div`
   cursor: pointer;

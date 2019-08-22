@@ -16,8 +16,6 @@
     "noEmitHelpers": true,
     "strict": true,
     "lib": ["dom", "es2017"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "pretty": true,

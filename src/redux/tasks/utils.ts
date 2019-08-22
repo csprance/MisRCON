@@ -1,4 +1,3 @@
-import logger from '../../lib/logger';
 import { Dispatch, GetStateFunc } from '../redux-types';
 import { Task } from './types';
 /*
@@ -14,7 +13,7 @@ export const getCronStringOrDate = (task: Task) => {
   throw new Error('Task is missing Cron String or Date');
 };
 
-export const makeDefaultRCONCommand = (command: string) => {
+export const makeDefaultRCONCommand = () => {
   return (dispatch: Dispatch, getState: GetStateFunc, task: Task) => {
     // Initialize RCON
     return async () => {
@@ -26,10 +25,10 @@ export const makeDefaultRCONCommand = (command: string) => {
 
       const rcon = new NodeMisrcon({ ip, port, password });
       try {
-        await rcon.send(command);
+        await rcon.send(task.command);
         dispatch({ type: 'task/INCREMENT_TASK', payload: task.id });
       } catch (e) {
-        logger.log('error', 'TASK ERROR - ', e);
+        console.log(e);
       }
     };
   };

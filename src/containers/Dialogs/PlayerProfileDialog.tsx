@@ -14,6 +14,7 @@ import ColorPicker from '../../components/ColorPicker';
 import PlayerMenu from '../../components/Menus/PlayerMenu';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import SubHeader from '../../components/SubHeader';
+import { openExternally } from '../../lib/utils';
 import { hidePlayerProfileDialog } from '../../redux/app/actions';
 import {
   banPlayerThunk,
@@ -26,7 +27,6 @@ import { defaultPlayer } from '../../redux/players/state';
 import { Player } from '../../redux/players/types';
 import { Dispatch, RootState } from '../../redux/redux-types';
 import { bg1, bg3, text } from '../../styles/colors';
-import { openExternally } from '../../lib/utils';
 
 const Wrapper = styled.div`
   display: flex;

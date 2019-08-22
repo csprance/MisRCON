@@ -5,7 +5,7 @@ export const defaultServer: Server = {
   avatar: 'https://via.placeholder.com/150/0000FF/808080',
   name: '',
   ip: '',
-  port: 0,
+  port: 64094,
   password: '',
   active: true,
   selfHosted: false,

@@ -11,7 +11,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "repl": "ts-node src/repl.ts",
-    "lint": "tslint --project tsconfig.json --force"
+    "prettier-all": "prettier --write **/*.{ts,js,css,html} --single-quote true",
+    "lint": "tslint --project tsconfig.json --force",
+    "lint-fix": "tslint --project tsconfig.json --force --fix"
   },
   "keywords": [
     "miscreated",
@@ -40,7 +42,7 @@
       },
       "electronPackagerConfig": {
         "prune": true,
-        "asar": true,
+
         "packageManager": "yarn",
         "icon": "src/resources/icon"
       },
@@ -74,7 +76,9 @@
     "electron": "4.0.0",
     "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^2.2.4",
+    "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
+    "formik": "^2.0.1-rc.13",
     "get-options": "^1.2.0",
     "history": "^4.9.0",
     "immutable": "^4.0.0-rc.12",
@@ -102,14 +106,12 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "reflect-metadata": "^0.1.13",
     "reselect": "^4.0.0",
-    "sqlite3": "^4.0.9",
     "styled-components": "^4.3.2",
     "tslib": "^1.10.0",
-    "typeorm": "^0.2.18",
     "typesafe-actions": "^4.4.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@types/cron": "^1.7.1",
@@ -136,6 +138,7 @@
     "@types/redux-logger": "^3.0.7",
     "@types/redux-persist": "^4.3.1",
     "@types/styled-components": "^4.1.18",
+    "@types/yup": "^0.26.23",
     "create-redux-boilerplate": "^3.0.0",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",

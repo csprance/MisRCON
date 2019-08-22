@@ -10,10 +10,9 @@ export const text = {
   secondary: '#7e8186'
 };
 
-export const bg0 =  '#131517';
-export const bg1 =  '#1f1f23';
-export const bg2 =  '#202225';
-export const bg3 =  '#272a2e';
-export const bg4 =  '#474b51';
-export const bg5 =  '#646972';
-
+export const bg0 = '#131517';
+export const bg1 = '#1f1f23';
+export const bg2 = '#202225';
+export const bg3 = '#272a2e';
+export const bg4 = '#474b51';
+export const bg5 = '#646972';

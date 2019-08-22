@@ -1,5 +1,5 @@
-import {createMuiTheme, Theme} from '@material-ui/core/styles';
-import {bg0, bg4, darkDarkBlack, text} from './colors';
+import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { bg0, bg4, darkDarkBlack, text } from './colors';
 
 export const theme: Theme = createMuiTheme({
   typography: {

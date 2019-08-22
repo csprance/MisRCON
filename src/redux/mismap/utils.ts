@@ -107,9 +107,7 @@ export const convertVec2ToLatLng = (
 };
 
 // Reduces a Markers array down to an array of [[LayerName, Marker], [LayerName, Marker]]
-export const getMarkersByName = (
-  markers: Marker[]
-): MisMapMarkersByLayer => {
+export const getMarkersByName = (markers: Marker[]): MisMapMarkersByLayer => {
   const byLayer = markers.reduce((acc, val: Marker) => {
     if (acc[val.layer]) {
       acc[val.layer].push(val);
