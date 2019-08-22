@@ -9,11 +9,12 @@ import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
+import {toggleAddServerDialog} from "../app/actions";
 
 export const testConnection = createAsyncAction(
-  'server/UPDATE_REQUEST',
-  'server/UPDATE_SUCCESS',
-  'server/UPDATE_FAILED'
+  'server/TEST_CONN_REQUEST',
+  'server/TEST_CONN_SUCCESS',
+  'server/TEST_CONN_FAILED'
 )<void, void, string>();
 export const testConnectionThunk = (
   server: Server
@@ -99,6 +100,9 @@ export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
     const [firstServerID] = serverIDsSelector(getState()).reverse();
     if (firstServerID) {
       dispatch(markServerActive(firstServerID));
+    } else {
+      // If no servers left show server dialog
+      dispatch(toggleAddServerDialog())
     }
   } catch (e) {
     dispatch(removeServer.failure(e.toString()));

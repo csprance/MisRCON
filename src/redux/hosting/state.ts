@@ -1,4 +1,4 @@
-import {Hosting, State} from './types';
+import { Hosting, State } from './types';
 
 export const defaultHost: Hosting = {
   id: 0,

@@ -6,7 +6,7 @@ export const defaultDialogState: DialogState = {
   playerProfileDialogOpen: false,
   addTaskDialogOpen: false,
   settingsDialogOpen: false,
-  addServerDialogOpen: false,
+  addServerDialogOpen: true,
   updateServerDialogOpen: false,
   addBanDialogOpen: false,
   addWhitelistDialogOpen: false

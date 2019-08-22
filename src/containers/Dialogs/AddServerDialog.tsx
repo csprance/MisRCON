@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { remote } from 'electron';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Omit } from '../../@types/global';
@@ -15,9 +15,9 @@ import AvatarPicker from '../../components/AvatarPicker';
 import NoHoverIconButton from '../../components/NoHoverIconButton';
 import { toggleAddServerDialog } from '../../redux/app/actions';
 import { addServerDialogShowingSelector } from '../../redux/app/selectors';
-import { Dispatch, RootState } from '../../redux/redux-types';
-import { Server, serversActions, serversSelectors } from '../../redux/servers';
+import { Server, serversActions } from '../../redux/servers';
 import { testConnectionThunk } from '../../redux/servers/actions';
+import { noServersSelector } from '../../redux/servers/selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,25 +44,17 @@ const CenterSection = styled.div`
   width: 100%;
 `;
 
-interface Props {
-  closeDialog: () => void;
-  addServer: (server: Server) => void;
-  showing: boolean;
-  testConnection: (server: Server) => Promise<boolean>;
-}
-interface State extends Omit<Server, 'id' | 'port'> {
-  id: string;
-  port: string;
-}
-interface SecondaryState {
-  valid: boolean;
-}
-const AddServerDialog: React.FunctionComponent<Props> = ({
-  addServer,
-  closeDialog,
-  showing,
-  testConnection
-}) => {
+interface Props {}
+const AddServerDialog: React.FunctionComponent<Props> = ({}) => {
+  const noServers = useSelector(noServersSelector);
+  const showing = useSelector(addServerDialogShowingSelector);
+  const dispatch = useDispatch();
+  const addServer = (server: Server) =>
+    dispatch(serversActions.addServerThunk(server));
+  const closeDialog = () => dispatch(toggleAddServerDialog());
+  const testConnection = async (server: Server) =>
+    dispatch(testConnectionThunk(server));
+
   const defaultState: State = {
     id: `${Date.now()}`,
     avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
@@ -74,23 +66,30 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
     selfHosted: false,
     rootPath: ''
   };
+  interface State extends Omit<Server, 'id' | 'port'> {
+    id: string;
+    port: string;
+  }
   const [state, setState] = React.useState<State>({
     ...defaultState
   });
-  const [secondState, secondSetState] = React.useState<SecondaryState>({
+  const [secondState, secondSetState] = React.useState<{
+    valid: boolean;
+  }>({
     valid: false
   });
 
   const handleTestConnectionClick = async () => {
-    const result = await testConnection({
+    const valid = (await testConnection({
       ...state,
       id: Number(state.id),
       port: Number(state.port)
-    });
-    secondSetState({ valid: result });
+    })) as any;
+    secondSetState({ valid });
   };
 
   const handleClick = async () => {
+    closeDialog();
     addServer({
       ...state,
       port: parseInt(state.port, 10),
@@ -100,7 +99,6 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
     setState({
       ...defaultState
     });
-    closeDialog();
   };
 
   const handleChange = (key: string, value: string | boolean) => {
@@ -119,8 +117,14 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
     }
   };
 
+  const handleDialogClose = () => {
+    if (!noServers) {
+      closeDialog();
+    }
+  };
+
   return (
-    <Dialog fullWidth onClose={() => closeDialog()} open={showing}>
+    <Dialog fullWidth onClose={handleDialogClose} open={showing}>
       <Wrapper>
         <InnerWrapper>
           <AvatarPicker
@@ -217,14 +221,4 @@ const AddServerDialog: React.FunctionComponent<Props> = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  servers: serversSelectors.serversSelector(state),
-  showing: addServerDialogShowingSelector(state)
-});
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addServer: (server: Server) =>
-    dispatch(serversActions.addServerThunk(server)),
-  closeDialog: () => dispatch(toggleAddServerDialog()),
-  testConnection: (server: Server) => dispatch(testConnectionThunk(server))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(AddServerDialog);
+export default AddServerDialog;

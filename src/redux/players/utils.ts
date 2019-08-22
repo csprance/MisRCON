@@ -1,14 +1,12 @@
 import axios from 'axios';
 
-import { steamAPIKey } from '../../constants/secrets';
-
 export const getSteamAvatar = async (steam: string): Promise<string> => {
   const defaultAvatarUrl = 'http://placehold.it/32x32';
   const { data } = await axios.get(
     'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/',
     {
       params: {
-        key: steamAPIKey,
+        key: process.env.STEAM_API_KEY,
         steamids: steam
       }
     }
