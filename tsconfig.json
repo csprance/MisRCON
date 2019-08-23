@@ -1,32 +1,8 @@
 {
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
     "resolveJsonModule": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": false,
-    "declaration": false,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "strict": true,
-    "lib": ["dom", "es2017"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "pretty": true,
-    "target": "es2017",
     "jsx": "react"
-  },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "out"
-  ]
+  }
 }

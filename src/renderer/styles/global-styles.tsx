@@ -1,9 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import { bg0, darkDarkBlack } from './colors';
-// import { theme } from './theme';
 
 export const GlobalStyles = createGlobalStyle`
-#App {
+#app {
   font-family: Raleway, sans-serif !important;
   flex-grow: 1;
   width: 100%;

@@ -1,4 +1,4 @@
-import * as npmPackage from '../../../package.json';
+import * as npmPackage from '../../../../package.json';
 import { CRYPTO_SALT } from '../../constants/env';
 import { AppState, DialogState } from './types';
 

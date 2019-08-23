@@ -1,3 +1,6 @@
+import {ActionType} from "typesafe-actions";
+import * as playersActions from "./actions";
+
 export interface Player {
   // /////////////////////
   // Application Values - These are internal values from the
@@ -38,3 +41,4 @@ export interface Player {
 }
 
 export type PlayersState = Player[];
+export type PlayersActions = ActionType<typeof playersActions>;

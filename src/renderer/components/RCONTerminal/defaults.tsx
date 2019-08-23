@@ -2,7 +2,7 @@ import { OutputFactory, Outputs } from 'async-javascript-terminal';
 import { OutputRecordType } from 'async-javascript-terminal/src/types';
 
 import * as React from 'react';
-import * as npmPackage from '../../../package.json';
+import * as npmPackage from '../../../../package.json';
 
 export const makeDefaultOutputs = (
 ): OutputRecordType => {

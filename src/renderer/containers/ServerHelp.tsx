@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { serverHelpMarkdownSelector } from '../redux/app/selectors';
 import { bg3, text } from '../styles/colors';
-import { MarkDownStyle } from '../styles/markdown-styles';
 
 const Wrapper = styled.div`
   padding: 10px;
@@ -26,7 +25,6 @@ const ServerHelp: React.FunctionComponent<Props> = ({}) => {
 
   return (
     <Wrapper>
-      <MarkDownStyle />
       <ReactMarkdown className={'markdown-body'} source={markdown} />
     </Wrapper>
   );

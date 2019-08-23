@@ -44,18 +44,18 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
           selfHosted: false,
           rootPath: ''
         };
-        dispatch(serversActions.addServer(server));
+        dispatch(serversActions.addServerThunk(server));
         return output(`Added server ${server.name}`);
       }
 
       // Remove a task
       if (options.rm) {
         if (options.id) {
-          dispatch(serversActions.removeServer(id));
+          dispatch(serversActions.removeServerThunk(id));
           return output(`Removed task by id ${id}`);
         }
         if (options.name) {
-          dispatch(serversActions.removeServer(id));
+          dispatch(serversActions.removeServerThunk(id));
           return output(`Removed task by name: ${name}`);
         }
       }

@@ -1,21 +1,52 @@
 import * as React from 'react';
 import { MemoryRouter, Redirect, Route, Switch } from 'react-router';
-import Layout from './components/Layout';
+import { NodeMisrcon } from 'node-misrcon';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
+import { configureStore } from './redux/store';
+import Layout from './components/Layout';
+import { theme } from './styles/theme';
+import { GlobalStyles } from './styles/global-styles';
+import ScrollbarStyles from './styles/scrollbar-styles';
 import routes from './routes';
+
+const { store, persistor } = configureStore();
+
+(window as any).store = store;
+(window as any).NodeMisrcon = NodeMisrcon;
 
 type Props = {};
 export const App: React.FunctionComponent<Props> = () => {
   return (
-    <MemoryRouter>
-      <Layout>
-        <Switch>
-          <Route exact path="/" render={() => <Redirect to="/console" />} />
-          {routes.map((route, idx) => (
-            <Route key={idx} path={route.path} component={route.component} />
-          ))}
-        </Switch>
-      </Layout>
-    </MemoryRouter>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <GlobalStyles />
+          <ScrollbarStyles />
+          <MemoryRouter>
+            <Layout>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => <Redirect to="/console" />}
+                />
+                {routes.map((route, idx) => (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    component={route.component}
+                  />
+                ))}
+              </Switch>
+            </Layout>
+          </MemoryRouter>
+        </MuiThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 };

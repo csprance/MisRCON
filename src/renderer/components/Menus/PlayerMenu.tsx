@@ -4,7 +4,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import * as React from 'react';
 
 type Props = {
-  active: boolean;
   anchorEl: HTMLElement | null;
   banPlayer: () => void;
   closePlayerMenu: () => void;

@@ -31,9 +31,9 @@ const AvatarPicker: React.FunctionComponent<Props> = ({
     const rootPath = remote.dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-    })[0];
+    });
     if (rootPath) {
-      setAvatar(rootPath);
+      setAvatar(rootPath[0]);
     }
   };
 

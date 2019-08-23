@@ -1,9 +1,7 @@
-import { ActionType, getType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 import * as misMapActions from './actions';
 import { default as defaultState } from './state';
-import { MisMapState } from './types';
-
-export type MisMapActions = ActionType<typeof misMapActions>;
+import { MisMapActions, MisMapState } from './types';
 
 export default (
   state: MisMapState = defaultState,

@@ -1,10 +1,9 @@
-import { ActionType, getType } from 'typesafe-actions';
+import { getType } from 'typesafe-actions';
 
 import * as rconActions from './actions';
 import { RCONState } from './index';
 import { default as defaultState } from './state';
-
-export type RCONActions = ActionType<typeof rconActions>;
+import { RCONActions } from './types';
 
 export default (
   state: RCONState = defaultState,

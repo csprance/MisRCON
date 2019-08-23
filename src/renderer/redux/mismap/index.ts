@@ -1,8 +1,9 @@
 import * as misMapActions from './actions';
-import misMapReducer, { MisMapActions } from './reducer';
+import misMapReducer  from './reducer';
 import * as misMapSelectors from './selectors';
 import * as MisMapTypes from './types';
 import * as misMapUtils from './utils';
+import { MisMapActions } from './types';
 
 export {
   misMapUtils,

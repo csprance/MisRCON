@@ -1,15 +1,11 @@
 import * as Splashscreen from '@trodi/electron-splashscreen';
 import { app } from 'electron';
-import { enableLiveReload } from 'electron-compile';
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer';
-import * as isDev from 'electron-is-dev';
 import * as path from 'path';
-import 'reflect-metadata';
-import logger from './lib/logger';
-import { darkDarkBlack } from './styles/colors';
+import { format as formatUrl } from 'url';
 
 // tslint:disable-next-line:no-var-requires
 if (require('electron-squirrel-startup')) {
@@ -17,102 +13,79 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow: Electron.BrowserWindow | null = null;
 
-if (isDev) {
-  enableLiveReload({ strategy: 'react-hmr' });
-}
-
-const createWindow = async () => {
-  logger.info('MisRCON Starting');
-
+const createMainWindow = () => {
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
-    backgroundColor: darkDarkBlack,
+    backgroundColor: '#131313',
     frame: false,
     height: 768,
-    icon: path.join(__dirname, 'resources/images/64x64.png'),
     minHeight: 500,
     minWidth: 1024,
-    show: false,
+    show: true,
     webPreferences: {
       nodeIntegration: true
     },
     width: 1024
   };
   // configure the splashscreen
-  mainWindow = Splashscreen.initSplashScreen({
+  const window = Splashscreen.initSplashScreen({
     splashScreenOpts: {
       height: 400,
       transparent: true,
       width: 400
     },
-    templateUrl: path.join(__dirname, 'resources', 'images', 'icon.png'),
+    templateUrl: path.join('/static', 'images', 'icon.png'),
     windowOpts: windowOptions
   });
 
   // Open the DevTools.
-  if (isDev) {
-    await installExtension(REDUX_DEVTOOLS);
-    await installExtension(REACT_DEVELOPER_TOOLS);
-    mainWindow.webContents.openDevTools();
+  if (isDevelopment) {
+    installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS]).catch(e =>
+      console.log(e)
+    );
+    window.webContents.openDevTools();
   }
 
-  // and load the index.html of the appState.
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  if (isDevelopment) {
+    window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+  } else {
+    window.loadURL(
+      formatUrl({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file',
+        slashes: true
+      })
+    );
+  }
 
-  mainWindow.on('closed', () => {
+  window.on('closed', () => {
     mainWindow = null;
-    logger.info('closed');
-    app.quit();
   });
 
-  mainWindow.on('unresponsive', () => {
-    mainWindow = null;
-    logger.info('unresponsive');
-    app.quit();
-  });
-
-  mainWindow.webContents.on('crashed', () => {
-    mainWindow = null;
-    logger.info('crashed');
-    app.quit();
-  });
+  return window;
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-
-// Quit when all windows are closed.
+// quit application when all windows are closed
 app.on('window-all-closed', () => {
-  mainWindow = null;
-  logger.info('window-all-closed');
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  app.quit();
+  // on macOS it is common for applications to stay open until the user explicitly quits
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the appState when the
-  // dock icon is clicked and there are no other windows open.
+  // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
-    createWindow();
+    mainWindow = createMainWindow();
   }
 });
 
-process.on('uncaughtException', err => {
-  logger.info('uncaughtException', err);
-  app.quit();
+// create main BrowserWindow when electron is ready
+app.on('ready', () => {
+  mainWindow = createMainWindow();
 });
-
-process.on('unhandledRejection', err => {
-  logger.info('unhandledRejection', err);
-});
-// In this file you can include the rest of your appState's specific main process
-// code. You can also put them in separate files and import them here.

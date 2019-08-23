@@ -1,8 +1,8 @@
 import * as playersActions from './actions';
-import reducer, { PlayersActions } from './reducer';
+import reducer from './reducer';
 import * as playersSelectors from './selectors';
 import defaultPlayerState from './state';
-import { PlayersState } from './types';
+import { PlayersState, PlayersActions } from './types';
 
 export default reducer;
 export {
