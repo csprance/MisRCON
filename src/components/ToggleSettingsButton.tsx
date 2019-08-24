@@ -3,9 +3,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
 import * as React from 'react';
 
-type Props = {
+interface Props {
   onClick: () => void;
-};
+}
 const ToggleSettingsButton: React.FunctionComponent<Props> = ({
   onClick
 }) => {

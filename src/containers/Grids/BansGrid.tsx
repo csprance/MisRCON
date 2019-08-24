@@ -10,8 +10,9 @@ import { noop } from '../../lib/utils';
 import { toggleAddBanDialog } from '../../redux/app/actions';
 import { bannedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
-import { Player } from '../../redux/players/types';
 import { bg3 } from '../../styles/colors';
+import {activeServerSelector} from "../../redux/servers/selectors";
+import {getServerDataThunk} from "../../redux/servers/actions";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,37 +23,29 @@ const Wrapper = styled.div`
   background: ${bg3};
 `;
 
-interface Props {
-  sideBarShowing: boolean;
-  banSteamID: (steamid: string) => void;
-  showBanAddDialog: () => void;
-  players: Player[];
-}
+interface Props {}
 const BansGrid: React.FunctionComponent<Props> = () => {
   // Redux
   const players = useSelector(bannedPlayersOnActiveServer);
   const dispatch = useDispatch();
   const handleAddClicked = () => dispatch(toggleAddBanDialog());
+  const activeServer = useSelector(activeServerSelector);
+  const handleRefreshClicked = () => dispatch(getServerDataThunk(activeServer));
 
   // AG-Grid
   const api = React.useRef<AgGrid.GridApi>();
-  const sizeColumns = () => api.current ? api.current.sizeColumnsToFit() : noop();
+  const sizeColumns = () =>
+    api.current ? api.current.sizeColumnsToFit() : noop();
 
   // Component State
   const [filterValue, setFilterValue] = React.useState('');
-
   const setVal = (e: any) => {
     setFilterValue(e.target.value);
     api.current!.setQuickFilter(e.target.value);
   };
-
   const onGridReady = (params: any) => {
     api.current = params.api;
     sizeColumns();
-  };
-
-  const handleRefreshClicked = () => {
-    console.log('Refresh Ban List');
   };
 
   // mount

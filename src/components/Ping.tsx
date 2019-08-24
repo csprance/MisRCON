@@ -5,9 +5,9 @@ import Signal3 from '@material-ui/icons/SignalCellular3Bar';
 import Signal4 from '@material-ui/icons/SignalCellular4Bar';
 import * as React from 'react';
 
-type Props = {
+interface Props {
   ping: number;
-};
+}
 const Ping: React.FunctionComponent<Props> = ({ ping }) => {
   if (ping >= 400) {
     return <Signal0 style={{ color: 'red' }} />;

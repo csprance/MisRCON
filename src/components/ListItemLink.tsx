@@ -3,14 +3,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-type Props = {
+interface Props {
   // Primary Text
   primary: string;
   // Link to
   to: string;
   // What the current path is
   currentPath: string;
-};
+}
 const ListItemLink: React.FunctionComponent<Props> = ({
   primary,
   to,

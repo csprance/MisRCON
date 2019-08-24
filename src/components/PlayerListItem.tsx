@@ -41,7 +41,7 @@ const PlayerListItem: React.FunctionComponent<Props> = ({
   };
 
   return (
-    <React.Fragment>
+    <>
       <ListItem button onClick={handleClick} onContextMenu={handleContextClick}>
         <PlayerAvatar alt={name} src={avatarUrl} active={active} />
         <ListItemText
@@ -70,7 +70,8 @@ const PlayerListItem: React.FunctionComponent<Props> = ({
         closePlayerMenu={closePlayerMenu}
         viewPlayerProfile={viewPlayerProfile}
       />
-    </React.Fragment>
+    </>
   );
 };
+
 export default PlayerListItem;

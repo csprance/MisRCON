@@ -1,7 +1,7 @@
 import List from '@material-ui/core/List';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import ListItemLink from '../components/ListItemLink';
@@ -29,8 +29,8 @@ const Wrapper = styled.div`
   border-radius: 7px 0 0 0;
 `;
 
-type Props = {};
-const NavigationBar: React.FunctionComponent<Props> = ({}) => {
+interface Props extends RouteComponentProps {}
+const NavigationBar: React.FunctionComponent<Props> = ({ location }) => {
   const dispatch = useDispatch();
   const toggleUpdateDialog = () => dispatch(toggleUpdateServerDialog());
   const deleteServer = (id: number) => dispatch(removeServerThunk(id));

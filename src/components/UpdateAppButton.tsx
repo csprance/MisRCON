@@ -4,9 +4,9 @@ import UpdateIcon from '@material-ui/icons/Update';
 import * as React from 'react';
 import { green } from '../styles/colors';
 
-type Props = {
+interface Props {
   onClick: () => void;
-};
+}
 const UpdateAppButton: React.FunctionComponent<Props> = ({ onClick }) => {
   return (
     <Tooltip title={'Update Available!'}>

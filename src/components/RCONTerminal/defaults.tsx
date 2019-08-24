@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as npmPackage from '../../../package.json';
 
 export const makeDefaultHistory = () => History.create([
-  'status',
   'help'
 ]);
 export const makeDefaultOutputs = (

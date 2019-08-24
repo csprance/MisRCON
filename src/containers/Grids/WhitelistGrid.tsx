@@ -1,18 +1,18 @@
 import * as AgGrid from 'ag-grid-community';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
 import { toggleAddWhitelistDialog } from '../../redux/app/actions';
-import { playerSidebarOpenSelector } from '../../redux/app/selectors';
 import { whitelistedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
-import { Player } from '../../redux/players/types';
-import { RootState } from '../../redux/redux-types';
 import { bg3 } from '../../styles/colors';
+import { noop } from '../../lib/utils';
+import { activeServerSelector } from '../../redux/servers/selectors';
+import { getServerDataThunk } from '../../redux/servers/actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,96 +23,65 @@ const Wrapper = styled.div`
   background: ${bg3};
 `;
 
-type Props = {
-  sideBarShowing: boolean;
-  whitelistedPlayers: Player[];
-  showAddWhitelistDialog: () => void;
-};
-type State = {
-  filterValue: string;
-};
-class WhitelistGrid extends React.Component<Props, State> {
-  public api!: AgGrid.GridApi;
-  public columnApi!: AgGrid.ColumnApi;
-  state: State = {
-    filterValue: ''
+interface Props {}
+const WhitelistGrid: React.FunctionComponent<Props> = () => {
+  const dispatch = useDispatch();
+  const activeServer = useSelector(activeServerSelector);
+  const showAddWhitelistDialog = () => dispatch(toggleAddWhitelistDialog());
+  const whitelistedPlayers = useSelector(whitelistedPlayersOnActiveServer);
+  const handleRefreshClicked = () => dispatch(getServerDataThunk(activeServer));
+
+  // Component
+  const [filterValue, setFilterValue] = React.useState('');
+  const api = React.useRef<AgGrid.GridApi>();
+  const sizeColumns = () =>
+    api.current ? api.current.sizeColumnsToFit() : noop();
+  const setVal = (e: any) => {
+    setFilterValue(e.target.value);
+    api.current!.setQuickFilter(e.target.value);
+  };
+  const onGridReady = (params: any) => {
+    // in onGridReady, store the api for later use
+    api.current = params.api;
+    sizeColumns();
   };
 
-  componentDidUpdate(nextProps: Props) {
-    if (nextProps.sideBarShowing !== this.props.sideBarShowing) {
-      this.api.sizeColumnsToFit();
-    }
-  }
-
-  componentDidMount() {
+  // mount
+  React.useEffect(() => {
     window.addEventListener(
       'resize',
       debounce(() => {
-        this.api.sizeColumnsToFit();
+        sizeColumns();
       }, 250)
     );
-  }
+    // unmount
+    return () => {
+      window.removeEventListener(
+        'resize',
+        debounce(() => {
+          sizeColumns();
+        }, 250)
+      );
+    };
+  }, []);
 
-  componentWillUnmount() {
-    window.removeEventListener(
-      'resize',
-      debounce(() => {
-        this.api.sizeColumnsToFit();
-      }, 250)
-    );
-  }
+  return (
+    <Wrapper>
+      <FilterGridSection
+        refreshTooltipTitle={'Refresh Whitelist'}
+        onClickRefresh={handleRefreshClicked}
+        onClickAdd={showAddWhitelistDialog}
+        addTooltipTitle={'Add To Whitelist'}
+        filterValue={filterValue}
+        setFilterValue={setVal}
+      />
+      <MyGrid
+        onGridReady={onGridReady}
+        columnDefs={playersColumnDefs}
+        rowData={whitelistedPlayers}
+      />
+    </Wrapper>
+  );
+};
 
-  onGridReady = (params: any) => {
-    // in onGridReady, store the api for later use
-    this.api = params.api;
-    this.columnApi = params.columnApi;
-    (window as any).whitelistGridApi = this.api;
-    this.api.sizeColumnsToFit();
-  };
-
-  setFilterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      filterValue: e.target.value
-    });
-    this.api.setQuickFilter(e.target.value);
-  };
-
-  handleAddClicked = () => {
-    this.props.showAddWhitelistDialog();
-  };
-
-  handleRefreshClicked = () => {
-    console.log('Refresh Task');
-  };
-
-  render() {
-    return (
-      <Wrapper>
-        <FilterGridSection
-          refreshTooltipTitle={'Refresh Whitelist'}
-          onClickRefresh={this.handleRefreshClicked}
-          onClickAdd={this.handleAddClicked}
-          addTooltipTitle={'Add To Whitelist'}
-          filterValue={this.state.filterValue}
-          setFilterValue={this.setFilterValue}
-        />
-
-        <MyGrid
-          onGridReady={this.onGridReady}
-          columnDefs={playersColumnDefs}
-          rowData={this.props.whitelistedPlayers}
-        />
-      </Wrapper>
-    );
-  }
-}
-
-export default connect(
-  (state: RootState) => ({
-    sideBarShowing: playerSidebarOpenSelector(state),
-    whitelistedPlayers: whitelistedPlayersOnActiveServer(state)
-  }),
-  dispatch => ({
-    showAddWhitelistDialog: () => dispatch(toggleAddWhitelistDialog())
-  })
-)(WhitelistGrid);
+export default WhitelistGrid;

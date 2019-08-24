@@ -3,9 +3,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PlayersIcon from '@material-ui/icons/SupervisorAccount';
 import * as React from 'react';
 
-type Props = {
+interface Props {
   onClick: () => void;
-};
+}
 const TogglePlayerListButton: React.FunctionComponent<Props> = ({
   onClick
 }) => {

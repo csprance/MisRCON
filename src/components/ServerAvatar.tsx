@@ -31,13 +31,14 @@ const ActiveIndicator = styled.div`
     active ? '15px' : '29px'};
   height: ${({ active }: { active: boolean }) => (active ? '35px' : '8px')};
 `;
-type Props = {
+
+interface Props {
   active: boolean;
   avatarURL: string;
   id: number;
   name: string;
   selectServer: (id: number) => void;
-};
+}
 const ServerAvatar: React.FunctionComponent<Props> = ({
   avatarURL,
   id,

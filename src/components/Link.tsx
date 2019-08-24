@@ -13,14 +13,12 @@ const StyledLink = styled(RouterLink)`
     color: ${theme.palette.text.secondary};
   }
 `;
-type Props = {
+
+interface Props {
   to: LocationDescriptor<any>;
-};
-type State = {};
-class Link extends React.Component<Props, State> {
-  public render() {
-    return <StyledLink to={this.props.to}>{this.props.children}</StyledLink>;
-  }
 }
+const Link: React.FunctionComponent<Props> = ({ to, children }) => (
+  <StyledLink to={to}>{children}</StyledLink>
+);
 
 export default Link;

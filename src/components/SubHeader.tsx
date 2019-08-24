@@ -13,9 +13,8 @@ const Wrapper = styled.div`
 `;
 
 interface Props {}
-
-const SubHeader: React.FunctionComponent<Props> = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
-};
+const SubHeader: React.FunctionComponent<Props> = ({ children }) => (
+  <Wrapper>{children}</Wrapper>
+);
 
 export default SubHeader;

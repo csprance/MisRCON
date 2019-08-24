@@ -3,6 +3,7 @@ import * as mousetrap from 'mousetrap';
 
 import {
   toggleAddBanDialog,
+  toggleAddServerDialog,
   toggleAddTaskDialog,
   toggleAddWhitelistDialog
 } from '../redux/app/actions';
@@ -17,6 +18,11 @@ export const registerHotkeys = (dispatch: Dispatch) => {
   // Load Dev Tools
   mousetrap.bind('ctrl+alt+i', () => {
     electron.remote.getCurrentWindow().webContents.openDevTools();
+  });
+
+  // Add Server Dialog
+  mousetrap.bind('ctrl+n', () => {
+    dispatch(toggleAddServerDialog());
   });
 
   // Task Dialog

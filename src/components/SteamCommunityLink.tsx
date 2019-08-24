@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import ExternalLink from './ExternalLink';
 
-type Props = {
+interface Props {
   steam: number;
-};
+}
 const SteamCommunityLink: React.FunctionComponent<Props> = ({
   steam,
   children

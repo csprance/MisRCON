@@ -3,13 +3,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import * as React from 'react';
 import ConfirmationDialog from '../ConfirmationDialog';
 
-type Props = {
+interface Props {
   anchorEl: any;
   handleClose: () => void;
   deleteServer: () => void;
   toggleEditServerDialog: () => void;
   refreshServerData: () => void;
-};
+}
 const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   handleClose,
