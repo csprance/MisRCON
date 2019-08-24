@@ -6,8 +6,8 @@ import { terminalThemeSelector } from '../redux/app/selectors';
 import { activeServerSelector } from '../redux/servers/selectors';
 import { tasksSelector } from '../redux/tasks/selectors';
 import {
-  activeTerminalSelector,
-  activeTerminalHistorySelector
+  activeTerminalHistorySelector,
+  activeTerminalSelector
 } from '../redux/terminal/selectors';
 
 const Terminal: React.FunctionComponent<{}> = ({}) => {

@@ -47,7 +47,7 @@ export default (
         ...term,
         history:
           term.serverId === serverId
-            ? [commandStr,...term.history]
+            ? [commandStr, ...term.history]
             : term.history
       }));
 

@@ -7,10 +7,10 @@ import {
   firstRun,
   toggleAddServerDialog
 } from './app/actions';
+import { firstRunSelector } from './app/selectors';
 import { Dispatch, GetStateFunc } from './redux-types';
 import { hydrateTaskThunk } from './tasks/actions';
 import { scanForTerminalsThunk } from './terminal/actions';
-import { firstRunSelector } from './app/selectors';
 
 // This is the callback function from the redux-persist persistor
 // It is called after the store is rehydrated

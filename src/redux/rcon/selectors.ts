@@ -41,8 +41,8 @@ export const latestCompletedRequestByServerIpPortSelector = createSelector(
 export const latestRCONStatusByServerIpPortSelector = createSelector(
   latestCompletedRequestByServerIpPortSelector,
   (requests): StatusResponse | null => {
-    const [statusResponse] = requests.filter(
-      req => (req.parsedResponse ? req.parsedResponse.type === 'status' : false)
+    const [statusResponse] = requests.filter(req =>
+      req.parsedResponse ? req.parsedResponse.type === 'status' : false
     );
     if (!statusResponse) {
       return null;

@@ -1,8 +1,8 @@
-import { State, Terminal } from './types';
 import {
   makeDefaultHistory,
   makeDefaultOutputs
 } from '../../components/RCONTerminal/defaults';
+import { State, Terminal } from './types';
 
 export const defaultState: State = [];
 export const defaultTerminal: Terminal = {

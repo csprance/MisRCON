@@ -3,12 +3,12 @@ import * as getOpts from 'get-options';
 import * as React from 'react';
 
 import logger from '../../../lib/logger';
+import { runSetupScript } from '../../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { Dispatch, GetStateFunc } from '../../../redux/redux-types';
 import { Server, serversActions } from '../../../redux/servers';
-import TerminalServerList from '../react-terminal-component/output/TerminalServerList';
-import { runSetupScript } from '../../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { activeServerSelector } from '../../../redux/servers/selectors';
 import { bg2, orange } from '../../../styles/colors';
+import TerminalServerList from '../react-terminal-component/output/TerminalServerList';
 
 const optDef = {
   '-a, --add': '',

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { RootState } from '../redux-types';
 import { activeServerSelector } from '../servers/selectors';
-import {defaultTerminal} from "./state";
+import { defaultTerminal } from './state';
 
 export const terminalSelector = (state: RootState, _props?: any) =>
   state.terminal;
@@ -22,7 +22,9 @@ export const activeTerminalSelector = createSelector(
   activeServerSelector,
   terminalSelector,
   (activeServer, terminals) => {
-    const [terminal] = terminals.filter(term => term.serverId === activeServer.id);
+    const [terminal] = terminals.filter(
+      term => term.serverId === activeServer.id
+    );
 
     return terminal ? terminal : defaultTerminal;
   }
@@ -32,4 +34,3 @@ export const activeTerminalHistorySelector = createSelector(
   activeTerminalSelector,
   terminal => terminal.history
 );
-

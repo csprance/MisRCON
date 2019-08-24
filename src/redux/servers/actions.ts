@@ -1,5 +1,6 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
+import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { toggleAddServerDialog } from '../app/actions';
 import { addError, addSuccess } from '../notifications/actions';
 import { getPlayersViaRCONThunk } from '../players/actions';
@@ -10,7 +11,6 @@ import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
-import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 
 export const testConnection = createAsyncAction(
   'server/TEST_CONN_REQUEST',

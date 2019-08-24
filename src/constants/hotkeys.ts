@@ -33,6 +33,4 @@ export const registerHotkeys = (dispatch: Dispatch) => {
   mousetrap.bind('ctrl+w', () => {
     dispatch(toggleAddWhitelistDialog());
   });
-
-
 };
