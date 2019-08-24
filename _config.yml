@@ -2,7 +2,7 @@ title: MisRCON
 description: RCON utility for Miscreated
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-modernist
+theme: jekyll-theme-hacker
 
 gems:
   - jekyll-mentions
