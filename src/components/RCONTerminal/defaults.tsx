@@ -1,9 +1,13 @@
-import { OutputFactory, Outputs } from 'async-javascript-terminal';
+import { History, OutputFactory, Outputs } from 'async-javascript-terminal';
 import { OutputRecordType } from 'async-javascript-terminal/src/types';
 
 import * as React from 'react';
 import * as npmPackage from '../../../package.json';
 
+export const makeDefaultHistory = () => History.create([
+  'status',
+  'help'
+]);
 export const makeDefaultOutputs = (
 ): OutputRecordType => {
   return Outputs.create([

@@ -90,6 +90,33 @@ const NavigationBar: React.FunctionComponent<Props> = ({}) => {
           to={'/help'}
           primary={'# Help'}
         />
+        {activeServer.selfHosted ? (
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/hosting'}
+            primary={'# Hosting'}
+          />
+        ) : (
+          ''
+        )}
+        {activeServer.selfHosted ? (
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/logs'}
+            primary={'# Logs'}
+          />
+        ) : (
+          ''
+        )}
+        {activeServer.selfHosted ? (
+          <ListItemLink
+            currentPath={location.pathname}
+            to={'/chat'}
+            primary={'# Chat'}
+          />
+        ) : (
+          ''
+        )}
       </List>
     </Wrapper>
   );

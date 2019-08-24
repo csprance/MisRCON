@@ -34,6 +34,12 @@ export const addOutput = createAction(
     resolve({ output, serverId })
 );
 
+export const addHistory = createAction(
+  'terminal/ADD_HISTORY',
+  resolve => (commandStr: string, serverId: number) =>
+    resolve({ commandStr, serverId })
+);
+
 export const addInput = createAction(
   'terminal/ADD_INPUT',
   resolve => (input: string, serverId: number) => resolve({ input, serverId })

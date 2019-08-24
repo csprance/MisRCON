@@ -10,6 +10,7 @@ import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
 import { serverIDsSelector } from './selectors';
 import { Server } from './types';
+import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 
 export const testConnection = createAsyncAction(
   'server/TEST_CONN_REQUEST',
@@ -149,6 +150,23 @@ export const getServerDataThunk = (
     dispatch(getServerData.success());
   } catch (err) {
     dispatch(getServerData.failure(err.toString()));
+  }
+};
+
+export const initServer = createAsyncAction(
+  'server/INIT_REQUEST',
+  'server/INIT_SUCCESS',
+  'server/INIT_FAILED'
+)<void, void, string>();
+export const initServerThunk = (
+  rootPath: string
+): AsyncThunkResult<void> => async dispatch => {
+  dispatch(initServer.request());
+  try {
+    await runSetupScript(rootPath);
+    await dispatch(initServer.success());
+  } catch (e) {
+    dispatch(initServer.failure(e.toString()));
   }
 };
 

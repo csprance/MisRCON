@@ -3,8 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as React from 'react';
 
-type Props = {
-  active: boolean;
+interface Props {
   anchorEl: HTMLElement | null;
   banPlayer: () => void;
   closePlayerMenu: () => void;
@@ -12,7 +11,7 @@ type Props = {
   viewPlayerProfile: () => void;
   openSteamCommunity: () => void;
   openSteamRep: () => void;
-};
+}
 const PlayerMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   closePlayerMenu,

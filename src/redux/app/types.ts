@@ -16,7 +16,7 @@ export interface DialogState {
   addWhitelistDialogOpen: boolean;
 }
 
-export type AppState = {
+export interface AppState extends DialogState {
   // /////////////
   // Others
   // /////////////
@@ -34,5 +34,8 @@ export type AppState = {
   terminalTheme: string;
   // The salt value used in storing the passwords
   cryptoSalt: string;
-} & DialogState;
+  //
+  firstRun: boolean;
+}
+
 export type AppActions = ActionType<typeof actions>;

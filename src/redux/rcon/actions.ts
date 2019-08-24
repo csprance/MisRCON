@@ -40,10 +40,10 @@ export const sendRCONAsyncThunk = ({
     // ////////////////////////
     // If we have any players run the add player thunk
     if (request.parsedResponse && request.parsedResponse.type === 'status') {
-      request.parsedResponse.data.playersArray.forEach(async player => {
+      for (const player of request.parsedResponse.data.playersArray) {
         await dispatch(markAllPlayersInactive());
         await dispatch(syncPlayerThunk(player));
-      });
+      }
     }
     // Dispatch our success
     dispatch(sendRCON.success(request));

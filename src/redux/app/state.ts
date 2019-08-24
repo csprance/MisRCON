@@ -20,6 +20,7 @@ export const defaultState: AppState = {
   playerSideBarOpen: true,
   serverHelpMarkdown: 'string',
   terminalTheme: 'default',
+  firstRun: true,
   ...defaultDialogState
 };
 

@@ -14,6 +14,11 @@ export const registerHotkeys = (dispatch: Dispatch) => {
     electron.remote.getCurrentWindow().reload();
   });
 
+  // Load Dev Tools
+  mousetrap.bind('ctrl+alt+i', () => {
+    electron.remote.getCurrentWindow().webContents.openDevTools();
+  });
+
   // Task Dialog
   mousetrap.bind('ctrl+t', () => {
     dispatch(toggleAddTaskDialog());
@@ -28,4 +33,6 @@ export const registerHotkeys = (dispatch: Dispatch) => {
   mousetrap.bind('ctrl+w', () => {
     dispatch(toggleAddWhitelistDialog());
   });
+
+
 };

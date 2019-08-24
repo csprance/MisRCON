@@ -80,3 +80,5 @@ export const toggleAddWhitelistDialog = createAction(
 export const toggleAddBanDialog = createAction('app/TOGGLE_ADD_BAN_DIALOG');
 
 export const closeAllDialogs = createAction('app/CLOSE_ALL_DIALOGS');
+
+export const firstRun = createAction('app/FIRST_RUN');

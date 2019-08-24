@@ -9,6 +9,7 @@ export const ServerYupSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
   port: Yup.number().required('Required'),
   selfHosted: Yup.boolean().required('Required'),
+  init: Yup.boolean().required('Required'),
   rootPath: Yup.string().when('selfHosted', {
     is: true,
     then: Yup.string().required(

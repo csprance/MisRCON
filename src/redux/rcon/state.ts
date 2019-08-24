@@ -2,7 +2,7 @@ import { parseResponse } from 'node-misrcon';
 import { IRCONRequest, RCONState } from './types';
 const mockStatusResponse = `-----------------------------------------
 Server Status:
-name: Csprance Self hosted Server
+name: Server Loading
 ip: Server50425
 version: 0.1.1.1988
 level: Multiplayer/islands

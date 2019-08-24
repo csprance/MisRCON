@@ -32,9 +32,9 @@ export const getPlayersViaRCONThunk = (): AsyncThunkResult<any> => async (
     const { playersArray } = await new NodeMisrcon({
       ...activeServerCredentials
     }).getStatus();
-    playersArray.forEach(async player => {
+    for await (const player of playersArray) {
       await dispatch(syncPlayerThunk(player));
-    });
+    }
     dispatch(getPlayersViaRCON.success());
   } catch (err) {
     dispatch(getPlayersViaRCON.failure(err.toString()));
@@ -70,9 +70,10 @@ export const syncPlayerThunk = (
       return;
     }
     // If the player is not stored create new data
-    const syncedPlayer: Player = await {
+    const avatarUrl = await getSteamAvatar(player.steam);
+    const syncedPlayer: Player = {
       ...player,
-      avatarUrl: await getSteamAvatar(player.steam),
+      avatarUrl,
       active: true,
       serverID: activeServerID,
       color: '#fff',
@@ -82,7 +83,6 @@ export const syncPlayerThunk = (
       seenOn: [activeServerID]
     };
     dispatch(syncPlayer.success(syncedPlayer));
-    return;
   } catch (err) {
     dispatch(syncPlayer.failure(err.toString()));
   }

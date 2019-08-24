@@ -9,7 +9,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { Dispatch } from '../../../redux/redux-types';
 import { Server } from '../../../redux/servers';
-import { addInput, addOutput } from '../../../redux/terminal/actions';
+import {addHistory, addInput, addOutput} from '../../../redux/terminal/actions';
 import CommandInput from './input/CommandInput';
 import HeaderOutput from './output/HeaderOutput';
 import TextErrorOutput from './output/TextErrorOutput';
@@ -91,6 +91,7 @@ class Terminal extends React.Component<Props, State> {
         this.plugins
       );
 
+      this.props.dispatch(addHistory(commandStr, this.serverId));
       this.props.dispatch(addOutput(newState.getOutputs(), this.serverId));
       this.props.dispatch(addInput('', this.serverId));
 

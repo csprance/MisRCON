@@ -1,18 +1,15 @@
-import {
-  IHistoryStack,
-  OutputRecordType
-} from 'async-javascript-terminal/src/types';
+import { OutputRecordType } from 'async-javascript-terminal/src/types';
 import { List } from 'immutable';
 import { ActionType } from 'typesafe-actions';
 
 import { actions } from './index';
 
-export type Terminal = {
+export interface Terminal {
   serverId: number; // The Id of the server
   outputs: List<OutputRecordType>;
-  history: IHistoryStack;
+  history: string[];
   input: string;
-};
+}
 
 export type State = Terminal[];
 

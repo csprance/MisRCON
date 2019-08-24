@@ -6,13 +6,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
 
-export interface SimpleDialogProps {
+export interface Props {
   title: string;
   description: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
-const ConfirmationDialog: React.FunctionComponent<SimpleDialogProps> = ({
+const ConfirmationDialog: React.FunctionComponent<Props> = ({
   description,
   title,
   onCancel,

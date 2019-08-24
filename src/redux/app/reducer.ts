@@ -85,6 +85,9 @@ export default (
     // Others
     // //////////////
 
+    case getType(actions.firstRun):
+      return { ...state, firstRun: false };
+
     case getType(actions.togglePlayerList):
       return { ...state, playerSideBarOpen: !state.playerSideBarOpen };
 

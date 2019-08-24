@@ -52,10 +52,13 @@ const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
           }}
           message={<span id="message-id">{notification.content}</span>}
           action={[
-            <IconButton key="close" aria-label="Close" color="inherit">
-              <CloseIcon
-                onClick={() => handleCloseNotification(notification.id)}
-              />
+            <IconButton
+              onClick={() => handleCloseNotification(notification.id)}
+              key="close"
+              aria-label="Close"
+              color="inherit"
+            >
+              <CloseIcon />
             </IconButton>
           ]}
         />

@@ -7,7 +7,6 @@ import installExtension, {
 } from 'electron-devtools-installer';
 import * as isDev from 'electron-is-dev';
 import * as path from 'path';
-import 'reflect-metadata';
 import logger from './lib/logger';
 import { darkDarkBlack } from './styles/colors';
 

@@ -66,3 +66,8 @@ export const updateNeededSelector = createSelector(
   appStateSelector,
   app => app.remoteVersion !== app.localVersion
 );
+
+export const firstRunSelector = createSelector(
+  appStateSelector,
+  app => app.firstRun
+);

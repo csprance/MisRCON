@@ -14,18 +14,18 @@ import ReactTerminal from './react-terminal-component';
 import themes from './react-terminal-component/themes';
 import makeTerminalCommands from './terminal-commands';
 
-type Props = {
+interface Props {
   themeName: string;
   activeTerminal: Terminal;
   activeServer: Server;
   dispatch: Dispatch;
-  rconHistory: () => string[];
-};
+  history: string[];
+}
 const RCONTerminal: React.FunctionComponent<Props> = ({
   activeTerminal,
   activeServer,
   dispatch,
-  rconHistory,
+  history,
   themeName
 }) => {
   return (
@@ -37,7 +37,7 @@ const RCONTerminal: React.FunctionComponent<Props> = ({
       dispatch={dispatch}
       emulator={new Emulator()}
       emulatorState={EmulatorState.create({
-        history: History.create(rconHistory()),
+        history: History.create(history),
         environmentVariables: EnvironmentVariables.create({
           serverId: activeServer.id,
           password: activeServer.password,

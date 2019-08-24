@@ -4,9 +4,10 @@ import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { remote } from 'electron';
-import { ErrorMessage, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -21,6 +22,7 @@ import {
 import { Server } from '../../redux/servers';
 import {
   addServerThunk,
+  initServerThunk,
   testConnectionThunk,
   updateServerThunk
 } from '../../redux/servers/actions';
@@ -44,8 +46,6 @@ const InnerWrapper = styled.div`
   padding: 20px;
   flex-direction: column;
   width: 400px;
-  height: 650px;
-  max-height: 650px;
   align-items: center;
   justify-content: flex-start;
 `;
@@ -56,7 +56,9 @@ const CenterSection = styled.div`
   flex-grow: 1;
   width: 100%;
 `;
-
+interface ServerAndForm extends Server {
+  init: boolean;
+}
 interface Props {
   variant: 'edit' | 'add';
 }
@@ -65,11 +67,12 @@ const AddEditServerDialog: React.FunctionComponent<Props> = ({ variant }) => {
     variant === 'add'
       ? {
           ...defaultServer,
+          avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
           port: 64094,
           id: Date.now(),
-          avatar: 'https://api.adorable.io/avatars/285/' + Date.now()
+          init: false
         }
-      : useSelector(activeServerSelector);
+      : (useSelector(activeServerSelector) as ServerAndForm);
   const noServers = useSelector(noServersSelector);
   const showing =
     variant === 'add'
@@ -78,7 +81,7 @@ const AddEditServerDialog: React.FunctionComponent<Props> = ({ variant }) => {
   const dispatch = useDispatch();
   const addServer = (server: Server) => dispatch(addServerThunk(server));
   const updateServer = (server: Server) => dispatch(updateServerThunk(server));
-  const action = variant === 'add' ? addServer : updateServer;
+  const addOrUpdateServer = variant === 'add' ? addServer : updateServer;
   const closeDialog = () => dispatch(closeAllDialogs());
   const testConnection = async (server: Server) =>
     dispatch(testConnectionThunk(server));
@@ -95,12 +98,20 @@ const AddEditServerDialog: React.FunctionComponent<Props> = ({ variant }) => {
     <Dialog fullWidth onClose={handleDialogClose} open={showing}>
       <Wrapper>
         <Formik
-          initialValues={initialValues}
+          initialValues={
+            variant === 'edit'
+              ? { ...initialValues, init: false }
+              : initialValues
+          }
           validationSchema={ServerYupSchema}
           onSubmit={values => {
+            const { init, ...serverFormValues } = values;
             closeDialog();
-            action({
-              ...values
+            if (init) {
+              dispatch(initServerThunk(serverFormValues.rootPath));
+            }
+            addOrUpdateServer({
+              ...serverFormValues
             });
           }}
         >
@@ -133,37 +144,33 @@ const AddEditServerDialog: React.FunctionComponent<Props> = ({ variant }) => {
                     onChange={handleChange}
                     fullWidth
                     name={'name'}
-                    label={'Server Name'}
+                    label={'The name of the server (15 Characters)'}
                   />
-                  <ErrorMessage name={'name'} component={'div'} />
                   <TextField
                     error={!!errors.ip}
                     value={values.ip}
                     onChange={handleChange}
                     fullWidth
                     name={'ip'}
-                    label={'IP'}
+                    label={'The Server IP Address'}
                   />
-                  <ErrorMessage name={'ip'} component={'div'} />
                   <TextField
                     error={!!errors.port}
                     value={values.port}
                     onChange={handleChange}
                     fullWidth
                     name={'port'}
-                    label={'Port'}
+                    label={'The RCON Port of the server. (Default: 64094)'}
                   />
-                  <ErrorMessage name={'port'} component={'div'} />
                   <TextField
                     error={!!errors.password}
                     value={values.password}
                     onChange={handleChange}
                     fullWidth
                     name={'password'}
-                    label={'Password'}
                     type={'password'}
+                    label={'The HTTP Password defined in Hosting.cfg'}
                   />
-                  <ErrorMessage name={'password'} component={'div'} />
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -178,27 +185,56 @@ const AddEditServerDialog: React.FunctionComponent<Props> = ({ variant }) => {
                     label="Self Hosted Server?"
                   />
                   {values.selfHosted && (
-                    <TextField
-                      label="Server Root"
-                      value={values.rootPath}
-                      onChange={handleChange}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <NoHoverIconButton
-                              onClick={() => {
-                                const rootPath = remote.dialog.showOpenDialog({
-                                  properties: ['openDirectory']
-                                });
-                                if (rootPath) {
-                                  setFieldValue('rootPath', rootPath[0]);
-                                }
-                              }}
-                            />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
+                    <>
+                      {variant !== 'edit' ? (
+                        <Tooltip
+                          title={
+                            'Initialize a server using Spafbis Server Script? All Values will become defaults.'
+                          }
+                        >
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                name={'Initialize'}
+                                checked={values.init}
+                                onChange={() => {
+                                  setFieldValue('init', !values.init);
+                                }}
+                                color="secondary"
+                              />
+                            }
+                            label="Initialize Server?"
+                          />
+                        </Tooltip>
+                      ) : (
+                        ''
+                      )}
+
+                      <TextField
+                        label="Server Root"
+                        name={'rootPath'}
+                        value={values.rootPath}
+                        onChange={handleChange}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <NoHoverIconButton
+                                onClick={() => {
+                                  const rootPath = remote.dialog.showOpenDialog(
+                                    {
+                                      properties: ['openDirectory']
+                                    }
+                                  );
+                                  if (rootPath) {
+                                    setFieldValue('rootPath', rootPath[0]);
+                                  }
+                                }}
+                              />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </>
                   )}
                 </CenterSection>
                 <Button

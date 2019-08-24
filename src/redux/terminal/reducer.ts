@@ -1,7 +1,9 @@
-import { Stack } from 'immutable';
 import { getType } from 'typesafe-actions';
 
-import { makeDefaultOutputs } from '../../components/RCONTerminal/defaults';
+import {
+  makeDefaultHistory,
+  makeDefaultOutputs
+} from '../../components/RCONTerminal/defaults';
 import { actions, Types } from './index';
 
 export default (
@@ -37,6 +39,18 @@ export default (
         })
       ];
 
+    // addHistory
+    case getType(actions.addHistory):
+      const { serverId, commandStr } = action.payload;
+
+      return state.map(term => ({
+        ...term,
+        history:
+          term.serverId === serverId
+            ? [commandStr,...term.history]
+            : term.history
+      }));
+
     // scanForTerminals
     case getType(actions.scanForTerminals.success):
       return [
@@ -44,7 +58,7 @@ export default (
         ...action.payload.map(termId => ({
           serverId: termId,
           outputs: makeDefaultOutputs(),
-          history: Stack(['NOTUSED']),
+          history: makeDefaultHistory(),
           input: ''
         }))
       ];
