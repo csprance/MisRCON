@@ -3,7 +3,6 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { toggleAddServerDialog } from '../app/actions';
 import { addError, addSuccess } from '../notifications/actions';
-import { getPlayersViaRCONThunk } from '../players/actions';
 import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
 import { removeTaskThunk } from '../tasks/actions';
@@ -51,7 +50,6 @@ export const updateServerThunk = (
   try {
     await dispatch(updateServer.success(server));
     await dispatch(markServerActive(server.id));
-    await dispatch(getPlayersViaRCONThunk());
     await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(updateServer.failure(e.toString()));
@@ -71,7 +69,6 @@ export const addServerThunk = (
     await dispatch(addServer.success(server));
     await dispatch(scanForTerminalsThunk());
     await dispatch(markServerActive(server.id));
-    await dispatch(getPlayersViaRCONThunk());
     await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(addServer.failure(e.toString()));

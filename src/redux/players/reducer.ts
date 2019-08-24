@@ -10,6 +10,9 @@ export default (
   action: PlayersActions
 ): PlayersState => {
   switch (action.type) {
+    case getType(playersActions.deleteAllPlayers):
+      return [];
+
     // Set all player to not active
     case getType(playersActions.markAllPlayersInactive):
       return state.map(player => ({ ...player, active: false }));

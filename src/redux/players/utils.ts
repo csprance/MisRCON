@@ -1,18 +1,16 @@
 import axios from 'axios';
 
 export const getSteamAvatar = async (steam: string): Promise<string> => {
-  const defaultAvatarUrl = 'http://placehold.it/32x32';
-  const { data } = await axios.get(
-    'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/',
-    {
+  const defaultAvatar = '../src/resources/images/defaultAvatar.png';
+  try {
+    const { data } = await axios.get('https://a.entradainteractive.com', {
       params: {
-        key: process.env.STEAM_API_KEY,
-        steamids: steam
+        steamid: steam
       }
-    }
-  );
-  if (data.response.players[0]) {
-    return data.response.players[0].avatarfull;
+    });
+
+    return data;
+  } catch (e) {
+    return defaultAvatar;
   }
-  return defaultAvatarUrl;
 };

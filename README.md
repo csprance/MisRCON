@@ -61,7 +61,5 @@ const func = (dispatch: Dispatch, getState: GetStateFunc) => {
 
 * Clone the repository and cd into `https://github.com/csprance/misrcon.git && cd misrcon`
 * Install dependencies `yarn`
-* Add in a `src/constants/secrets.ts`
-  * To that file add your steam API key `export const steamAPIKey = 'STEAM-API-KEY';`
 * To start developing run `yarn run dev`
 * To get the build ready for release run `yarn run make` - This will take a while

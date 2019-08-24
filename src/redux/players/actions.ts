@@ -1,4 +1,4 @@
-import { IPlayer, NodeMisrcon } from 'node-misrcon';
+import { IPlayer } from 'node-misrcon';
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { sendRCONAsyncThunk } from '../rcon/actions';
@@ -11,35 +11,6 @@ import {
 import { playersSelector } from './selectors';
 import { Player } from './types';
 import { getSteamAvatar } from './utils';
-
-/*
- * Gets the players using rcon
- * Sends the IPlayer to SyncPlayer thunk to be synced and added to state
- */
-export const getPlayersViaRCON = createAsyncAction(
-  'players/GET_VIA_RCON_REQUEST',
-  'players/GET_VIA_RCON_SUCCESS',
-  'players/GET_VIA_RCON_FAILED'
-)<void, void, string>();
-export const getPlayersViaRCONThunk = (): AsyncThunkResult<any> => async (
-  dispatch,
-  getState
-) => {
-  dispatch(getPlayersViaRCON.request());
-  try {
-    await dispatch(markAllPlayersInactive());
-    const activeServerCredentials = activeServerCredentialsSelector(getState());
-    const { playersArray } = await new NodeMisrcon({
-      ...activeServerCredentials
-    }).getStatus();
-    for await (const player of playersArray) {
-      await dispatch(syncPlayerThunk(player));
-    }
-    dispatch(getPlayersViaRCON.success());
-  } catch (err) {
-    dispatch(getPlayersViaRCON.failure(err.toString()));
-  }
-};
 
 export const syncPlayer = createAsyncAction(
   'players/SYNC_PLAYER_REQUEST',
@@ -61,6 +32,7 @@ export const syncPlayerThunk = (
           ...storedPlayer,
           ...player,
           active: true,
+          serverID: activeServerID,
           seenOn: [
             ...storedPlayer.seenOn.filter(id => id !== activeServerID),
             activeServerID
@@ -201,4 +173,8 @@ export const setPlayerColor = createAction(
 
 export const markAllPlayersInactive = createAction(
   'players/MARK_ALL_PLAYERS_INACTIVE'
+);
+
+export const deleteAllPlayers = createAction(
+  'players/DELETE_ALL_PLAYERS'
 );

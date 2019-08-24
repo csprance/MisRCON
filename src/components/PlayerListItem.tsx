@@ -9,6 +9,7 @@ import PlayerMenu from './Menus/PlayerMenu';
 import Ping from './Ping';
 import PlayerAvatar from './PlayerAvatar';
 import PlayerName from './PlayerName';
+import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props extends Player {
   viewPlayerProfile: () => void;
@@ -28,33 +29,36 @@ const PlayerListItem: React.FunctionComponent<Props> = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
-  const handleClick = () => {
-    viewPlayerProfile();
-  };
-
-  const handleContextClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = () => viewPlayerProfile();
+  const handleContextClick = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(e.currentTarget);
-  };
-
-  const closePlayerMenu = () => {
-    setAnchorEl(null);
-  };
+  const closePlayerMenu = () => setAnchorEl(null);
 
   return (
     <>
       <ListItem button onClick={handleClick} onContextMenu={handleContextClick}>
         <PlayerAvatar alt={name} src={avatarUrl} active={active} />
         <ListItemText
-          inset
+          // inset
           primary={
             <PlayerName active={active} color={color}>
-              {name}
+              {name.length > 15 ? (
+                <Tooltip title={name}>
+                  <a>{name.substring(0, 12) + '...'}</a>
+                </Tooltip>
+              ) : (
+                name
+              )}
             </PlayerName>
           }
           secondary={steam}
         />
         <ListItemSecondaryAction>
-          <Ping ping={ping} />
+          <Tooltip title={`Ping: ${ping}`}>
+            <a>
+              <Ping ping={ping} />
+            </a>
+          </Tooltip>
         </ListItemSecondaryAction>
       </ListItem>
       <PlayerMenu

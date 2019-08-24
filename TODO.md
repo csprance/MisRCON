@@ -1,8 +1,10 @@
 # TODO List
+
 * Selecting server should update server data.
-* Plot Players on Map from self Hosted server
-* Logs
-* Hosting
-* Chat
-* Auto updater
-* React-ace for hosting.cfg
+* Auto updater For Application
+* Self Hosted
+  * Plot Players on Map from self Hosted server
+  * Log Parsing on a Self Hosted Server
+  * Hosting Configuration For Self Hosted Servers
+    * React-ace for hosting.cfg
+  * Chat Log Parsing For Self Hosted Servers

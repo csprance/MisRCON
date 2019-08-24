@@ -24,7 +24,7 @@ import {
 } from '../../../redux/terminal/actions';
 import { bg1, bg3 } from '../../../styles/colors';
 import CredentialsSettingsSection from './CredentialsSettingsSection';
-import DatabaseSettingsSection from './DatabaseSettingsSection';
+import StateSettingsSection from './StateSettingsSection';
 import TerminalSettingsSection from './TerminalsSettingsSection';
 
 const Wrapper = styled.div`
@@ -121,11 +121,11 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
               />
             </ListSubheader>
             <ListItem
-              selected={selected === 'app/database'}
-              onClick={() => setSelected('app/database')}
+              selected={selected === 'app/state'}
+              onClick={() => setSelected('app/state')}
               button
             >
-              <ListItemText primary={'Database'} />
+              <ListItemText primary={'State'} />
             </ListItem>
             <ListItem
               selected={selected === 'app/terminal'}
@@ -147,7 +147,7 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
                     deleteAllTerminals={_deleteAllTerminals}
                   />
                 ),
-                'app/database': <DatabaseSettingsSection />,
+                'app/state': <StateSettingsSection />,
                 'user/credentials': <CredentialsSettingsSection />
               }[selected]
             }

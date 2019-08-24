@@ -10,18 +10,18 @@ interface Props {
 }
 const Ping: React.FunctionComponent<Props> = ({ ping }) => {
   if (ping >= 400) {
-    return <Signal0 style={{ color: 'red' }} />;
+    return <Signal0 style={{ color: 'red', width: 15 }} />;
   }
   if (ping >= 300 && ping < 400) {
-    return <Signal1 style={{ color: 'yellow' }} />;
+    return <Signal1 style={{ color: 'yellow', width: 15 }} />;
   }
   if (ping >= 200 && ping < 300) {
-    return <Signal2 style={{ color: 'yellow' }} />;
+    return <Signal2 style={{ color: 'yellow', width: 15 }} />;
   }
   if (ping >= 100 && ping < 200) {
-    return <Signal3 style={{ color: 'green' }} />;
+    return <Signal3 style={{ color: 'green', width: 15 }} />;
   }
-  return <Signal4 style={{ color: 'green' }} />;
+  return <Signal4 style={{ color: 'green', width: 15 }} />;
 };
 
 export default Ping;
