@@ -90,33 +90,34 @@ const NavigationBar: React.FunctionComponent<Props> = ({ location }) => {
           to={'/help'}
           primary={'# Help'}
         />
-        {activeServer.selfHosted ? (
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/hosting'}
-            primary={'# Hosting'}
-          />
-        ) : (
-          ''
-        )}
-        {activeServer.selfHosted ? (
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/logs'}
-            primary={'# Logs'}
-          />
-        ) : (
-          ''
-        )}
-        {activeServer.selfHosted ? (
-          <ListItemLink
-            currentPath={location.pathname}
-            to={'/chat'}
-            primary={'# Chat'}
-          />
-        ) : (
-          ''
-        )}
+        {/*TODO: Enable these when they work */}
+        {/*{activeServer.selfHosted ? (*/}
+        {/*  <ListItemLink*/}
+        {/*    currentPath={location.pathname}*/}
+        {/*    to={'/hosting'}*/}
+        {/*    primary={'# Hosting'}*/}
+        {/*  />*/}
+        {/*) : (*/}
+        {/*  ''*/}
+        {/*)}*/}
+        {/*{activeServer.selfHosted ? (*/}
+        {/*  <ListItemLink*/}
+        {/*    currentPath={location.pathname}*/}
+        {/*    to={'/logs'}*/}
+        {/*    primary={'# Logs'}*/}
+        {/*  />*/}
+        {/*) : (*/}
+        {/*  ''*/}
+        {/*)}*/}
+        {/*{activeServer.selfHosted ? (*/}
+        {/*  <ListItemLink*/}
+        {/*    currentPath={location.pathname}*/}
+        {/*    to={'/chat'}*/}
+        {/*    primary={'# Chat'}*/}
+        {/*  />*/}
+        {/*) : (*/}
+        {/*  ''*/}
+        {/*)}*/}
       </List>
     </Wrapper>
   );

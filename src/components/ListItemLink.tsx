@@ -8,10 +8,13 @@ interface Props {
   primary: string;
   // Link to
   to: string;
+  // is it clickable
+  disabled?: boolean;
   // What the current path is
   currentPath: string;
 }
 const ListItemLink: React.FunctionComponent<Props> = ({
+  disabled = false,
   primary,
   to,
   currentPath
@@ -22,7 +25,12 @@ const ListItemLink: React.FunctionComponent<Props> = ({
 
   return (
     // @ts-ignore
-    <ListItem selected={currentPath === to} button component={renderLink}>
+    <ListItem
+      disabled={disabled}
+      selected={currentPath === to}
+      button
+      component={renderLink}
+    >
       <ListItemText primary={primary} />
     </ListItem>
   );
