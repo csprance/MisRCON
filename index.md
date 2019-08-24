@@ -1,45 +1,65 @@
-#MisRCON
-> A handy RCON tool for Miscreated
+![MisRCON](https://github.com/csprance/MisRCON/blob/v3/src/resources/images/icon.png?raw=true)
+
+# MisRCON
+
+> RCON utility for Miscreated a Sandbox Survival Game on CRYENGINE
 
 ## Download
-This is the pre-release. It's rough but it has the basic functionality in. 
 
-https://github.com/csprance/MisRCON/releases/download/0.2.0/MisRCON.Setup.0.2.0.exe
+<a href="https://github.com/csprance/MisRCON/releases/latest">Download the latest version here</a>
 
+# Features
 
-## Features
-* Google Material Design
-* Autocomplete server commands
-* Detailed Help list
-* Schedule recurring server commands
-* Manage banned players
-* Manage whitelisted players
-* Kick players
+* Schedule recurring or specific tasks to occur
+  * Tasks can be an RCON command or javascript code
+* Send RCON commands
+* Whitelist/De-Whitelist Players
+* Ban/Kick Players
+* Keep notes and stats on players
+* View Game map and add custom markers/areas
 
-## About
-This is an open source RCON tool for Miscreated. With it you can send commands to a rented server and schedule commands to fire at specific times (like warning the server is restarting, advertising a teamspeak or discord, etc, etc)
+# Screenshots
 
+<a href="https://csprance.com/shots/2019-08-24_2c4afa8e-14d2-431a-8b4f-98780945e61c.png"><img src="https://csprance.com/shots/2019-08-24_2c4afa8e-14d2-431a-8b4f-98780945e61c.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_9b27e000-3809-4715-918c-5d5d5c361325.png"><img src="https://csprance.com/shots/2019-08-24_9b27e000-3809-4715-918c-5d5d5c361325.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_a1f672d8-fa0a-4400-be99-4da13e0ff3ab.png"><img src="https://csprance.com/shots/2019-08-24_a1f672d8-fa0a-4400-be99-4da13e0ff3ab.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_5e029cb1-fa04-4139-b1f0-72bd7b5a6686.png"><img src="https://csprance.com/shots/2019-08-24_5e029cb1-fa04-4139-b1f0-72bd7b5a6686.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_e54fbf50-baad-4f1a-8bac-93f3724a6b4f.png"><img src="https://csprance.com/shots/2019-08-24_e54fbf50-baad-4f1a-8bac-93f3724a6b4f.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_a9ce6766-601c-4504-8ade-c8febcd6219f.png"><img src="https://csprance.com/shots/2019-08-24_a9ce6766-601c-4504-8ade-c8febcd6219f.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_4d20db03-d837-48c0-9ea3-4c5f2ba5b294.png"><img src="https://csprance.com/shots/2019-08-24_4d20db03-d837-48c0-9ea3-4c5f2ba5b294.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_ef53623a-d8f0-43be-ad8a-355eab1b3bad.png"><img src="https://csprance.com/shots/2019-08-24_ef53623a-d8f0-43be-ad8a-355eab1b3bad.png" width="400"/></a>
+<a href="https://csprance.com/shots/2019-08-24_9bedf043-f790-4d60-9cd7-a4a9fadf0c5b.png"><img src="https://csprance.com/shots/2019-08-24_9bedf043-f790-4d60-9cd7-a4a9fadf0c5b.png" width="400"/></a>
 
-This is very much just a side project and not in any way an official release from Entrada Interactive. This is just sort of an open source project started by a developer who just happens to work on the game also :)
+## Install
 
+Grab the latest version from the repository and install it.
+Depending on the system it will install into a different default installation directory
 
+| Operating System | Default Install Directory                             |
+| ---------------- | ----------------------------------------------------- |
+| Windows          | Users/username/ApplicationData/Local/Programs/MisRCON |
+| Linux            | /usr/local/bin/MisRCON                                |
+| Mac              | ?                                                     |
 
+## Tasks
 
-## More Info
-It's open source and written in Javascript (React/Electron) so anyone can help make it better. It's also nice since you don't need to go to http://miscreatedgame.com/servers to send RCON commands to a rented server. As long as you have internet you can send commands. Which is nice because it means if one goes down it's all good still.
+Tasks are just some javascript that runs and has access to dispatch, getState, and the task all passed into it
 
-## Wanna help?
-If you're interested in helping out just fork the repo and send me a pull request or get in touch with me on github. I look forward to any and all code contributions.
+```typescript
+const func = (dispatch: Dispatch, getState: GetStateFunc) => {
+  // Do any initialization here
+  console.log('Initializing');
+  const date = Date.now();
+  return () => {
+    // Anything that should run each task
+    console.log('task 1');
+  };
+};
+```
 
+## Developer Install
 
-## Bug Report?
-Please report any issues with the software here: https://github.com/csprance/MisRCON/issues
-
-## Screenshots
-![](http://www.csprance.com/shots/2016-12-07_21-55-548aad9111-c619-4d9f-bd07-b20f4c69f248.png)
-![](http://www.csprance.com/shots/2016-12-07_21-56-479a7d6332-17b6-4ce7-b7d7-56f2d2dc9ee0.png)
-![](http://www.csprance.com/shots/2016-12-07_21-57-27c1506c2f-9f46-411d-b6d2-a2d41c6029d3.png)
-![](http://www.csprance.com/shots/2016-12-07_21-57-50a53967dd-f056-4ef0-a54e-78911b75a496.png)
-![](http://www.csprance.com/shots/2016-12-07_21-59-10a0066b2c-2e0f-4f4f-a5c3-0315af279b85.png)
-![](http://www.csprance.com/shots/2016-12-10_04-40-57aa45abbf-23ed-47c4-8547-d1723a56eae4.png)
-![](http://www.csprance.com/shots/2016-12-10_04-41-09a63ed3fc-69ef-4595-a144-c26bb2634aec.png)
+* Clone the repository and cd into `https://github.com/csprance/misrcon.git && cd misrcon`
+* Install dependencies `yarn`
+* To start developing run `yarn run dev`
+* To get the build ready for release run `yarn run make` - This will take a while
