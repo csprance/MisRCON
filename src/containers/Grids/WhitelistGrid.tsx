@@ -6,13 +6,13 @@ import styled from 'styled-components';
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
+import { noop } from '../../lib/utils';
 import { toggleAddWhitelistDialog } from '../../redux/app/actions';
 import { whitelistedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
-import { bg3 } from '../../styles/colors';
-import { noop } from '../../lib/utils';
-import { activeServerSelector } from '../../redux/servers/selectors';
 import { getServerDataThunk } from '../../redux/servers/actions';
+import { activeServerSelector } from '../../redux/servers/selectors';
+import { bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
   display: flex;

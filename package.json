@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.1-rc-1",
+  "version": "3.0.1-rc-2",
   "description": "RCON Tool and Map for Miscreated game.",
   "main": "src/index.ts",
   "scripts": {
@@ -109,7 +109,7 @@
     "reselect": "^4.0.0",
     "styled-components": "^4.3.2",
     "tslib": "^1.10.0",
-    "typesafe-actions": "^4.4.2",
+    "typesafe-actions": "^5.0.0-3",
     "winston": "^3.2.1",
     "yup": "^0.27.0"
   },

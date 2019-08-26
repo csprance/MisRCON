@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 import { bg0, darkDarkBlack } from './colors';
-// import { theme } from './theme';
 
 export const GlobalStyles = createGlobalStyle`
 #App {

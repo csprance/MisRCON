@@ -6,5 +6,6 @@ import * as Types from './types';
 
 type NotificationsActions = ActionType<typeof actions>;
 
-export default reducer;
 export { actions, defaultNotificationsState, NotificationsActions, Types };
+
+export default reducer;

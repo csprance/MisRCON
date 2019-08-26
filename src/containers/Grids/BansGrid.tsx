@@ -10,9 +10,9 @@ import { noop } from '../../lib/utils';
 import { toggleAddBanDialog } from '../../redux/app/actions';
 import { bannedPlayersOnActiveServer } from '../../redux/players/selectors';
 import { playersColumnDefs } from '../../redux/players/state';
-import { bg3 } from '../../styles/colors';
-import {activeServerSelector} from "../../redux/servers/selectors";
 import {getServerDataThunk} from "../../redux/servers/actions";
+import {activeServerSelector} from "../../redux/servers/selectors";
+import { bg3 } from '../../styles/colors';
 
 const Wrapper = styled.div`
   display: flex;

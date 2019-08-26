@@ -13,7 +13,19 @@ export default (
     case getType(playersActions.deleteAllPlayers):
       return [];
 
-    // Set all player to not active
+    // TODO: Add Request ID to whitelist, remove duplicates
+    case getType(playersActions.addWhitelistStatusToPlayers):
+      // const { steamids, serverId } = action.payload;
+      return state.map(player => ({
+        ...player,
+        whitelisted: [...player.whitelisted]
+      }));
+
+    // TODO: Add Request ID to banlist, remove duplicates
+    case getType(playersActions.addBanlistStatusToPlayers):
+      // const { steamids, serverId } = action.payload;
+      return state.map(player => ({ ...player, banned: [...player.banned] }));
+
     case getType(playersActions.markAllPlayersInactive):
       return state.map(player => ({ ...player, active: false }));
 

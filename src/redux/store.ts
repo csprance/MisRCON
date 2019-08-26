@@ -1,3 +1,4 @@
+import * as electronIsDev from 'electron-is-dev';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -32,17 +33,20 @@ export const configureStore = () => {
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+  const middlewares = [thunk as ThunkMiddleware<RootState, RootAction>];
+
+  if (electronIsDev) {
+    middlewares.push(
+      createLogger({
+        predicate: (_, action) => !/^@@/.test(action.type),
+        collapsed: true
+      })
+    );
+  }
+
   const store = createStore(
     persistedReducer,
-    composeEnhancers(
-      applyMiddleware(
-        thunk as ThunkMiddleware<RootState, RootAction>,
-        createLogger({
-          predicate: (_, action) => !/^@@/.test(action.type),
-          collapsed: true
-        })
-      )
-    )
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 
   const persistor = persistStore(store, {}, bootstrap(store));

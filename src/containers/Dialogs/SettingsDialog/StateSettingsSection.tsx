@@ -1,9 +1,9 @@
 import Button from '@material-ui/core/Button';
 import * as React from 'react';
-import styled from 'styled-components';
-import SettingsDialogSettingBox from './SettingsDialogSettingBox';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { deleteAllPlayers } from '../../../redux/players/actions';
+import SettingsDialogSettingBox from './SettingsDialogSettingBox';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,7 +31,11 @@ const StateSettingsSection: React.FunctionComponent<Props> = ({}) => {
       <SettingsDialogSettingBox
         name={'Clear Players'}
         description={
-          'Delete all internal Players application state. This is helpful for when player are not showing up correctly or missing avatars.'
+          <p>
+            Delete all internal Players application state. This is
+            helpful for when player are not showing up correctly or missing
+            avatars.
+          </p>
         }
       >
         <Button

@@ -4,7 +4,6 @@ import * as playersSelectors from './selectors';
 import defaultPlayerState from './state';
 import { PlayersState } from './types';
 
-export default reducer;
 export {
   defaultPlayerState,
   playersActions,
@@ -12,3 +11,5 @@ export {
   PlayersState,
   PlayersActions
 };
+
+export default reducer;

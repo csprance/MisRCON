@@ -22,6 +22,7 @@ export default (store: Store) => () => {
 
   // First Run Bootstrap
   if (firstRunSelector(getState())) {
+    // TODO: Set up First Run Tutorial
     dispatch(firstRun());
     dispatch(toggleAddServerDialog());
   }

@@ -22,8 +22,7 @@ const MyLinearProgress = withStyles({
   }
 })(LinearProgress);
 
-interface Props {}
-const ProgressBar: React.FunctionComponent<Props> = ({}) => {
+const ProgressBar: React.FunctionComponent<{}> = () => {
   const sending = useSelector(sendingSelector);
   return <Wrapper>{sending ? <MyLinearProgress /> : <></>}</Wrapper>;
 };

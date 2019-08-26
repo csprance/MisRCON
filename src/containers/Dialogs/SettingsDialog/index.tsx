@@ -1,5 +1,5 @@
 import Dialog from '@material-ui/core/Dialog';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -42,7 +42,9 @@ const LeftSide = styled.div`
   background: ${bg1};
   flex-grow: 1;
   height: calc(100% - 9px);
-  max-width: 550px;
+  min-width: 300px;
+  width: 300px;
+  max-width: 300px;
 `;
 const RightSide = styled.div`
   display: flex;
@@ -91,30 +93,30 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
           <Spacer />
           <List
             style={{
-              width: 225,
+              minWidth: 225,
               overflowY: 'auto'
             }}
           >
-            <ListSubheader disableSticky>
-              <ListItemText
-                primary={<p style={{ fontWeight: 700 }}>User Settings</p>}
-              />
-            </ListSubheader>
-            <ListItem
-              selected={selected === 'user/credentials'}
-              onClick={() => setSelected('user/credentials')}
-              button
-            >
-              <ListItemText primary={'Credentials'} />
-            </ListItem>
-            <Divider
-              style={{
-                width: '80%',
-                marginLeft: 15,
-                marginTop: 5,
-                marginBottom: 5
-              }}
-            />
+            {/*<ListSubheader disableSticky>*/}
+            {/*  <ListItemText*/}
+            {/*    primary={<p style={{ fontWeight: 700 }}>User Settings</p>}*/}
+            {/*  />*/}
+            {/*</ListSubheader>*/}
+            {/*<ListItem*/}
+            {/*  selected={selected === 'user/credentials'}*/}
+            {/*  onClick={() => setSelected('user/credentials')}*/}
+            {/*  button*/}
+            {/*>*/}
+            {/*  <ListItemText primary={'Credentials'} />*/}
+            {/*</ListItem>*/}
+            {/*<Divider*/}
+            {/*  style={{*/}
+            {/*    width: '80%',*/}
+            {/*    marginLeft: 15,*/}
+            {/*    marginTop: 5,*/}
+            {/*    marginBottom: 5*/}
+            {/*  }}*/}
+            {/*/>*/}
             <ListSubheader disableSticky>
               <ListItemText
                 primary={<p style={{ fontWeight: 700 }}>App Settings</p>}

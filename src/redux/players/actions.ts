@@ -75,7 +75,8 @@ export const banSteamIDThunk = (
   try {
     const request = {
       ...activeServerCredentialsSelector(getState()),
-      command: `mis_ban_steamid ${steamid}`
+      command: `mis_ban_steamid ${steamid}`,
+      id: activeServerIDSelector(getState())
     };
     const response = await dispatch(sendRCONAsyncThunk(request));
     if (response.completed) {
@@ -103,8 +104,10 @@ export const whitelistSteamIDThunk = (
   try {
     const request = {
       ...activeServerCredentialsSelector(getState()),
-      command: `mis_whitelist_add ${steamid}`
+      command: `mis_whitelist_add ${steamid}`,
+      id: activeServerIDSelector(getState())
     };
+
     await dispatch(sendRCONAsyncThunk(request));
     dispatch(whitelistSteamID.success(activeServerIDSelector(getState())));
   } catch (err) {
@@ -128,7 +131,8 @@ export const banPlayerThunk = (player: Player): AsyncThunkResult<any> => async (
   try {
     const request = {
       ...activeServerCredentialsSelector(getState()),
-      command: 'mis_ban_steamid ' + player.steam
+      command: 'mis_ban_steamid ' + player.steam,
+      id: activeServerIDSelector(getState())
     };
     await dispatch(sendRCONAsyncThunk(request));
     dispatch(banPlayer.success(activeServerIDSelector(getState())));
@@ -152,7 +156,8 @@ export const kickPlayerThunk = (
   try {
     const request = {
       ...activeServerCredentialsSelector(getState()),
-      command: 'mis_kick ' + player.steam
+      command: 'mis_kick ' + player.steam,
+      id: activeServerIDSelector(getState())
     };
     await dispatch(sendRCONAsyncThunk(request));
     dispatch(kickPlayer.success(player));
@@ -175,6 +180,16 @@ export const markAllPlayersInactive = createAction(
   'players/MARK_ALL_PLAYERS_INACTIVE'
 );
 
-export const deleteAllPlayers = createAction(
-  'players/DELETE_ALL_PLAYERS'
+export const deleteAllPlayers = createAction('players/DELETE_ALL_PLAYERS');
+
+export const addWhitelistStatusToPlayers = createAction(
+  'players/ADD_WHITELIST_STATUS_TO_PLAYERS',
+  resolve => (steamids: string[], serverId: number) =>
+    resolve({ steamids, serverId })
+);
+
+export const addBanlistStatusToPlayers = createAction(
+  'players/ADD_BANLIST_STATUS_TO_PLAYERS',
+  resolve => (steamids: string[], serverId: number) =>
+    resolve({ steamids, serverId })
 );

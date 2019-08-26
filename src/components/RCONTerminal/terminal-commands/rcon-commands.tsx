@@ -14,6 +14,7 @@ const makeRconFunc = (command: string, dispatch: Dispatch) => async (
 
     const request = makeRCONRequestObject(
       activeServer.ip,
+      activeServer.id,
       activeServer.port,
       activeServer.password,
       [command === 'default' ? null : command, ...opts].join(' ').trim()

@@ -2,7 +2,12 @@ import { ICommandObject, NodeMisrcon, parseResponse } from 'node-misrcon';
 import { createAsyncAction } from 'typesafe-actions';
 
 import { logRCONError, logRCONResponse } from '../../lib/logger';
-import { markAllPlayersInactive, syncPlayerThunk } from '../players/actions';
+import {
+  addBanlistStatusToPlayers,
+  addWhitelistStatusToPlayers,
+  markAllPlayersInactive,
+  syncPlayerThunk
+} from '../players/actions';
 import { AsyncThunkResult } from '../redux-types';
 import { IRCONRequest } from './types';
 
@@ -10,17 +15,21 @@ export const sendRCON = createAsyncAction(
   'rcon/REQUEST',
   'rcon/SUCCESS',
   'rcon/FAILED'
-)<void, IRCONRequest, IRCONRequest>();
+)<undefined, IRCONRequest, IRCONRequest>();
 export const sendRCONAsyncThunk = ({
   ip,
   port,
   password,
-  command
-}: ICommandObject): AsyncThunkResult<IRCONRequest> => async dispatch => {
+  command,
+  id
+}: ICommandObject & { id: number }): AsyncThunkResult<
+  IRCONRequest
+> => async dispatch => {
   dispatch(sendRCON.request());
   // Initialize our request object and rcon api
   const rcon = new NodeMisrcon({ ip, port, password });
   const request: IRCONRequest = {
+    id,
     response: '',
     command,
     date: Date.now(),
@@ -35,16 +44,34 @@ export const sendRCONAsyncThunk = ({
     request.response = await rcon.send(command);
     request.date = Date.now();
     request.parsedResponse = parseResponse(request.response);
+
     // /////////////////////////
-    // Intercept Requests here - Update state with the results of requests made here
+    // ! Intercept Requests here - Update state with the results of requests made here
     // ////////////////////////
-    // If we have any players run the add player thunk
+
+    // * Intercept Status
     if (request.parsedResponse && request.parsedResponse.type === 'status') {
+      // If we have any players run the add player thunk
       dispatch(markAllPlayersInactive());
       for (const player of request.parsedResponse.data.playersArray) {
         dispatch(syncPlayerThunk(player));
       }
     }
+
+    // * Intercept Whitelist
+    if (request.parsedResponse && request.parsedResponse.type === 'whitelist') {
+      dispatch(
+        addWhitelistStatusToPlayers(request.parsedResponse.data, request.id)
+      );
+    }
+
+    // * Intercept Banlist
+    if (request.parsedResponse && request.parsedResponse.type === 'banlist') {
+      dispatch(
+        addBanlistStatusToPlayers(request.parsedResponse.data, request.id)
+      );
+    }
+
     // Dispatch our success
     dispatch(sendRCON.success(request));
     logRCONResponse(request);

@@ -3,13 +3,13 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 
+import Tooltip from '@material-ui/core/Tooltip';
 import { openExternally } from '../lib/utils';
 import { Player } from '../redux/players/types';
 import PlayerMenu from './Menus/PlayerMenu';
 import Ping from './Ping';
 import PlayerAvatar from './PlayerAvatar';
 import PlayerName from './PlayerName';
-import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props extends Player {
   viewPlayerProfile: () => void;

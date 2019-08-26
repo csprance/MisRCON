@@ -8,7 +8,7 @@ import { AsyncThunkResult } from '../redux-types';
 import { removeTaskThunk } from '../tasks/actions';
 import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
-import { serverIDsSelector } from './selectors';
+import { activeServerIDSelector, serverIDsSelector } from './selectors';
 import { Server } from './types';
 
 export const testConnection = createAsyncAction(
@@ -114,25 +114,28 @@ export const getServerData = createAsyncAction(
 )<void, void, string>();
 export const getServerDataThunk = (
   server: Server
-): AsyncThunkResult<any> => async dispatch => {
+): AsyncThunkResult<any> => async (dispatch, getState) => {
   dispatch(getServerData.request());
   try {
+    const id = activeServerIDSelector(getState());
     // Get status
     await dispatch(
       sendRCONAsyncThunk({
         command: 'status',
         ip: server.ip,
         port: server.port,
-        password: server.password
+        password: server.password,
+        id
       })
     );
     // Get banlist
     await dispatch(
       sendRCONAsyncThunk({
-        command: 'mis_banlist_status',
+        command: 'mis_ban_status',
         ip: server.ip,
         port: server.port,
-        password: server.password
+        password: server.password,
+        id
       })
     );
     // Get whitelist
@@ -141,7 +144,8 @@ export const getServerDataThunk = (
         command: 'mis_whitelist_status',
         ip: server.ip,
         port: server.port,
-        password: server.password
+        password: server.password,
+        id
       })
     );
     dispatch(getServerData.success());

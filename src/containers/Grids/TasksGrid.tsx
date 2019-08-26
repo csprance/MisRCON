@@ -6,13 +6,13 @@ import styled from 'styled-components';
 import FilterGridSection from '../../components/FilterGridSection';
 import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
+import { noop } from '../../lib/utils';
 import { toggleAddTaskDialog } from '../../redux/app/actions';
+import { getServerDataThunk } from '../../redux/servers/actions';
+import { activeServerSelector } from '../../redux/servers/selectors';
 import { allTasksOnActiveServer } from '../../redux/tasks/selectors';
 import { tasksColumnDefs } from '../../redux/tasks/state';
 import { bg3 } from '../../styles/colors';
-import { noop } from '../../lib/utils';
-import { getServerDataThunk } from '../../redux/servers/actions';
-import { activeServerSelector } from '../../redux/servers/selectors';
 
 const Wrapper = styled.div`
   display: flex;

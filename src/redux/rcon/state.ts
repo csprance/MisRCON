@@ -17,6 +17,7 @@ weatherpattern: 1
 `;
 
 export const defaultRequest: IRCONRequest = {
+  id: -1,
   ip: 'localhost',
   port: 64094,
   password: 'password',
@@ -33,6 +34,7 @@ export const defaultRequest: IRCONRequest = {
 };
 
 export const defaultStatusRequest: IRCONRequest = {
+  id: -1,
   ip: 'localhost',
   port: 64094,
   password: 'password',

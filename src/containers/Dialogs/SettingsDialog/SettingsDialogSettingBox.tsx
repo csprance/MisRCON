@@ -31,7 +31,7 @@ const ActionWrapper = styled.div`
 
 interface Props {
   name: string;
-  description: string;
+  description: string | React.ReactElement;
 }
 const SettingsDialogSettingBox: React.FunctionComponent<Props> = ({
   children,

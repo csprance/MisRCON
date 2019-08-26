@@ -38,3 +38,9 @@ export type Dispatch = ThunkDispatch<RootState, any, RootAction> &
   ReduxDispatch<RootAction>;
 
 export type GetStateFunc = () => RootState;
+
+declare module 'typesafe-actions' {
+  interface Types {
+    RootAction: RootAction;
+  }
+}

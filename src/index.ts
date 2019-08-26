@@ -27,6 +27,12 @@ if (isDev) {
 const createWindow = async () => {
   logger.info('MisRCON Starting');
 
+  const { addBypassChecker } = require('electron-compile');
+  addBypassChecker(
+    (filePath: string) =>
+      /.jpg/.test(filePath) || /.mp4/.test(filePath) || /.png/.test(filePath)
+  );
+
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     backgroundColor: darkDarkBlack,
     frame: false,
@@ -36,6 +42,7 @@ const createWindow = async () => {
     minWidth: 1024,
     show: false,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true
     },
     width: 1024
