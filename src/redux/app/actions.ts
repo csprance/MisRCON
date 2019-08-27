@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAction, createAsyncAction } from 'typesafe-actions';
+import * as npmPackage from '../../../package.json';
 import { AsyncThunkResult } from '../redux-types';
 
 export const fetchServerHelpMarkdown = createAsyncAction(
@@ -25,7 +26,7 @@ export const checkForUpdates = createAsyncAction(
   'app/CHECK_FOR_UPDATE_REQUEST',
   'app/CHECK_FOR_UPDATE_SUCCESS',
   'app/CHECK_FOR_UPDATE_FAIL'
-)<void, string, string>();
+)<void, boolean, string>();
 export const checkForUpdatesThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {
@@ -35,7 +36,9 @@ export const checkForUpdatesThunk = (): AsyncThunkResult<
       'https://api.github.com/repos/csprance/MisRCON/releases/latest'
     );
     const remoteVersion = data.tag_name;
-    dispatch(checkForUpdates.success(remoteVersion));
+    dispatch(
+      checkForUpdates.success(`v${npmPackage.version}` !== remoteVersion)
+    );
   } catch (e) {
     dispatch(checkForUpdates.failure(e.toString()));
   }

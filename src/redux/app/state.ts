@@ -1,4 +1,3 @@
-import * as npmPackage from '../../../package.json';
 import { CRYPTO_SALT } from '../../constants/env';
 import { AppState, DialogState } from './types';
 
@@ -13,8 +12,7 @@ export const defaultDialogState: DialogState = {
 };
 
 export const defaultState: AppState = {
-  localVersion: npmPackage.version,
-  remoteVersion: npmPackage.version,
+  updateNeeded: false,
   cryptoSalt: CRYPTO_SALT,
   selectedPlayerID: '',
   playerSideBarOpen: true,

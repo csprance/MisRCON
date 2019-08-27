@@ -16,7 +16,7 @@ export const syncPlayer = createAsyncAction(
   'players/SYNC_PLAYER_REQUEST',
   'players/SYNC_PLAYER_SUCCESS',
   'players/SYNC_PLAYER_FAILED'
-)<void, Player, string>();
+)<undefined, Player, string>();
 export const syncPlayerThunk = (
   player: IPlayer
 ): AsyncThunkResult<void> => async (dispatch, getState) => {
@@ -67,7 +67,7 @@ export const banSteamID = createAsyncAction(
   'players/BAN_STEAMID_REQUEST',
   'players/BAN_STEAMID_SUCCESS',
   'players/BAN_STEAMID_FAILED'
-)<void, void, string>();
+)<undefined, undefined, string>();
 export const banSteamIDThunk = (
   steamid: string
 ): AsyncThunkResult<any> => async (dispatch, getState) => {
@@ -96,7 +96,7 @@ export const whitelistSteamID = createAsyncAction(
   'players/WHITELIST_REQUEST',
   'players/WHITELIST_SUCCESS',
   'players/WHITELIST_FAILED'
-)<void, number, string>();
+)<undefined, number, string>();
 export const whitelistSteamIDThunk = (
   steamid: string
 ): AsyncThunkResult<any> => async (dispatch, getState) => {
@@ -122,7 +122,7 @@ export const banPlayer = createAsyncAction(
   'players/BAN_REQUEST',
   'players/BAN_SUCCESS',
   'players/BAN_FAILED'
-)<void, number, string>();
+)<undefined, number, string>();
 export const banPlayerThunk = (player: Player): AsyncThunkResult<any> => async (
   dispatch,
   getState
@@ -148,7 +148,7 @@ export const kickPlayer = createAsyncAction(
   'players/KICK_REQUEST',
   'players/KICK_SUCCESS',
   'players/KICK_FAILED'
-)<void, Player, string>();
+)<undefined, Player, string>();
 export const kickPlayerThunk = (
   player: Player
 ): AsyncThunkResult<any> => async (dispatch, getState) => {

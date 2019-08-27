@@ -20,10 +20,8 @@ export interface AppState extends DialogState {
   // /////////////
   // Others
   // /////////////
-  // Our application version from package.json
-  localVersion: string;
-  // Current remote version
-  remoteVersion: string;
+  // If we need to update
+  updateNeeded: boolean;
   // The Help markdown from github
   serverHelpMarkdown: string;
   // What player By ID should be displayed in the PlayerProfile Dialog

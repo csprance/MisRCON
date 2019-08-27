@@ -1,4 +1,4 @@
-import { encryptPassword, decryptPassword } from '../crypto';
+import { decryptPassword, encryptPassword } from '../crypto';
 
 describe('Crypto Module', () => {
   it('should encrypt and decrypt to same string', () => {

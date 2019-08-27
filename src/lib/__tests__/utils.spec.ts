@@ -1,4 +1,4 @@
-import {noop, zip} from '../utils';
+import { noop, zip } from '../utils';
 
 describe('Test Utils', () => {
   it('should test zip function', () => {

@@ -64,7 +64,7 @@ export const terminalThemeSelector = createSelector(
 
 export const updateNeededSelector = createSelector(
   appStateSelector,
-  app => app.remoteVersion === app.localVersion
+  app => app.updateNeeded
 );
 
 export const firstRunSelector = createSelector(

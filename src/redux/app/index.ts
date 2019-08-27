@@ -6,5 +6,6 @@ import * as selectors from './selectors';
 import defaultState from './state';
 import { AppActions, AppState } from './types';
 
-export default reducer;
 export { actions, defaultState, selectors, AppState, AppActions };
+
+export default reducer;

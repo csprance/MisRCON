@@ -73,4 +73,6 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     resizable: true
   }
 ];
-export default [defaultPlayer] as PlayersState;
+export const defaultState: PlayersState = [defaultPlayer];
+
+export default defaultState;
