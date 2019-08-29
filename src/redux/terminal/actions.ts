@@ -10,7 +10,7 @@ export const scanForTerminals = createAsyncAction(
   'terminal/SCAN_REQUEST',
   'terminal/SCAN_SUCCESS',
   'terminal/SCAN_FAILURE'
-)<void, number[], string>();
+)<undefined, number[], string>();
 export const scanForTerminalsThunk = (): AsyncThunkResult<void> => async (
   dispatch,
   getState

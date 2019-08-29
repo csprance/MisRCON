@@ -9,7 +9,7 @@ export const updateHosting = createAsyncAction(
   'hosting/UPDATE_REQUEST',
   'hosting/UPDATE_SUCCESS',
   'hosting/UPDATE_FAILED'
-)<void, void, string>();
+)<undefined, undefined, string>();
 export const updateHostingThunk = (): AsyncThunkResult<any> => async (
   dispatch,
   _getState

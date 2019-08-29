@@ -7,7 +7,7 @@ export const fetchServerHelpMarkdown = createAsyncAction(
   'markdown/REQUEST',
   'markdown/SUCCESS',
   'markdown/FAIL'
-)<void, string, string>();
+)<undefined, string, string>();
 export const fetchServerHelpMarkdownThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {
@@ -26,7 +26,7 @@ export const checkForUpdates = createAsyncAction(
   'app/CHECK_FOR_UPDATE_REQUEST',
   'app/CHECK_FOR_UPDATE_SUCCESS',
   'app/CHECK_FOR_UPDATE_FAIL'
-)<void, boolean, string>();
+)<undefined, boolean, string>();
 export const checkForUpdatesThunk = (): AsyncThunkResult<
   void
 > => async dispatch => {

@@ -15,7 +15,7 @@ export const hydrateTasks = createAsyncAction(
   'tasks/HYDRATE_REQUEST',
   'tasks/HYDRATE_SUCCESS',
   'tasks/HYDRATE_FAILURE'
-)<void, Task[], string>();
+)<undefined, Task[], string>();
 export const hydrateTaskThunk = (): AsyncThunkResult<void> => async (
   dispatch,
   getState
@@ -53,7 +53,7 @@ export const toggleTask = createAsyncAction(
   'tasks/TOGGLE_REQUEST',
   'tasks/TOGGLE_SUCCESS',
   'tasks/TOGGLE_FAILURE'
-)<void, number, string>();
+)<undefined, number, string>();
 export const toggleTaskThunk = (id: number): AsyncThunkResult<void> => async (
   dispatch,
   getState
@@ -82,7 +82,7 @@ export const addTask = createAsyncAction(
   'tasks/ADD_REQUEST',
   'tasks/ADD_SUCCESS',
   'tasks/ADD_FAILURE'
-)<void, Task, string>();
+)<undefined, Task, string>();
 export const addTaskThunk = (task: Task): AsyncThunkResult<void> => async (
   dispatch,
   getState
@@ -113,7 +113,7 @@ export const removeTask = createAsyncAction(
   'tasks/REMOVE_REQUEST',
   'tasks/REMOVE_SUCCESS',
   'tasks/REMOVE_FAILURE'
-)<void, number, string>();
+)<undefined, number, string>();
 export const removeTaskThunk = (id: number): AsyncThunkResult<void> => async (
   dispatch,
   getState

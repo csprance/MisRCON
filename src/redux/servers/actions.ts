@@ -15,7 +15,7 @@ export const testConnection = createAsyncAction(
   'server/TEST_CONN_REQUEST',
   'server/TEST_CONN_SUCCESS',
   'server/TEST_CONN_FAILED'
-)<void, void, string>();
+)<undefined, undefined, string>();
 export const testConnectionThunk = (
   server: Server
 ): AsyncThunkResult<boolean> => async dispatch => {
@@ -42,7 +42,7 @@ export const updateServer = createAsyncAction(
   'server/UPDATE_REQUEST',
   'server/UPDATE_SUCCESS',
   'server/UPDATE_FAILED'
-)<void, Server, string>();
+)<undefined, Server, string>();
 export const updateServerThunk = (
   server: Server
 ): AsyncThunkResult<void> => async dispatch => {
@@ -60,7 +60,7 @@ export const addServer = createAsyncAction(
   'server/ADD_REQUEST',
   'server/ADD_SUCCESS',
   'server/ADD_FAILED'
-)<void, Server, string>();
+)<undefined, Server, string>();
 export const addServerThunk = (
   server: Server
 ): AsyncThunkResult<void> => async dispatch => {
@@ -79,7 +79,7 @@ export const removeServer = createAsyncAction(
   'server/REMOVE_REQUEST',
   'server/REMOVE_SUCCESS',
   'server/REMOVE_FAILED'
-)<void, number, string>();
+)<undefined, number, string>();
 export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
   dispatch,
   getState
@@ -111,7 +111,7 @@ export const getServerData = createAsyncAction(
   'servers/GET_SERVER_DATA_REQUEST',
   'servers/GET_SERVER_DATA_SUCCESS',
   'servers/GET_SERVER_DATA_FAILED'
-)<void, void, string>();
+)<undefined, undefined, string>();
 export const getServerDataThunk = (
   server: Server
 ): AsyncThunkResult<any> => async (dispatch, getState) => {
@@ -158,7 +158,7 @@ export const initServer = createAsyncAction(
   'server/INIT_REQUEST',
   'server/INIT_SUCCESS',
   'server/INIT_FAILED'
-)<void, void, string>();
+)<undefined, undefined, string>();
 export const initServerThunk = (
   rootPath: string
 ): AsyncThunkResult<void> => async dispatch => {

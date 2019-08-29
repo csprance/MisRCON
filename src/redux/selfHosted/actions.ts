@@ -5,8 +5,7 @@ export const pollServerData = createAsyncAction(
   'selfHosted/POLL_REQUEST',
   'selfHosted/POLL_SUCCESS',
   'selfHosted/POLL_FAILED'
-)<void, void, void>();
-
+)<undefined, undefined, undefined>();
 export const pollServerDataThunk = (): AsyncThunkResult<
   any
 > => async dispatch => {
