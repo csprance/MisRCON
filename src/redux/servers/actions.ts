@@ -1,4 +1,4 @@
-import { createAction, createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction } from 'typesafe-actions';
 
 import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { toggleAddServerDialog } from '../app/actions';
@@ -8,7 +8,11 @@ import { AsyncThunkResult } from '../redux-types';
 import { removeTaskThunk } from '../tasks/actions';
 import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
-import { activeServerIDSelector, serverIDsSelector } from './selectors';
+import {
+  activeServerIDSelector,
+  serverByIdSelector,
+  serverIDsSelector
+} from './selectors';
 import { Server } from './types';
 
 export const testConnection = createAsyncAction(
@@ -49,7 +53,7 @@ export const updateServerThunk = (
   dispatch(updateServer.request());
   try {
     await dispatch(updateServer.success(server));
-    await dispatch(markServerActive(server.id));
+    await dispatch(markServerActiveThunk(server.id));
     await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(updateServer.failure(e.toString()));
@@ -68,7 +72,7 @@ export const addServerThunk = (
   try {
     await dispatch(addServer.success(server));
     await dispatch(scanForTerminalsThunk());
-    await dispatch(markServerActive(server.id));
+    await dispatch(markServerActiveThunk(server.id));
     await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(addServer.failure(e.toString()));
@@ -97,7 +101,7 @@ export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
     // Mark the first server left in the list active
     const [firstServerID] = serverIDsSelector(getState()).reverse();
     if (firstServerID) {
-      dispatch(markServerActive(firstServerID));
+      dispatch(markServerActiveThunk(firstServerID));
     } else {
       // If no servers left show server dialog
       dispatch(toggleAddServerDialog());
@@ -119,7 +123,7 @@ export const getServerDataThunk = (
   try {
     const id = activeServerIDSelector(getState());
     // Get status
-    await dispatch(
+    const status = await dispatch(
       sendRCONAsyncThunk({
         command: 'status',
         ip: server.ip,
@@ -129,7 +133,7 @@ export const getServerDataThunk = (
       })
     );
     // Get banlist
-    await dispatch(
+    const banlist = await dispatch(
       sendRCONAsyncThunk({
         command: 'mis_ban_status',
         ip: server.ip,
@@ -139,7 +143,7 @@ export const getServerDataThunk = (
       })
     );
     // Get whitelist
-    await dispatch(
+    const whitelist = await dispatch(
       sendRCONAsyncThunk({
         command: 'mis_whitelist_status',
         ip: server.ip,
@@ -148,12 +152,21 @@ export const getServerDataThunk = (
         id
       })
     );
-    dispatch(getServerData.success());
+    if (status.completed && whitelist.completed && banlist.completed) {
+      dispatch(getServerData.success());
+    } else {
+      dispatch(addError(status.response));
+      dispatch(getServerData.failure(status.response));
+    }
   } catch (err) {
+    dispatch(addError(err.toString()));
     dispatch(getServerData.failure(err.toString()));
   }
 };
 
+/*
+Init Server Runs the Spafbi Server inStall Script
+ */
 export const initServer = createAsyncAction(
   'server/INIT_REQUEST',
   'server/INIT_SUCCESS',
@@ -171,7 +184,24 @@ export const initServerThunk = (
   }
 };
 
-export const markServerActive = createAction(
-  'server/MARK_ACTIVE',
-  resolve => (id: number) => resolve(id)
-);
+export const markServerActive = createAsyncAction(
+  'server/MARK_SERVER_ACTIVE_REQUEST',
+  'server/MARK_SERVER_ACTIVE_SUCCESS',
+  'server/MARK_SERVER_ACTIVE_FAILED'
+)<number, undefined, string>();
+export const markServerActiveThunk = (
+  id: number
+): AsyncThunkResult<void> => async (dispatch, getState) => {
+  dispatch(markServerActive.request(id));
+  try {
+    const server = serverByIdSelector(getState(), { id });
+    if (server) {
+      dispatch(getServerDataThunk(server));
+      dispatch(markServerActive.success());
+    } else {
+      dispatch(markServerActive.failure('Server Not Found'));
+    }
+  } catch (err) {
+    dispatch(markServerActive.failure(err.toString()));
+  }
+};

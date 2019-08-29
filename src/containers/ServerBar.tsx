@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import AddServerButton from '../components/AddServerButton';
 import ServerAvatar from '../components/ServerAvatar';
 import { toggleAddServerDialog } from '../redux/app/actions';
-import { markServerActive } from '../redux/servers/actions';
+import { markServerActiveThunk } from '../redux/servers/actions';
 import {
   activeServerSelector,
   serversSelector
@@ -30,7 +30,7 @@ const ServerBar: React.FunctionComponent<Props> = ({}) => {
   const servers = useSelector(serversSelector);
   const activeServer = useSelector(activeServerSelector);
   const dispatch = useDispatch();
-  const selectServer = (id: number) => dispatch(markServerActive(id));
+  const selectServer = (id: number) => dispatch(markServerActiveThunk(id));
   const showAddServerDialog = () => dispatch(toggleAddServerDialog());
 
   return (

@@ -18,7 +18,7 @@ export default (
     case getType(serversActions.addServer.success):
       return [...state, action.payload];
 
-    case getType(serversActions.markServerActive):
+    case getType(serversActions.markServerActive.request):
       return state.map(server => ({
         ...server,
         active: server.id === action.payload
