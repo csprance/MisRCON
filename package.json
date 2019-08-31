@@ -95,6 +95,7 @@
     "node-misrcon": "^2.1.2",
     "prismjs": "^1.17.1",
     "react": "^16.9.0",
+    "react-beautiful-dnd": "^11.0.5",
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.12",
     "react-leaflet": "^2.4.0",

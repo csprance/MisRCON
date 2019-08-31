@@ -1,4 +1,4 @@
-import { createAsyncAction } from 'typesafe-actions';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { toggleAddServerDialog } from '../app/actions';
@@ -112,9 +112,9 @@ export const removeServerThunk = (id: number): AsyncThunkResult<void> => async (
 };
 
 export const getServerData = createAsyncAction(
-  'servers/GET_SERVER_DATA_REQUEST',
-  'servers/GET_SERVER_DATA_SUCCESS',
-  'servers/GET_SERVER_DATA_FAILED'
+  'server/GET_SERVER_DATA_REQUEST',
+  'server/GET_SERVER_DATA_SUCCESS',
+  'server/GET_SERVER_DATA_FAILED'
 )<undefined, undefined, string>();
 export const getServerDataThunk = (
   server: Server
@@ -205,3 +205,9 @@ export const markServerActiveThunk = (
     dispatch(markServerActive.failure(err.toString()));
   }
 };
+
+export const reorderServers = createAction(
+  'server/REORDER',
+  action => (startIndex: number, endIndex: number) =>
+    action({ startIndex, endIndex })
+);

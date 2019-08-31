@@ -2,7 +2,6 @@ import { Server, ServersState } from './types';
 
 export const defaultServer: Server = {
   id: 0,
-  order: 0,
   avatar: 'https://api.adorable.io/avatars/285/' + Date.now(),
   name: '',
   ip: '',
