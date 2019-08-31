@@ -25,6 +25,7 @@ export const sendRCONAsyncThunk = ({
 }: ICommandObject & { id: number }): AsyncThunkResult<
   IRCONRequest
 > => async dispatch => {
+  // We don't do anything with the request action but it's nice to have it known in the logger
   dispatch(sendRCON.request(command));
   // Initialize our request object and rcon api
   const rcon = new NodeMisrcon({ ip, port, password });

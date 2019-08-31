@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.1-rc-4",
+  "version": "3.0.1-rc-6",
   "description": "RCON Tool and Map for Miscreated game.",
   "repository": {
     "url": "https://github.com/csprance/misrcon.git"
@@ -44,10 +44,10 @@
         ]
       },
       "electronPackagerConfig": {
-        "prune": true,
         "asar": true,
         "packageManager": "yarn",
-        "icon": "src/resources/icon"
+        "icon": "src/resources/icon",
+        "ignore": [".idea", "logs", ".github", ".cache"]
       },
       "electronWinstallerConfig": {
         "name": "misrcon"

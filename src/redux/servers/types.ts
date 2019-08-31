@@ -4,6 +4,8 @@ import * as serversActions from './actions';
 
 export interface Server {
   id: number;
+  // Where the Server is positioned at in the ServerBar List
+  order: number;
   // The nice name of the server
   name: string;
   // The ip port of the server 192.168.1.1

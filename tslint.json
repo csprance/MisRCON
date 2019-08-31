@@ -3,6 +3,7 @@
     "interface-name": false,
     "variable-name": false,
     "no-submodule-imports": false,
+    "no-implicit-dependencies": [true, ["electron"]],
     "no-empty-interface": false,
     "interface-over-type-literal": false,
     "object-literal-sort-keys": false,

@@ -8,8 +8,6 @@ import MyGrid from '../../components/MyGrid';
 import { debounce } from '../../lib/debounce';
 import { noop } from '../../lib/utils';
 import { toggleAddTaskDialog } from '../../redux/app/actions';
-import { getServerDataThunk } from '../../redux/servers/actions';
-import { activeServerSelector } from '../../redux/servers/selectors';
 import { allTasksOnActiveServer } from '../../redux/tasks/selectors';
 import { tasksColumnDefs } from '../../redux/tasks/state';
 import { bg3 } from '../../styles/colors';
@@ -28,9 +26,7 @@ const TasksGrid: React.FunctionComponent<Props> = () => {
   // Redux
   const dispatch = useDispatch();
   const tasks = useSelector(allTasksOnActiveServer);
-  const activeServer = useSelector(activeServerSelector);
   const showAddTaskDialog = () => dispatch(toggleAddTaskDialog());
-  const handleRefreshClicked = () => dispatch(getServerDataThunk(activeServer));
 
   // Component
   const [filterValue, setFilterValue] = React.useState('');
@@ -69,8 +65,8 @@ const TasksGrid: React.FunctionComponent<Props> = () => {
   return (
     <Wrapper>
       <FilterGridSection
-        refreshTooltipTitle={'Refresh Tasks'}
-        onClickRefresh={handleRefreshClicked}
+        refreshTooltipTitle={''}
+        onClickRefresh={noop}
         addTooltipTitle={'Add Task'}
         onClickAdd={showAddTaskDialog}
         filterValue={filterValue}

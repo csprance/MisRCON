@@ -1,7 +1,7 @@
 import * as electronIsDev from 'electron-is-dev';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import { persistReducer, persistStore } from 'redux-persist';
+import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 
@@ -10,20 +10,31 @@ import {
   outputTransformers,
   passwordTransform
 } from '../lib/value-transformers';
+import { defaultState } from './app';
 import bootstrap from './bootstrap';
 import { rootReducer } from './index';
 import { RootAction, RootState } from './redux-types';
 
 export const configureStore = () => {
-  // FIXME: This is a hack tof ix redux dev tools not working with redux 4 in electron
-  const reduxModule = require('redux'); // tslint:disable:no-var-requires
-  reduxModule.__DO_NOT_USE__ActionTypes.INIT = '@@redux/INIT';
-  reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/REPLACE';
-  // End Hack
+  // State Migrations
+  const migrations = {
+    '0': (state: RootState) => {
+      return {
+        ...state,
+        app: {
+          ...defaultState,
+          updateNeeded: false,
+          addServerDialogOpen: false
+        }
+      };
+    }
+  };
 
   // redux-persist config
   const persistConfig = {
+    version: 0,
     key: 'root',
+    migrate: createMigrate(migrations as any, { debug: electronIsDev }),
     storage,
     transforms: [functionTransform, outputTransformers, passwordTransform],
     blacklist: ['notifications']

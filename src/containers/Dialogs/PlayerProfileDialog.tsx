@@ -88,23 +88,18 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
   const handleChange = (_: any, newValue: number) => {
     setNavIndex(newValue);
   };
-
   const handleNotesChange = (e: any) => {
     updatePlayerNote(player.steam, e.target.value);
   };
-
   const handleColorButtonClick = (color: string) => {
     updatePlayerColor(player.steam, color);
   };
-
   const handleKickPlayerClicked = () => {
     kickPlayer(player);
   };
-
   const handleBanPlayerClicked = () => {
     banPlayer(player);
   };
-
   const handleMoreVertClicked = (e: React.MouseEvent<HTMLElement>) => {
     setAnchor(e.currentTarget);
     kickPlayer(player);

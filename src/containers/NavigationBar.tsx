@@ -37,10 +37,46 @@ const NavigationBar: React.FunctionComponent<Props> = ({ location }) => {
   const refreshServer = (server: Server) =>
     dispatch(getServerDataThunk(server));
   const activeServer = useSelector(activeServerSelector);
+  const [navItems] = React.useState([
+    {
+      to: '/console',
+      primary: '# Console',
+      order: 0
+    },
+    {
+      to: '/map',
+      primary: '# Map',
+      order: 1
+    },
+    {
+      to: '/players',
+      primary: '# Players',
+      order: 2
+    },
+    {
+      to: '/banlist',
+      primary: '# Banlist',
+      order: 3
+    },
+    {
+      to: '/whitelist',
+      primary: '# Whitelist',
+      order: 4
+    },
+    {
+      to: '/tasks',
+      primary: '# Tasks',
+      order: 5
+    },
+    {
+      to: '/help',
+      primary: '# Help',
+      order: 6
+    }
+  ]);
 
   return (
     <Wrapper>
-      {/*TODO: Drag and Drop Would be awesome here */}
       <List
         style={{
           paddingTop: 0,
@@ -55,69 +91,16 @@ const NavigationBar: React.FunctionComponent<Props> = ({ location }) => {
           deleteServer={() => deleteServer(activeServer.id)}
           activeServer={activeServer}
         />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/console'}
-          primary={'# Console'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/map'}
-          primary={'# Map'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/players'}
-          primary={'# Players'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/banlist'}
-          primary={'# Banlist'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/whitelist'}
-          primary={'# Whitelist'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/tasks'}
-          primary={'# Tasks'}
-        />
-        <ListItemLink
-          currentPath={location.pathname}
-          to={'/help'}
-          primary={'# Help'}
-        />
-        {/*TODO: Enable these when they work */}
-        {/*{activeServer.selfHosted ? (*/}
-        {/*  <ListItemLink*/}
-        {/*    currentPath={location.pathname}*/}
-        {/*    to={'/hosting'}*/}
-        {/*    primary={'# Hosting'}*/}
-        {/*  />*/}
-        {/*) : (*/}
-        {/*  ''*/}
-        {/*)}*/}
-        {/*{activeServer.selfHosted ? (*/}
-        {/*  <ListItemLink*/}
-        {/*    currentPath={location.pathname}*/}
-        {/*    to={'/logs'}*/}
-        {/*    primary={'# Logs'}*/}
-        {/*  />*/}
-        {/*) : (*/}
-        {/*  ''*/}
-        {/*)}*/}
-        {/*{activeServer.selfHosted ? (*/}
-        {/*  <ListItemLink*/}
-        {/*    currentPath={location.pathname}*/}
-        {/*    to={'/chat'}*/}
-        {/*    primary={'# Chat'}*/}
-        {/*  />*/}
-        {/*) : (*/}
-        {/*  ''*/}
-        {/*)}*/}
+        {[...navItems]
+          .sort((a, b) => a.order - b.order)
+          .map(({ to, primary }) => (
+            <ListItemLink
+              key={to}
+              currentPath={location.pathname}
+              to={to}
+              primary={primary}
+            />
+          ))}
       </List>
     </Wrapper>
   );

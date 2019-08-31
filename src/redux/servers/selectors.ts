@@ -5,7 +5,7 @@ import { defaultServer } from './state';
 import { ServersState } from './types';
 
 export const serversSelector = (state: RootState, _props?: any): ServersState =>
-  state.servers;
+  [...state.servers].sort((a, b) => a.order - b.order);
 
 export const serverIDsSelector = createSelector(
   serversSelector,

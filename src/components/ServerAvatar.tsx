@@ -1,8 +1,19 @@
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { noop } from '../lib/utils';
+
+import { toggleAddServerDialog } from '../redux/app/actions';
+import { RootState } from '../redux/redux-types';
+import {
+  getServerDataThunk,
+  removeServerThunk
+} from '../redux/servers/actions';
+import { serverByIdSelector } from '../redux/servers/selectors';
 import { bg5 } from '../styles/colors';
+import ServerPropertiesMenu from './Menus/ServerPropertiesMenu';
 
 const Wrapper = styled.div`
   width: 50px;
@@ -46,6 +57,15 @@ const ServerAvatar: React.FunctionComponent<Props> = ({
   selectServer,
   active
 }) => {
+  const dispatch = useDispatch();
+  const server = useSelector((state: RootState) =>
+    serverByIdSelector(state, { id })
+  );
+  const toggleEditServerDialog = () => dispatch(toggleAddServerDialog());
+  const refreshServerData = () =>
+    server ? dispatch(getServerDataThunk(server)) : noop();
+  const deleteServer = () => dispatch(removeServerThunk(id));
+
   const [borderRadius, setBorderRadius] = React.useState('50%');
 
   const handleServerClick = () => {
@@ -60,28 +80,49 @@ const ServerAvatar: React.FunctionComponent<Props> = ({
     setBorderRadius('15px');
   };
 
+  const [anchorEl, setAnchor] = React.useState(null);
+
+  const handleRightClick = (event: any) => {
+    event.preventDefault();
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
   return (
-    <Wrapper
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleServerClick}
-    >
-      <ActiveIndicatorWrapper>
-        <ActiveIndicator active={active} />
-      </ActiveIndicatorWrapper>
-      <Tooltip placement={'right'} title={name}>
-        <Avatar
-          style={{
-            width: 50,
-            height: 50,
-            marginTop: 8,
-            borderRadius: active ? '15px' : borderRadius,
-            transitionDuration: '0.3s'
-          }}
-          src={avatarURL}
-        />
-      </Tooltip>
-    </Wrapper>
+    <>
+      <ServerPropertiesMenu
+        toggleEditServerDialog={toggleEditServerDialog}
+        refreshServerData={refreshServerData}
+        anchorEl={anchorEl}
+        deleteServer={deleteServer}
+        handleClose={handleClose}
+      />
+      <Wrapper
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleServerClick}
+      >
+        <ActiveIndicatorWrapper>
+          <ActiveIndicator active={active} />
+        </ActiveIndicatorWrapper>
+        <Tooltip placement={'right'} title={name}>
+          <Avatar
+            onContextMenu={handleRightClick}
+            style={{
+              width: 50,
+              height: 50,
+              marginTop: 8,
+              borderRadius: active ? '15px' : borderRadius,
+              transitionDuration: '0.3s'
+            }}
+            src={avatarURL}
+          />
+        </Tooltip>
+      </Wrapper>
+    </>
   );
 };
 

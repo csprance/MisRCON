@@ -14,59 +14,54 @@ const Wrapper = styled.div`
   -webkit-app-region: no-drag;
 `;
 
-type Props = {
+interface Props extends RouteComponentProps {
   toggleEditServerDialog: () => void;
   refreshServerData: () => void;
   activeServer: Server;
   deleteServer: () => void;
-} & RouteComponentProps;
-type State = {
-  readonly anchorEl: null | any;
-};
-class ServerPropertiesListItem extends React.Component<Props, State> {
-  public static defaultProps = {};
-  public state: State = {
-    anchorEl: null
-  };
-
-  handleClick = (event: any) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  public render() {
-    const { activeServer, deleteServer, refreshServerData, toggleEditServerDialog } = this.props;
-    const { anchorEl } = this.state;
-    return (
-      <Wrapper>
-        <ListItem
-          component="a"
-          onClick={this.handleClick}
-          style={{
-            height: 48,
-            borderBottom: 'solid 1px ' + bg0,
-            borderRadius: '5px 0 0 0'
-          }}
-          button
-        >
-          <ListItemText primary={activeServer.name} />
-          <ListItemIcon>
-            <KeyboardArrowDownIcon color={'secondary'} />
-          </ListItemIcon>
-        </ListItem>
-        <ServerPropertiesMenu
-          toggleEditServerDialog={toggleEditServerDialog}
-          refreshServerData={refreshServerData}
-          anchorEl={anchorEl}
-          deleteServer={deleteServer}
-          handleClose={this.handleClose}
-        />
-      </Wrapper>
-    );
-  }
 }
+const ServerPropertiesListItem: React.FunctionComponent<Props> = ({
+  activeServer,
+  deleteServer,
+  refreshServerData,
+  toggleEditServerDialog
+}) => {
+  const [anchorEl, setAnchor] = React.useState(null);
+
+  const handleClick = (event: any) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
+  return (
+    <Wrapper>
+      <ListItem
+        component="a"
+        onClick={handleClick}
+        style={{
+          height: 48,
+          borderBottom: 'solid 1px ' + bg0,
+          borderRadius: '5px 0 0 0'
+        }}
+        button
+      >
+        <ListItemText primary={activeServer.name} />
+        <ListItemIcon>
+          <KeyboardArrowDownIcon color={'secondary'} />
+        </ListItemIcon>
+      </ListItem>
+      <ServerPropertiesMenu
+        toggleEditServerDialog={toggleEditServerDialog}
+        refreshServerData={refreshServerData}
+        anchorEl={anchorEl}
+        deleteServer={deleteServer}
+        handleClose={handleClose}
+      />
+    </Wrapper>
+  );
+};
 
 export default withRouter(ServerPropertiesListItem);

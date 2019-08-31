@@ -6,9 +6,10 @@ import { openExternally } from '../lib/utils';
 const StyledLink = styled.a`
   cursor: pointer;
 `;
-type Props = {
+
+interface Props {
   href: string;
-};
+}
 const ExternalLink: React.FunctionComponent<Props> = ({ href, children }) => (
   <StyledLink onClick={() => openExternally(href)}>{children}</StyledLink>
 );

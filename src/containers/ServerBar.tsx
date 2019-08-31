@@ -35,16 +35,18 @@ const ServerBar: React.FunctionComponent<Props> = ({}) => {
 
   return (
     <Wrapper>
-      {servers.map(server => (
-        <ServerAvatar
-          active={activeServer.id === server.id}
-          key={server.id}
-          selectServer={selectServer}
-          id={server.id}
-          name={server.name}
-          avatarURL={server.avatar}
-        />
-      ))}
+      {[...servers]
+        .sort((a, b) => a.order - b.order)
+        .map(server => (
+          <ServerAvatar
+            active={activeServer.id === server.id}
+            key={server.id}
+            selectServer={selectServer}
+            id={server.id}
+            name={server.name}
+            avatarURL={server.avatar}
+          />
+        ))}
       <AddServerButton showAddServerDialog={showAddServerDialog} />
     </Wrapper>
   );
