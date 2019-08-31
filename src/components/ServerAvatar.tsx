@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { noop } from '../lib/utils';
 
-import { toggleAddServerDialog } from '../redux/app/actions';
+// import { toggleUpdateServerDialog } from '../redux/app/actions';
 import { RootState } from '../redux/redux-types';
 import {
   getServerDataThunk,
@@ -61,7 +61,7 @@ const ServerAvatar: React.FunctionComponent<Props> = ({
   const server = useSelector((state: RootState) =>
     serverByIdSelector(state, { id })
   );
-  const toggleEditServerDialog = () => dispatch(toggleAddServerDialog());
+  // const toggleEditServerDialog = () => dispatch(toggleUpdateServerDialog());
   const refreshServerData = () =>
     server ? dispatch(getServerDataThunk(server)) : noop();
   const deleteServer = () => dispatch(removeServerThunk(id));
@@ -94,7 +94,6 @@ const ServerAvatar: React.FunctionComponent<Props> = ({
   return (
     <>
       <ServerPropertiesMenu
-        toggleEditServerDialog={toggleEditServerDialog}
         refreshServerData={refreshServerData}
         anchorEl={anchorEl}
         deleteServer={deleteServer}

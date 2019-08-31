@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import TogglePlayerListButton from '../components/TogglePlayerListButton';
 import ToggleSettingsButton from '../components/ToggleSettingsButton';
 import UpdateAppButton from '../components/UpdateAppButton';
+import { openExternally } from '../lib/utils';
 import { togglePlayerList, toggleSettingsDialog } from '../redux/app/actions';
 import { updateNeededSelector } from '../redux/app/selectors';
 import { latestRCONStatusByServerIpPortSelector } from '../redux/rcon/selectors';
@@ -78,7 +79,7 @@ const HeaderBar: React.FunctionComponent<Props> = ({}) => {
   const handleTogglePlayerList = () => dispatch(togglePlayerList());
   const handleToggleSettingsDialog = () => dispatch(toggleSettingsDialog());
   const handleUpdateButtonClicked = () => {
-    console.log('Updating Application');
+    openExternally('https://github.com/csprance/misrcon/releases/latest');
   };
 
   return (

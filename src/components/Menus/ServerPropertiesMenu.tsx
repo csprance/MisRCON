@@ -7,13 +7,13 @@ interface Props {
   anchorEl: any;
   handleClose: () => void;
   deleteServer: () => void;
-  toggleEditServerDialog: () => void;
+  toggleEditServerDialog?: () => void;
   refreshServerData: () => void;
 }
 const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   anchorEl,
   handleClose,
-  toggleEditServerDialog,
+  toggleEditServerDialog = null,
   refreshServerData,
   deleteServer
 }) => {
@@ -47,7 +47,9 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
   };
 
   const handleEditServerClicked = () => {
-    toggleEditServerDialog();
+    if (toggleEditServerDialog) {
+      toggleEditServerDialog();
+    }
     handleClose();
   };
 
@@ -61,7 +63,11 @@ const ServerPropertiesMenu: React.FunctionComponent<Props> = ({
         style={{ marginLeft: 50, marginTop: 50, zIndex: 1600 }}
         onClose={handleClose}
       >
-        <MenuItem dense onClick={handleEditServerClicked}>
+        <MenuItem
+          disabled={toggleEditServerDialog === null}
+          dense
+          onClick={handleEditServerClicked}
+        >
           Edit Server
         </MenuItem>
         <MenuItem dense onClick={handleDeleteClick}>

@@ -15,7 +15,7 @@ describe('Test Server Selectors', () => {
       )
     ).toEqual({
       ip: '',
-      port: 0,
+      port: 64094,
       password: ''
     });
   });

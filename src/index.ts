@@ -15,7 +15,6 @@ if (require('electron-squirrel-startup')) {
   // Handle creating/removing shortcuts on Windows when installing/uninstalling.
   app.quit();
 }
-require('update-electron-app')(); // tslint:disable-line:no-var-requires
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
