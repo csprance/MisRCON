@@ -46,13 +46,7 @@
       "electronPackagerConfig": {
         "asar": true,
         "packageManager": "yarn",
-        "icon": "src/resources/icon",
-        "ignore": [
-          ".idea",
-          "logs",
-          ".github",
-          ".cache"
-        ]
+        "icon": "src/resources/icon"
       },
       "electronWinstallerConfig": {
         "name": "misrcon"
