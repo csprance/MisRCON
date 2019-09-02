@@ -9,7 +9,11 @@ import { Player, PlayersState } from './types';
 
 export const playersSelector = (state: RootState, _props?: any): PlayersState =>
   state.players;
+
 export const idSelect = (_: RootState, id: number) => id;
+
+export const partialSelector = (_: RootState, partial: Partial<Player>) =>
+  partial;
 
 export const activePlayersSelector = createSelector(
   playersSelector,
@@ -76,12 +80,12 @@ export const playerByIDSelector = createSelector(
 /*
 Finds a player by a partial
  */
-export const makePlayerByPartialSelector = (partial: Partial<Player>) =>
-  createSelector(
-    playersSelector,
-    players => {
-      const [key] = Object.keys(partial);
-      const value = partial[key];
-      return players.find(player => player[key] === value);
-    }
-  );
+export const playerByPartialSelector = createSelector(
+  playersSelector,
+  partialSelector,
+  (players, partial) => {
+    const [key] = Object.keys(partial);
+    const value = partial[key];
+    return players.find(player => player[key] === value);
+  }
+);

@@ -7,6 +7,7 @@ import { HostingActions } from './hosting/types';
 import { rootReducer } from './index';
 import { MisMapActions } from './mismap';
 import { NotificationsActions } from './notifications';
+import { PingActions } from './ping/types';
 import { PlayersActions } from './players';
 import { RCONActions } from './rcon';
 import { ServersActions } from './servers';
@@ -24,7 +25,8 @@ export type RootAction =
   | ServersActions
   | AppActions
   | TerminalActions
-  | TasksActions;
+  | TasksActions
+  | PingActions;
 
 export type AsyncThunkResult<R> = ThunkAction<
   Promise<R>,

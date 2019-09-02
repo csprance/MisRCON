@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import Editor from 'react-simple-code-editor';
 import styled from 'styled-components';
 
-import { Omit } from '../../@types/global';
 import { toggleAddTaskDialog } from '../../redux/app/actions';
 import { addTaskDialogShowingSelector } from '../../redux/app/selectors';
 import { Dispatch, RootState } from '../../redux/redux-types';

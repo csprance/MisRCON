@@ -6,8 +6,11 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
 import VertIcon from '@material-ui/icons/MoreVert';
+import 'chart.js';
+import * as moment from 'moment';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { LineChart } from 'react-chartkick';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import ColorPicker from '../../components/ColorPicker';
@@ -17,15 +20,19 @@ import SubHeader from '../../components/SubHeader';
 import { openExternally } from '../../lib/utils';
 import { hidePlayerProfileDialog } from '../../redux/app/actions';
 import {
+  playerProfileDialogSelector,
+  selectedPlayerIDSelector
+} from '../../redux/app/selectors';
+import { pingByPlayerSelector } from '../../redux/ping/selectors';
+import {
   banPlayerThunk,
   kickPlayerThunk,
   setPlayerColor,
   setPlayerNote
 } from '../../redux/players/actions';
-import { makePlayerByPartialSelector } from '../../redux/players/selectors';
+import { playerByPartialSelector } from '../../redux/players/selectors';
 import { defaultPlayer } from '../../redux/players/state';
-import { Player } from '../../redux/players/types';
-import { Dispatch, RootState } from '../../redux/redux-types';
+import { RootState } from '../../redux/redux-types';
 import { bg1, bg3, text } from '../../styles/colors';
 
 const Wrapper = styled.div`
@@ -63,46 +70,48 @@ const Spacer = styled.div`
   flex-grow: 1;
   height: 10px;
 `;
+
 interface Props {}
-type ReduxProps = {
-  player: Player;
-  open: boolean;
-  closeDialog: () => void;
-  updatePlayerColor: (steam: string, color: string) => void;
-  updatePlayerNote: (steam: string, note: string) => void;
-  kickPlayer: (player: Player) => void;
-  banPlayer: (player: Player) => void;
-};
-const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
-  player,
-  open,
-  updatePlayerNote,
-  updatePlayerColor,
-  closeDialog,
-  kickPlayer,
-  banPlayer
-}) => {
-  const [navIndex, setNavIndex] = React.useState<number>(1);
+const PlayerProfileDialog: React.FunctionComponent<Props> = ({}) => {
+  // * Redux State
+  const dispatch = useDispatch();
+  const open = useSelector(playerProfileDialogSelector);
+  const selectedPlayerID = useSelector(selectedPlayerIDSelector);
+  const possiblePlayer = useSelector((state: RootState) =>
+    playerByPartialSelector(state, { steam: selectedPlayerID })
+  );
+  const player = possiblePlayer ? possiblePlayer : defaultPlayer;
+  const ping = useSelector((state: RootState) =>
+    pingByPlayerSelector(state, { steam: player.steam })
+  );
+  const chartPing = ping.reduce(
+    (p, ret) => ({
+      ...p,
+      [moment(ret.date).format('YYYY-MM-DDThh:mm:ss')]: ret.ping
+    }),
+    {}
+  );
+  const closeDialog = () => dispatch(hidePlayerProfileDialog());
+  const handleKickPlayerClicked = () => dispatch(kickPlayerThunk(player));
+  const handleBanPlayerClicked = () => dispatch(banPlayerThunk(player));
+  const handleColorButtonClick = (color: string) =>
+    dispatch(setPlayerColor(player.steam, color));
+  const updatePlayerNote = (steam: string, notes: string) =>
+    dispatch(setPlayerNote(steam, notes));
+
+  // * Component State
+  const [navIndex, setNavIndex] = React.useState<number>(2);
   const [anchorEl, setAnchor] = React.useState<HTMLElement | null>(null);
 
+  // * Functions
   const handleChange = (_: any, newValue: number) => {
     setNavIndex(newValue);
   };
   const handleNotesChange = (e: any) => {
     updatePlayerNote(player.steam, e.target.value);
   };
-  const handleColorButtonClick = (color: string) => {
-    updatePlayerColor(player.steam, color);
-  };
-  const handleKickPlayerClicked = () => {
-    kickPlayer(player);
-  };
-  const handleBanPlayerClicked = () => {
-    banPlayer(player);
-  };
   const handleMoreVertClicked = (e: React.MouseEvent<HTMLElement>) => {
     setAnchor(e.currentTarget);
-    kickPlayer(player);
   };
 
   return (
@@ -146,9 +155,9 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
               return;
             }}
             anchorEl={anchorEl}
-            banPlayer={() => banPlayer(player)}
+            banPlayer={handleBanPlayerClicked}
             closePlayerMenu={() => setAnchor(null)}
-            kickPlayer={() => kickPlayer(player)}
+            kickPlayer={handleKickPlayerClicked}
           />
         </InfoSection>
         <TabWrapper>
@@ -156,7 +165,7 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
             <Tabs value={navIndex} onChange={handleChange}>
               <Tab label="Notes" />
               <Tab label="Color" />
-              <Tab label="Mutual Servers" />
+              <Tab label="Ping History" />
             </Tabs>
           </AppBar>
           {navIndex === 0 && (
@@ -173,8 +182,8 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
           )}
           {navIndex === 2 && (
             <NoteSection>
-              <SubHeader>Mutual Servers:</SubHeader>
-              Server 1
+              <SubHeader>Ping History:</SubHeader>
+              <LineChart data={chartPing} height={'175px'} />
             </NoteSection>
           )}
         </TabWrapper>
@@ -183,27 +192,4 @@ const PlayerProfileDialog: React.FunctionComponent<Props & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  const getPlayerBySteam = makePlayerByPartialSelector({
-    steam: state.app.selectedPlayerID
-  });
-  const open = state.app.playerProfileDialogOpen;
-  const player = getPlayerBySteam(state);
-  return {
-    open,
-    player: player ? player : defaultPlayer
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  closeDialog: () => dispatch(hidePlayerProfileDialog()),
-  kickPlayer: (player: Player) => dispatch(kickPlayerThunk(player)),
-  banPlayer: (player: Player) => dispatch(banPlayerThunk(player)),
-  updatePlayerColor: (steam: string, color: string) =>
-    dispatch(setPlayerColor(steam, color)),
-  updatePlayerNote: (steam: string, notes: string) =>
-    dispatch(setPlayerNote(steam, notes))
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PlayerProfileDialog);
+export default PlayerProfileDialog;

@@ -4,6 +4,7 @@ import app from './app';
 import hosting from './hosting';
 import misMap from './mismap';
 import notifications from './notifications';
+import ping from './ping';
 import players from './players';
 import rcon from './rcon';
 import selfHosted from './selfHosted';
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   misMap,
   notifications,
   players,
+  ping,
   rcon,
   servers,
   selfHosted,

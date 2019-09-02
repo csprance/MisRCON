@@ -1,5 +1,6 @@
 import { IPlayer } from 'node-misrcon';
 import { createAction, createAsyncAction } from 'typesafe-actions';
+import { addPingMetric } from '../ping/actions';
 
 import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
@@ -25,6 +26,15 @@ export const syncPlayerThunk = (
     const storePlayers: Player[] = playersSelector(getState());
     const activeServerID = activeServerSelector(getState()).id;
     const storedPlayer = storePlayers.find(pl => pl.steam === player.steam);
+    // Add ping Data about the player
+    dispatch(
+      addPingMetric({
+        serverID: activeServerID,
+        playerID: player.steam,
+        ping: player.ping,
+        date: Date.now()
+      })
+    );
     // If the player is stored update it's data
     if (storedPlayer) {
       dispatch(

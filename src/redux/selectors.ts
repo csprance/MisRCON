@@ -13,6 +13,11 @@ export const rehydratedSelector = (_: RootState, props: any): boolean => {
 export const idPropsSelector = (_: RootState, props: { id: number }): number =>
   props.id;
 
+export const steamIDPropsSelector = (
+  _: RootState,
+  props: { steam: string }
+): string => props.steam;
+
 export const ipPortPropsSelector = (
   _: RootState,
   props: { ip: string; port: number }
