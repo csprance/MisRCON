@@ -53,7 +53,7 @@ const ServerBar: React.FunctionComponent<Props> = ({}) => {
   return (
     <Wrapper>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="server-bar-dropable">
+        <Droppable droppableId="server-bar-droppable">
           {provided => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {servers.map((server, index) => (

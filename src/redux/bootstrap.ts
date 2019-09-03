@@ -9,6 +9,8 @@ import {
 } from './app/actions';
 import { firstRunSelector } from './app/selectors';
 import { Dispatch, GetStateFunc } from './redux-types';
+import { getServerDataThunk } from './servers/actions';
+import { activeServerSelector } from './servers/selectors';
 import { hydrateTaskThunk } from './tasks/actions';
 import { scanForTerminalsThunk } from './terminal/actions';
 
@@ -35,6 +37,8 @@ export default (store: Store) => () => {
   dispatch(scanForTerminalsThunk());
   // Check for updates
   dispatch(checkForUpdatesThunk());
+  // Get the active servers data on startup
+  dispatch(getServerDataThunk(activeServerSelector(getState())));
 
   // Register all the apps hotkeys
   registerHotkeys(dispatch);
