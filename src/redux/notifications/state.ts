@@ -9,9 +9,9 @@ export const defaultNotification: Notification = {
 };
 
 export const defaultNotificationsState: NotificationsState = [
-  defaultNotification,
-  {...defaultNotification, id: 1, content: 'info'},
-  {...defaultNotification, id: 2, content: 'success'}
+  // defaultNotification,
+  // {...defaultNotification, id: 1, content: 'info'},
+  // {...defaultNotification, id: 2, content: 'success'}
 ];
 
 export default defaultNotificationsState;
