@@ -10,7 +10,7 @@ export const App: React.FunctionComponent<Props> = () => {
     <MemoryRouter>
       <Layout>
         <Switch>
-          <Route exact path="/" render={() => <Redirect to="/console" />} />
+          <Route exact path="/" render={() => <Redirect to="/help" />} />
           {routes.map((route, idx) => (
             <Route key={idx} path={route.path} component={route.component} />
           ))}

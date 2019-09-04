@@ -76,6 +76,7 @@
     "cron": "^1.7.1",
     "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^2.2.4",
+    "electron-find": "^1.0.6",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "formik": "^2.0.1-rc.13",

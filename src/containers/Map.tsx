@@ -52,7 +52,7 @@ interface State {
 }
 const Map: React.FunctionComponent<Props> = ({}) => {
   // /////////////
-  // Refs
+  // * Refs
   // /////////////
   const mapRef = React.useRef<any>(null);
   const anchorDiv = React.useRef<any>(null);
@@ -65,7 +65,7 @@ const Map: React.FunctionComponent<Props> = ({}) => {
   const activeServer = useSelector(activeServerSelector);
 
   // /////////////
-  // Component State
+  // * Component State
   // /////////////
   const [state, setState] = React.useState<State>({
     map: {
@@ -117,7 +117,7 @@ const Map: React.FunctionComponent<Props> = ({}) => {
   };
 
   // /////////////
-  // Redux Actions
+  // * Redux Actions
   // /////////////
   const dispatch = useDispatch();
   const deleteMarker = (id: number) =>
@@ -143,7 +143,7 @@ const Map: React.FunctionComponent<Props> = ({}) => {
   };
 
   // /////////////
-  // Effects
+  // * Effects
   // /////////////
   // componentDidMount
   React.useEffect(() => {

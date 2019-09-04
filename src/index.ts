@@ -27,7 +27,7 @@ if (isDev) {
 const createWindow = async () => {
   logger.info('MisRCON Starting');
 
-  // ! This is here to deal with Server Avatars not showing up in production
+  // ! This is here to deal with The Default Server Avatars not showing up in production
   const { addBypassChecker } = require('electron-compile');
   addBypassChecker(
     (filePath: string) =>
@@ -113,11 +113,14 @@ app.on('activate', () => {
   }
 });
 
-process.on('uncaughtException', err => {
-  logger.info('uncaughtException', err);
-  app.quit();
-});
+if (isDev){
+  process.on('uncaughtException', err => {
+    logger.info('uncaughtException', err);
+    // app.quit();
+  });
 
-process.on('unhandledRejection', err => {
-  logger.info('unhandledRejection', err);
-});
+  process.on('unhandledRejection', err => {
+    logger.info('unhandledRejection', err);
+  });
+}
+

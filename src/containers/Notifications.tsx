@@ -2,23 +2,19 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { closeNotification } from '../redux/notifications/actions';
-import { notificationsSelector } from '../redux/notifications/selectors';
-import { NotificationsState } from '../redux/notifications/types';
-import { Dispatch, RootState } from '../redux/redux-types';
+import { showingNotificationsSelectors } from '../redux/notifications/selectors';
 import { bg5 } from '../styles/colors';
 
 interface Props {}
-interface ReduxProps {
-  notifications: NotificationsState;
-  handleCloseNotification: (id: number) => void;
-}
-const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
-  notifications,
-  handleCloseNotification
-}) => {
+const Notifications: React.FunctionComponent<Props> = () => {
+  const dispatch = useDispatch();
+  const notifications = useSelector(showingNotificationsSelectors);
+  const handleCloseNotification = (id: number) =>
+    dispatch(closeNotification(id));
+
   const colors = {
     error: '#ff5544',
     info: bg5,
@@ -67,10 +63,4 @@ const Notifications: React.FunctionComponent<Props & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  notifications: notificationsSelector(state)
-});
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  handleCloseNotification: (id: number) => dispatch(closeNotification(id))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default Notifications;
