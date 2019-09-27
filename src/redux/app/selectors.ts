@@ -71,3 +71,8 @@ export const firstRunSelector = createSelector(
   appStateSelector,
   app => app.firstRun
 );
+
+export const shouldFetchOnClick = createSelector(
+  appStateSelector,
+  app => app.firstRun
+);

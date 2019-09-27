@@ -1,5 +1,5 @@
 // Common Redux Selectors shared between other
-import { RootState } from './redux-types';
+import { Dispatch, RootState } from './redux-types';
 
 export const propsSelector = (_: RootState, props: any): any => props;
 
@@ -22,3 +22,5 @@ export const ipPortPropsSelector = (
   _: RootState,
   props: { ip: string; port: number }
 ): { ip: string; port: number } => props;
+
+export const getGetStateFunc = (d: Dispatch) => d((_, getState) => getState);

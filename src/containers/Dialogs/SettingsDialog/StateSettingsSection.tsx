@@ -32,9 +32,26 @@ const StateSettingsSection: React.FunctionComponent<Props> = ({}) => {
         name={'Clear Players'}
         description={
           <p>
-            Delete all internal Players application state. This is
-            helpful for when player are not showing up correctly or missing
-            avatars.
+            Delete all internal Players application state. This is helpful for
+            when player are not showing up correctly or missing avatars.
+          </p>
+        }
+      >
+        <Button
+          onClick={deletePlayers}
+          color={'secondary'}
+          variant={'contained'}
+        >
+          Clear Players
+        </Button>
+      </SettingsDialogSettingBox>
+      <SettingsDialogSettingBox
+        name={'Fetch on Server Select'}
+        description={
+          <p>
+            Should the application fetch the data from the server upon selecting
+            a Server Avatar or should we only fetch data when the user asks for
+            it.
           </p>
         }
       >

@@ -2,6 +2,7 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { runSetupScript } from '../../lib/run-spafbi-server-setup/run-spafbi-server-setup';
 import { toggleAddServerDialog } from '../app/actions';
+import { addHosting, readHostingFileThunk } from '../hosting/actions';
 import { addError, addSuccess } from '../notifications/actions';
 import { sendRCONAsyncThunk } from '../rcon/actions';
 import { AsyncThunkResult } from '../redux-types';
@@ -9,7 +10,9 @@ import { removeTaskThunk } from '../tasks/actions';
 import { tasksByServerIdSelector } from '../tasks/selectors';
 import { scanForTerminalsThunk } from '../terminal/actions';
 import {
+  activeServerCredentialsSelector,
   activeServerIDSelector,
+  activeServerIsSelfHostedSelector,
   serverByIdSelector,
   serverIDsSelector
 } from './selectors';
@@ -73,6 +76,7 @@ export const addServerThunk = (
     await dispatch(addServer.success(server));
     await dispatch(scanForTerminalsThunk());
     await dispatch(markServerActiveThunk(server.id));
+    await dispatch(addHosting(server.id, server.rootPath));
     await dispatch(getServerDataThunk(server));
   } catch (e) {
     dispatch(addServer.failure(e.toString()));
@@ -122,6 +126,10 @@ export const getServerDataThunk = (
   dispatch(getServerData.request());
   try {
     const id = activeServerIDSelector(getState());
+    const isSelfHosted = activeServerIsSelfHostedSelector(getState());
+    if (isSelfHosted) {
+      dispatch(readHostingFileThunk());
+    }
     // Get status
     const status = await dispatch(
       sendRCONAsyncThunk({
@@ -203,6 +211,58 @@ export const markServerActiveThunk = (
     }
   } catch (err) {
     dispatch(markServerActive.failure(err.toString()));
+  }
+};
+
+/*
+Get the whitelist status for the active server
+ */
+export const getWhitelistStatus = createAsyncAction(
+  'server/GET_WHITELIST_STATUS_REQUEST',
+  'server/GET_WHITELIST_STATUS_SUCCESS',
+  'server/GET_WHITELIST_STATUS_FAILED'
+)<undefined, number, string>();
+export const getWhitelistStatusThunk = (): AsyncThunkResult<any> => async (
+  dispatch,
+  getState
+) => {
+  dispatch(getWhitelistStatus.request());
+  try {
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: 'mis_whitelist_status',
+      id: activeServerIDSelector(getState())
+    };
+    await dispatch(sendRCONAsyncThunk(request));
+    dispatch(getWhitelistStatus.success(activeServerIDSelector(getState())));
+  } catch (err) {
+    dispatch(getWhitelistStatus.failure(err.toString()));
+  }
+};
+
+/*
+Get the ban list status for the active server
+ */
+export const getBanlistStatus = createAsyncAction(
+  'server/GET_BANLIST_STATUS_REQUEST',
+  'server/GET_BANLIST_STATUS_SUCCESS',
+  'server/GET_BANLIST_STATUS_FAILED'
+)<undefined, number, string>();
+export const getBanlistStatusThunk = (): AsyncThunkResult<any> => async (
+  dispatch,
+  getState
+) => {
+  dispatch(getBanlistStatus.request());
+  try {
+    const request = {
+      ...activeServerCredentialsSelector(getState()),
+      command: 'mis_ban_status',
+      id: activeServerIDSelector(getState())
+    };
+    await dispatch(sendRCONAsyncThunk(request));
+    dispatch(getBanlistStatus.success(activeServerIDSelector(getState())));
+  } catch (err) {
+    dispatch(getBanlistStatus.failure(err.toString()));
   }
 };
 

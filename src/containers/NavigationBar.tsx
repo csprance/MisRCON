@@ -72,7 +72,12 @@ const NavigationBar: React.FunctionComponent<Props> = ({ location }) => {
       to: '/help',
       primary: '# Help',
       order: 6
-    }
+    },
+    // {
+    //   to: '/hosting',
+    //   primary: '# Hosting',
+    //   order: 7
+    // }
   ]);
 
   return (

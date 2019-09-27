@@ -8,6 +8,8 @@ import Map from './containers/Map';
 import ServerHelp from './containers/ServerHelp';
 import Terminal from './containers/Terminal';
 
+export const homepage = '/console';
+
 export default [
   { path: '/console', component: Terminal },
   { path: '/logs', component: Placeholder },

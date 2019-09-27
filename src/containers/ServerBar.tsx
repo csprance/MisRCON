@@ -41,12 +41,10 @@ const ServerBar: React.FunctionComponent<Props> = ({}) => {
   const dispatch = useDispatch();
   const selectServer = (id: number) => dispatch(markServerActiveThunk(id));
   const showAddServerDialog = () => dispatch(toggleAddServerDialog());
-
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }
-
     dispatch(reorderServers(result.source.index, result.destination.index));
   };
 

@@ -113,7 +113,7 @@ app.on('activate', () => {
   }
 });
 
-if (isDev){
+if (isDev) {
   process.on('uncaughtException', err => {
     logger.info('uncaughtException', err);
     // app.quit();
@@ -123,4 +123,3 @@ if (isDev){
     logger.info('unhandledRejection', err);
   });
 }
-

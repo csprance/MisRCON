@@ -96,26 +96,6 @@ const SettingsDialog: React.FunctionComponent<Props & ReduxProps> = ({
               overflowY: 'auto'
             }}
           >
-            {/*<ListSubheader disableSticky>*/}
-            {/*  <ListItemText*/}
-            {/*    primary={<p style={{ fontWeight: 700 }}>User Settings</p>}*/}
-            {/*  />*/}
-            {/*</ListSubheader>*/}
-            {/*<ListItem*/}
-            {/*  selected={selected === 'user/credentials'}*/}
-            {/*  onClick={() => setSelected('user/credentials')}*/}
-            {/*  button*/}
-            {/*>*/}
-            {/*  <ListItemText primary={'Credentials'} />*/}
-            {/*</ListItem>*/}
-            {/*<Divider*/}
-            {/*  style={{*/}
-            {/*    width: '80%',*/}
-            {/*    marginLeft: 15,*/}
-            {/*    marginTop: 5,*/}
-            {/*    marginBottom: 5*/}
-            {/*  }}*/}
-            {/*/>*/}
             <ListSubheader disableSticky>
               <ListItemText
                 primary={<p style={{ fontWeight: 700 }}>App Settings</p>}

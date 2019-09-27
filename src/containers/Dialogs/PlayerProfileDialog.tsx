@@ -25,8 +25,8 @@ import {
 } from '../../redux/app/selectors';
 import { pingByPlayerSelector } from '../../redux/ping/selectors';
 import {
-  banPlayerThunk,
-  kickPlayerThunk,
+  banSteamIDThunk,
+  kickSteamIDThunk,
   setPlayerColor,
   setPlayerNote
 } from '../../redux/players/actions';
@@ -92,8 +92,9 @@ const PlayerProfileDialog: React.FunctionComponent<Props> = ({}) => {
     {}
   );
   const closeDialog = () => dispatch(hidePlayerProfileDialog());
-  const handleKickPlayerClicked = () => dispatch(kickPlayerThunk(player));
-  const handleBanPlayerClicked = () => dispatch(banPlayerThunk(player));
+  const handleKickPlayerClicked = () =>
+    dispatch(kickSteamIDThunk(player.steam));
+  const handleBanPlayerClicked = () => dispatch(banSteamIDThunk(player.steam));
   const handleColorButtonClick = (color: string) =>
     dispatch(setPlayerColor(player.steam, color));
   const updatePlayerNote = (steam: string, notes: string) =>

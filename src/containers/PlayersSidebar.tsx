@@ -3,6 +3,7 @@
   */
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
+import { SteamID } from 'node-misrcon';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -13,12 +14,11 @@ import {
   togglePlayerProfileDialog
 } from '../redux/app/actions';
 import { playerListShowingSelector } from '../redux/app/selectors';
-import { banPlayerThunk, kickPlayerThunk } from '../redux/players/actions';
+import { banSteamIDThunk, kickSteamIDThunk } from '../redux/players/actions';
 import {
   activePlayersOnActiveServerSelector,
   inactivePlayersOnActiveServerSelector
 } from '../redux/players/selectors';
-import { Player } from '../redux/players/types';
 import { bg1 } from '../styles/colors';
 
 const getWidth = ({ showing }: { showing: boolean }) =>
@@ -43,8 +43,8 @@ const PlayersSidebar: React.FunctionComponent<Props> = ({}) => {
     dispatch(setPlayerActiveInPlayerProfile(steam));
     dispatch(togglePlayerProfileDialog());
   };
-  const kickPlayer = (player: Player) => dispatch(kickPlayerThunk(player));
-  const banPlayer = (player: Player) => dispatch(banPlayerThunk(player));
+  const kickPlayer = (steam: SteamID) => dispatch(kickSteamIDThunk(steam));
+  const banPlayer = (steam: SteamID) => dispatch(banSteamIDThunk(steam));
   const activePlayers = useSelector(activePlayersOnActiveServerSelector);
   const inactivePlayers = useSelector(inactivePlayersOnActiveServerSelector);
   const showing = useSelector(playerListShowingSelector);
@@ -67,8 +67,8 @@ const PlayersSidebar: React.FunctionComponent<Props> = ({}) => {
         />
         {activePlayers.map(player => (
           <PlayerListItem
-            kickPlayer={() => kickPlayer(player)}
-            banPlayer={() => banPlayer(player)}
+            kickPlayer={() => kickPlayer(player.steam)}
+            banPlayer={() => banPlayer(player.steam)}
             viewPlayerProfile={() => viewPlayerProfile(player.steam)}
             key={player.steam}
             {...player}
@@ -92,8 +92,8 @@ const PlayersSidebar: React.FunctionComponent<Props> = ({}) => {
         />
         {inactivePlayers.map(player => (
           <PlayerListItem
-            kickPlayer={() => kickPlayer(player)}
-            banPlayer={() => banPlayer(player)}
+            kickPlayer={() => kickPlayer(player.steam)}
+            banPlayer={() => banPlayer(player.steam)}
             viewPlayerProfile={() => viewPlayerProfile(player.steam)}
             key={player.steam}
             {...player}

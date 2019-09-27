@@ -50,7 +50,7 @@ const ServerPropertiesListItem: React.FunctionComponent<Props> = ({
       >
         <ListItemText primary={activeServer.name} />
         <ListItemIcon>
-          <KeyboardArrowDownIcon color={'secondary'} />
+          <KeyboardArrowDownIcon />
         </ListItemIcon>
       </ListItem>
       <ServerPropertiesMenu

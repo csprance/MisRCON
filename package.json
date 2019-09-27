@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.1-rc-8",
+  "version": "3.0.2",
   "description": "RCON Tool and Map for Miscreated game.",
   "repository": {
     "url": "https://github.com/csprance/misrcon.git"
@@ -143,8 +143,8 @@
     "electron-prebuilt-compile": "4.0.0",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
-    "tslint": "latest",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "latest",
-    "typescript": "latest"
+    "typescript": "^3.6.3"
   }
 }

@@ -22,8 +22,8 @@ const Wrapper = styled.div`
   }
   width: 100%;
 `;
-interface Props {}
 
+interface Props {}
 const ServerHelp: React.FunctionComponent<Props> = ({}) => {
   const markdown = useSelector(serverHelpMarkdownSelector);
   React.useEffect(() => {

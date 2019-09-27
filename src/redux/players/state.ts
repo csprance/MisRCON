@@ -17,7 +17,8 @@ export const defaultPlayer: Player = {
   ip: '',
   ping: 0,
   state: 0,
-  profile: 0
+  profile: 0,
+  location: 'xx'
 };
 
 export const playersColumnDefs: AgGrid.ColDef[] = [
@@ -25,7 +26,7 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     cellRenderer: 'BooleanRenderer',
     field: 'active',
     headerName: 'Active',
-    width: 100,
+    width: 125,
     sortable: true,
     filter: true,
     resizable: true
@@ -39,7 +40,15 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     filter: true,
     resizable: true
   },
-
+  {
+    cellRenderer: 'FlagRenderer',
+    field: 'location',
+    headerName: 'Location',
+    width: 135,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
   {
     field: 'steam',
     headerName: 'Steam ID',
@@ -61,6 +70,7 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     headerName: 'Whitelisted On',
     width: 250,
     sortable: true,
+    hide: true,
     filter: true,
     resizable: true
   },
@@ -68,11 +78,39 @@ export const playersColumnDefs: AgGrid.ColDef[] = [
     field: 'banned',
     headerName: 'Banned On',
     width: 250,
+    hide: true,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    cellRenderer: 'KickControlsRenderer',
+    field: 'kickControls',
+    headerName: 'Kick',
+    width: 135,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    cellRenderer: 'BanControlsRenderer',
+    field: 'banControls',
+    headerName: 'Ban',
+    width: 135,
+    sortable: true,
+    filter: true,
+    resizable: true
+  },
+  {
+    cellRenderer: 'WhitelistControlsRenderer',
+    field: 'whitelistControls',
+    headerName: 'Whitelist',
+    width: 135,
     sortable: true,
     filter: true,
     resizable: true
   }
 ];
-export const defaultState: PlayersState = [defaultPlayer];
+export const defaultState: PlayersState = [];
 
 export default defaultState;

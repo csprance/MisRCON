@@ -3,10 +3,12 @@ import { createAsyncAction } from 'typesafe-actions';
 
 import { logRCONError, logRCONResponse } from '../../lib/logger';
 import {
-  addBanlistStatusToPlayers,
-  addWhitelistStatusToPlayers,
+  clearBanlistForServerByID,
+  clearWhitelistForServerByID,
   markAllPlayersInactive,
-  syncPlayerThunk
+  syncPlayerBanlistThunk,
+  syncPlayerThunk,
+  syncPlayerWhitelistThunk
 } from '../players/actions';
 import { AsyncThunkResult } from '../redux-types';
 import { IRCONRequest } from './types';
@@ -61,16 +63,20 @@ export const sendRCONAsyncThunk = ({
 
     // * Intercept Whitelist
     if (request.parsedResponse && request.parsedResponse.type === 'whitelist') {
-      dispatch(
-        addWhitelistStatusToPlayers(request.parsedResponse.data, request.id)
-      );
+      // Clear the whitelist status for all players on the serverID
+      await dispatch(clearWhitelistForServerByID(request.id));
+      for (const steamid of request.parsedResponse.data) {
+        dispatch(syncPlayerWhitelistThunk(steamid, request.id));
+      }
     }
 
     // * Intercept Banlist
     if (request.parsedResponse && request.parsedResponse.type === 'banlist') {
-      dispatch(
-        addBanlistStatusToPlayers(request.parsedResponse.data, request.id)
-      );
+      // Clear the whitelist status for all players on the serverID
+      await dispatch(clearBanlistForServerByID(request.id));
+      for (const steamid of request.parsedResponse.data) {
+        dispatch(syncPlayerBanlistThunk(steamid, request.id));
+      }
     }
 
     // Dispatch our success

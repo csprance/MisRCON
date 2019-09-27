@@ -5,7 +5,7 @@ import { defaultServer } from './state';
 import { ServersState } from './types';
 
 export const serversSelector = (state: RootState, _props?: any): ServersState =>
-  [...state.servers].sort((a, b) => a.order - b.order);
+  state.servers;
 
 export const serverIDsSelector = createSelector(
   serversSelector,
@@ -50,6 +50,11 @@ export const activeServerIDSelector = createSelector(
   activeServer => activeServer.id
 );
 
+export const activeServerIsSelfHostedSelector = createSelector(
+  activeServerSelector,
+  activeServer => activeServer.selfHosted
+);
+
 export const activeServerCredentialsSelector = createSelector(
   activeServerSelector,
   ({ ip, port, password }) => ({ ip, port, password })
@@ -63,4 +68,9 @@ export const serverCredentialsById = createSelector(
     }
     return { ip: server.ip, port: server.port, password: server.password };
   }
+);
+
+export const activeServerRootPathSelector = createSelector(
+  activeServerSelector,
+  activeServer => activeServer.rootPath
 );

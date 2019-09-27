@@ -14,3 +14,8 @@ export const getSteamAvatar = async (steam: string): Promise<string> => {
     return defaultAvatar;
   }
 };
+
+export const getPlayerLocationByIp = async (ip: string): Promise<string> => {
+  const { data } = await axios.get(`https://freegeoip.app/json/${ip}`);
+  return data.country_code !== '' ? data.country_code : 'xx';
+};

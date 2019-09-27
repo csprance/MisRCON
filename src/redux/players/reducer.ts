@@ -7,18 +7,45 @@ export type PlayersActions = ActionType<typeof playersActions>;
 export default createReducer(defaultState)
   .handleAction(playersActions.deleteAllPlayers, () => [])
 
-  // TODO: Add Request ID to whitelist, remove duplicates
-  .handleAction(playersActions.addWhitelistStatusToPlayers, state =>
+  .handleAction(playersActions.clearWhitelistForServerByID, (state, action) =>
     state.map(player => ({
       ...player,
-      whitelisted: [...player.whitelisted]
+      whitelisted: player.whitelisted.filter(w => w !== action.payload.serverId)
     }))
   )
 
-  // TODO: Add Request ID to banlist, remove duplicates
-  .handleAction(playersActions.addBanlistStatusToPlayers, state =>
+  .handleAction(playersActions.clearBanlistForServerByID, (state, action) =>
+    state.map(player => ({
+      ...player,
+      banned: player.banned.filter(b => b !== action.payload.serverId)
+    }))
+  )
+
+  .handleAction(playersActions.addWhitelistStatusToPlayers, (state, action) =>
+    state.map(player => ({
+      ...player,
+      // If steamids contain the current player steam then add the serverid to it
+      whitelisted: action.payload.steamids.includes(player.steam)
+        ? [
+            ...player.whitelisted.filter(x => x !== action.payload.serverId),
+            action.payload.serverId
+          ]
+        : player.whitelisted
+    }))
+  )
+
+  .handleAction(playersActions.addBanlistStatusToPlayers, (state, action) =>
     // const { steamids, serverId } = action.payload;
-    state.map(player => ({ ...player, banned: [...player.banned] }))
+    state.map(player => ({
+      ...player,
+      // If steamids contain the current player steam then add the serverid to it
+      banned: action.payload.steamids.includes(player.steam)
+        ? [
+            ...player.banned.filter(x => x !== action.payload.serverId),
+            action.payload.serverId
+          ]
+        : player.banned
+    }))
   )
 
   .handleAction(playersActions.markAllPlayersInactive, state =>
@@ -29,15 +56,6 @@ export default createReducer(defaultState)
     ...state.filter(player => player.steam !== action.payload.steam),
     action.payload
   ])
-
-  .handleAction(playersActions.banPlayer.success, (state, action) =>
-    state.map(player => ({
-      ...player,
-      banned: [...player.banned, action.payload]
-    }))
-  )
-
-  .handleAction(playersActions.kickPlayer.success, state => state)
 
   .handleAction(playersActions.setPlayerNote, (state, action) =>
     state.map(player => ({

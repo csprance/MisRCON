@@ -1,3 +1,8 @@
+import { GetStateFunc } from '../redux-types';
+import {
+  activeServerCredentialsSelector,
+  activeServerIDSelector
+} from '../servers/selectors';
 import { IRCONRequest } from './types';
 
 export const makeRCONRequestObject = (
@@ -16,4 +21,13 @@ export const makeRCONRequestObject = (
   completed: false,
   response: '',
   parsedResponse: false
+});
+
+export const makeRequestObjectForActiveServer = (
+  getState: GetStateFunc,
+  command: string
+) => ({
+  ...activeServerCredentialsSelector(getState()),
+  command,
+  id: activeServerIDSelector(getState())
 });

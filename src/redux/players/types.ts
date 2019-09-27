@@ -19,6 +19,8 @@ export interface Player {
   whitelisted: number[];
   // A list of the servers a player has been on
   seenOn: number[];
+  // The location code based on the IP of the player.
+  location: string;
 
   // /////////////////////
   // RCON Values - These all come from the servers status result

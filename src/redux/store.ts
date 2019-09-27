@@ -10,29 +10,15 @@ import {
   outputTransformers,
   passwordTransform
 } from '../lib/value-transformers';
-import { defaultState } from './app';
 import bootstrap from './bootstrap';
 import { rootReducer } from './index';
+import migrations from './redux-persist-migrations';
 import { RootAction, RootState } from './redux-types';
 
 export const configureStore = () => {
-  // State Migrations
-  const migrations = {
-    '0': (state: RootState) => {
-      return {
-        ...state,
-        app: {
-          ...defaultState,
-          updateNeeded: false,
-          addServerDialogOpen: false
-        }
-      };
-    }
-  };
-
   // redux-persist config
   const persistConfig = {
-    version: 0,
+    version: 1,
     key: 'root',
     migrate: createMigrate(migrations as any, { debug: electronIsDev }),
     storage,

@@ -1,3 +1,4 @@
+import { SteamID } from 'node-misrcon';
 import { createSelector } from 'reselect';
 
 import { RootState } from '../redux-types';
@@ -9,6 +10,12 @@ import { Player, PlayersState } from './types';
 
 export const playersSelector = (state: RootState, _props?: any): PlayersState =>
   state.players;
+
+export const playerBySteamSelector = createSelector(
+  playersSelector,
+  (_: RootState, steamID: SteamID) => steamID,
+  (players, steam) => players.filter(player => player.steam === steam)
+);
 
 export const idSelect = (_: RootState, id: number) => id;
 
@@ -75,6 +82,18 @@ export const playerByIDSelector = createSelector(
   playersSelector,
   (_: RootState, id: number) => id,
   (players, id) => players.filter(player => player.id === id)
+);
+
+export const isBannedOnActiveServerBySteamIDSelector = createSelector(
+  (_: any, { steam }: { steam: string }) => steam,
+  bannedPlayersOnActiveServer,
+  (steam, players) => players.map(p => p.steam).includes(steam)
+);
+
+export const isWhitelistedOnActiveServerBySteamIDSelector = createSelector(
+  (_: any, { steam }: { steam: string }) => steam,
+  whitelistedPlayersOnActiveServer,
+  (steam, players) => players.map(p => p.steam).includes(steam)
 );
 
 /*

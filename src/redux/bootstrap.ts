@@ -1,3 +1,4 @@
+import * as isDev from 'electron-is-dev';
 import { Store } from 'redux';
 
 import { registerHotkeys } from '../constants/hotkeys';
@@ -38,8 +39,9 @@ export default (store: Store) => () => {
   // Check for updates
   dispatch(checkForUpdatesThunk());
   // Get the active servers data on startup
-  dispatch(getServerDataThunk(activeServerSelector(getState())));
-
+  if (getState().servers.length > 0 && !isDev) {
+    dispatch(getServerDataThunk(activeServerSelector(getState())));
+  }
   // Register all the apps hotkeys
   registerHotkeys(dispatch);
 };
