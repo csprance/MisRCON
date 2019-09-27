@@ -1,4 +1,4 @@
-![MisRCON](https://github.com/csprance/MisRCON/blob/v3/src/resources/images/icon.png?raw=true)
+![MisRCON](https://github.com/csprance/MisRCON/blob/master/src/resources/images/icon.png?raw=true)
 
 # MisRCON
 
