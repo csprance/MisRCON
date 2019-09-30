@@ -1,9 +1,10 @@
-import Button from '@material-ui/core/Button';
 import { ICellRendererParams } from 'ag-grid-community';
 import * as React from 'react';
 import styled from 'styled-components';
 
 import { kickSteamIDThunk } from '../../redux/players/actions';
+import ButtonWithConfirmation from '../ButtonWithConfirmation';
+import { withMaterialTheme } from './withMaterialTheme';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,15 +19,22 @@ const KickControlsRenderer: React.FunctionComponent<ICellRendererParams> = ({
 }) => {
   const { steam, active } = data;
   const dispatch = (window as any).store.dispatch;
-  const handleClick = () => {
+  const handleConfirm = () => {
     dispatch(kickSteamIDThunk(steam));
   };
+
   return (
     <Wrapper>
-      <Button onClick={handleClick} disabled={!active}>
+      <ButtonWithConfirmation
+        title={`Kick Player: ${steam}`}
+        description={`Are you sure you want to kick the player with Steam ID: ${steam}?`}
+        onConfirm={handleConfirm}
+        disabled={!active}
+      >
         Kick
-      </Button>
+      </ButtonWithConfirmation>
     </Wrapper>
   );
 };
-export default KickControlsRenderer;
+
+export default withMaterialTheme(KickControlsRenderer);

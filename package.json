@@ -1,7 +1,7 @@
 {
   "name": "misrcon",
   "productName": "MisRCON",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "RCON Tool and Map for Miscreated game.",
   "repository": {
     "url": "https://github.com/csprance/misrcon.git"

@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import { ICellRendererParams } from 'ag-grid-community';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -9,6 +8,8 @@ import {
 } from '../../redux/players/actions';
 import { isWhitelistedOnActiveServerBySteamIDSelector } from '../../redux/players/selectors';
 import { getGetStateFunc } from '../../redux/selectors';
+import ButtonWithConfirmation from '../ButtonWithConfirmation';
+import { withMaterialTheme } from './withMaterialTheme';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,7 +31,6 @@ const WhitelistControlsRenderer: React.FunctionComponent<
       steam
     }
   );
-
   const handleClick = () => {
     if (isWhitelisted) {
       dispatch(removeWhitelistSteamIDThunk(steam));
@@ -38,13 +38,26 @@ const WhitelistControlsRenderer: React.FunctionComponent<
       dispatch(whitelistSteamIDThunk(steam));
     }
   };
+
   return (
     <Wrapper>
-      <Button onClick={handleClick}>
-        {' '}
+      <ButtonWithConfirmation
+        title={
+          isWhitelisted
+            ? `Remove From Whitelist: ${steam}`
+            : `Add To Whitelist: ${steam}`
+        }
+        description={
+          isWhitelisted
+            ? `Are you sure you want to remove the player with Steam ID: ${steam} from the whitelist?`
+            : `Are you sure you want to add the player with Steam ID: ${steam} to the whitelist?`
+        }
+        onConfirm={handleClick}
+      >
         {isWhitelisted ? 'UnWhitelist' : 'Whitelist'}
-      </Button>
+      </ButtonWithConfirmation>
     </Wrapper>
   );
 };
-export default WhitelistControlsRenderer;
+
+export default withMaterialTheme(WhitelistControlsRenderer);
