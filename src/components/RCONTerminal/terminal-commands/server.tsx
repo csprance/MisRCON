@@ -102,9 +102,9 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
         // Switch by ID
         if (options.id) {
           const { servers } = getState();
-          const server = servers.find(s => s.id === id);
+          const server = servers.find((s: Server) => s.id === id);
           if (server) {
-            dispatch(serversActions.markServerActive(id));
+            dispatch(serversActions.markServerActiveThunk(id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server Not Found!`);
@@ -113,9 +113,9 @@ export default (dispatch: Dispatch, getState: GetStateFunc) => ({
         // Switch by Name
         if (options.name) {
           const { servers } = getState();
-          const server = servers.find(s => s.name === name);
+          const server = servers.find((s: Server) => s.name === name);
           if (server) {
-            dispatch(serversActions.markServerActive(server.id));
+            dispatch(serversActions.markServerActiveThunk(server.id));
             return output(`Switched to server ${server.name}`);
           }
           return output(`Server not found`);

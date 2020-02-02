@@ -79,6 +79,14 @@ export const sendRCONAsyncThunk = ({
       }
     }
 
+    // * Intercept Entity Dump
+    if (
+      request.parsedResponse &&
+      request.parsedResponse.type === 'entity dump'
+    ) {
+      // TODO: Intercept entity dump and add markers to map
+    }
+
     // Dispatch our success
     dispatch(sendRCON.success(request));
     logRCONResponse(request);

@@ -1,7 +1,7 @@
 import * as AgGrid from 'ag-grid-community';
+
 import BanControlsRenderer from '../components/FrameworkRenderers/BanControlsRenderer';
 import BooleanRenderer from '../components/FrameworkRenderers/BooleanRenderer';
-
 import FlagRenderer from '../components/FrameworkRenderers/FlagRenderer';
 import KickControlsRenderer from '../components/FrameworkRenderers/KickControlsRenderer';
 import NameRenderer from '../components/FrameworkRenderers/NameRenderer';

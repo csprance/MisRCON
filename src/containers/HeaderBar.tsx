@@ -85,15 +85,10 @@ const HeaderBar: React.FunctionComponent<Props> = ({}) => {
   return (
     <Wrapper>
       <ServerName>{name}</ServerName>
-
       <HeaderText>{version}</HeaderText>
-
       <HeaderText>{map}</HeaderText>
-
       <HeaderText>{weather}</HeaderText>
-
       <HeaderText>{time}</HeaderText>
-
       <Controls>
         {updateNeeded ? (
           <UpdateAppButton onClick={handleUpdateButtonClicked} />
