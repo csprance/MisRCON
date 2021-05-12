@@ -72,7 +72,7 @@
     "ag-grid-react": "^22.1.1",
     "async-javascript-terminal": "^2.0.5",
     "axios": "^0.19.2",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "cron": "^1.8.2",
     "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^2.2.4",
