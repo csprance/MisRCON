@@ -89,7 +89,7 @@
     "moment-timezone": "^0.5.27",
     "mousetrap": "^1.6.5",
     "node-misrcon": "^2.2.3",
-    "prismjs": "^1.19.0",
+    "prismjs": "^1.27.0",
     "react": "^16.12.0",
     "react-beautiful-dnd": "^12.2.0",
     "react-chartkick": "^0.4.0",
