@@ -85,7 +85,7 @@
     "immutable": "^4.0.0-rc.12",
     "leaflet": "^1.6.0",
     "leaflet-mouse-position": "^1.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.27",
     "mousetrap": "^1.6.5",
     "node-misrcon": "^2.2.3",
